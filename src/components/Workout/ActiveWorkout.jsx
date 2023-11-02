@@ -43,7 +43,6 @@ const ActiveWorkout = () => {
             name: selected,
             createdAt: new Date().toJSON(),
             note: "",
-            //sets: []
         }
         dispatch(addExercise(newExercise))
         console.log("exercise dsipatched " , exercises);
@@ -52,24 +51,6 @@ const ActiveWorkout = () => {
 
     const removeExercise = (exerciseId) => {
         dispatch(deleteExercise(exerciseId))
-    }
-
-
-    const saveWorkoutToDb = async () => {
-        const newWorkoutObject = {
-            userId: 1,
-            title: "title", // do this in modal
-            createdAt: new Date().toJSON(),
-            note: "",
-            exercises: exercises
-        }
-        const response = await workoutService.createNew(newWorkoutObject)
-        console.log("response: ", response);
-        // pistä servulata palautettu objekti stateen?
-        if (response.status === 200) {
-            dispatch(clearWorkout())
-            dispatch(addToHistory(newWorkoutObject))
-        }
     }
 
 

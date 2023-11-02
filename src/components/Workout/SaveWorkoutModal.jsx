@@ -28,28 +28,54 @@ const style = {
 
 const DiscardWorkoutModal = () => {
     const [open, setOpen] = useState(false)
+
+    const workout = useSelector(state => state.workout)
+    const exercises = useSelector(state => state.exercises)
+    const sets = useSelector(state => state.sets)
    
     const dispatch = useDispatch()
 
-    const handleClose = () => {
-        dispatch(clearWorkout())
-        dispatch(clearSets())
-        dispatch(stopWatch())
+    const saveWorkoutToDb = async () => {
+        
+        const newExercises = exercises.map(exercise => {
+            const exerciseWithSets = {
+                ...exercise,
+                sets: sets.filter(set => set.exerciseId === exercise.id)
+            }
+            return exerciseWithSets
+        })
+        
+        const newWorkoutObject = {
+            userId: 1,
+            title: "title", // do this in modal
+            createdAt: new Date().toJSON(),
+            note: "",
+            exercises: newExercises
+        }
+        console.log(newWorkoutObject);
+        /* const response = await workoutService.createNew(newWorkoutObject)
+        console.log("response: ", response);
+        // pistä servulata palautettu objekti stateen?
+        if (response.status === 200) {
+            dispatch(clearWorkout())
+            dispatch(addToHistory(newWorkoutObject))
+        } */
     }
 
     return (
         <div>
             <Button variant="contained" onClick={() => setOpen(true)}>
-                Cancel
+                Finish
             </Button>
             <Modal open={open} onClose={() => setOpen(false)}>
                 <Stack sx={style}>
                     <h3>
-                        Discard ongoing workout?
+                        Finish ongoing workout?
                     </h3>
                     <Stack direction='row'>
-                            <Button variant="outlined" onClick={() => setOpen(false)}>Cancel</Button>
-                            <Button variant="contained" onClick={handleClose}>Yes</Button>
+                            <Button variant="outlined" onClick={() => setOpen(false)}>No, keep logging</Button>
+                            <Button variant="contained" onClick={saveWorkoutToDb}>Yes, save to database</Button>
+                     
                         </Stack>
                 </Stack>
             </Modal>

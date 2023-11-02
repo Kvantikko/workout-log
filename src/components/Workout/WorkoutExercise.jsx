@@ -15,7 +15,10 @@ const WorkoutExercise = ({ exerciseId, name, deleteExercise }) => {
     const sets = allSetsFromState.filter(set => set.exerciseId === exerciseId)
     console.log('WorkoutExercise: const sets: ', sets);
     const [setId, setSetId] = useState(1) // used for keys and sorting set order, TÄÄ ON HUONO KU SE RESETOITUU
-    const [isSetsLengthZero, setIsSetsLengthZero] = useState(sets.length === 0)
+    //const [isSetsLengthZero, setIsSetsLengthZero] = useState(sets.length === 0)
+    console.log('WorkoutExercise: const sets.length === 0: ', sets.length === 0);
+    console.log('WorkoutExercise: const !sets.length === 0: ', !(sets.length === 0));
+    
 
     const dispatch = useDispatch()
 
@@ -26,8 +29,11 @@ const WorkoutExercise = ({ exerciseId, name, deleteExercise }) => {
      */
     useEffect(() => {
         console.log('WorkoutExercise: useEffect() start');
-        createSet(true)
-    }, [isSetsLengthZero])
+        if (sets.length === 0) {
+            console.log('WorkoutExercise: useEffect() creating a set');
+            createSet(true)
+        }
+    }, [])
 
 
     const createSet = (warmup) => {
@@ -36,10 +42,11 @@ const WorkoutExercise = ({ exerciseId, name, deleteExercise }) => {
         // default values for input
         let weight = 20
         let reps = 15
-        console.log(isSetsLengthZero);
+       // console.log('WorkoutExercise: const sets.length === 0: ', sets.length === 0);
+       // console.log('WorkoutExercise: const isSetsLengthZero: ', isSetsLengthZero);
         // copying last done set values 
-        if (!isSetsLengthZero) {
-            console.log("not zero");
+        if (!(sets.length === 0)) {
+            console.log('WorkoutExercise: createSet(): PILLUUUUUUUUUUUUUUUUUUUUUUU');
             let lastSet = sets[sets.length - 1]
             console.log(lastSet);
             weight = lastSet.weight

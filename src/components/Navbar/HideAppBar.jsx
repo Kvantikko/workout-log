@@ -21,6 +21,7 @@ import InputBase from '@mui/material/InputBase';
 import { Button, Stack, Divider } from '@mui/material';
 
 import DiscardWorkoutModal from '../Workout/DiscardWorkoutModal';
+import SaveWorkoutModal from '../Workout/SaveWorkoutModal';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -31,6 +32,7 @@ import { startWatch } from '../../redux/reducers/stopWatchReducer';
 
 
 import NewExerciseModal from '../Exercises/NewExerciseModal';
+
 import StopWatch from '../Clock/StopWatch';
 
 const Search = styled('div')(({ theme }) => ({
@@ -115,11 +117,12 @@ const HideAppBar = (props) => {
             return (
                 <Stack direction={"row"} spacing={1}>
                     {!stopWatchIsActive &&
-                    <Button variant="contained" onClick={() => dispatch(startWatch())}>
-                        <TimerIcon/>
-                    </Button>}
+                        <Button variant="contained" onClick={() => dispatch(startWatch())}>
+                            <TimerIcon />
+                        </Button>}
                     <DiscardWorkoutModal></DiscardWorkoutModal>
-                    <Button variant="contained" /* onClick={saveWorkoutToDb} */>Finish</Button>
+                    <SaveWorkoutModal></SaveWorkoutModal>
+             
                 </Stack>
             )
         }
@@ -132,7 +135,7 @@ const HideAppBar = (props) => {
                 <AppBar >
                     <Toolbar >
                         <Stack direction="row" spacing={2} sx={{ width: '1', justifyContent: 'space-between' }} >
-                            
+
                             {props.pageIndex === 0 &&
                                 <>
                                     <Typography variant="h6" component="div">
@@ -194,7 +197,7 @@ const HideAppBar = (props) => {
                     }
                 </AppBar>
             </HideOnScroll>
-          
+
 
         </React.Fragment >
     );

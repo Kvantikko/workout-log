@@ -28,6 +28,8 @@ const Set = ({ exerciseId, setId, number, setWeight, setReps, deleteSet, warmup,
         let x = newSets.concat(changedSet)
         x.sort((a, b) => a.id - b.id);
 
+        //x.sort((a, b) => a.createdAt - b.createdAt);
+
         console.log('setting these sets in memory: ', x);
 
         //setSets(x)
