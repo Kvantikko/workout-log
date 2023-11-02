@@ -1,0 +1,101 @@
+{
+    "workouts": [
+        {
+            "id": 1,
+            "title": "Upper A",
+            "createdAt": "2023-10-10T13:45:00.000Z",
+            "exercises": [
+                {
+                    "id": 1,
+                    "workoutId": 1,
+                    "name": "Bench Press",
+                    "note": "Hyvä hyvä!",
+                    "createdAt": "2023-10-10T13:00:00.000Z",
+                    "sets": [
+                        {
+                            "id": 1,
+                            "exerciseId": 1,
+                            "warmup": true,
+                            "weight": 20,
+                            "reps": 20,
+                            "createdAt": "2023-10-10T13:01:00.000Z"
+                        },
+                        {
+                            "id": 2,
+                            "exerciseId": 1,
+                            "warmup": false,
+                            "weight": 100,
+                            "reps": 10,
+                            "createdAt": "2023-10-10T13:10:00.000Z"
+                        },
+                        {
+                            "id": 3,
+                            "exerciseId": 1,
+                            "warmup": false,
+                            "weight": 100,
+                            "reps": 6,
+                            "createdAt": "2023-10-10T13:15:00.000Z"
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "workoutId": 1,
+                    "name": "Dip",
+                    "note": "Hyvä hyvä!",
+                    "createdAt": "2023-10-10T13:30:00.000Z",
+                    "sets": [
+                        {
+                            "id": 4,
+                            "exerciseId": 1,
+                            "warmup": true,
+                            "weight": 20,
+                            "reps": 20,
+                            "createdAt": "2023-10-10T13:31:00.000Z"
+                        },
+                        {
+                            "id": 5,
+                            "exerciseId": 1,
+                            "warmup": false,
+                            "weight": 100,
+                            "reps": 10,
+                            "createdAt": "2023-10-10T13:40:00.000Z"
+                        },
+                        {
+                            "id": 6,
+                            "exerciseId": 1,
+                            "warmup": false,
+                            "weight": 100,
+                            "reps": 6,
+                            "createdAt": "2023-10-10T13:45:00.000Z"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "title": "Arms A",
+            "createdAt": "2023-10-11T13:45:00.000Z",
+            "exercises": [
+                {
+                    "id": 1,
+                    "workoutId": 1,
+                    "name": "Ez-Bar Curl",
+                    "note": "Hyvä hyvä!",
+                    "createdAt": "2023-10-11T13:00:00.000Z",
+                    "sets": [
+                        {
+                            "id": 1,
+                            "exerciseId": 1,
+                            "warmup": true,
+                            "weight": 20,
+                            "reps": 20,
+                            "createdAt": "2023-10-11T13:01:00.000Z"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
