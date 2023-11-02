@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Set from "./Set"
 import { Button, Divider, Box, TextField, Stack, Grid, Paper, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
@@ -6,48 +6,45 @@ import { addSet, deleteSet } from "../../redux/reducers/setReducer"
 
 import DeleteIcon from "@mui/icons-material/Delete"
 
-const WorkoutExercise = ({ exerciseId, name, exerciseSets, deleteExercise }) => {
+const WorkoutExercise = ({ exerciseId, name, deleteExercise }) => {
     /**
      * PIDÄ STATE LÄHELLÄ SITÄ COMPONENTTIA MILLE SE ON RELEVENTTI.
      * TÄSSÄ NÄYTTÄISI ETTÄ SETTIEN PITÄMINEN LIIAN YLHÄÄLLÄ HUONO
      */
-    const state = useSelector(state => state)
-    console.log("HERE IN WORKOUTEXERCISE COMPONENT, STATE: ", state);
-    const sets = useSelector(state => state.sets.filter(set => set.exerciseId !== exerciseId))
-    console.log("SEEEEETS: ", sets)
-
-
-    //const sets = exerciseSets
+    const allSetsFromState = useSelector(state => state.sets) // filter funktio aiheuttaa varootuksen jos käyttää tässä kohtaa...!?
+    const sets = allSetsFromState.filter(set => set.exerciseId === exerciseId)
+    console.log('WorkoutExercise: const sets: ', sets);
     const [setId, setSetId] = useState(1) // used for keys and sorting set order, TÄÄ ON HUONO KU SE RESETOITUU
-    const [totalSetCount, setTotalSetCount] = useState(sets.length)
-    const [workingSetCount, setWorkingSetCount] = useState(0)
-
-    
+    const [isSetsLengthZero, setIsSetsLengthZero] = useState(sets.length === 0)
 
     const dispatch = useDispatch()
 
+    /**
+     * This hook prevents error "cannot update component while rendering a different component".
+     * When use creates a new exercise, the default set of one is created and ActiveWorkout component cannot
+     * update bc WorkoutExercise component is rendering the default set of one.
+     */
+    useEffect(() => {
+        console.log('WorkoutExercise: useEffect() start');
+        createSet(true)
+    }, [isSetsLengthZero])
+
+
     const createSet = (warmup) => {
-        console.log('entering createSet function in component WorkoutExercise');
+        console.log('WorkoutExercise: createSet() start');
 
-        // helpers because React's asynchronous rendering causes workingSetCount to be one less than supposed to
-        const newTotal = totalSetCount + 1
-        let newWorking = workingSetCount
-        if (!warmup) { newWorking = workingSetCount + 1 }
-
+        // default values for input
         let weight = 20
         let reps = 15
-        if (sets.length > 0) {
+        console.log(isSetsLengthZero);
+        // copying last done set values 
+        if (!isSetsLengthZero) {
+            console.log("not zero");
             let lastSet = sets[sets.length - 1]
-
-            //console.log('all sets before addition ', sets);
-            //console.log('last set ', lastSet);
-
+            console.log(lastSet);
             weight = lastSet.weight
             reps = lastSet.reps
         }
-
-       // console.log(weight);
-        //console.log(reps);
 
         const newSet = {
             id: setId,
@@ -57,26 +54,10 @@ const WorkoutExercise = ({ exerciseId, name, exerciseSets, deleteExercise }) => 
             weight: weight,
             reps: reps
         }
-        
 
-
-        // aiheuttaa errorin kerran
-        console.log("PASKA");
         dispatch(addSet(newSet))
-        console.log("PASKAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-
-        //console.log("setti dispatchattu: ", sets );
-        //console.log("exercises: ", exercises);
-
-        //const newSets = sets.concat(newSet)
-        //setSets(newSets)
-
-        setTotalSetCount(newTotal)
-        setWorkingSetCount(newWorking)
 
         setSetId(setId + 1)
-
-       console.log("leaving create set function in component WorkoutExercise");
     }
 
 
@@ -89,13 +70,13 @@ const WorkoutExercise = ({ exerciseId, name, exerciseSets, deleteExercise }) => 
 
         dispatch(deleteSet(setId))
 
-        setTotalSetCount(totalSetCount - 1)
-        if (!isWarmup) { setWorkingSetCount(workingSetCount - 1) }
+        //setTotalSetCount(totalSetCount - 1)
+        //if (!isWarmup) { setWorkingSetCount(workingSetCount - 1) }
 
-        if (workingSetCount > 0) {
+       /*  if (workingSetCount > 0) {
             setWorkingSetCount(workingSetCount - 1)
         }
-
+ */
     }
 
 
@@ -103,15 +84,7 @@ const WorkoutExercise = ({ exerciseId, name, exerciseSets, deleteExercise }) => 
     let setNumber = 0
 
     const renderSets = () => {
-        console.log('entering render sets function');
-
-
-
-        if (sets.length === 0) {
-            console.log('no renderable sets');
-            //return null
-            createSet(true)
-        }
+        console.log('WorkoutExercise: renderSets() start');
 
         return (
             <Stack spacing={1.5}  >
@@ -163,7 +136,7 @@ const WorkoutExercise = ({ exerciseId, name, exerciseSets, deleteExercise }) => 
             {console.log("rendering workoutExercise")}
             <Stack direction={"row"} sx={{ justifyContent: "space-between", backgroundColor: "white" }}>
                 <Typography variant="h6">{name}</Typography>
-                <Button variant="outlined" onClick={deleteExercise}>
+                <Button variant="outlined" onClick={() => deleteExercise(exerciseId)}>
                     <DeleteIcon />
                 </Button>
             </Stack>

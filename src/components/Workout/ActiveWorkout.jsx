@@ -4,7 +4,8 @@ import { useState } from "react"
 import { getDate } from "../../utils/Date"
 
 import { useDispatch } from "react-redux"
-import { clearWorkout, addExercise, deleteExercise, updateWorkoutTitle } from "../../redux/reducers/workoutReducer"
+import { clearWorkout, updateWorkoutTitle } from "../../redux/reducers/workoutReducer"
+import { clearExercises, addExercise, deleteExercise } from "../../redux/reducers/exerciseReducer"
 
 import { Autocomplete, Button, TextField, Input, Stack, Container, Box, Typography } from "@mui/material"
 import DiscardWorkoutModal from "./DiscardWorkoutModal"
@@ -14,24 +15,20 @@ import { useSelector } from "react-redux"
 import workoutService from "../../services/workouts"
 import { addToHistory } from "../../redux/reducers/historyReducer"
 
+import generateId from "../../utils/generateId"
+
 
 const ActiveWorkout = () => {
     const exerciseNames = useSelector(state => state.exerciseLibrary).map(e => e.name)
-    const exercises = useSelector(state => state.workout.exercises)
-    const title = useSelector(state => state.workout.workoutTitle)
-    //const thisWorkout = useSelector(state => state.workout)
-
-    const dispatch = useDispatch()
-
-    //const [exercises, setExercises] = useState([])
-    // const [title, setTitle] = useState("Workout")
+    const exercises = useSelector(state => state.exercises)
     const [selected, setSelected] = useState("")
+    //const title = useSelector(state => state.workout.workoutTitle)
+    //const thisWorkout = useSelector(state => state.workout)
+     //const [exercises, setExercises] = useState([])
+    // const [title, setTitle] = useState("Workout")
     //const [id, setId] = useState(1) // frontend id
 
-    
-
-    const generateId = () =>
-        Number((Math.random() * 1000000).toFixed(0)) // frontend id, backend will generate own
+    const dispatch = useDispatch()
 
 
     const createExercise = () => {
@@ -48,26 +45,20 @@ const ActiveWorkout = () => {
             note: "",
             //sets: []
         }
-        //const newExercises = exercises.concat(newExercise)
-        //setExercises(newExercises)
         dispatch(addExercise(newExercise))
-        //setId(id + 1)
-
+        console.log("exercise dsipatched " , exercises);
     }
+
 
     const removeExercise = (exerciseId) => {
         dispatch(deleteExercise(exerciseId))
-        /* const newExercises = exercises.filter((e) => e.id !== exerciseId)
-        setExercises(newExercises) */
     }
 
+
     const saveWorkoutToDb = async () => {
-
-        //console.log(thisWorkout)
-
         const newWorkoutObject = {
             userId: 1,
-            title: title,
+            title: "title", // do this in modal
             createdAt: new Date().toJSON(),
             note: "",
             exercises: exercises
@@ -75,19 +66,16 @@ const ActiveWorkout = () => {
         const response = await workoutService.createNew(newWorkoutObject)
         console.log("response: ", response);
         // pistä servulata palautettu objekti stateen?
-
         if (response.status === 200) {
             dispatch(clearWorkout())
             dispatch(addToHistory(newWorkoutObject))
         }
     }
 
+
     return (
         <Container >
             {console.log("active workout is rendering")}
-
-            {/*  <Button variant="contained" onClick={() => dispatch(clearWorkout())}>Discard workout</Button> */}
-
 
             {exercises.length === 0 &&
                 <Container>
@@ -99,13 +87,13 @@ const ActiveWorkout = () => {
             {!(exercises.length === 0) &&
                 <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
                     {exercises.map(exercise => {
-                        //console.log("mappping... ", exercise.sets)
+                        console.log("mappping exercises... ", exercise)
                         return(<WorkoutExercise
                             key={exercise.id}
                             exerciseId={exercise.id}
-                            name={exercise.name ? exercise.exerciseInfo.name : "ei nimeä?"}
+                            name={exercise.name}
                             //exerciseSets={exercise.sets}
-                            deleteExercise={() => removeExercise(exercise.id)}
+                            deleteExercise={removeExercise}
                         />)
                         
                     })}

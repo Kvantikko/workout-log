@@ -32,43 +32,12 @@ const Exercises = ({ input }) => {
     }, [input, exercises])
 
     return (
-
-    
-
-        /* <div>kaka</div>
-        <HideOnScroll >
-            <AppBar sx={{ zIndex: 1000}}>
-                <Toolbar>
-
-                    <Stack>
-                        <Stack direction="row" >
-                            <h3>Exercises</h3>
-                            <NewExerciseModal searchInput={input} />
-                        </Stack>
-                        <Stack className='exerciseSearch' direction="row" spacing={2}  >
-
-                            <SearchIcon />
-                            <TextField
-                                id="outlined-search"
-                                label="Search exercises"
-                                type="search"
-                                onChange={(event) => setInput(event.target.value)}
-                            />
-
-                        </Stack>
-
-                    </Stack>
-                </Toolbar>
-            </AppBar>
-        </HideOnScroll> */
         <>
             {console.log("rendering exercise component")}
             <DeleteExerciseModal />
             <EditExerciseModal />
             <FilteredExercises exercises={visibleExercises} />
         </>
-
-
     )
 }
 
