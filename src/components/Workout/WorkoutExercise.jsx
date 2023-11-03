@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { addSet, deleteSet } from "../../redux/reducers/setReducer"
 
 import DeleteIcon from "@mui/icons-material/Delete"
+import generateId from "../../utils/generateId"
 
 const WorkoutExercise = ({ exerciseId, name, deleteExercise }) => {
     /**
@@ -54,7 +55,7 @@ const WorkoutExercise = ({ exerciseId, name, deleteExercise }) => {
         }
 
         const newSet = {
-            id: setId,
+            id: generateId(),//setId,
             exerciseId: exerciseId,
             createdAt: new Date().toJSON(),
             warmup: warmup,

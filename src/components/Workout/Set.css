@@ -1,0 +1,4 @@
+.setContainer {
+    display: flex;
+    flex-direction: row;
+}

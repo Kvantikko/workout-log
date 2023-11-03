@@ -5,7 +5,8 @@ const workoutSlice = createSlice({
     initialState: [],
     reducers: {
         clearExercises(state) {
-            return initialState;
+            state = []
+            return state
         },
         addExercise: (state, action) => {
             const exerciseToAdd = action.payload
@@ -19,7 +20,8 @@ const workoutSlice = createSlice({
             return state
         },
         copyExercises(state, action) {
-            state.exercises = action.payload.exercises
+            state = action.payload
+            return state
         }
     }
 })

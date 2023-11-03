@@ -21,6 +21,7 @@ import generateId from "../../utils/generateId"
 const ActiveWorkout = () => {
     const exerciseNames = useSelector(state => state.exerciseLibrary).map(e => e.name)
     const exercises = useSelector(state => state.exercises)
+    //const workout = useSelector(state => state.workout)
     const [selected, setSelected] = useState("")
     //const title = useSelector(state => state.workout.workoutTitle)
     //const thisWorkout = useSelector(state => state.workout)
@@ -72,7 +73,7 @@ const ActiveWorkout = () => {
                         return(<WorkoutExercise
                             key={exercise.id}
                             exerciseId={exercise.id}
-                            name={exercise.name}
+                            name={exercise.name === true ? exercise.name : exercise.exerciseInfo?.name}
                             //exerciseSets={exercise.sets}
                             deleteExercise={removeExercise}
                         />)

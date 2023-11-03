@@ -4,6 +4,8 @@ import HistoryListItem from "./HistoryListItem";
 
 import { ListItemButton } from "@mui/material";
 
+import HideAppBar from "../Navbar/HideAppBar";
+
 const History = () => {
     const workouts = useSelector(state => state.history)
 
@@ -11,6 +13,7 @@ const History = () => {
 
     return (
         <div>
+           {/*  <HideAppBar  /> */}
             {workouts.length === 0 && <h2>Nothing here yet!</h2>}
             {workouts.map(workout =>
                 //<ListItemButton >

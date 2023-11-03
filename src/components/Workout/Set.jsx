@@ -24,16 +24,11 @@ const Set = ({ exerciseId, setId, number, setWeight, setReps, deleteSet, warmup,
         const changedSet = { ...foundSet, weight: parseInt(weight), reps: parseInt(reps), warmup }
         console.log('new set: ', changedSet);
 
-        let newSets = exerciseSets.filter((s) => s.id !== setId)
+        /* let newSets = exerciseSets.filter((s) => s.id !== setId)
         let x = newSets.concat(changedSet)
-        x.sort((a, b) => a.id - b.id);
+        x.sort((a, b) => a.id - b.id); */
 
         //x.sort((a, b) => a.createdAt - b.createdAt);
-
-        console.log('setting these sets in memory: ', x);
-
-        //setSets(x)
-
 
         _setWeight(weight)
         _setReps(reps)

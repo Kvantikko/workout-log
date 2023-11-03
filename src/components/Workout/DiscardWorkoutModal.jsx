@@ -12,6 +12,7 @@ import { clearWorkout } from "../../redux/reducers/workoutReducer"
 import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { stopWatch } from '../../redux/reducers/stopWatchReducer'
 import { clearSets } from '../../redux/reducers/setReducer'
+import { clearExercises } from '../../redux/reducers/exerciseReducer'
 
 
 const style = {
@@ -28,11 +29,12 @@ const style = {
 
 const DiscardWorkoutModal = () => {
     const [open, setOpen] = useState(false)
-   
+     
     const dispatch = useDispatch()
 
     const handleClose = () => {
         dispatch(clearWorkout())
+        dispatch(clearExercises())
         dispatch(clearSets())
         dispatch(stopWatch())
     }
