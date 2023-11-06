@@ -54,8 +54,8 @@ function StopWatch() {
     };
 
     return (
-        <div className="stop-watch">
-            <Stack direction={"row"} spacing={3}>
+        <div >
+            <Stack direction={"row"} spacing={3} justifyContent={"center"}>
                 <Typography variant={timerSize}>
                     <Timer time={time} />
                 </Typography>

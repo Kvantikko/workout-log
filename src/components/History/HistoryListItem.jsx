@@ -9,8 +9,11 @@ import { copyExercises } from "../../redux/reducers/exerciseReducer";
 import generateId from "../../utils/generateId";
 import { formatDateTime } from "../../utils/Date";
 
+import { useEffect, useState } from "react";
+import { render } from "react-dom";
+
 const HistoryListItem = ({ workout }) => {
-    const workoutState = useSelector(state => state.workout)
+    //const workoutState = useSelector(state => state.workout)
     const dispatch = useDispatch()
 
     const handleCopy = () => {
@@ -27,11 +30,62 @@ const HistoryListItem = ({ workout }) => {
         dispatch(copySets(setsWithExerciseId))
     }
 
+    const renderArray = (title, setArray) => {
+        if (setArray.length === 0) {
+            return <ListItemText secondary={<>No reps</>} />
+        }
+        return (
+            <div>
+                <ListItemText primary={title} />
+                <Stack direction='row' sx={{ flexWrap: 'wrap' }}>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Grid container columnSpacing={2}  >
+                            {setArray.map((set, index) => {
+                                return (
+                                    <Grid item sx={{ margin: 0, padding: 0 }}  >
+                                        <Stack direction={"row"} spacing={0.5}>
+                                            <ListItemText primary={index+1 + ":"} />
+                                            <ListItemText
+                                                key={generateId()}
+                                                secondary={<>{set.weight}kg x{set.reps}</>}
+                                                sx={{ margin: 0, padding: 0, backgroundColor: "red", alignContent: "bottom", alignItems: "bottom" }}
+                                            />
+                                        </Stack>
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
+                    </Box>
+                </Stack>
+            </div>
+        )
+    }
+
+    const renderSets = () => {
+        let warmups = []
+        let works = []
+
+        workout.exercises.forEach((exercise, text, index) => {
+            exercise.sets.forEach((set) => {
+                console.log(set);
+                if (set.warmup === true) {
+                    warmups.push(set)
+                } else {
+                    works.push(set)
+                }
+            })
+        })
+
+        return (
+            <div>
+                {renderArray("warmup sets", warmups)}
+                {renderArray("work sets", works)}
+            </div>
+        )
+    }
+
     return (
-        <Stack
-            padding={1.5}
-            spacing={0}
-        >
+        <Stack padding={1.5} spacing={0}>
             <Container sx={{ my: 0 }}>
                 <Typography align='center' variant="h5" noWrap >
                     {formatDateTime(workout.createdAt)}
@@ -53,76 +107,19 @@ const HistoryListItem = ({ workout }) => {
                                     <Typography variant="h6" noWrap >
                                         {exercise.exerciseInfo?.name || exercise.name}
                                     </Typography>
-                                    <ListItemText primary={"warmup sets"} />
-                                    <Stack direction='row' sx={{ flexWrap: 'wrap' }}>
-                                        <Box sx={{ flexGrow: 0 }}>
-                                            <Grid container columnSpacing={2}  >
-                                                {exercise.sets.map(set => {
-                                                    /* const warmUpSetCount = exercise.sets.filter(set => {
-                                                        set.warmup !== true
-                                                    }).length
-                                                    console.log("count ", warmUpSetCount);
-                                                    if (warmUpSetCount === 0) {
-                                                        return (
-                                                            <Grid item sx={{ margin: 0, padding: 0 }}  >
-                                                                <ListItemText
-                                                                    key={exercise.id + generateId()}
-                                                                    secondary={<>No warmup sets</>}
-                                                                    sx={{ margin: 0, padding: 0 }}
-                                                                />
-                                                            </Grid>
-                                                        )
-                                                    } */
-                                                    if (set.warmup === true) {
 
-                                                        return (
-                                                            <Grid item sx={{ margin: 0, padding: 0, /* backgroundColor: "red" */ }}  >
-                                                                <ListItemText
-                                                                    key={exercise.id + generateId()}
-                                                                    secondary={<>{set.weight}kg x{set.reps}</>}
-                                                                    sx={{ margin: 0, padding: 0, /* backgroundColor: "green" */ }}
-                                                                />
-                                                            </Grid>
-                                                        )
-                                                    }
-                                                })}
+                                    {renderSets()}
 
-                                            </Grid>
-                                        </Box>
-                                    </Stack>
-                                    <ListItemText primary={"work sets"} />
-                                    <Stack direction='row' spacing={0} sx={{ flexWrap: 'wrap' }}>
-                                        <Box sx={{ flexGrow: 0 }}>
-                                            <Grid container columnSpacing={2}  >
-                                                {exercise.sets.map(set => {
-                                                    if (set.warmup === false) {
-                                                        return (
-                                                            <Grid item sx={{ margin: 0, padding: 0, /* backgroundColor: "red" */ }}  >
-                                                                <ListItemText
-                                                                    key={exercise.id + generateId()}
-                                                                    secondary={<>{set.weight}kg x{set.reps}</>}
-                                                                    sx={{ margin: 0, padding: 0, /* backgroundColor: "green" */ }}
-                                                                />
-                                                            </Grid>
-                                                        )
-                                                    }
-                                                })}
-
-                                            </Grid>
-                                        </Box>
-
-                                    </Stack>
                                 </Stack>
                             </ListItem>
                         ))}
                     </Stack>
                     <Button component={Link} to='/workout'
-                         variant="contained" onClick={handleCopy} >
+                        variant="contained" onClick={handleCopy} >
                         Perform again
                     </Button>
                 </Stack>
             </ListItemButton>
-
         </Stack>
     )
 }

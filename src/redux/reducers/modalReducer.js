@@ -19,12 +19,16 @@ const modalSlice = createSlice({
             //state.componentName = action.payload.name;
             //state.modalChildPosition = action.payload.position || 'center';
             //state.childrenProps = action.payload.childrenProps;
+            return state
         },
         openDeleteModal: (state, action) => {
             state.isOpenDelete = true;
+            console.log("REDUCER ", action.payload);
+            state.exercise = action.payload
             //state.componentName = action.payload.name;
             //state.modalChildPosition = action.payload.position || 'center';
             //state.childrenProps = action.payload.childrenProps;
+            return state
         },
         closeModal: (state, action) => {
             state.isOpenEdit = false;
@@ -33,6 +37,7 @@ const modalSlice = createSlice({
             //state.componentName = null;
             //state.modalChildPosition = 'center';
             //state.childrenProps = {};
+            return state
         },
     },
 });

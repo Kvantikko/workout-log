@@ -3,13 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Box, Button, Stack, TextField } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import FilteredExercises from './FilteredExercises'
-//import './Exercises.css'
-import NewExerciseModal from './NewExerciseModal';
-import DeleteExerciseModal from './DeleteExerciseModal';
-import EditExerciseModal from './EditExerciseModal';
 
-
-import { HideOnScroll } from '../Navbar/HideAppBar';
+import HideAppBar from '../AppBar/HideAppBar';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,12 +12,15 @@ import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import zIndex from '@mui/material/styles/zIndex';
 
+import ExercisesToolbar from './ExercisesToolbar';
 
 
 
-const Exercises = ({ input }) => {
+const Exercises = () => {
     const exercises = useSelector(state => state.exerciseLibrary)
     const [visibleExercises, setVisibleExercises] = useState(exercises)
+    const [input, setInput] = useState('')
+    
 
     useEffect(() => {
         let filteredExercises = exercises?.filter(
@@ -32,12 +30,13 @@ const Exercises = ({ input }) => {
     }, [input, exercises])
 
     return (
-        <>
+        <div>
+            <HideAppBar>
+                <ExercisesToolbar setInput={setInput} />
+            </HideAppBar>
             {console.log("rendering exercise component")}
-            <DeleteExerciseModal />
-            <EditExerciseModal />
             <FilteredExercises exercises={visibleExercises} />
-        </>
+        </div>
     )
 }
 

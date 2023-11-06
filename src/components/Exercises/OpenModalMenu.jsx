@@ -11,19 +11,30 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from 'react-redux';
 import { openDeleteModal, openEditModal, closeModal } from '../../redux/reducers/modalReducer';
 
-const ListItemMenu = ({ exercise }) => {
-    const dispatch = useDispatch()
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
 
-    const handleClick = (event) => setAnchorEl(event.currentTarget)
+import ModalRoot from '../Modals/ModalRoot'
+
+const OpenModalMenu = ({ exercise }) => {
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const open = Boolean(anchorEl);
+    const [showModal, setShowModal] = React.useState(false)
+    const [modalType, setModalType] = React.useState('')
+
+    const handleOpenMenuClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
 
     const handleClose = () => setAnchorEl(null)
 
-    const handleMenuClick = (modalType) => {
-        modalType === "delete" ?
-            dispatch(openDeleteModal(exercise)) :
-            dispatch(openEditModal(exercise))
+    const handleMenuClick = (event, modalType) => {
+        //event.stopPropagation()
+        //console.log("menu click ", event.target)
+         
+        modalType === "deleteExercise" ?
+            setModalType('deleteExercise') :
+            setModalType('editExercise')
+        
+        setShowModal(true)
         handleClose()
     }
 
@@ -34,7 +45,7 @@ const ListItemMenu = ({ exercise }) => {
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
+                onClick={handleOpenMenuClick}
             >
                 <MoreVertIcon />
             </Button>
@@ -46,21 +57,22 @@ const ListItemMenu = ({ exercise }) => {
                 MenuListProps={{
                     'aria-labelledby': 'basic-button',
                 }}>
-                <MenuItem onClick={() => handleMenuClick('edit')}>
+                <MenuItem onClick={(event) => handleMenuClick(event, "editExercise")}>
                     <Stack direction="row" spacing={1}>
                         <EditIcon />
                         <div>Edit</div>
                     </Stack>
                 </MenuItem>
-                <MenuItem onClick={() => handleMenuClick('delete')}>
+                <MenuItem onClick={(event) => handleMenuClick(event, "deleteExercise")}>
                     <Stack direction="row" spacing={1}>
                         <DeleteForeverIcon />
                         <div>Delete</div>
                     </Stack>
                 </MenuItem>
             </Menu>
+            <ModalRoot open={showModal} setOpen={setShowModal} openButtonText={"kaka"} title={"kaka"} modalType={modalType} exercise={exercise}/>
         </div>
     );
 }
 
-export default ListItemMenu
+export default OpenModalMenu

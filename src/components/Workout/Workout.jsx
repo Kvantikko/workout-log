@@ -1,21 +1,37 @@
 import { Link } from "react-router-dom"
 import ActiveWorkout from "./ActiveWorkout"
 import { useState } from "react"
-import { Button, Stack, Divider, Container, Box } from "@mui/material"
+import { Button, Stack, Divider, Container, Box, Modal } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 
 import { startWorkout } from "../../redux/reducers/workoutReducer"
 
+import ModalRoot from "../Modals/ModalRoot"
+import WorkoutToolbar from "./WorkoutToolbar"
+import HideAppBar from "../AppBar/HideAppBar"
+
 
 const Workout = ({ setPageIndex }) => {
+    //setPageIndex(1)
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const dispatch = useDispatch()
 
     return (
         <>
+            <HideAppBar>
+                <WorkoutToolbar/>
+            </HideAppBar>
+
             {!workoutStarted &&
                 <Stack padding={3} spacing={2} alignItems="center">
                     <h2>Time to workout?</h2>
+                    <ModalRoot
+                        buttonText={"Open"}
+                        title={"Tässä ois header"}
+                        modalType={"deleteExercise"}
+                    >
+                        <div>juu</div>
+                    </ModalRoot>
                     <Button
                         variant="contained"
                         onClick={() => dispatch(startWorkout())}
@@ -40,7 +56,7 @@ const Workout = ({ setPageIndex }) => {
                     <Container padding={22}  >
                         <Box sx={{ mt: 5 }}>
                             <h4>
-                                No templates saved yet. 
+                                No templates saved yet.
                                 You can save a template by starting a new workout.
                                 (Feature not implemented yet.)
                             </h4>
@@ -49,7 +65,7 @@ const Workout = ({ setPageIndex }) => {
                 </Stack>
             }
 
-            {workoutStarted && <ActiveWorkout style={{ padding: 10 }}/>}
+            {workoutStarted && <ActiveWorkout style={{ padding: 10 }} />}
         </>
     )
 }

@@ -65,7 +65,8 @@ const exerciseLibrarySlice = createSlice({
             const id = action.payload
             const exerciseToDelete = state.find(e => e.id === id)
             // exercise.id is not equal no id? -> true -> put it in array | is equal? dont put it in array
-            return state.filter(exercise => exercise.id !== id)
+            state = state.filter(exercise => exercise.id !== id)
+            return state
         }
     },
 })

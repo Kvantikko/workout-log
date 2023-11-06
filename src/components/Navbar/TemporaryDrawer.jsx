@@ -27,7 +27,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import TextField from '@mui/material/TextField';
 
-import NewExerciseModal from '../Exercises/NewExerciseModal';
+
 
 import Fab from '@mui/material/Fab';
 

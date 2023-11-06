@@ -24,6 +24,8 @@ import MenuIcon from '@mui/icons-material/Menu'
 
 import TemporaryDrawer from './components/Navbar/TemporaryDrawer'
 
+import StopWatch from './components/Clock/StopWatch'
+
 import {
     Routes,
     Route,
@@ -33,16 +35,16 @@ import {
 
 import axios from 'axios'
 
-import "./App.css"
-import HideAppBar from './components/Navbar/HideAppBar'
 import BottomNavBar from './components/Navbar/BottomNavBar'
-
+import HideAppBar from './components/AppBar/HideAppBar'
 
 
 
 const App = () => {
-    const dispatch = useDispatch() // react-redux | tätä funktiota käytetään actionien dispatchaamiseen
+    const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
+
+    const dispatch = useDispatch() // react-redux | tätä funktiota käytetään actionien dispatchaamiseen
 
     const [pageIndex, setPageIndex] = useState(0)
     // const [value, setValue] = React.useState(0);
@@ -90,14 +92,18 @@ const App = () => {
     return (
         <div>
             <div>
-                <HideAppBar pageIndex={pageIndex} setInput={setSearchInput} input={searchInput} />
+                {/* <HideAppBar sx={{ padding: 200 }}>
+                    {workoutStarted && stopWatchIsActive &&
+                        <StopWatch></StopWatch>
+                    }
+                </HideAppBar> */}
                 <div style={{ marginTop: margin() }}>
                     <Routes className='routes'>
                         {/*  <Route path="/" element={<Workout />} /> */}
                         <Route path="/workout" element={<Workout setPageIndex={setPageIndex} />} />
-                        <Route path="/history" element={<History />} />
+                        <Route path="/history" element={<History setPageIndex={setPageIndex} />} />
                         {/*    <Route path="/workout/active" element={<Workout />} /> */}
-                        <Route path="/exercises" element={<Exercises input={searchInput} />} />
+                        <Route path="/exercises" element={<Exercises />} />
                         <Route path="/exercises/:id" element={<Exercise />} />
                         <Route path="/measure" element={<div> tänne mittaukset </div>} />
                         <Route path="/profile" element={<Profile />} />
@@ -106,7 +112,7 @@ const App = () => {
                     <Route path="/" element={<Home />} /> */}
                     </Routes>
                 </div>
-                <BottomNavBar pageIndex={pageIndex} setPageIndex={setPageIndex}></BottomNavBar>
+                <BottomNavBar/>
             </div>
         </div>
     )

@@ -30,10 +30,6 @@ import { startWatch } from '../../redux/reducers/stopWatchReducer';
 import ModalRoot from '../Modals/ModalRoot';
 
 
-
-
-import CreateExerciseModal from '../Modals/CreateExerciseModal';
-
 import StopWatch from '../Clock/StopWatch';
 
 const Search = styled('div')(({ theme }) => ({
@@ -80,8 +76,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const HideOnScroll = (props) => {
     const { children, window } = props;
-
-   // console.log("hide on scroll ", window);
+   // console.log("hinde", window);
     // Note that you normally won't need to set the window ref as useScrollTrigger
     // will default to window.
     // This is only being set here because the demo is in an iframe.
@@ -89,7 +84,7 @@ export const HideOnScroll = (props) => {
         target: window ? window() : undefined,
     });
 
-    console.log("trigger", trigger);
+    //console.log("triggggger ", trigger);
 
     return (
         <Slide appear={false} direction="down" in={!trigger}>
@@ -98,18 +93,6 @@ export const HideOnScroll = (props) => {
     );
 }
 
-
-
-
-
-/* HideOnScroll.propTypes = {
-  children: PropTypes.element.isRequired,
-  
-   //Injected by the documentation to work in an iframe.
-   //You won't need it on your project.
-   
-  window: PropTypes.func,
-}; */
 
 const HideAppBar = (props) => {
 
@@ -141,8 +124,8 @@ const HideAppBar = (props) => {
                 <AppBar >
                     <Toolbar >
                         <Stack direction="row" spacing={2} sx={{ width: '1', justifyContent: 'space-between' }} >
-
-                            {props.pageIndex === 0 &&
+                            {props.children}
+                            {/* {props.pageIndex === 0 &&
                                 <>
                                     <Typography variant="h6" component="div">
                                         Workout
@@ -178,7 +161,6 @@ const HideAppBar = (props) => {
                                     <Button variant="contained" onClick={() => setOpen(true)}>Add</Button>
                                     <ModalRoot
                                         open={open} setOpen={setOpen} modalType={"createExercise"}></ModalRoot>
-                                    {/* <NewExerciseModal searchInput={props.input} */}
                                 </>
                             }
                             {props.pageIndex === 3 &&
@@ -194,13 +176,11 @@ const HideAppBar = (props) => {
                                         Profile
                                     </Typography>
                                 </>
-                            }
+                            } */}
                         </Stack>
                     </Toolbar>
                     {workoutStarted && stopWatchIsActive &&
-                        <Toolbar //sx={{ zIndex: 1000 }}
-                        >
-                            <Divider />
+                        <Toolbar>
                             <StopWatch></StopWatch>
                         </Toolbar>
                     }

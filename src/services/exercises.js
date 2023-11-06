@@ -36,7 +36,12 @@ const update = async (id, name, muscle ) => {
     const obj = { name: name, muscle: muscle } // { name, muscle } ?
     console.log('sending this to the server: ', obj);
     const response = await axios.put(`${baseUrl}/${id}`, obj)
-    return response.data
+    if (response.status === 200) {
+        return response.data
+    } else {
+        return response
+    }
+    
 }
 
 const remove = (id) => {

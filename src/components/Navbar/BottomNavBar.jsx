@@ -8,27 +8,35 @@ import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
 
 import StraightenIcon from '@mui/icons-material/Straighten';
 import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import AvTimerIcon from '@mui/icons-material/AvTimer';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import { useLocation } from 'react-router-dom';
 
-export default function FixedBottomNavigation({ pageIndex, setPageIndex  }) {
-    //const [valuee, setValuee] = React.useState(0);
-    const ref = React.useRef(null);
+const FixedBottomNavigation = () => {
+    const ref = React.useRef(null)
 
-   // console.log("value ", pageIndex);
+    const location = useLocation()
 
-    
+    const pageIndex = () => {
+        switch (location.pathname) {
+            case "/workout":
+                return 0
+            case "/history":
+                return 1
+            case "/exercises":
+                return 2
+            case "/measure":
+                return 3
+            case "/profile":
+                return 4
+            default:
+                return 0
+        }
+    }
 
     return (
         <Box sx={{ pb: 7 }} ref={ref}>
@@ -36,10 +44,10 @@ export default function FixedBottomNavigation({ pageIndex, setPageIndex  }) {
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
                 <BottomNavigation
                     showLabels
-                    value={pageIndex}
+                    value={pageIndex()}
                     onChange={(event, newPageIndex) => {
                         //console.log("newvalue ", newPageIndex);
-                        setPageIndex(newPageIndex);
+                        //setPageIndex(newPageIndex);
                     }}
                     sx={{
                         overflow: "auto",
@@ -54,7 +62,7 @@ export default function FixedBottomNavigation({ pageIndex, setPageIndex  }) {
                             component={Link}
                             to={`/${text.toLowerCase()}`}
                             label={text}
-                           // onClick={() => setPage(text)}
+                            // onClick={() => setPage(text)}
                             icon={
                                 index === 0 && <AddIcon /> ||
                                 index === 1 && <HistoryIcon /> ||
@@ -70,3 +78,4 @@ export default function FixedBottomNavigation({ pageIndex, setPageIndex  }) {
     );
 }
 
+export default FixedBottomNavigation
