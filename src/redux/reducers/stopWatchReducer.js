@@ -13,7 +13,7 @@ const stopWatchSlice = createSlice({
         startWatch: (state, action) => {
             state.isActive = true
             state.isPaused = false
-            state.timerSize = "h1"
+            state.timerSize = "h2"
         },
         stopWatch: (state, action) => {
             state.isActive = false

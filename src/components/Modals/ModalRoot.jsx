@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Box, Button, Modal } from '@mui/material'
 import { style, renderModalChildren } from './Helper'
 
-const ModalRoot = ({ open, setOpen, openButtonText, modalType, exercise }) => {
+const ModalRoot = ({ open, setOpen, openButtonText, modalType, exercise, copyFunction }) => {
    // const [open, setOpen] = useState(false)
 
     const handleClose = () => {
@@ -22,7 +22,7 @@ const ModalRoot = ({ open, setOpen, openButtonText, modalType, exercise }) => {
             </Button> */}
             <Modal open={open} onClose={handleClose}>
                 <Box sx={style}>
-                    {renderModalChildren(modalType, handleClose, exercise)}
+                    {renderModalChildren(modalType, handleClose, exercise, copyFunction )}
                 </Box>
             </Modal>
         </div>

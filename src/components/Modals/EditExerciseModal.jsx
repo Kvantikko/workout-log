@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { createExercise, addExercise, updateExercise } from '../../redux/reducers/exerciseLibraryReducer'
+import { createExercise, updateExercise } from '../../redux/reducers/exerciseLibraryReducer'
 
 import exerciseService from '../../services/exercises'
 

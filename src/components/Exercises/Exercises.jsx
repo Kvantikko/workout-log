@@ -12,14 +12,20 @@ import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import zIndex from '@mui/material/styles/zIndex';
 
+import ModalRoot from '../Modals/ModalRoot';
+
 import ExercisesToolbar from './ExercisesToolbar';
+
+import { useMatch } from 'react-router-dom';
 
 
 
 const Exercises = () => {
     const exercises = useSelector(state => state.exerciseLibrary)
+    //console.log("EXERCISES LIBRARY ", exercises);
     const [visibleExercises, setVisibleExercises] = useState(exercises)
     const [input, setInput] = useState('')
+    const [open, setOpen] = useState(false)
     
 
     useEffect(() => {
@@ -29,12 +35,19 @@ const Exercises = () => {
         setVisibleExercises(filteredExercises)
     }, [input, exercises])
 
+    /* const match = useMatch('/exercises/:id')
+    const note = match
+        ? exercises.find(e => e.id === Number(match.params.id))
+        : null */
+
+    // button modaalille ja lista menu modaalille eri root?
     return (
         <div>
+            <ModalRoot open={open} setOpen={setOpen} modalType={"createExercise"} />
             <HideAppBar>
-                <ExercisesToolbar setInput={setInput} />
+                <ExercisesToolbar setInput={setInput} setOpen={setOpen}/>
             </HideAppBar>
-            {console.log("rendering exercise component")}
+           {/*  {console.log("rendering exercise component")} */}
             <FilteredExercises exercises={visibleExercises} />
         </div>
     )

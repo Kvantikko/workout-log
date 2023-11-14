@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import ActiveWorkout from "./ActiveWorkout"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Stack, Divider, Container, Box, Modal } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 
@@ -11,27 +11,37 @@ import WorkoutToolbar from "./WorkoutToolbar"
 import HideAppBar from "../AppBar/HideAppBar"
 
 
-const Workout = ({ setPageIndex }) => {
+const Workout = ({ user }) => {
+    console.log("Workout is rendering");
     //setPageIndex(1)
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const dispatch = useDispatch()
 
+    const handleScrollPosition = () => {
+        const scrollPosition = sessionStorage.getItem("scrollPosition");
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            console.log('handling scroll position ', scrollPosition);
+            sessionStorage.removeItem("scrollPosition");
+        }
+    }
+
+    // efekti ei vie täysin ikkunan pohjaan, koska luodaan yksi automaattinen seti sen jälkeen
+    useEffect(() => {
+        console.log("EFFECT SCROLL POSITION");
+        handleScrollPosition()
+    },[])
+
     return (
         <>
             <HideAppBar>
-                <WorkoutToolbar/>
+                <WorkoutToolbar />
             </HideAppBar>
 
             {!workoutStarted &&
                 <Stack padding={3} spacing={2} alignItems="center">
+                    <h2>Hello {user.firstname}</h2>
                     <h2>Time to workout?</h2>
-                    <ModalRoot
-                        buttonText={"Open"}
-                        title={"Tässä ois header"}
-                        modalType={"deleteExercise"}
-                    >
-                        <div>juu</div>
-                    </ModalRoot>
                     <Button
                         variant="contained"
                         onClick={() => dispatch(startWorkout())}
@@ -45,7 +55,7 @@ const Workout = ({ setPageIndex }) => {
                         variant="contained"
                         sx={{ maxWidth: 0.8 }}
                         component={Link} to='/history'
-                        onClick={() => setPageIndex(1)}
+                    //onClick={() => setPageIndex(1)}
                     >
                         Select from history
                     </Button>

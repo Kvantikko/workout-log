@@ -2,11 +2,17 @@ import { Box, Button, Stack, TextField } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
+import { Link } from 'react-router-dom';
+
 import Typography from '@mui/material/Typography';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import ModalRoot from '../Modals/ModalRoot';
 import { useState } from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import OpenModalMenu from '../Exercises/OpenModalMenu';
+
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -60,72 +66,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     //backgroundColor: 'yellow'
 }));
 
-const ExercisesToolbar = ({ setInput, setOpen }) => {
-
-    const [style, setStyle] = useState({})
-
-    const handleFocus = (event) => {
-        const width = event.target.offsetWidth
-
-        console.log("window " , window.innerWidth);
-
-        if (window.innerWidth < 600) {
-            /* setStyle({
-                textIndent: '100%',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden'
-            }) */
-        }
-        // console.log("perse ", event.target.offsetWidth);
-       
-    }
-
-    const stylee = {
-        overflow: "hidden",
-        //justifyContent: "left",
-    }
-
-    const style2 = {
-        overflow: "hidden"
-    }
+const ExerciseToolbar = ({ exercise }) => {
 
 
 
+
+    console.log("EXERCISE ", exercise);
 
     return (
         <>
-
-            <Typography variant="h6" component="div" sx={stylee}>
-                Exercises
-            </Typography>
-
             <Stack direction={"row"} spacing={2} >
-                <Search onClick={() => console.log()}  >
-                    <SearchIconWrapper>
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    {/*   <TextField
-                    id="standard-search"
-                    label="Search field"
-                    type="search"
-                    variant="standard"
-                    fullWidth
-                /> */}
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ 'aria-label': 'search' }}
-                        onChange={(event) => setInput(event.target.value)}
-                        //onFocus={(event) => handleFocus(event)}
-                        //onBlur={(event) => setStyle({})}
-                    />
-                </Search>
-                <Button variant="contained" onClick={() => setOpen(true)} sx={style2} >
-                    <AddIcon />
+                <Button
+                    variant='secondary'
+                    component={Link}
+                    to={'/exercises'}
+                    sx={{ minWidth: 0, padding: 0, margin: 0 }}>
+                    <ArrowBackIcon />
                 </Button>
+                <Typography variant="h6" component="div" >
+                    {exercise.name}
+                </Typography>
             </Stack>
-
+            <OpenModalMenu exercise={exercise} showDateRange={true} />
         </>
     )
 }
 
-export default ExercisesToolbar
+export default ExerciseToolbar

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
-const Login = (props) => {
+const Register = (props) => {
     const navigate = useNavigate()
   
     const onSubmit = (event) => {
@@ -25,4 +25,4 @@ const Login = (props) => {
     )
   }
 
-export default Login
+export default Register

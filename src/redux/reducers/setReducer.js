@@ -17,7 +17,7 @@ const setSlice = createSlice({
         deleteSet: (state, action) => {
             const id = action.payload
             console.log("REDUCER ", id);
-            console.log(JSON.parse(JSON.stringify(state.filter(set => set.id !== id))));
+            //console.log(JSON.parse(JSON.stringify(state.filter(set => set.id !== id))));
             state = state.filter(set => set.id !== id); // immutable, mutta ei tarvis täs
             console.log("STATE AFTER DELETE", JSON.parse(JSON.stringify(state)));
             return state

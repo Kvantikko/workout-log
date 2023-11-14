@@ -34,11 +34,8 @@ const exerciseLibrarySlice = createSlice({
     reducers: {
         createExercise(state, action) {
             console.log("action.payload ", action.payload);
-            const exercise = {
-                name: action.payload.name,
-                muscle: action.payload.muscle,
-                id: action.payload.id
-            }
+            const exercise = action.payload
+            console.log('slice: ', exercise);
             state.push(exercise)
         },
         updateExercise(state, action) {
@@ -56,11 +53,11 @@ const exerciseLibrarySlice = createSlice({
         setExercises(state, action ) {
             return action.payload
         },
-        addExercise(state, action) {
+     /*    addExercise(state, action) {
             const exercise = action.payload
             console.log('slice: ', exercise);
             state.push(exercise)
-        },
+        }, */
         removeExercise(state, action) {
             const id = action.payload
             const exerciseToDelete = state.find(e => e.id === id)
@@ -75,7 +72,7 @@ export const {
     createExercise,
     updateExercise,
     setExercises,
-    addExercise,
+    //addExercise,
     removeExercise 
 } = exerciseLibrarySlice.actions
 export default exerciseLibrarySlice.reducer

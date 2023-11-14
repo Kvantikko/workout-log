@@ -1,60 +1,54 @@
+import React from "react"
 import { useState } from "react"
 import { TextField, Button, Stack } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 
 import DoneIcon from '@mui/icons-material/Done';
-import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 
-import { editSet } from "../../redux/reducers/setReducer"
+import { editSet, deleteSet } from "../../redux/reducers/setReducer"
 
-const Set = ({ exerciseId, setId, number, setWeight, setReps, deleteSet, warmup, exerciseSets }) => {
-    const [weight, _setWeight] = useState(setWeight)
-    const [reps, _setReps] = useState(setReps)
+const Set = ({ set, number, index }) => { 
+    console.log("-------------------- A set is rendering ----------------------------- ", index)
+
+    const [weight, _setWeight] = useState(set.weight)
+    const [reps, _setReps] = useState(set.reps)
     const [color, setColor] = useState("white")
     
-
     const dispatch = useDispatch()
    
-    const updateSet = (setId, weight, reps, warmup) => {
-        console.log('editing set... ', setId, weight, reps, warmup);
-
-        const foundSet = exerciseSets.filter((set) => set.id === setId)[0]
-        console.log('found set: ', foundSet);
-
-        const changedSet = { ...foundSet, weight: parseInt(weight), reps: parseInt(reps), warmup }
-        console.log('new set: ', changedSet);
-
-        /* let newSets = exerciseSets.filter((s) => s.id !== setId)
-        let x = newSets.concat(changedSet)
-        x.sort((a, b) => a.id - b.id); */
-
-        //x.sort((a, b) => a.createdAt - b.createdAt);
-
+    const updateSet = (weight, reps, warmup) => {
+        const changedSet = { ...set, weight: parseInt(weight), reps: parseInt(reps), warmup }
         _setWeight(weight)
         _setReps(reps)
+        dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+    }
 
-        console.log("ennen dispatch: ", exerciseId, " ", setId, " ", weight, " ", reps, warmup)
-
-        dispatch(editSet({ setId, changedSet }))
+    const removeSet = () => {
+        if (index === 0) {
+            console.log("kayttäjälle ilmotus että pitää olla ainakin yksi setti");
+            return
+        }
+        dispatch(deleteSet(set.id))
     }
 
     const handleDoneClick = () => {
         if (color === "white") {
-            setColor("#40ff9f")
+            setColor("#c9ffcc")
         } else {
             setColor("white")
         }
     }
 
     return (
-        <Stack direction={"row"} spacing={1} sx={{ justifyContent: "space-between", backgroundColor: color }}>
-            <Button onClick={() => updateSet(setId, weight, reps, !warmup)} sx={{ maxWidth: 0, minWidth: 0 }}>
+        <Stack direction={"row"} spacing={1} sx={{ justifyContent: "space-between", py: 1, backgroundColor: color }}>
+            <Button onClick={() => updateSet(weight, reps, !set.warmup)} sx={{ maxWidth: 0, minWidth: 0 }}>
                 {number === 0 ? <div>W</div> : number}
             </Button>
 
             <TextField
                 variant="outlined" size="small"
-                style={{ width: 70, maxHeight: 0.5 }}
+                style={{ width: 100, minWidth: 80 }}
                 id="outlined-number"
                 type="number"
                 defaultValue={weight}
@@ -63,13 +57,13 @@ const Set = ({ exerciseId, setId, number, setWeight, setReps, deleteSet, warmup,
                     shrink: true
                 }}
                 inputProps={{ style: { textAlign: 'center' }}} 
-                onChange={(e) => updateSet(setId, e.target.value, reps, warmup)}
+                onChange={(e) => updateSet(e.target.value, reps, set.warmup)}
             //margin="normal"
 
             />
             <TextField
                 variant="outlined" size="small"
-                style={{ width: 70 }}
+                style={{ width: 100, minWidth: 60}}
                 id="outlined-number-2"
                 type="number"
                 defaultValue={reps}
@@ -78,14 +72,14 @@ const Set = ({ exerciseId, setId, number, setWeight, setReps, deleteSet, warmup,
                     shrink: true,
                 }}
                 inputProps={{ style: { textAlign: 'center' }}} 
-                onChange={(e) => updateSet(setId, weight, e.target.value, warmup)}
+                onChange={(e) => updateSet(weight, e.target.value, set.warmup)}
             //margin="normal"
             />
 
-            <Button variant="outlined" onClick={deleteSet} sx={{ minWidth: 0}}>
-                <DeleteIcon />
+            <Button variant="outlined" color="error" onClick={removeSet} sx={{ minWidth: 0}}>
+                <CloseIcon />
             </Button>
-            <Button variant="contained" onClick={handleDoneClick} sx={{ minWidth: 0}}>
+            <Button variant="outlined" onClick={handleDoneClick} sx={{ minWidth: 0}}>
                 <DoneIcon />
             </Button>
         </Stack>
@@ -93,4 +87,6 @@ const Set = ({ exerciseId, setId, number, setWeight, setReps, deleteSet, warmup,
     )
 }
 
-export default Set
+// react memo for preventing unneccessary re-renders (not enough tho, needs useCallback)
+export default React.memo(Set) 
+//export default React.memo(Set (prevProps, currentProps) => isDeepEqual(prevProps.someObject, currentProps.someObject))

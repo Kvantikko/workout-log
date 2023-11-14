@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { createExercise, addExercise, removeExercise } from '../../redux/reducers/exerciseLibraryReducer'
+import { createExercise, removeExercise } from '../../redux/reducers/exerciseLibraryReducer'
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
@@ -26,6 +26,7 @@ const SaveWorkoutModal = ({ handleClose }) => {
     const [open, setOpen] = useState(false)
 
     const workout = useSelector(state => state.workout)
+    const email = useSelector(state => state.user.email)
     const exercises = useSelector(state => state.exercises)
     const sets = useSelector(state => state.sets)
     const [input, setInput] = useState("")
@@ -43,11 +44,11 @@ const SaveWorkoutModal = ({ handleClose }) => {
         })
 
         const newWorkoutObject = {
-            userId: 1,
+            userEmail: email,
             title: input,
             createdAt: new Date().toJSON(),
             note: "",
-            exercises: newExercises
+            workoutExercises: newExercises
         }
         console.log(newWorkoutObject);
         const response = await workoutService.createNew(newWorkoutObject)

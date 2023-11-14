@@ -1,27 +1,20 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+
 import Slide from '@mui/material/Slide';
 
 import { styled, alpha } from '@mui/material/styles';
 
-import SearchIcon from '@mui/icons-material/Search';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import TimerIcon from '@mui/icons-material/Timer';
 
 import InputBase from '@mui/material/InputBase';
 
-
 import { Button, Stack, Divider } from '@mui/material';
-
-import DiscardWorkoutModal from '../Workout/DiscardWorkoutModal';
-import SaveWorkoutModal from '../Workout/SaveWorkoutModal';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -76,7 +69,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const HideOnScroll = (props) => {
     const { children, window } = props;
-   // console.log("hinde", window);
+    // console.log("hinde", window);
     // Note that you normally won't need to set the window ref as useScrollTrigger
     // will default to window.
     // This is only being set here because the demo is in an iframe.
@@ -106,12 +99,13 @@ const HideAppBar = (props) => {
             return (
                 <Stack direction={"row"} spacing={1}>
                     {!stopWatchIsActive &&
-                        <Button variant="contained" onClick={() => dispatch(startWatch())}>
+                        <Button
+                            variant="contained"
+                            onClick={() => dispatch(startWatch())}
+                        >
                             <TimerIcon />
-                        </Button>}
-                    {/*  <CancelWorkoutModal></DiscardWorkoutModal>
-                    <SaveWorkoutModal></SaveWorkoutModal> */}
-
+                        </Button>
+                    }
                 </Stack>
             )
         }
@@ -121,62 +115,18 @@ const HideAppBar = (props) => {
         <React.Fragment>
             <CssBaseline />
             <HideOnScroll {...props}>
-                <AppBar >
+                <AppBar 
+                    //sx={{backgroundColor: "white"}}
+                            >
                     <Toolbar >
-                        <Stack direction="row" spacing={2} sx={{ width: '1', justifyContent: 'space-between' }} >
-                            {props.children}
-                            {/* {props.pageIndex === 0 &&
-                                <>
-                                    <Typography variant="h6" component="div">
-                                        Workout
-                                    </Typography>
-                                    {renderWorkoutToolButtons()}
-                                </>
-                            }
-                            {props.pageIndex === 1 &&
-                                <>
-                                    <Typography variant="h6" component="div">
-                                        History
-                                    </Typography>
-                                    <Button variant='contained'>
-                                        <CalendarMonthIcon />
-                                    </Button>
-                                </>
-                            }
-                            {props.pageIndex === 2 &&
-                                <>
-                                    <Typography variant="h6" component="div">
-                                        Exercises
-                                    </Typography>
-                                    <Search>
-                                        <SearchIconWrapper>
-                                            <SearchIcon />
-                                        </SearchIconWrapper>
-                                        <StyledInputBase
-                                            placeholder="Search…"
-                                            inputProps={{ 'aria-label': 'search' }}
-                                            onChange={(event) => props.setInput(event.target.value)}
-                                        />
-                                    </Search>
-                                    <Button variant="contained" onClick={() => setOpen(true)}>Add</Button>
-                                    <ModalRoot
-                                        open={open} setOpen={setOpen} modalType={"createExercise"}></ModalRoot>
-                                </>
-                            }
-                            {props.pageIndex === 3 &&
-                                <>
-                                    <Typography variant="h6" component="div">
-                                        Measurements
-                                    </Typography>
-                                </>
-                            }
-                            {props.pageIndex === 4 &&
-                                <>
-                                    <Typography variant="h6" component="div">
-                                        Profile
-                                    </Typography>
-                                </>
-                            } */}
+                        <Stack
+                            direction="row"
+                            spacing={1}
+                            sx={{
+                                width: 1,
+                                justifyContent: 'space-between',
+                            }} >
+                            {props.children}    
                         </Stack>
                     </Toolbar>
                     {workoutStarted && stopWatchIsActive &&

@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    isOpenEdit: false,
-    isOpenDelete: false,
     exercise: null
     //componentName: null,
     //modalChildPosition: null,

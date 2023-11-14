@@ -10,6 +10,8 @@ import modalReducer from './reducers/modalReducer'
 import stopWatchReducer from './reducers/stopWatchReducer'
 import setReducer from './reducers/setReducer'
 import exerciseReducer from './reducers/exerciseReducer'
+import exerciseHistoryReducer from './reducers/exerciseHistoryReducer'
+import userReducer from './reducers/userReducer'
 
 
 //import workoutReducer from './reducers/workoutReducer'
@@ -20,11 +22,13 @@ import exerciseReducer from './reducers/exerciseReducer'
 
 const store = configureStore({
     reducer: {
+        user: userReducer,
         workout: workoutReducer,
         exercises: exerciseReducer,
         sets: setReducer,
         exerciseLibrary: exerciseLibraryReducer,
         history: historyReducer,
+        exerciseHistory: exerciseHistoryReducer,
         modal: modalReducer,
         stopWatch: stopWatchReducer
     }

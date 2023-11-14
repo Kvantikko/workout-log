@@ -25,13 +25,13 @@ const FilteredExercises = ({ exercises }) => {
                 ))}
             </List> */}
             <Stack
-                spacing={2}
+                spacing={1.75}
                 sx={{ marginTop: 2, padding: 2, width: "1", overflow: "hidden" }}
                 justifyContent="space-between"
                 alignItems="center"
 
             >
-                {exercises.length === 0 && <h3>No exercises found.</h3>}
+                {exercises.length === 0 && <h3>No exercises found. Something is wrong... &#129300;</h3>}
                 {exercises.map(exercise =>
                     <ExerciseListItem key={exercise.id} exercise={exercise} />
                 )}

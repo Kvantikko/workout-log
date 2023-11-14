@@ -10,11 +10,13 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { useDispatch } from 'react-redux';
 import { openDeleteModal, openEditModal, closeModal } from '../../redux/reducers/modalReducer';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 
 import ModalRoot from '../Modals/ModalRoot'
 
-const OpenModalMenu = ({ exercise }) => {
+const OpenModalMenu = ({ exercise, showDateRange }) => {
+    //console.log("rendergin paskakasa");
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl);
     const [showModal, setShowModal] = React.useState(false)
@@ -29,11 +31,15 @@ const OpenModalMenu = ({ exercise }) => {
     const handleMenuClick = (event, modalType) => {
         //event.stopPropagation()
         //console.log("menu click ", event.target)
-         
-        modalType === "deleteExercise" ?
-            setModalType('deleteExercise') :
+
+        if (modalType === "deleteExercise") {
+            setModalType('deleteExercise')
+        } else if (modalType === "editExercise") {
             setModalType('editExercise')
-        
+        } else if (modalType === 'pickDateModal') {
+            setModalType('pickDateModal')
+        }
+
         setShowModal(true)
         handleClose()
     }
@@ -46,8 +52,10 @@ const OpenModalMenu = ({ exercise }) => {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleOpenMenuClick}
+                sx={{ minWidth: 50 }}
+                variant='secondary'
             >
-                <MoreVertIcon />
+                <MoreVertIcon sx={{ padding: 0 }} />
             </Button>
             <Menu
                 id="basic-menu"
@@ -69,8 +77,16 @@ const OpenModalMenu = ({ exercise }) => {
                         <div>Delete</div>
                     </Stack>
                 </MenuItem>
+                {showDateRange &&
+                    <MenuItem onClick={(event) => handleMenuClick(event, "pickDateModal")}>
+                        <Stack direction="row" spacing={1}>
+                            <CalendarMonthIcon />
+                            <div>Range</div>
+                        </Stack>
+                    </MenuItem>
+                }
             </Menu>
-            <ModalRoot open={showModal} setOpen={setShowModal} openButtonText={"kaka"} title={"kaka"} modalType={modalType} exercise={exercise}/>
+            <ModalRoot open={showModal} setOpen={setShowModal} openButtonText={"kaka"} title={"kaka"} modalType={modalType} exercise={exercise} />
         </div>
     );
 }

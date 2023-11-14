@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { createExercise, addExercise, removeExercise } from '../../redux/reducers/exerciseLibraryReducer'
+
+import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer'
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
 import exerciseService from '../../services/exercises'
 
 import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
-import { openDeleteModal, closeModal } from '../../redux/reducers/modalReducer'
+
+import { useDispatch } from 'react-redux'
 
 
 const DeleteExerciseModal = ({ handleClose, exercise }) => {

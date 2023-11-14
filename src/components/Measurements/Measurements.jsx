@@ -1,17 +1,18 @@
 import { Button, Container, Stack, Box, Typography } from "@mui/material"
 import HideAppBar from "../AppBar/HideAppBar"
-import ProfileToolbar from "./ProfileToolbar"
+import ProfileToolbar from "./MeasurementsToolbar"
 import { useDispatch } from "react-redux"
 import { logout } from "../../redux/reducers/userReducer"
 import { useNavigate } from "react-router-dom"
+import MeasurementsToolbar from "./MeasurementsToolbar"
 
-const Profile = ({ user }) => {
+const Measurements = ({ user }) => {
 
 
     return (
         <>
             <HideAppBar>
-                <ProfileToolbar />
+                <MeasurementsToolbar />
             </HideAppBar>
 
             <Box
@@ -26,17 +27,10 @@ const Profile = ({ user }) => {
                 //sx={{ maxWidth: 600 }}
             //minHeight="75vh"
             >
-                <Stack spacing={1} >
-                    <Box sx={{ fontWeight: 'bold' }}>Email: </Box>
-                    <Box>{user.email}</Box>
-                    <Box sx={{ fontWeight: 'bold' }}>Name: </Box>
-                    <Box>{`${user.firstname} ${user.lastname}`}</Box>
-                    <Box sx={{ fontWeight: 'bold' }}>Account created: </Box>
-                    <Box>not yet implemented</Box>
-                </Stack>
+               tänne mittaukset
             </Box>
         </>
     )
 }
 
-export default Profile
+export default Measurements

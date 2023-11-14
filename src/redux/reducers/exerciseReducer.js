@@ -11,7 +11,7 @@ const workoutSlice = createSlice({
         addExercise: (state, action) => {
             const exerciseToAdd = action.payload
             state.push(exerciseToAdd)
-            console.log("STATE: ", JSON.parse(JSON.stringify(state)))
+            //console.log("STATE: ", JSON.parse(JSON.stringify(state)))
             return state
         },
         deleteExercise: (state, action) => {

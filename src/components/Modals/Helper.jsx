@@ -3,8 +3,10 @@ import EditExerciseModal from './EditExerciseModal'
 import DeleteExerciseModal from './DeleteExerciseModal'
 import CancelWorkoutModal from './CancelWorkoutModal'
 import SaveWorkoutModal from './SaveWorkoutModal'
+import PickDateModal from './PickDateModal'
+import ConfirmCopyModal from './ConfirmCopyModal'
 
-export const renderModalChildren = (modalType, handleClose, exercise) => {
+export const renderModalChildren = (modalType, handleClose, exercise, copyFunction) => {
     switch (modalType) {
         case "deleteExercise":
             return <DeleteExerciseModal handleClose={handleClose} exercise={exercise} />
@@ -16,6 +18,10 @@ export const renderModalChildren = (modalType, handleClose, exercise) => {
             return <CancelWorkoutModal handleClose={handleClose} />
         case "saveWorkout":
             return <SaveWorkoutModal handleClose={handleClose} />
+        case "pickDateModal":
+            return <PickDateModal handleClose={handleClose} />
+        case "confirmCopyModal":
+            return <ConfirmCopyModal handleClose={handleClose} copyFunction={copyFunction}/>
         default:
             return <div>nothing</div>
     }
@@ -26,7 +32,7 @@ export const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: '100vw',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,

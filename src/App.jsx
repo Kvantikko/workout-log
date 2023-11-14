@@ -1,5 +1,8 @@
 import exerciseService from './services/exercises'
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 import { setExercises } from './redux/reducers/exerciseLibraryReducer'
 import { setWorkouts } from './redux/reducers/historyReducer'
 
@@ -13,24 +16,24 @@ import Login from './components/Profile/Login'
 import Users from './components/Users' */
 
 import Exercises from './components/Exercises/Exercises'
-import Exercise from './components/Exercises/Exercise'
+import Exercise from './components/Exercise/Exercise'
 import History from './components/History/History'
-import Login from './components/Profile/Login'
-import ActiveWorkout from './components/Workout/ActiveWorkout'
 import Profile from './components/Profile/Profile'
+import Login from './components/Login/Login'
+import Register from './components/Register/Register'
 
 import Fab from '@mui/material/Fab'
 import MenuIcon from '@mui/icons-material/Menu'
 
 import TemporaryDrawer from './components/Navbar/TemporaryDrawer'
-
 import StopWatch from './components/Clock/StopWatch'
 
 import {
     Routes,
     Route,
     Navigate,
-    useMatch
+    useMatch,
+    useNavigate,
 } from "react-router-dom"
 
 import axios from 'axios'
@@ -38,17 +41,42 @@ import axios from 'axios'
 import BottomNavBar from './components/Navbar/BottomNavBar'
 import HideAppBar from './components/AppBar/HideAppBar'
 
+import { setUser } from "./redux/reducers/userReducer"
+import Measurements from './components/Measurements/Measurements';
+
+
+//import { pageRoutes } from "../utils/routes";
+
+/* vois kyllä tehddä modalin jossa on nappi ja ei haittaa että menu jää taustalle
+
+ */
+
+
+
+
+
+
+
+
 
 
 const App = () => {
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
+    const user = useSelector(state => state.user)
+    const authenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
+    const navigate = useNavigate()
+
+    console.log("Rendering App.jsx ", authenticated);
+    console.log("Rendering App.jsxakaka ", user);
 
     const dispatch = useDispatch() // react-redux | tätä funktiota käytetään actionien dispatchaamiseen
 
     const [pageIndex, setPageIndex] = useState(0)
     // const [value, setValue] = React.useState(0);
     const [searchInput, setSearchInput] = useState('')
+
+
 
 
     // useEffect suoritetaan heti komponentin renderöinnin jälkeen.
@@ -58,28 +86,64 @@ const App = () => {
     // 2: toista parametria käytetään tarkentamaan sitä, miten usein efekti suoritetaan.
     // Jos toisena parametrina on tyhjä taulukko [], suoritetaan efekti ainoastaan komponentin ensimmäisen renderöinnin jälkeen.
     useEffect(() => {
+        if (authenticated) {
+            axios
+                .get('http://localhost:8080/api/v1/workouts')
+                .then((response) => {
+                    const workouts = response.data
+                    dispatch(setWorkouts(workouts))
+                })
+        }
 
         // axios.get palauttaa promise olion
         // Takaisinkutsun rekisteröinti tapahtuu antamalla promisen then-metodille käsittelijäfunktio (response)... ymmärsinlö oikein
-        axios
-            .get('http://localhost:8080/api/v1/workouts')
-            .then((response) => {
-                const workouts = response.data
-                dispatch(setWorkouts(workouts))
-            })
+
     }, [])
 
     useEffect(() => {
-        exerciseService
-            .getAll()
-            .then((initialExercises) => {
-                dispatch(setExercises(initialExercises)) // redux storeen
-            })
-            .catch(error => {
-                alert("tapahtui virhe hakiessa kaikkia liikkeitä")
-                console.log('error: ', error);
-            })
+        console.log("EFFECT EXERCISES");
+        if (authenticated) {
+            console.log("EFFECT EXERCISES AUTH TRUE");
+            exerciseService
+                .getAll()
+                .then((initialExercises) => {
+                    dispatch(setExercises(initialExercises)) // redux storeen
+                })
+                .catch(error => {
+                    //alert("tapahtui virhe hakiessa kaikkia liikkeitä")
+                    console.log('error: ', error);
+                })
+        }
+
+    }, [authenticated])
+
+    useEffect(() => {
+        console.log("EFFECT");
+        const loggedUserJSON = window.localStorage.getItem('loggedUser')
+        const token = window.localStorage.getItem('userToken')
+        console.log("TOken FROM LOC STORage ", token);
+        if (loggedUserJSON) {
+            const user = JSON.parse(loggedUserJSON)
+            console.log("TRUE, parsed user: ", user);
+            dispatch(setUser(user))
+            exerciseService.setToken(token)
+            //Service.setToken(token)
+            navigate('/')
+
+        }
     }, [])
+
+
+
+    const exercises = useSelector(state => state.exerciseLibrary)
+    //console.log("täsä nää exercises ", exercises)
+
+    const match = useMatch('/exercises/:id')
+    //console.log("MATCH APP.JSX ", match);
+    const exercise = match
+        ? exercises.find(exercise => exercise.id === Number(match.params.id))
+        : null
+    //console.log("no lötyylö? ", exercise);
 
     const margin = () => {
         if (!stopWatchIsActive) {
@@ -89,30 +153,63 @@ const App = () => {
         }
     }
 
+    const ProtectedRoute = ({ children }) => {
+        //const location = useLocation();
+        //const authenticated = useSelector((state) => state.auth.authenticated)
+
+        if (!authenticated) {
+            console.log("NOT AUTHENTICATED");
+            return <Navigate to="/login" />
+        }
+
+        return children;
+    };
+
     return (
         <div>
             <div>
-                {/* <HideAppBar sx={{ padding: 200 }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    {/* <HideAppBar sx={{ padding: 200 }}>
                     {workoutStarted && stopWatchIsActive &&
                         <StopWatch></StopWatch>
                     }
                 </HideAppBar> */}
-                <div style={{ marginTop: margin() }}>
-                    <Routes className='routes'>
-                        {/*  <Route path="/" element={<Workout />} /> */}
-                        <Route path="/workout" element={<Workout setPageIndex={setPageIndex} />} />
-                        <Route path="/history" element={<History setPageIndex={setPageIndex} />} />
-                        {/*    <Route path="/workout/active" element={<Workout />} /> */}
-                        <Route path="/exercises" element={<Exercises />} />
-                        <Route path="/exercises/:id" element={<Exercise />} />
-                        <Route path="/measure" element={<div> tänne mittaukset </div>} />
-                        <Route path="/profile" element={<Profile />} />
-                        {/*  <Route path="/users" element={user ? <Users /> : <Navigate replace to="/login" />} />
-                    <Route path="/login" element={<Login onLogin={login} />} />
-                    <Route path="/" element={<Home />} /> */}
-                    </Routes>
-                </div>
-                <BottomNavBar/>
+                    <div style={{ marginTop: margin() }}>
+                        <Routes>
+                            <Route
+                                path="/workout"
+                                element={<ProtectedRoute> <Workout user={user} /> </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/history"
+                                element={<ProtectedRoute> <History /> </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/exercises/:id"
+                                element={<ProtectedRoute> <Exercise exercise={exercise} /> </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/exercises"
+                                element={<ProtectedRoute> <Exercises /> </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/measure"
+                                element={<ProtectedRoute> <Measurements></Measurements> </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/profile"
+                                element={<ProtectedRoute> <Profile user={user} /> </ProtectedRoute>} />
+                            <Route
+                                path="/"
+                                element={<ProtectedRoute> <Navigate to="/workout" /> </ProtectedRoute>}
+                            />
+
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                        </Routes>
+                    </div>
+                    {authenticated && <BottomNavBar />}
+                </LocalizationProvider>
             </div>
         </div>
     )

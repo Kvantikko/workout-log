@@ -38,7 +38,7 @@ function StopWatch() {
         //setIsActive(true);
         //setIsPaused(false);
         dispatch(startWatch())
-        setTimerSize("h1")
+        setTimerSize("h2")
     };
 
     const handlePauseResume = () => {
