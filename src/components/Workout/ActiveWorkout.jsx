@@ -92,6 +92,8 @@ const ActiveWorkout = () => {
                     renderInput={(params) =>
                         <TextField {...params}
                             label="Exercise"
+                            size="small"
+                            //style={{ height: 4  0 }}
                             onKeyDown={e => {
                                 if (e.code === 'enter' && e.target.value) {
                                     setSelected(e.target.value)

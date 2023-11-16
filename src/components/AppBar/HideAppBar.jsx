@@ -118,7 +118,7 @@ const HideAppBar = (props) => {
                 <AppBar 
                     //sx={{backgroundColor: "white"}}
                             >
-                    <Toolbar >
+                    <Toolbar disableGutters={false} >
                         <Stack
                             direction="row"
                             spacing={1}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -45,7 +45,18 @@ const OpenModalMenu = ({ exercise, showDateRange }) => {
     }
 
     return (
-        <div>
+        <Box
+            display="flex"
+            //flexDirection="column"
+            //justifyContent="center"
+            //alignItems="center"
+            //minHeight="75vh"
+            //minWidth="75vh"
+            //padding={4}
+        //maxWidth="75vw"
+        //sx={{ maxWidth: 600 }}
+        //minHeight="75vh"
+        >
             <Button
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
@@ -87,7 +98,7 @@ const OpenModalMenu = ({ exercise, showDateRange }) => {
                 }
             </Menu>
             <ModalRoot open={showModal} setOpen={setShowModal} openButtonText={"kaka"} title={"kaka"} modalType={modalType} exercise={exercise} />
-        </div>
+        </Box>
     );
 }
 

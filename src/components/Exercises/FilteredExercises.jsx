@@ -1,4 +1,4 @@
-import { Stack, TextField, Divider, Box } from '@mui/material'
+import { Stack, TextField, Divider, Box, Typography } from '@mui/material'
 import ExerciseListItem from './ExerciseListItem'
 
 
@@ -31,7 +31,7 @@ const FilteredExercises = ({ exercises }) => {
                 alignItems="center"
 
             >
-                {exercises.length === 0 && <h3>No exercises found. Something is wrong... &#129300;</h3>}
+                {exercises.length === 0 && <Typography variant='h6'>No exercises found &#129300;</Typography>}
                 {exercises.map(exercise =>
                     <ExerciseListItem key={exercise.id} exercise={exercise} />
                 )}

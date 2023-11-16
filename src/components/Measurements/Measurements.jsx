@@ -23,11 +23,13 @@ const Measurements = ({ user }) => {
                 minHeight="75vh"
                 //minWidth="75vh"
                 padding={3}
-                //maxWidth="75vw"
-                //sx={{ maxWidth: 600 }}
+            //maxWidth="75vw"
+            //sx={{ maxWidth: 600 }}
             //minHeight="75vh"
             >
-               tänne mittaukset
+                <Typography variant="h6" textAlign="center">
+                    &#128679; &#9940;&#128119;  This part of the application is still under construction &#128119; &#9940; &#128679;
+                </Typography>
             </Box>
         </>
     )

@@ -76,10 +76,10 @@ const Set = ({ set, number, index }) => {
             //margin="normal"
             />
 
-            <Button variant="outlined" color="error" onClick={removeSet} sx={{ minWidth: 0}}>
+            <Button variant="outlined" color="warning" onClick={removeSet} sx={{ minWidth: 0}}>
                 <CloseIcon />
             </Button>
-            <Button variant="outlined" onClick={handleDoneClick} sx={{ minWidth: 0}}>
+            <Button variant="outlined" color="success" onClick={handleDoneClick} sx={{ minWidth: 0}}>
                 <DoneIcon />
             </Button>
         </Stack>

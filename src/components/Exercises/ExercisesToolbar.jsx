@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField } from '@mui/material'
+import { Box, Button, Stack, TextField, IconButton, InputAdornment } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -6,124 +6,130 @@ import Typography from '@mui/material/Typography';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import ModalRoot from '../Modals/ModalRoot';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    //width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        // maxWidth: '60%',
-        // marginLeft: 20,
-        //marginRight: 20
-    },
-}));
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
 
-    //backgroundColor: "green"
-}));
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded'
+import CancelIcon from '@mui/icons-material/Cancel'
+import ClearIcon from '@mui/icons-material/Clear';
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create("width"),
-        //width: "100%",
-        width: "18ch",
-        "&:focus": {
-            width: "35ch"
-        },
-        [theme.breakpoints.down("sm")]: {
-            width: "0ch",
-            "&:focus": {
-                width: "15.3ch",
-                maxWidth: '100%'
-            }
+
+const ExercisesToolbar = ({ input, setInput, setOpen }) => {
+    console.log("ExerciseToolbar rendering");
+    const [showSearch, setShowSearch] = useState(false)
+
+
+    const inputRef = useRef(null);
+
+    /* useEffect(() => {
+        if (inputRef !== null) {
+            console.log("EFFECT AND NOT NULL");
+            inputRef.current?.focus()
         }
-    },
-    //backgroundColor: 'yellow'
-}));
+    }) */
 
-const ExercisesToolbar = ({ setInput, setOpen }) => {
-
-    const [style, setStyle] = useState({})
-
-    const handleFocus = (event) => {
-        const width = event.target.offsetWidth
-
-        console.log("window " , window.innerWidth);
-
-        if (window.innerWidth < 600) {
-            /* setStyle({
-                textIndent: '100%',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden'
-            }) */
-        }
-        // console.log("perse ", event.target.offsetWidth);
-       
+    const handleSearchClick = (event) => {
+        setShowSearch(true)
     }
 
-    const stylee = {
-        overflow: "hidden",
-        //justifyContent: "left",
+    const handleBlur = () => {
+        console.log("blur happening");
+        setShowSearch(false)
+        setInput('')
+        //console.log(inputRef.current);
+        //inputRef.current.focus()
     }
 
-    const style2 = {
-        overflow: "hidden"
+    const handleClear = (event) => {
+        console.log("handling clear");
+        inputRef.current.focus()
+        //event.stopPropagation()
     }
 
-
-
+    const handleMouseDown = (event) => {
+        event.preventDefault()
+        console.log("handling mouse down ", event);
+        //event.stopPropagation()
+        setInput('')
+        inputRef.current.focus()
+        //setShowSearch(true)
+    }
 
     return (
         <>
+            {(!showSearch) &&
+                <>
+                    <Typography variant="h6" component="div" >
+                        Exercises
+                    </Typography>
+                    <Stack direction="row" spacing={2}>
+                        <Button variant="contained" onClick={handleSearchClick} >
+                            <SearchIcon />
+                        </Button>
+                        <Button variant="contained" onClick={() => setOpen(true)}  >
+                            <AddIcon />
+                        </Button>
+                    </Stack>
+                </>
+            }
 
-            <Typography variant="h6" component="div" sx={stylee}>
-                Exercises
-            </Typography>
+            {(showSearch) &&
+                <>
+                    <Button variant="secondary"
+                        sx={{
+                            minWidth: 'auto',
+                            paddingRight: 0.5,
+                            paddingLeft: 0
 
-            <Stack direction={"row"} spacing={2} >
-                <Search onClick={() => console.log()}  >
-                    <SearchIconWrapper>
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    {/*   <TextField
-                    id="standard-search"
-                    label="Search field"
-                    type="search"
-                    variant="standard"
-                    fullWidth
-                /> */}
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ 'aria-label': 'search' }}
+                        }}
+                    >
+                        <ArrowBackIcon />
+                    </Button>
+                    <TextField
+                        //label="Search field"
+                        ref={inputRef}
+                        size='small'
+                        type="text"
+                        variant="outlined"
+                        placeholder="Search"
+                        autoFocus
+                        value={input}
                         onChange={(event) => setInput(event.target.value)}
-                        //onFocus={(event) => handleFocus(event)}
-                        //onBlur={(event) => setStyle({})}
-                    />
-                </Search>
-                <Button variant="contained" onClick={() => setOpen(true)} sx={style2} >
-                    <AddIcon />
-                </Button>
-            </Stack>
+                        onFocus={() => console.log("FOCUSED")}
+                        onBlur={handleBlur}
+                        onClick={() => console.log("clicked textf")}
+                        onMouseDown={() => console.log("mousse down textf")}
+                        fullWidth
 
+                        //InputProps={{ sx: { borderRadius: 0 } }}
+                        InputProps={{
+                            sx: {
+                                backgroundColor: '#3a88d6',
+                                input: {
+                                    color: 'white',
+                                    //backgroundColor: '#42a1f5'
+                                }
+                            },
+                            /* startAdornment: (
+                              <InputAdornment position="start">
+                                <SearchIcon />
+                              </InputAdornment>
+                            ), */
+                            endAdornment: input && (
+                                <IconButton
+                                    onClick={() => console.log("clicked clear button")}
+                                    onMouseDown={handleMouseDown}
+                                    color='white'
+                                >
+                                    <ClearIcon sx={{ color: 'white' }} />
+                                </IconButton>
+                            )
+                        }}
+                    />
+                </>
+            }
         </>
     )
 }

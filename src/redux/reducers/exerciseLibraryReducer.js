@@ -1,42 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-/* const exerciseReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'NEW_EXERCISE':
-            state.push(action.payload) // muuta statea
-            return state // palauta uusi state
-        case 'EDIT_EXRCISE':
-        
-            return state // palauta uusi state
-        case 'DELETE_EXRCISE':
-           
-            return state // palauta uusi state
-        default:
-            return state
-    }
-}
-
-
-export const createExercise = (name, muscle) => {
-    return {
-        type: 'NEW_EXERCISE',
-        payload: {
-            id: generateId(),
-            name,
-            muscle
+// this will sort the exercises in alphabetical order after a new exercise is added or edited
+const sortAlphabetically = (array) => {
+    array.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+          return -1;
         }
-    }
-} */
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+          return 1;
+        }
+        return 0;
+    });
+}
 
 const exerciseLibrarySlice = createSlice({
     name: 'exercises',
     initialState: [],
     reducers: {
         createExercise(state, action) {
-            console.log("action.payload ", action.payload);
-            const exercise = action.payload
-            console.log('slice: ', exercise);
-            state.push(exercise)
+            state.push(action.payload) // action.payload is exercise object
+            sortAlphabetically(state)
+            return state
         },
         updateExercise(state, action) {
             const id = action.payload.id
@@ -46,18 +30,13 @@ const exerciseLibrarySlice = createSlice({
                 name: action.payload.name,
                 muscle: action.payload.muscle
             }
-            return state.map(exercise =>
-                exercise.id !== id ? exercise : changedExercise
-            )
+            state = state.map(exercise => exercise.id !== id ? exercise : changedExercise)
+            sortAlphabetically(state)
+            return state
         },
         setExercises(state, action ) {
             return action.payload
         },
-     /*    addExercise(state, action) {
-            const exercise = action.payload
-            console.log('slice: ', exercise);
-            state.push(exercise)
-        }, */
         removeExercise(state, action) {
             const id = action.payload
             const exerciseToDelete = state.find(e => e.id === id)
@@ -72,7 +51,6 @@ export const {
     createExercise,
     updateExercise,
     setExercises,
-    //addExercise,
     removeExercise 
 } = exerciseLibrarySlice.actions
 export default exerciseLibrarySlice.reducer

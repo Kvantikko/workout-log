@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom"
 import loginService from "../../services/login"
 import workoutService from "../../services/workouts"
 import exerciseService from "../../services/exercises"
-
+import userService from "../../services/user"
 
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { setUser } from "../../redux/reducers/userReducer"
-import { Typography, Link } from "@mui/material"
+import { Typography, Link, Box, Button, FormLabel, TextField } from "@mui/material"
 
 const Login = (props) => {
     const [email, setEmail] = useState("")
@@ -23,7 +23,7 @@ const Login = (props) => {
         event.preventDefault()
 
         let response
-        
+
         if (typography[0] === "Login") {
             response = await handleLogin()
         } else {
@@ -35,13 +35,14 @@ const Login = (props) => {
 
         exerciseService.setToken(response.token)
         workoutService.setToken(response.token)
+        //userService.setToken(response.token)
 
         dispatch(setUser(response.user))
         navigate('/')
     }
 
     const handleLogin = async () => {
-        const response = await loginService.login(email, password) 
+        const response = await loginService.login(email, password)
         return response
     }
 
@@ -56,41 +57,57 @@ const Login = (props) => {
         } else {
             setTypography(["Login", "Don't have an account? ", "Register"])
         }
-
     }
 
     return (
-        <div>
-            <h1>WORKOUT LOG</h1>
-            <h2>{typography[0]}</h2>
+        <Box
+            display="flex"
+            flexDirection="column"
+            //justifyContent="top"
+            alignItems="center"
+            //minHeight="75vh"
+            //minWidth="75vh"
+            paddingX={3}
+            gap={3}
+        //maxWidth="75vw"
+        //sx={{ maxWidth: 600 }}
+        //minHeight="75vh"
+        >
+            <Typography variant="h4" textAlign="center">WORKOUT LOG</Typography>
+            <Typography variant="h5">{typography[0]}</Typography>
             <form onSubmit={onSubmit}>
                 <div>
-                    email: <div><input onChange={(event) => setEmail(event.target.value)} /></div>
+                    <FormLabel>Email</FormLabel>
+                    <div><TextField size="small"  onChange={(event) => setEmail(event.target.value)}/></div>
+                    {/* <input onChange={(event) => setEmail(event.target.value)} /> */}
                 </div>
                 <div>
                     {(typography[0] === "Register") &&
                         <div>
                             <div>
-                                firstname:
-                                <div>
-                                    <input onChange={(event) => setFirstname(event.target.value)} />
-                                </div>
+                                <FormLabel>Firstname</FormLabel>
+                                <div><TextField onChange={(event) => setFirstname(event.target.value)}  size="small" /></div>
+                                {/* <input onChange={(event) => setFirstname(event.target.value)} /> */}
                             </div>
                             <div>
-                                lastname: <div><input onChange={(event) => setLastname(event.target.value)} /></div>
+                                <FormLabel>Lastname</FormLabel>
+                                <div><TextField onChange={(event) => setLastname(event.target.value)} size="small" /></div>
+                                {/* <input onChange={(event) => setLastname(event.target.value)} /> */}
                             </div>
                         </div>
                     }
                 </div>
                 <div>
-                    password: <div><input onChange={(event) => setPassword(event.target.value)} type='password' /></div>
+                    <FormLabel>Password</FormLabel>
+                    <div><TextField onChange={(event) => setPassword(event.target.value)} type='password' size="small" /></div>
+                    {/* <input onChange={(event) => setPassword(event.target.value)} type='password' /> */}
                 </div>
-                <button type="submit">{typography[0]}</button>
-                <Typography>{typography[1]}
-                    <Link onClick={handleTypographyChange}>{typography[2]}</Link>
-                </Typography>
+                <Button type="submit" variant="contained" sx={{ marginTop: 2}} >{typography[0]}</Button>
             </form>
-        </div>
+            <Typography>{typography[1]}
+                <Link onClick={handleTypographyChange}>{typography[2]}</Link>
+            </Typography>
+        </Box>
     )
 }
 

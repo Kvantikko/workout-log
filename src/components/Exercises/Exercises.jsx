@@ -45,9 +45,8 @@ const Exercises = () => {
         <div>
             <ModalRoot open={open} setOpen={setOpen} modalType={"createExercise"} />
             <HideAppBar>
-                <ExercisesToolbar setInput={setInput} setOpen={setOpen}/>
+                <ExercisesToolbar input={input} setInput={setInput} setOpen={setOpen}/>
             </HideAppBar>
-           {/*  {console.log("rendering exercise component")} */}
             <FilteredExercises exercises={visibleExercises} />
         </div>
     )

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import ActiveWorkout from "./ActiveWorkout"
 import { useEffect, useState } from "react"
-import { Button, Stack, Divider, Container, Box, Modal } from "@mui/material"
+import { Button, Stack, Divider, Container, Box, Modal, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 
 import { startWorkout } from "../../redux/reducers/workoutReducer"
@@ -21,7 +21,7 @@ const Workout = ({ user }) => {
         const scrollPosition = sessionStorage.getItem("scrollPosition");
         if (scrollPosition) {
             window.scrollTo(0, parseInt(scrollPosition));
-            console.log('handling scroll position ', scrollPosition);
+         //   console.log('handling scroll position ', scrollPosition);
             sessionStorage.removeItem("scrollPosition");
         }
     }
@@ -40,7 +40,7 @@ const Workout = ({ user }) => {
 
             {!workoutStarted &&
                 <Stack padding={3} spacing={2} alignItems="center">
-                    <h2>Hello {user.firstname}</h2>
+                    <h2>Hello {user.firstname} &#128075;</h2>
                     <h2>Time to workout?</h2>
                     <Button
                         variant="contained"
@@ -62,8 +62,11 @@ const Workout = ({ user }) => {
                     <Divider orientation="horizontal" flexItem>
                         or
                     </Divider>
-                    <h3>Select a saved template</h3>
-                    <Container padding={22}  >
+                    <Typography variant="h6" textAlign="center">
+                        Select a saved template (Feature not implemented yet.)
+                    </Typography>
+                   
+                   {/*  <Container padding={22}  >
                         <Box sx={{ mt: 5 }}>
                             <h4>
                                 No templates saved yet.
@@ -71,7 +74,7 @@ const Workout = ({ user }) => {
                                 (Feature not implemented yet.)
                             </h4>
                         </Box>
-                    </Container>
+                    </Container> */}
                 </Stack>
             }
 

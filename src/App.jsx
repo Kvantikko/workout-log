@@ -1,4 +1,5 @@
 import exerciseService from './services/exercises'
+import workoutService from './services/workouts'
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -45,6 +46,7 @@ import { setUser } from "./redux/reducers/userReducer"
 import Measurements from './components/Measurements/Measurements';
 
 
+
 //import { pageRoutes } from "../utils/routes";
 
 /* vois kyllä tehddä modalin jossa on nappi ja ei haittaa että menu jää taustalle
@@ -86,24 +88,32 @@ const App = () => {
     // 2: toista parametria käytetään tarkentamaan sitä, miten usein efekti suoritetaan.
     // Jos toisena parametrina on tyhjä taulukko [], suoritetaan efekti ainoastaan komponentin ensimmäisen renderöinnin jälkeen.
     useEffect(() => {
+
         if (authenticated) {
-            axios
-                .get('http://localhost:8080/api/v1/workouts')
+            console.log("EFFECT WORKOUTS AUTH TRUE");
+            workoutService
+                .getAllUserWorkouts(user.email)
                 .then((response) => {
-                    const workouts = response.data
+                    const workouts = response
+                    console.log("EFFECT workouts response: ", workouts);
                     dispatch(setWorkouts(workouts))
                 })
+                .catch(error => {
+                    //alert("tapahtui virhe hakiessa kaikkia liikkeitä")
+                    console.log('error: ', error);
+                })
+                
         }
 
         // axios.get palauttaa promise olion
         // Takaisinkutsun rekisteröinti tapahtuu antamalla promisen then-metodille käsittelijäfunktio (response)... ymmärsinlö oikein
 
-    }, [])
+    }, [authenticated])
 
     useEffect(() => {
-        console.log("EFFECT EXERCISES");
+       // console.log("EFFECT EXERCISES");
         if (authenticated) {
-            console.log("EFFECT EXERCISES AUTH TRUE");
+            //console.log("EFFECT EXERCISES AUTH TRUE");
             exerciseService
                 .getAll()
                 .then((initialExercises) => {
@@ -127,6 +137,7 @@ const App = () => {
             console.log("TRUE, parsed user: ", user);
             dispatch(setUser(user))
             exerciseService.setToken(token)
+            workoutService.setToken(token)
             //Service.setToken(token)
             navigate('/')
 
@@ -147,7 +158,7 @@ const App = () => {
 
     const margin = () => {
         if (!stopWatchIsActive) {
-            return 80
+            return 70
         } else {
             return 180
         }
@@ -178,30 +189,44 @@ const App = () => {
                         <Routes>
                             <Route
                                 path="/workout"
-                                element={<ProtectedRoute> <Workout user={user} /> </ProtectedRoute>}
+                                element={<ProtectedRoute>
+                                    <Workout user={user} style={{ margin: '110' }} />
+                                </ProtectedRoute>}
                             />
                             <Route
                                 path="/history"
-                                element={<ProtectedRoute> <History /> </ProtectedRoute>}
+                                element={<ProtectedRoute>
+                                    <History />
+                                </ProtectedRoute>}
                             />
                             <Route
                                 path="/exercises/:id"
-                                element={<ProtectedRoute> <Exercise exercise={exercise} /> </ProtectedRoute>}
+                                element={<ProtectedRoute>
+                                    <Exercise exercise={exercise} />
+                                </ProtectedRoute>}
                             />
                             <Route
                                 path="/exercises"
-                                element={<ProtectedRoute> <Exercises /> </ProtectedRoute>}
+                                element={<ProtectedRoute>
+                                    <Exercises />
+                                </ProtectedRoute>}
                             />
                             <Route
                                 path="/measure"
-                                element={<ProtectedRoute> <Measurements></Measurements> </ProtectedRoute>}
+                                element={<ProtectedRoute>
+                                    <Measurements></Measurements>
+                                </ProtectedRoute>}
                             />
                             <Route
                                 path="/profile"
-                                element={<ProtectedRoute> <Profile user={user} /> </ProtectedRoute>} />
+                                element={<ProtectedRoute>
+                                    <Profile user={user} />
+                                </ProtectedRoute>} />
                             <Route
                                 path="/"
-                                element={<ProtectedRoute> <Navigate to="/workout" /> </ProtectedRoute>}
+                                element={<ProtectedRoute>
+                                    <Navigate to="/workout" />
+                                </ProtectedRoute>}
                             />
 
                             <Route path="/login" element={<Login />} />

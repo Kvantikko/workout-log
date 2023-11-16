@@ -32,11 +32,11 @@ const getAll = async () => {
         }
     }
 
-    console.log("CONFIG ", config);
+    //console.log("CONFIG ", config);
     const request = axios.get(baseUrl, config) // request on promise olio
     // console.log("request ", request);
     const response = await request
-    console.log("RESPO ", response  );
+    //console.log("RESPO ", response  );
     return response.data // metodi then.palauttaa myös promisen.
 }
 
@@ -55,7 +55,7 @@ const createNew = async (name, muscle) => {
     }
 
     const obj = { name: name, muscle: muscle } // { name, muscle } ?
-    console.log('sending this to the server: ', obj);
+   // console.log('sending this to the server: ', obj);
     const response = await axios.post(baseUrl, obj, config)
     return response.data
 }
@@ -68,7 +68,7 @@ const update = async (id, name, muscle) => {
     }
 
     const obj = { name: name, muscle: muscle } // { name, muscle } ?
-    console.log('sending this to the server: ', obj);
+    //console.log('sending this to the server: ', obj);
     const response = await axios.put(`${baseUrl}/${id}`, obj, config)
     if (response.status === 200) {
         return response.data
@@ -88,14 +88,14 @@ const remove = (id) => {
     return axios.delete(`${baseUrl}/${id}`, config)
 }
 
-const getHistory = async (id) => {
+const getHistory = async (userEmail, exerciseId) => {
     const config = {
         headers: {
             Authorization: token
         }
     }
 
-    const response = await axios.get(`${baseUrl}/${id}`, config)
+    const response = await axios.get(`${baseUrl}/${exerciseId}?email=${userEmail}`, config)
     return response.data
 }
 
@@ -105,7 +105,7 @@ const getHistoryBetween = async (id, startDate, endDate) => {
             Authorization: token
         }
     }
-    
+
     const requestObj = { start: startDate, end: endDate }
     //console.log("requestObj ", requestObj);
 

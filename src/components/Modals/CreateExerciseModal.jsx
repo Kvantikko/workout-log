@@ -7,7 +7,7 @@ import ExerciseForm from './ExerciseForm'
 
 import exerciseService from '../../services/exercises'
 
-import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material'
 
 import { style } from './Helper'
 
@@ -33,7 +33,7 @@ const CreateExerciseModal = ({ handleClose }) => {
     return (
         <div>
             <Stack sx={style}>
-                <h2>Add a new exercise</h2>
+                <Typography variant='h5'>Add a new exercise</Typography>
                 <ExerciseForm
                     handleClose={handleClose}
                     handleSave={saveExercise}

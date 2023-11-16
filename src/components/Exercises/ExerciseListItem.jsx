@@ -16,9 +16,15 @@ const ExerciseListItem = ({ exercise }) => {
             <Stack
                 direction='row'
                 spacing={3}
-                sx={{ overflow: "hidden", textOverflow: 'ellipsis', width: '1', justifyContent: 'space-between' }}
+                sx={{
+                    overflow: "hidden",
+                    textOverflow: 'ellipsis',
+                    width: '1',
+                    justifyContent: 'space-between',
+                    alignItems: 'center' // aligns the exercise name (and other components) horizontally
+                }}
             >
-                <Typography noWrap sx={{ display: 'flex', alignItems: 'center'}}>
+                <Typography noWrap>
                     {exercise.name}
                 </Typography>
                 <Stack direction='row'  >

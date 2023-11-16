@@ -12,65 +12,12 @@ import { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import OpenModalMenu from '../Exercises/OpenModalMenu';
 
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+//import ArrowBackIcon from '@mui/icons-material/ArrowBac';
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    //width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        // maxWidth: '60%',
-        // marginLeft: 20,
-        //marginRight: 20
-    },
-}));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
 
-    //backgroundColor: "green"
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create("width"),
-        //width: "100%",
-        width: "18ch",
-        "&:focus": {
-            width: "35ch"
-        },
-        [theme.breakpoints.down("sm")]: {
-            width: "0ch",
-            "&:focus": {
-                width: "15.3ch",
-                maxWidth: '100%'
-            }
-        }
-    },
-    //backgroundColor: 'yellow'
-}));
 
 const ExerciseToolbar = ({ exercise }) => {
-
-
-
-
     console.log("EXERCISE ", exercise);
 
     return (
@@ -80,10 +27,46 @@ const ExerciseToolbar = ({ exercise }) => {
                     variant='secondary'
                     component={Link}
                     to={'/exercises'}
-                    sx={{ minWidth: 0, padding: 0, margin: 0 }}>
+                    sx={{
+                        minWidth: 'auto',
+                        paddingRight: 0,
+                        paddingLeft: 0
+
+                    }}
+                >
                     <ArrowBackIcon />
                 </Button>
-                <Typography variant="h6" component="div" >
+                <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{ paddingY: 1.5 }}  // paddinY 1.5 for mobile, 2 for bigger
+                >
+                    {exercise.name}
+                </Typography>
+            </Stack>
+            <OpenModalMenu exercise={exercise} showDateRange={true}  sx={{ paddingY: 1.5 }} />
+        </>
+    )
+
+    return (
+        <>
+            <Stack direction={"row"} spacing={2} sx={{ padding: 0, alignItems: 'center', alignContent: 'center' }}>
+                <Button
+                    variant='secondary'
+                    component={Link}
+                    to={'/exercises'}
+                    sx={{
+                        minWidth: 'auto',
+                        paddingRight: 0,
+                        paddingLeft: 0
+
+                    }}
+                >
+                    <ArrowBackIcon />
+                </Button>
+                <Typography variant="h6" component="div"
+                    sx={{ paddingY: 1.5, margin: 0 }}  // paddinY 1.5 for mobile, 2 for bigger
+                >
                     {exercise.name}
                 </Typography>
             </Stack>
