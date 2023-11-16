@@ -66,7 +66,7 @@ const SaveWorkoutModal = ({ handleClose }) => {
     }
 
     return (
-        <Stack /* sx={style} */  >
+        <>
             <h3>
                 Finish ongoing workout?
             </h3>
@@ -89,7 +89,7 @@ const SaveWorkoutModal = ({ handleClose }) => {
                 <Button variant="contained" onClick={saveWorkoutToDb}>Yes, save to database</Button>
 
             </Stack>
-        </Stack>
+        </>
     )
 }
 

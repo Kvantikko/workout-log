@@ -33,19 +33,17 @@ const PickDateModal = ({ handleClose }) => {
     }
 
     return (
-        <div>
-            <Stack sx={style}>
-                <h2>Show workout history between a date range</h2>
-                <h4>Start date</h4>
-                <DatePicker label={"Start date"} defaultValue={dayjs(currentDate)} onChange={(value) => setStartDate(value.$d)} />
-                <h4>End date</h4>
-                <DatePicker defaultValue={dayjs(currentDate)} onChange={(value) => setEndDate(value.$d)} />
-                <Stack direction={"row"} alignContent={"center"}>
-                    <Button variant="outlined" onClick={handleClose}>Cancel</Button>
-                    <Button variant="contained" onClick={requestDate}>Ok</Button>
-                </Stack>
+        <>
+            <h2>Show workout history between a date range</h2>
+            <h4>Start date</h4>
+            <DatePicker label={"Start date"} defaultValue={dayjs(currentDate)} onChange={(value) => setStartDate(value.$d)} />
+            <h4>End date</h4>
+            <DatePicker defaultValue={dayjs(currentDate)} onChange={(value) => setEndDate(value.$d)} />
+            <Stack direction={"row"} alignContent={"center"}>
+                <Button variant="outlined" onClick={handleClose}>Cancel</Button>
+                <Button variant="contained" onClick={requestDate}>Ok</Button>
             </Stack>
-        </div>
+        </>
     )
 }
 

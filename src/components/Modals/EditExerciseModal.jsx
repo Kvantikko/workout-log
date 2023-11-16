@@ -24,14 +24,14 @@ const EditExerciseModal = ({ exercise, handleClose }) => {
 
     
     return (
-        <div>
+        <>
             <h2>Edit existing exercise</h2>
             <Form
                 exercise={exercise}
                 handleClose={handleClose}
                 handleSave={editExercise}
             />
-        </div>
+        </>
     );
 }
 

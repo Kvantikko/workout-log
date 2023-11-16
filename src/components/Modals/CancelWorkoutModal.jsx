@@ -20,7 +20,7 @@ const CancelWorkoutModal = ({ handleClose }) => {
     }
 
     return (
-        <Stack /* sx={style} */ >
+        <>
             <h3>
                 Discard ongoing workout?
             </h3>
@@ -28,7 +28,7 @@ const CancelWorkoutModal = ({ handleClose }) => {
                 <Button variant="outlined" onClick={handleClose}>Cancel</Button>
                 <Button variant="contained" onClick={handleClear}>Yes</Button>
             </Stack>
-        </Stack>
+        </>
     )
 }
 

@@ -22,8 +22,8 @@ const CreateExerciseModal = ({ handleClose }) => {
     const dispatch = useDispatch()
 
     const saveExercise = async (exerciseName, targetMuscle) => {
-        console.log("saving");
-        //event.preventDefault() // ilman tätä clientti lähettää uusia luonti pyyntjö palvelimelle loputtomiin, console error
+        
+
         const newExercise = await exerciseService.createNew(exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
         console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
         dispatch(createExercise(newExercise))
@@ -31,15 +31,13 @@ const CreateExerciseModal = ({ handleClose }) => {
     }
 
     return (
-        <div>
-            <Stack sx={style}>
-                <Typography variant='h5'>Add a new exercise</Typography>
-                <ExerciseForm
-                    handleClose={handleClose}
-                    handleSave={saveExercise}
-                />
-            </Stack>
-        </div>
+        <>
+            <Typography variant='h5'>Add a new exercise</Typography>
+            <ExerciseForm
+                handleClose={handleClose}
+                handleSave={saveExercise}
+            />
+        </>
     );
 }
 

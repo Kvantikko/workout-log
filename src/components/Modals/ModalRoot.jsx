@@ -1,20 +1,20 @@
 import { useState } from 'react'
-import { Box, Button, Modal } from '@mui/material'
+import { Box, Button, Modal, Stack } from '@mui/material'
 import { style, renderModalChildren } from './Helper'
 
 const ModalRoot = ({ open, setOpen, openButtonText, modalType, exercise, copyFunction }) => {
-   // const [open, setOpen] = useState(false)
+    // const [open, setOpen] = useState(false)
 
     const handleClose = () => {
         console.log("closing modal");
-        setOpen(false) 
-    }   
+        setOpen(false)
+    }
     const handleOpen = (event) => {
         console.log("opening modal");
         event.stopPropagation()
         setOpen(true)
     }
-    
+
     return (
         <div>
             {/* <Button variant="contained" onClick={(event) => handleOpen(event)}>
@@ -22,7 +22,9 @@ const ModalRoot = ({ open, setOpen, openButtonText, modalType, exercise, copyFun
             </Button> */}
             <Modal open={open} onClose={handleClose}>
                 <Box sx={style}>
-                    {renderModalChildren(modalType, handleClose, exercise, copyFunction )}
+                    <Stack spacing={2}>
+                        {renderModalChildren(modalType, handleClose, exercise, copyFunction)}
+                    </Stack>
                 </Box>
             </Modal>
         </div>

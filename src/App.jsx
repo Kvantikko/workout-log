@@ -39,6 +39,9 @@ import {
 
 import axios from 'axios'
 
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 import BottomNavBar from './components/Navbar/BottomNavBar'
 import HideAppBar from './components/AppBar/HideAppBar'
 
@@ -102,7 +105,7 @@ const App = () => {
                     //alert("tapahtui virhe hakiessa kaikkia liikkeitä")
                     console.log('error: ', error);
                 })
-                
+
         }
 
         // axios.get palauttaa promise olion
@@ -111,7 +114,7 @@ const App = () => {
     }, [authenticated])
 
     useEffect(() => {
-       // console.log("EFFECT EXERCISES");
+        // console.log("EFFECT EXERCISES");
         if (authenticated) {
             //console.log("EFFECT EXERCISES AUTH TRUE");
             exerciseService
@@ -176,6 +179,8 @@ const App = () => {
         return children;
     };
 
+    const notify = () => toast("This is a toast notification !");
+
     return (
         <div>
             <div>
@@ -236,6 +241,26 @@ const App = () => {
                     {authenticated && <BottomNavBar />}
                 </LocalizationProvider>
             </div>
+            {/* <ToastContainer /> */}
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+
+            {/* <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            /> */}
         </div>
     )
 }
