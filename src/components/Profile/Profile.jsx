@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux"
 import { logout } from "../../redux/reducers/userReducer"
 import { useNavigate } from "react-router-dom"
 
+
+
 const Profile = ({ user }) => {
 
 

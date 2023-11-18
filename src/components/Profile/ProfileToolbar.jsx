@@ -2,6 +2,8 @@ import { Button, Container, Stack, Box, Typography } from "@mui/material"
 import { useDispatch } from "react-redux"
 import { logout } from "../../redux/reducers/userReducer"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const ProfileToolbar = () => {
     const navigate = useNavigate()
@@ -10,6 +12,7 @@ const ProfileToolbar = () => {
     const handleLogout = () => {
         dispatch(logout())
         navigate('/')
+        toast.info('Logged out!')
     }
 
     return (
@@ -22,7 +25,11 @@ const ProfileToolbar = () => {
                 color="error"
                 onClick={handleLogout}
             >
-                log out
+                <Stack direction={'row'} spacing={2}>
+                    <div>logout</div>
+                    <LogoutIcon />
+                </Stack>
+
             </Button>
         </>
     )

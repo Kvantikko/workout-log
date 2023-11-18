@@ -12,10 +12,6 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Workout from './components/Workout/Workout'
-/* import Home from './components/Timeline/Timeline'
-import Login from './components/Profile/Login'
-import Users from './components/Users' */
-
 import Exercises from './components/Exercises/Exercises'
 import Exercise from './components/Exercise/Exercise'
 import History from './components/History/History'
@@ -23,10 +19,6 @@ import Profile from './components/Profile/Profile'
 import Login from './components/Login/Login'
 import Register from './components/Register/Register'
 
-import Fab from '@mui/material/Fab'
-import MenuIcon from '@mui/icons-material/Menu'
-
-import TemporaryDrawer from './components/Navbar/TemporaryDrawer'
 import StopWatch from './components/Clock/StopWatch'
 
 import {
@@ -41,6 +33,7 @@ import axios from 'axios'
 
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+//import './ReactToastify.css'
 
 import BottomNavBar from './components/Navbar/BottomNavBar'
 import HideAppBar from './components/AppBar/HideAppBar'
@@ -244,23 +237,13 @@ const App = () => {
             {/* <ToastContainer /> */}
             <ToastContainer
                 position="top-center"
-                autoClose={2500}
+                autoClose={3000}
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
             />
-
-            {/* <ToastContainer
-                position="bottom-right"
-                autoClose={2000}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            /> */}
         </div>
     )
 }
