@@ -11,17 +11,28 @@ export const getDate = () => {
     return dd + '/' + mm + '/' + yyyy;
 }
 
-export const formatDateTime = (dateToBeFormatted) => {
+export const formatDateTime = (dateToBeFormatted, showTime) => {
     const date = new Date(dateToBeFormatted)
 
-    const formatTime = (hours, minutes) => {
-        if (hours < 10) { hours = "0" + hours }
-        if (minutes < 10) { minutes = "0" + minutes }
-        return new String(" at " + hours + ":" + minutes)
+    if (showTime) {
+        const formatTime = (hours, minutes) => {
+            if (hours < 10) { hours = "0" + hours }
+            if (minutes < 10) { minutes = "0" + minutes }
+            return new String(" at " + hours + ":" + minutes)
+        }
+    }
+
+    if (showTime) {
+        return(
+            date.toLocaleDateString() +
+            formatTime(date.getHours(), date.getMinutes())
+        )
     }
 
     return(
-        date.toLocaleDateString() +
-        formatTime(date.getHours(), date.getMinutes())
+        date.toLocaleDateString()
     )
+    
+
+    
 }

@@ -17,23 +17,30 @@ import { stopWatch } from '../../redux/reducers/stopWatchReducer'
 
 import { addToHistory } from '../../redux/reducers/historyReducer'
 
-
+import { toast } from 'react-toastify'
 import workoutService from '../../services/workouts'
 
 
 const SaveWorkoutModal = ({ handleClose }) => {
-    console.log("RENDERING");
-    const [open, setOpen] = useState(false)
-
-    const workout = useSelector(state => state.workout)
+    //console.log("RENDERING");
+    //const [open, setOpen] = useState(false)
+    //const workout = useSelector(state => state.workout)
+    const workoutName = useSelector(state => state.workout.workoutTitle)
+    console.log("WORKOUTNAME ", workoutName);
     const email = useSelector(state => state.user.email)
     const exercises = useSelector(state => state.exercises)
     const sets = useSelector(state => state.sets)
-    const [input, setInput] = useState("")
+    const [input, setInput] = useState(workoutName)
+    const [inputError, setInputError] = useState('')
+
 
     const dispatch = useDispatch()
 
     const saveWorkoutToDb = async () => {
+        if (input === '') {
+            setInputError('required')
+            return
+        }
 
         const newExercises = exercises.map(exercise => {
             const exerciseWithSets = {
@@ -50,19 +57,21 @@ const SaveWorkoutModal = ({ handleClose }) => {
             note: "",
             workoutExercises: newExercises
         }
-        console.log(newWorkoutObject);
-        const response = await workoutService.createNew(newWorkoutObject)
-        console.log("response: ", response);
-        // pistä servulata palautettu objekti stateen?
-        if (response.status === 200) {
+        //console.log(newWorkoutObject);
+
+        try {
+            const response = await workoutService.createNew(newWorkoutObject)
+            // pistä servulata palautettu objekti stateen?
+            toast.success('Workout saved!')
+            dispatch(addToHistory(newWorkoutObject))
             dispatch(clearWorkout())
             dispatch(clearExercises())
             dispatch(clearSets())
             dispatch(stopWatch())
-
-            dispatch(addToHistory(newWorkoutObject))
+            handleClose()
+        } catch (err) {
+            toast.error(err.response.data.message)
         }
-        handleClose()
     }
 
     return (
@@ -72,7 +81,9 @@ const SaveWorkoutModal = ({ handleClose }) => {
             </h3>
             <TextField
                 variant="outlined"
-                label="Workout name"
+                size='small'
+                label="Workout name *"
+                value={input}
                 onChange={(event) => {
                     //console.log(event.target.value)
                     setInput(event.target.value)
@@ -83,12 +94,19 @@ const SaveWorkoutModal = ({ handleClose }) => {
                         //setAutoCompleteValue(autoCompleteValue.concat(e.target.value));
                     }
                 }}
+                onClick={() => setInputError('')}
+                error={!(inputError === '')}
+                helperText={inputError}
             />
-            <Stack direction='row'>
-                <Button variant="outlined" onClick={handleClose}>No, keep logging</Button>
-                <Button variant="contained" onClick={saveWorkoutToDb}>Yes, save to database</Button>
+            <Box
+                display={'flex'}
+                flexDirection={'column'}
+                gap={1.5}
+            >
+                <Button variant="outlined" onClick={handleClose}>Keep logging</Button>
+                <Button variant="contained" onClick={saveWorkoutToDb}>Save to database</Button>
 
-            </Stack>
+            </Box>
         </>
     )
 }

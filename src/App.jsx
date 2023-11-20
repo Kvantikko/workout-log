@@ -1,5 +1,6 @@
 import exerciseService from './services/exercises'
 import workoutService from './services/workouts'
+import userService from "./services/user"
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -21,6 +22,8 @@ import Register from './components/Register/Register'
 
 import StopWatch from './components/Clock/StopWatch'
 
+import { jwtDecode } from 'jwt-decode';
+
 import {
     Routes,
     Route,
@@ -33,13 +36,15 @@ import axios from 'axios'
 
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-//import './ReactToastify.css'
+import './ReactToastifyOverride.css'
 
 import BottomNavBar from './components/Navbar/BottomNavBar'
 import HideAppBar from './components/AppBar/HideAppBar'
 
 import { setUser } from "./redux/reducers/userReducer"
 import Measurements from './components/Measurements/Measurements';
+
+import { logout } from './redux/reducers/userReducer';
 
 
 
@@ -134,8 +139,11 @@ const App = () => {
             dispatch(setUser(user))
             exerciseService.setToken(token)
             workoutService.setToken(token)
+            userService.setToken(token)
             //Service.setToken(token)
             navigate('/')
+
+            
 
         }
     }, [])
@@ -161,11 +169,27 @@ const App = () => {
     }
 
     const ProtectedRoute = ({ children }) => {
+        if (!authenticated) {
+            console.log("NOT AUTHENTICATED");
+            return <Navigate to="/login" />
+        }
+
+        const isTokenExpired = () => {
+            const token = window.localStorage.getItem('userToken')
+
+            const decodedToken = jwtDecode(token)// process.env.SECRET
+            const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
+
+            return Date.now() > expirationTime;
+        };
+
         //const location = useLocation();
         //const authenticated = useSelector((state) => state.auth.authenticated)
 
-        if (!authenticated) {
-            console.log("NOT AUTHENTICATED");
+        if (isTokenExpired()) {
+            dispatch(logout())
+            //navigate('/')
+            toast.warning('Your token has expired! For security reasons you need to log in again.')
             return <Navigate to="/login" />
         }
 
@@ -230,20 +254,20 @@ const App = () => {
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
                         </Routes>
+                        <ToastContainer
+                            className="toast-position"
+                            position="bottom-center"
+                            autoClose={3000}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                        />
                     </div>
                     {authenticated && <BottomNavBar />}
                 </LocalizationProvider>
             </div>
-            {/* <ToastContainer /> */}
-            <ToastContainer
-                position="top-center"
-                autoClose={3000}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
         </div>
     )
 }

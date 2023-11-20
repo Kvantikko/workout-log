@@ -43,14 +43,14 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
     }
 
     const handleClear = (event) => {
-        console.log("handling clear");
+       
         inputRef.current.focus()
         //event.stopPropagation()
     }
 
     const handleMouseDown = (event) => {
         event.preventDefault()
-        console.log("handling mouse down ", event);
+      
         //event.stopPropagation()
         setInput('')
         inputRef.current.focus()
@@ -65,10 +65,10 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                         Exercises
                     </Typography>
                     <Stack direction="row" spacing={2}>
-                        <Button variant="contained" onClick={handleSearchClick} >
+                        <Button color='info' variant="contained" onClick={handleSearchClick} >
                             <SearchIcon />
                         </Button>
-                        <Button variant="contained" onClick={() => setOpen(true)}  >
+                        <Button color='info' variant="contained" onClick={() => setOpen(true)}  >
                             <AddIcon />
                         </Button>
                     </Stack>

@@ -1,17 +1,32 @@
+import { useState } from "react"
+
+import { useDispatch } from "react-redux"
+import { setUser } from "../../redux/reducers/userReducer"
+
 import { useNavigate } from "react-router-dom"
+
 import loginService from "../../services/login"
 import workoutService from "../../services/workouts"
 import exerciseService from "../../services/exercises"
 import userService from "../../services/user"
 
-import { toast } from "react-toastify"
-
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { setUser } from "../../redux/reducers/userReducer"
-import { Typography, Link, Box, Button, FormLabel, TextField, Stack } from "@mui/material"
+import {
+    Typography,
+    Link,
+    Box,
+    Button,
+    FormLabel,
+    TextField,
+    Stack,
+    InputAdornment,
+    IconButton,
+} from "@mui/material"
 
 import LoginIcon from '@mui/icons-material/Login';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
+import { toast } from "react-toastify"
 
 const Login = (props) => {
     const [typography, setTypography] = useState(["Login", "Don't have an account? ", "Register"])
@@ -21,16 +36,48 @@ const Login = (props) => {
     const [lastname, setLastname] = useState("")
     const [password, setPassword] = useState("")
 
-    const [errorEmail, setErrorEmail] = useState(false)
-    const [errorFirstname, setErrorFirstname] = useState(false)
-    const [errorLastname, setErrorLastname] = useState(false)
-    const [errorPassword, setErrorPassword] = useState(false)
+    const [errorEmail, setErrorEmail] = useState('')
+    const [errorFirstname, setErrorFirstname] = useState('')
+    const [errorLastname, setErrorLastname] = useState('')
+    const [errorPassword, setErrorPassword] = useState('')
+
+    const [showPassword, setShowPassword] = useState(false)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
+    const inputFieldsValid = () => {
+        let valid = true
+        if (password.length < 8) {
+            setErrorPassword('Minimum of 8 characters')
+            valid = false
+        }
+        if (email === '') {
+            setErrorEmail('Required')
+            valid = false
+        }
+        if (firstname === '' && typography[0] === "Register") {
+            setErrorFirstname('Required')
+            valid = false
+        }
+        if (lastname === '' && typography[0] === "Register") {
+            setErrorLastname('Required')
+            valid = false
+        }
+        if (password === '') {
+            setErrorPassword('Required')
+            valid = false
+        }
+        return valid
+    }
+
     const onSubmit = async (event) => {
         event.preventDefault()
+
+        if (!inputFieldsValid()) {
+            console.log("not valid");
+            return
+        }
 
         let response
 
@@ -45,6 +92,7 @@ const Login = (props) => {
 
         exerciseService.setToken(response.token)
         workoutService.setToken(response.token)
+        userService.setToken(response.token)
 
         dispatch(setUser(response.user))
         navigate('/')
@@ -56,9 +104,11 @@ const Login = (props) => {
             const response = await loginService.login(email, password)
             return response
         } catch (err) {
-            toast.error(err.response.data.message)
-            setErrorEmail(true)
-            setErrorPassword(true)
+            if (err.response.status === 401) {
+                //toast.error(err.response.data.message)
+                setErrorEmail(err.response.data.message)
+                setErrorPassword(err.response.data.message)
+            }
         }
     }
 
@@ -68,29 +118,12 @@ const Login = (props) => {
             return response
         } catch (err) {
             console.log(err);
-            toast.error(err.response.data.message)
-            if (email === '') {
-                setErrorEmail(true)
-            }
             if (err.response.status === 409) {
-                setErrorEmail(true)
-            }
-            if (firstname === '') {
-                setErrorFirstname(true)
-            }
-            if (lastname === '') {
-                setErrorLastname(true)
-            }
-            if (password === '') {
-                setErrorPassword(true)
-            }
-            if (password.length < 8) {
-                setErrorPassword(true)
+                //toast.error(err.response.data.message)
+                setErrorEmail(err.response.data.message)
             }
         }
     }
-
-
 
     const handleLayoutChange = () => {
         if (typography[0] === "Login") {
@@ -98,24 +131,33 @@ const Login = (props) => {
         } else {
             setTypography(["Login", "Don't have an account?", "Register"])
         }
-        setErrorEmail(false)
-        setErrorFirstname(false)
-        setErrorLastname(false)
-        setErrorPassword(false)
+        setErrorEmail('')
+        setErrorFirstname('')
+        setErrorLastname('')
+        setErrorPassword('')
     }
 
-    const renderPasswordHelperText = () => {
-        console.log("rendering password");
-        if (errorPassword && (password === '')) {
-            console.log("kaka");
-            return "Required"
+    const handleEmailAndPassClick = (inputFieldId) => {
+        //console.log("handleEmailAndPassClick ", inputFieldId);
+        if (errorEmail === 'Invalid email or password.' &&
+            errorPassword === 'Invalid email or password.'
+        ) {
+            setErrorEmail('')
+            setErrorPassword('')
+            return
         }
-        if (errorPassword && (password.length < 8)) {
-            console.log("masaka");
-            return "Minimum of 8 characters"
-        }
-        return ''
+        if (inputFieldId === 'email') setErrorEmail('')
+        if (inputFieldId === 'password') setErrorPassword('')
     }
+
+    const handleClickShowPassword = () => {
+        if (showPassword) {
+            setShowPassword(false)
+        } else {
+            setShowPassword(true)
+        }
+    }
+
 
     return (
         <Box
@@ -133,46 +175,62 @@ const Login = (props) => {
             <Typography variant="h4" textAlign="center">WORKOUT LOG</Typography>
             <Typography variant="h5">{typography[0]}</Typography>
             <form onSubmit={onSubmit}>
-                <Stack spacing={2}>
+                <Stack spacing={2} >
                     <TextField
                         id='email'
-                        label='Email'
+                        label='Email Adress *'
                         size="small"
                         onChange={(event) => setEmail(event.target.value)}
-                        onClick={() => setErrorEmail(false)}
-                        error={errorEmail}
-                        helperText={(errorEmail && email === '') ? "Required" : ""}
+                        onClick={(event) => handleEmailAndPassClick(event.target.id)}
+                        error={!(errorEmail === '')}
+                        helperText={errorEmail}
+                        fullWidth={true}
+                    //sx={{ width: 1}}
                     />
                     {(typography[0] === "Register") &&
                         <>
                             <TextField
                                 id='firstname'
-                                label='Firstname'
+                                label='Firstname *'
                                 size="small"
                                 onChange={(event) => setFirstname(event.target.value)}
-                                onClick={() => setErrorFirstname(false)}
-                                error={errorFirstname}
-                                helperText={(errorFirstname && firstname === '') ? "Required" : ""}
+                                onClick={() => setErrorFirstname('')}
+                                error={!(errorFirstname === '')}
+                                helperText={errorFirstname}
                             />
                             <TextField
                                 id='lastname'
-                                label='Lastname'
+                                label='Lastname *'
                                 size="small"
                                 onChange={(event) => setLastname(event.target.value)}
-                                onClick={() => setErrorLastname(false)}
-                                error={errorLastname}
-                                helperText={(errorLastname && lastname === '') ? "Required" : ""}
+                                onClick={() => setErrorLastname('')}
+                                error={!(errorLastname === '')}
+                                helperText={errorLastname}
                             />
                         </>
                     }
                     <TextField
-                        type='password'
-                        label='Password'
+                        id='password'
+                        type={showPassword ? "text" : "password"}
+                        label='Password *'
                         size="small"
                         onChange={(event) => setPassword(event.target.value)}
-                        onClick={() => setErrorPassword(false)}
-                        error={errorPassword}
-                        helperText={renderPasswordHelperText()}
+                        onClick={(event) => handleEmailAndPassClick(event.target.id)}
+                        error={!(errorPassword === '')}
+                        helperText={errorPassword}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        //onMouseDown={handleClickShowPassword}
+                                    >
+                                        {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }}
                     />
                     <Button
                         type="submit"

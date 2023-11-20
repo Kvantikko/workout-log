@@ -6,7 +6,15 @@ const FilteredExercises = ({ exercises }) => {
 
     // addind <div>'s made sx margin work
     return (
-        <div>
+        <Box
+            display="flex"
+            flexDirection="column"
+            //justifyContent="center"
+            alignItems="center"
+            //minHeight="75vh"
+            //minWidth="75vh"
+            //padding={4}
+        >
 
             {/*  <List>
                 {exercises.map((exercise, index) => (
@@ -26,7 +34,12 @@ const FilteredExercises = ({ exercises }) => {
             </List> */}
             <Stack
                 spacing={1.75}
-                sx={{ marginTop: 2, padding: 2, width: "1", overflow: "hidden" }}
+                sx={{
+                    marginTop: 2,
+                    padding: 2, width: "1",
+                    overflow: "hidden",
+                    //maxWidth: '90vw', suuremmissa ruuduissa
+                }}
                 justifyContent="space-between"
                 alignItems="center"
 
@@ -36,7 +49,7 @@ const FilteredExercises = ({ exercises }) => {
                     <ExerciseListItem key={exercise.id} exercise={exercise} />
                 )}
             </Stack>
-        </div>
+        </Box>
     )
 }
 

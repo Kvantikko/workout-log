@@ -7,12 +7,15 @@ import ModalRoot from "../Modals/ModalRoot";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 
+import { toast } from "react-toastify";
+
 import { useState } from "react";
 
 
 const WorkoutToolbar = () => {
     console.log("WorkoutToolbar is rendering");
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
+    const exercises = useSelector(state => state.exercises)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const [showModal, setShowModal] = useState(false)
     const [modalType, setModalType] = useState('')
@@ -33,20 +36,30 @@ const WorkoutToolbar = () => {
             {workoutStarted &&
                 <Stack direction={"row"} spacing={1} >
                     {!stopWatchIsActive &&
-                        <Button variant="contained" onClick={() => dispatch(startWatch())}>
+                        <Button color='info' variant="contained" onClick={() => dispatch(startWatch())}>
                             <TimerIcon />
                         </Button>}
                     <Button
+                        color="error"
                         variant="contained"
-                        onClick={() => handleModalOpen("cancelWorkout")}>
-                        <NotInterestedIcon/>
-                       {/*  Cancel */}
+                        onClick={() => handleModalOpen("cancelWorkout")}
+                    >
+                        <NotInterestedIcon />
+                        {/*  Cancel */}
                     </Button>
                     <Button
+                        color="success"
                         variant="contained"
-                        onClick={() => handleModalOpen("saveWorkout")}>
-                        <CheckCircleOutlineIcon/>
-                       {/*  Finish */}
+                        onClick={() => {
+                            if (exercises.length === 0) {
+                                toast.warning('Add at least one exercise before finishing!')
+                                return
+                            }
+                            handleModalOpen("saveWorkout")
+                        }}
+                    >
+                        <CheckCircleOutlineIcon />
+                        {/*  Finish */}
                     </Button>
                 </Stack>
             }

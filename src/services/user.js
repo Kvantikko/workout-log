@@ -6,7 +6,7 @@ let token = null
 
 const setToken = newToken => token = `Bearer ${newToken}`
 
-const getAllUserWorkouts = async (userId) => {
+const editUser = async (userId) => {
     const config = {
         headers: {
             Authorization: token
@@ -14,12 +14,25 @@ const getAllUserWorkouts = async (userId) => {
     }
 
     console.log("SENDING THIS LOGIN OBJ TO SERVER: ", obj);
-    const response = await axios.post(`${baseUrl}/${userId}/workouts`, config)
+    const response = await axios.put(`${baseUrl}/${userId}`, config)
     console.log("LOG RESPONSE ", response)
     return response.data
 }
 
+const removeUser = async (userEmail) => {
+    const config = {
+        headers: {
+            Authorization: token
+        }
+    }
+    const response = await axios.delete(`${baseUrl}/${userEmail}`, config)
+    console.log("service wait over");
+
+    return response.data
+}
 
 export default {
-    getAllUserWorkouts 
+    editUser,
+    removeUser,
+    setToken
 }

@@ -9,25 +9,30 @@ import exerciseService from '../../services/exercises'
 
 import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material'
 
-import { style } from './Helper'
-
-import AddIcon from '@mui/icons-material/Add';
-import BODY_PARTS from '../../utils/Bodyparts'
-import Exercise from '../Exercise/Exercise'
+import { toast } from 'react-toastify'
 
 
 
 
 const CreateExerciseModal = ({ handleClose }) => {
+    console.log("rendering CreateExerciseModal");
+    const [error, setError] = useState()
+
     const dispatch = useDispatch()
 
-    const saveExercise = async (exerciseName, targetMuscle) => {
-        
 
-        const newExercise = await exerciseService.createNew(exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
-        console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
-        dispatch(createExercise(newExercise))
-        handleClose()
+    const saveExercise = async (exerciseName, targetMuscle) => {
+        try {
+            const newExercise = await exerciseService.createNew(exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
+            console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
+            dispatch(createExercise(newExercise))
+            handleClose()
+            toast.success('New exercsise saved!')
+        } catch (err) {
+            toast.error(err.response.data.message)
+            setError(err.response.data.message)
+        }
+        
     }
 
     return (
@@ -36,6 +41,7 @@ const CreateExerciseModal = ({ handleClose }) => {
             <ExerciseForm
                 handleClose={handleClose}
                 handleSave={saveExercise}
+                error={error}
             />
         </>
     );
