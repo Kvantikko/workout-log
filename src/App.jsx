@@ -48,6 +48,8 @@ import { logout } from './redux/reducers/userReducer';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { useTheme } from '@mui/material/styles';
+
 /* const theme = createTheme({
     palette: {
         primary: {
@@ -71,10 +73,15 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 }); */
 
 
+
 // '#1F1B24'
 
 
-
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
 
 
 /* vois kyllä tehddä modalin jossa on nappi ja ei haittaa että menu jää taustalle
@@ -86,11 +93,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 const App = () => {
+    const darkMode = useSelector(state => state.darkMode)
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const user = useSelector(state => state.user)
     const authenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
     const navigate = useNavigate()
+
+    const theme = useTheme();
 
     //console.log("Rendering App.jsx ", authenticated);
     //console.log("Rendering App.jsxakaka ", user);
@@ -118,7 +128,7 @@ const App = () => {
                 .getAllUserWorkouts(user.email)
                 .then((response) => {
                     const workouts = response
-                   // console.log("EFFECT workouts response: ", workouts);
+                    // console.log("EFFECT workouts response: ", workouts);
                     dispatch(setWorkouts(workouts))
                 })
                 .catch(error => {
@@ -223,7 +233,7 @@ const App = () => {
     const notify = () => toast("This is a toast notification !");
 
     return (
-      /*   <ThemeProvider theme={theme}> */
+        <ThemeProvider theme={darkMode ? darkTheme : theme}>
             <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     {/* <HideAppBar sx={{ padding: 200 }}>
@@ -292,7 +302,7 @@ const App = () => {
                     {authenticated && <BottomNavBar />}
                 </LocalizationProvider>
             </div>
-       /*  </ThemeProvider> */
+        </ThemeProvider>
     )
 }
 

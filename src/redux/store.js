@@ -12,6 +12,7 @@ import setReducer from './reducers/setReducer'
 import exerciseReducer from './reducers/exerciseReducer'
 import exerciseHistoryReducer from './reducers/exerciseHistoryReducer'
 import userReducer from './reducers/userReducer'
+import darkModeReducer from './reducers/darkModeReducer'
 
 
 //import workoutReducer from './reducers/workoutReducer'
@@ -30,7 +31,8 @@ const store = configureStore({
         history: historyReducer,
         exerciseHistory: exerciseHistoryReducer,
         modal: modalReducer,
-        stopWatch: stopWatchReducer
+        stopWatch: stopWatchReducer,
+        darkMode: darkModeReducer
     }
 })
 
