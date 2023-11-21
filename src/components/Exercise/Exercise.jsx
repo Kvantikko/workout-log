@@ -33,7 +33,6 @@ const Exercise = ({ exercise }) => {
 
     return (
         <div>
-            {/*  <ModalRoot open={open} setOpen={setOpen} modalType={"createExercise"} /> */}
             <HideAppBar>
                 <ExerciseToolbar exercise={exercise} />
             </HideAppBar>
@@ -58,7 +57,9 @@ const Exercise = ({ exercise }) => {
                     </Typography>
                 </Box>
             }
-            <WorkoutExerciseList workoutExercises={workoutExercises} showDate={true} />
+            <Box padding={1}>
+                <WorkoutExerciseList workoutExercises={workoutExercises} showDate={true} />
+            </Box>
         </div>
     )
 }

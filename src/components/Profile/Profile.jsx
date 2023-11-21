@@ -13,6 +13,9 @@ import { formatDateTime } from "../../utils/Date"
 import userService from '../../services/user'
 
 import { toast } from "react-toastify"
+import ModalRootButton from "../Modals/ConfirmationModal"
+import ConfirmationModal from "../Modals/ConfirmationModal"
+import FormModal from "../Modals/FormModal"
 
 
 const Profile = ({ user }) => {
@@ -20,7 +23,7 @@ const Profile = ({ user }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const hanleDeleteAccount = async () => {
+    const handleDeleteAccount = async () => {
         try {
             const response = await userService.removeUser(user.email)
             dispatch(logout())
@@ -29,6 +32,17 @@ const Profile = ({ user }) => {
         } catch (err) {
             toast.error(err.response)
         }
+    }
+
+    const handleEditAccount = async () => {
+        /* try {
+            const response = await userService.removeUser(user.email)
+            dispatch(logout())
+            navigate('/')
+            toast.info('Account deleted!')
+        } catch (err) {
+            toast.error(err.response)
+        } */
     }
 
     return (
@@ -40,16 +54,11 @@ const Profile = ({ user }) => {
             <Box
                 display="flex"
                 flexDirection="column"
-                //justifyContent="center"
-                //alignItems="center"
                 minHeight="75vh"
-                //minWidth="75vh"
                 padding={3}
-                //gap={10}
                 justifyContent={'space-between'}
-            //maxWidth="75vw"
-            //sx={{ maxWidth: 600 }}
-            //minHeight="75vh"
+                //alignItems="center"
+                //maxWidth="75vw" for biggger screen?
             >
                 <Stack spacing={1} >
                     <Box sx={{ fontWeight: 'bold' }}>Email: </Box>
@@ -58,32 +67,38 @@ const Profile = ({ user }) => {
                     <Box>{`${user.firstname} ${user.lastname}`}</Box>
                     <Box sx={{ fontWeight: 'bold' }}>Account created: </Box>
                     <Box>{formatDateTime(user.createdAt)}</Box>
-                    {/* <Button variant="contained" color="info">
-                        <Stack direction={'row'} spacing={1}>
-                            <EditIcon />
-                            <div>Edit account</div>
-                        </Stack>
-                    </Button> */}
                 </Stack>
                 <Stack spacing={2}>
-                    <Button variant="contained" color="info">
-                        <Stack direction={'row'} spacing={1}>
-                            <EditIcon />
-                            <div>Edit account</div>
-                        </Stack>
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="warning"
-                        onClick={hanleDeleteAccount}
-                    >
-                        <Stack direction={'row'} spacing={1}>
-                            <div> &#9888;&#65039; </div>
-                            <DeleteForeverIcon />
-                            <div>Delete account</div>
-                            <div> &#9888;&#65039; </div>
-                        </Stack>
-                    </Button>
+                    <FormModal
+                        modalType='editUserModal'
+                        color='info'
+                        openButton={
+                            <Stack direction={'row'} spacing={1}>
+                                <EditIcon />
+                                <div>Edit account</div>
+                            </Stack>
+                        }
+                        confirmButton='Save'
+                        confirmFunction={handleEditAccount}
+                    />
+                    <ConfirmationModal
+                        modalType='deleteUserModal'
+                        color='error'
+                        openButton={
+                            <Stack direction={'row'} spacing={1}>
+                                <DeleteForeverIcon />
+                                <div>Delete account</div>
+                            </Stack>
+                        }
+                        confirmButton={
+                            <Stack direction={'row'} spacing={1}>
+                                <div> &#9888;&#65039; </div>
+                                <div>Delete forever</div>
+                                <div> &#9888;&#65039; </div>
+                            </Stack>
+                        }
+                        confirmFunction={handleDeleteAccount}
+                    />
                 </Stack>
             </Box>
         </>

@@ -46,18 +46,40 @@ import Measurements from './components/Measurements/Measurements';
 
 import { logout } from './redux/reducers/userReducer';
 
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+/* const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#525252', // set your custom primary color
+        },
+        secondary: {
+            main: '#00ff00', // set your custom secondary color
+        },
+        background: {
+            default: '#1F1B24', // set your default background color
+        },
+        text: {
+            primary: '#ffffff', // set your primary text color
+        },
+        // Add more customizations as needed
+    },
+    typography: {
+        fontFamily: 'Arial, sans-serif', // set your custom font family
+    },
+    // Add other theme configurations here
+}); */
 
 
-//import { pageRoutes } from "../utils/routes";
+// '#1F1B24'
+
+
+
+
 
 /* vois kyllä tehddä modalin jossa on nappi ja ei haittaa että menu jää taustalle
 
  */
-
-
-
-
-
 
 
 
@@ -131,9 +153,11 @@ const App = () => {
     useEffect(() => {
         console.log("EFFECT");
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
+        console.log(loggedUserJSON);
         const token = window.localStorage.getItem('userToken')
-        console.log("TOken FROM LOC STORage ", token);
+        //console.log("TOken FROM LOC STORage ", token);
         if (loggedUserJSON) {
+            console.log("if is true");
             const user = JSON.parse(loggedUserJSON)
             console.log("TRUE, parsed user: ", user);
             dispatch(setUser(user))
@@ -143,7 +167,7 @@ const App = () => {
             //Service.setToken(token)
             navigate('/')
 
-            
+
 
         }
     }, [])
@@ -199,7 +223,7 @@ const App = () => {
     const notify = () => toast("This is a toast notification !");
 
     return (
-        <div>
+      /*   <ThemeProvider theme={theme}> */
             <div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     {/* <HideAppBar sx={{ padding: 200 }}>
@@ -257,7 +281,7 @@ const App = () => {
                         <ToastContainer
                             className="toast-position"
                             position="bottom-center"
-                            autoClose={3000}
+                            autoClose={4000}
                             closeOnClick
                             rtl={false}
                             pauseOnFocusLoss
@@ -268,7 +292,7 @@ const App = () => {
                     {authenticated && <BottomNavBar />}
                 </LocalizationProvider>
             </div>
-        </div>
+       /*  </ThemeProvider> */
     )
 }
 

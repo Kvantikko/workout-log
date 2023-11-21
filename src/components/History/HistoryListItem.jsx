@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import WorkoutExerciseSets from "./WorkoutExerciseSets";
 import WorkoutExerciseList from "./WorkoutExerciseList";
 
+import HistoryModalMenu from "./HistoryModalMenu";
+
 
 import ModalRoot from "../Modals/ModalRoot";
 
@@ -68,22 +70,25 @@ const HistoryListItem = ({ workout }) => {
 
             {/* DATE */}
             <Typography align='center' variant="h5" noWrap >
-                {formatDateTime(workout.createdAt)}
+                {formatDateTime(workout.createdAt, true)}
             </Typography>
             <Divider />
 
-            {/* THE WHOLE BUTTON*/}
-            <ListItemButton sx={{ minWidth: 1, overflow: "hidden", textOverflow: 'ellipsis', backgroundColor: "#d8e0ed" }} >
+            {/* THE WHOLE BUTTON     <ListItemButton/>   */}
+            <Box padding={1} sx={{ minWidth: 1, overflow: "hidden", textOverflow: 'ellipsis', backgroundColor: "#d8e0ed" }} >
                 <Stack spacing={2} sx={{ minWidth: 1, justifyContent: 'space-between', /* backgroundColor: "red" */ }}>
 
                     {/* WORKOUT TITLE */}
-                    <Typography variant="h5" noWrap >
-                        {workout.title}
-                    </Typography>
+                    <Stack direction={'row'} justifyContent={'space-between'}>
+                        <Typography variant="h5" noWrap >
+                            {workout.title}
+                        </Typography>
+                        <HistoryModalMenu />
+                    </Stack>
 
                     {/* WORKOUT_EXERCISE LIST */}
-                    <WorkoutExerciseList workoutExercises={workout.workoutExercises}/>
-                   
+                    <WorkoutExerciseList workoutExercises={workout.workoutExercises} />
+
                     {/* PERFORM AGAIN BUTTON */}
                     <Button
                         // component={Link}
@@ -93,7 +98,7 @@ const HistoryListItem = ({ workout }) => {
                     </Button>
 
                 </Stack>
-            </ListItemButton>
+            </Box>
 
         </Stack>
     )

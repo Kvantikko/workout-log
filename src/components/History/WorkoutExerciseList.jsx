@@ -24,9 +24,13 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
     console.log();
 
     return (
-        <Stack spacing={3} sx={{ backgroundColor: "green" }} >
+        <Stack spacing={3} >
             {workoutExercises.map((exercise, text, index) => (
-                <ListItem key={exercise.id} disablePadding sx={{ minWidth: 1, backgroundColor: "yellow" }}>
+                <ListItem
+                    key={exercise.id}
+                    //disablePadding
+                    sx={{ minWidth: 1, backgroundColor: "#d8e0ed" }}
+                >
                     {console.log("MAPPING ARRAY OF WORKOUTEXERCISES, EXERCISE: ", exercise)}
 
 
@@ -34,7 +38,7 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
                     <Stack sx={{/* backgroundColor: "green", */ width: 1 }}>
                         {showDate &&
                             <Typography variant="h6" noWrap >
-                                {exercise.createdAt}
+                                {formatDateTime(exercise.createdAt)}
                             </Typography>
                         }
 

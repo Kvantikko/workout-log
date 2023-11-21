@@ -10,7 +10,7 @@ import InputBase from '@mui/material/InputBase';
 import ModalRoot from '../Modals/ModalRoot';
 import { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import OpenModalMenu from '../Exercises/OpenModalMenu';
+import OpenModalMenu from '../Exercises/ExercisesModalMenu';
 
 //import ArrowBackIcon from '@mui/icons-material/ArrowBac';
 
@@ -19,7 +19,7 @@ import OpenModalMenu from '../Exercises/OpenModalMenu';
 
 const ExerciseToolbar = ({ exercise }) => {
     console.log("EXERCISE ", exercise);
-
+// sx={{ padding: 0, alignItems: 'center', alignContent: 'center' }}>
     return (
         <>
             <Stack direction={"row"} spacing={2} >
@@ -45,32 +45,6 @@ const ExerciseToolbar = ({ exercise }) => {
                 </Typography>
             </Stack>
             <OpenModalMenu exercise={exercise} showDateRange={true}  sx={{ paddingY: 1.5 }} />
-        </>
-    )
-
-    return (
-        <>
-            <Stack direction={"row"} spacing={2} sx={{ padding: 0, alignItems: 'center', alignContent: 'center' }}>
-                <Button
-                    variant='secondary'
-                    component={Link}
-                    to={'/exercises'}
-                    sx={{
-                        minWidth: 'auto',
-                        paddingRight: 0,
-                        paddingLeft: 0
-
-                    }}
-                >
-                    <ArrowBackIcon />
-                </Button>
-                <Typography variant="h6" component="div"
-                    sx={{ paddingY: 1.5, margin: 0 }}  // paddinY 1.5 for mobile, 2 for bigger
-                >
-                    {exercise.name}
-                </Typography>
-            </Stack>
-            <OpenModalMenu exercise={exercise} showDateRange={true} />
         </>
     )
 }

@@ -1,9 +1,9 @@
 import { Button, Divider, Box, Stack, Typography } from '@mui/material'
 
 
-import BasicMenu from './OpenModalMenu';
-import ListItemMenu from './OpenModalMenu';
-import OpenModalMenu from './OpenModalMenu';
+import BasicMenu from './ExercisesModalMenu';
+import ListItemMenu from './ExercisesModalMenu';
+import OpenModalMenu from './ExercisesModalMenu';
 import { Link } from "react-router-dom"
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';

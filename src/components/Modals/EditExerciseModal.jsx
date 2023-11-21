@@ -4,16 +4,16 @@ import { createExercise, updateExercise } from '../../redux/reducers/exerciseLib
 
 import exerciseService from '../../services/exercises'
 
-import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material'
 import { closeModal } from '../../redux/reducers/modalReducer'
 
-import Form from './ExerciseForm'
+import ExerciseForm from '../Forms/ExerciseForm'
 import { toast } from 'react-toastify'
 
 import BODY_PARTS from '../../utils/Bodyparts'
 
 
-const EditExerciseModal = ({ exercise, handleClose }) => {
+const EditExerciseModal = ({ exercise, handleClose, confirmButton }) => {
     const dispatch = useDispatch()
 
     const editExercise = async (exerciseName, targetMuscle) => {
@@ -21,10 +21,10 @@ const EditExerciseModal = ({ exercise, handleClose }) => {
             const updatedExercise = await exerciseService.update(exercise.id, exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
             console.log('servu palautti: ', updatedExercise, ' dispatchataan storeen')
             dispatch(updateExercise(updatedExercise))
-            handleClose()
             toast.success('Exercsise edited!')
+            handleClose()
         } catch (err) {
-            toast.error(err.response.data.message)
+            toast.error(err.response)
         }
 
     }
@@ -32,11 +32,13 @@ const EditExerciseModal = ({ exercise, handleClose }) => {
 
     return (
         <>
-            <h2>Edit existing exercise</h2>
-            <Form
+            <Stack direction={'row'} spacing={0} justifyContent={'center'}>
+                <Typography variant='h5'>Edit exercise</Typography>
+            </Stack>
+            <ExerciseForm
                 exercise={exercise}
-                handleClose={handleClose}
                 handleSave={editExercise}
+                confirmButton={confirmButton}
             />
         </>
     );

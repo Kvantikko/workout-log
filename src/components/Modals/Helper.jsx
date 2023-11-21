@@ -5,23 +5,54 @@ import CancelWorkoutModal from './CancelWorkoutModal'
 import SaveWorkoutModal from './SaveWorkoutModal'
 import PickDateModal from './PickDateModal'
 import ConfirmCopyModal from './ConfirmCopyModal'
+import DeleteUserModal from './DeleteUserModal'
+import EditUserModal from './EditUserModal'
+import LogoutModal from './LogoutModal'
 
-export const renderModalChildren = (modalType, handleClose, exercise, copyFunction) => {
+export const renderModalChildren = (modalType, confirmFunction, confirmButton, object ) => {
+    //console.log("RENDERMODALCHILD FUNC PROPS: ", modalType, handleClose, confirmFunction, confirmButton, color);
     switch (modalType) {
+        case "editUserModal":
+            return <EditUserModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "deleteExercise":
-            return <DeleteExerciseModal handleClose={handleClose} exercise={exercise} />
+            return <DeleteExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "editExercise":
-            return <EditExerciseModal handleClose={handleClose} exercise={exercise} />
+            return <EditExerciseModal  confirmFunction={confirmFunction} confirmButton={confirmButton} exercise={object} />
         case "createExercise":
-            return <CreateExerciseModal handleClose={handleClose} />
+            return <CreateExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "cancelWorkout":
-            return <CancelWorkoutModal handleClose={handleClose} />
+            return <CancelWorkoutModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "saveWorkout":
-            return <SaveWorkoutModal handleClose={handleClose} />
+            return <SaveWorkoutModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "pickDateModal":
-            return <PickDateModal handleClose={handleClose} />
+            return <PickDateModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "confirmCopyModal":
-            return <ConfirmCopyModal handleClose={handleClose} copyFunction={copyFunction}/>
+            return <ConfirmCopyModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
+        default:
+            return <div>nothing</div>
+    }
+}
+
+export const renderModalText = (modalType) => {
+    switch (modalType) {
+        case "logoutModal":
+            return <LogoutModal />
+        case "deleteUserModal":
+            return <DeleteUserModal />
+        case "deleteExercise":
+            return <DeleteExerciseModal />
+        case "editExercise":
+            return <EditExerciseModal />
+        case "createExercise":
+            return <CreateExerciseModal />
+        case "cancelWorkout":
+            return <CancelWorkoutModal />
+        case "saveWorkout":
+            return <SaveWorkoutModal />
+        case "pickDateModal":
+            return <PickDateModal />
+        case "confirmCopyModal":
+            return <ConfirmCopyModal />
         default:
             return <div>nothing</div>
     }

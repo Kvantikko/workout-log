@@ -14,25 +14,23 @@ export const getDate = () => {
 export const formatDateTime = (dateToBeFormatted, showTime) => {
     const date = new Date(dateToBeFormatted)
 
-    if (showTime) {
-        const formatTime = (hours, minutes) => {
-            if (hours < 10) { hours = "0" + hours }
-            if (minutes < 10) { minutes = "0" + minutes }
-            return new String(" at " + hours + ":" + minutes)
-        }
+    const formatTime = (hours, minutes) => {
+        if (hours < 10) { hours = "0" + hours }
+        if (minutes < 10) { minutes = "0" + minutes }
+        return new String(" at " + hours + ":" + minutes)
     }
 
     if (showTime) {
-        return(
+        return (
             date.toLocaleDateString() +
             formatTime(date.getHours(), date.getMinutes())
         )
     }
 
-    return(
+    return (
         date.toLocaleDateString()
     )
-    
 
-    
+
+
 }

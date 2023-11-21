@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createExercise } from '../../redux/reducers/exerciseLibraryReducer'
 
-import ExerciseForm from './ExerciseForm'
+import ExerciseForm from '../Forms/ExerciseForm'
 
 
 import exerciseService from '../../services/exercises'
@@ -14,34 +14,32 @@ import { toast } from 'react-toastify'
 
 
 
-const CreateExerciseModal = ({ handleClose }) => {
+const CreateExerciseModal = ({ handleClose, confirmButton }) => {
     console.log("rendering CreateExerciseModal");
-    const [error, setError] = useState()
-
     const dispatch = useDispatch()
-
 
     const saveExercise = async (exerciseName, targetMuscle) => {
         try {
             const newExercise = await exerciseService.createNew(exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
             console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
             dispatch(createExercise(newExercise))
+            toast.success('New exercsise created!')
             handleClose()
-            toast.success('New exercsise saved!')
         } catch (err) {
-            toast.error(err.response.data.message)
-            setError(err.response.data.message)
+            toast.error(err.response)
         }
-        
+
     }
 
     return (
         <>
-            <Typography variant='h5'>Add a new exercise</Typography>
+            <Stack direction={'row'} spacing={0} justifyContent={'center'}>
+                <Typography variant='h5'>Create a new exercise</Typography>
+            </Stack>
             <ExerciseForm
                 handleClose={handleClose}
                 handleSave={saveExercise}
-                error={error}
+                confirmButton={confirmButton}
             />
         </>
     );

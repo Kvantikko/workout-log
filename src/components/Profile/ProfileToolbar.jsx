@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import LogoutIcon from '@mui/icons-material/Logout';
 
+import ConfirmationModal from "../Modals/ConfirmationModal"
+
 const ProfileToolbar = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -20,7 +22,7 @@ const ProfileToolbar = () => {
             <Typography variant="h6" component="div">
                 Profile
             </Typography>
-            <Button
+            {/* <Button
                 variant="contained"
                 color="error"
                 onClick={handleLogout}
@@ -29,8 +31,20 @@ const ProfileToolbar = () => {
                     <div>logout</div>
                     <LogoutIcon />
                 </Stack>
+            </Button> */}
 
-            </Button>
+            <ConfirmationModal
+                modalType='logoutModal'
+                color='info'
+                openButton={
+                    <Stack direction={'row'} spacing={2}>
+                        <div>logout</div>
+                        <LogoutIcon />
+                    </Stack>
+                }
+                confirmButton='Yes'
+                confirmFunction={handleLogout}
+            />
         </>
     )
 }

@@ -30,6 +30,7 @@ const SaveWorkoutModal = ({ handleClose }) => {
     const email = useSelector(state => state.user.email)
     const exercises = useSelector(state => state.exercises)
     const sets = useSelector(state => state.sets)
+    
     const [input, setInput] = useState(workoutName)
     const [inputError, setInputError] = useState('')
 

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createExercise } from '../../redux/reducers/exerciseLibraryReducer'
 import dayjs from 'dayjs'
-import ExerciseForm from './ExerciseForm'
+import ExerciseForm from '../Forms/ExerciseForm'
 
 import exerciseService from '../../services/exercises'
 

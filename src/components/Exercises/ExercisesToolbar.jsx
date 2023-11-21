@@ -14,6 +14,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded'
 import CancelIcon from '@mui/icons-material/Cancel'
 import ClearIcon from '@mui/icons-material/Clear';
+import FormModal from '../Modals/FormModal';
 
 
 const ExercisesToolbar = ({ input, setInput, setOpen }) => {
@@ -43,14 +44,14 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
     }
 
     const handleClear = (event) => {
-       
+
         inputRef.current.focus()
         //event.stopPropagation()
     }
 
     const handleMouseDown = (event) => {
         event.preventDefault()
-      
+
         //event.stopPropagation()
         setInput('')
         inputRef.current.focus()
@@ -68,9 +69,26 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                         <Button color='info' variant="contained" onClick={handleSearchClick} >
                             <SearchIcon />
                         </Button>
-                        <Button color='info' variant="contained" onClick={() => setOpen(true)}  >
+
+                        <FormModal
+                            //menuItem={false}
+                            modalType='createExercise'
+                            color='info'
+                            openButton={
+                                <AddIcon />
+                            }
+                            confirmButton='Create'
+                            //confirmFunction={deleteExercise}
+                            //object={exercise}
+                            //handleMenuClose={handleClose}
+                        />
+
+
+                        {/* <Button color='info' variant="contained" onClick={() => setOpen(true)}  >
                             <AddIcon />
-                        </Button>
+                        </Button> */}
+
+
                     </Stack>
                 </>
             }
