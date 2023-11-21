@@ -25,6 +25,7 @@ import HistoryModalMenu from "./HistoryModalMenu";
 import ModalRoot from "../Modals/ModalRoot";
 
 import { useEffect, useState } from "react";
+import ConfirmationModal from "../Modals/ConfirmationModal";
 
 
 
@@ -48,6 +49,7 @@ const HistoryListItem = ({ workout }) => {
             setShowModal(true)
             return
         }
+
         navigate('/workout')
         clear()
         dispatch(copyWorkout({ title: workout.title, exercises: workout.workoutExercises }))
@@ -66,7 +68,7 @@ const HistoryListItem = ({ workout }) => {
     return (
         <Stack padding={1.5} spacing={0}>
 
-            <ModalRoot open={showModal} setOpen={setShowModal} modalType={"confirmCopyModal"} copyFunction={handleCopy} />
+           {/*  <ModalRoot open={showModal} setOpen={setShowModal} modalType={"confirmCopyModal"} copyFunction={handleCopy} /> */}
 
             {/* DATE */}
             <Typography align='center' variant="h5" noWrap >
@@ -83,16 +85,31 @@ const HistoryListItem = ({ workout }) => {
                         <Typography variant="h5" noWrap >
                             {workout.title}
                         </Typography>
-                        <HistoryModalMenu />
+                        <HistoryModalMenu workout={workout}/>
                     </Stack>
 
                     {/* WORKOUT_EXERCISE LIST */}
                     <WorkoutExerciseList workoutExercises={workout.workoutExercises} />
 
                     {/* PERFORM AGAIN BUTTON */}
+                    <ConfirmationModal
+                        showModal={showModal}
+                        closeFromParent={setShowModal}
+                        hideOpenButton='true'
+                       // menuItem={true}
+                        modalType='confirmCopyModal'
+                        color='info'
+                        openButton={
+                            'Perform again'
+                        }
+                        //confirmButton='Delete'
+                        confirmFunction={handleCopy}
+                        //handleMenuClose={handleClose}
+                    />
                     <Button
                         // component={Link}
                         //to='/workout'
+                        color="info"
                         variant="contained" onClick={(event) => handleCopy(event)} >
                         Perform again
                     </Button>

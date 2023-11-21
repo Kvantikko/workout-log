@@ -8,8 +8,9 @@ import ConfirmCopyModal from './ConfirmCopyModal'
 import DeleteUserModal from './DeleteUserModal'
 import EditUserModal from './EditUserModal'
 import LogoutModal from './LogoutModal'
+import DeleteWorkoutModal from './DeleteWorkoutModal'
 
-export const renderModalChildren = (modalType, confirmFunction, confirmButton, object ) => {
+export const renderModalChildren = (modalType, confirmFunction, confirmButton, object) => {
     //console.log("RENDERMODALCHILD FUNC PROPS: ", modalType, handleClose, confirmFunction, confirmButton, color);
     switch (modalType) {
         case "editUserModal":
@@ -17,7 +18,7 @@ export const renderModalChildren = (modalType, confirmFunction, confirmButton, o
         case "deleteExercise":
             return <DeleteExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "editExercise":
-            return <EditExerciseModal  confirmFunction={confirmFunction} confirmButton={confirmButton} exercise={object} />
+            return <EditExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} exercise={object} />
         case "createExercise":
             return <CreateExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "cancelWorkout":
@@ -29,16 +30,19 @@ export const renderModalChildren = (modalType, confirmFunction, confirmButton, o
         case "confirmCopyModal":
             return <ConfirmCopyModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         default:
-            return <div>nothing</div>
+            return <div>Not yet implemented</div>
     }
 }
 
 export const renderModalText = (modalType) => {
+
     switch (modalType) {
         case "logoutModal":
             return <LogoutModal />
         case "deleteUserModal":
             return <DeleteUserModal />
+        case "deleteWorkoutModal":
+            return <DeleteWorkoutModal />
         case "deleteExercise":
             return <DeleteExerciseModal />
         case "editExercise":
@@ -54,7 +58,7 @@ export const renderModalText = (modalType) => {
         case "confirmCopyModal":
             return <ConfirmCopyModal />
         default:
-            return <div>nothing</div>
+            return <div>Not yet implemented</div>
     }
 }
 

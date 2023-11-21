@@ -74,7 +74,7 @@ const FixedBottomNavigation = () => {
                             sessionStorage.setItem("scrollPosition", window.scrollY);
                         }
                         
-                        console.log("SESSION STOR ", sessionStorage.getItem("scrollPosition"));
+                        //console.log("SESSION STOR ", sessionStorage.getItem("scrollPosition"));
                         //console.log("newvalue ", newPageIndex);
                         //setPageIndex(newPageIndex);
                     }}

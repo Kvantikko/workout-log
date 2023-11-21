@@ -15,13 +15,16 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ConfirmationModal from '../Modals/ConfirmationModal';
 import { toast } from 'react-toastify';
 
-import exerciseService from '../../services/exercises'
+import workoutService from '../../services/workouts'
 import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer';
 import FormModal from '../Modals/FormModal';
 import ModalRoot from '../Modals/ModalRoot'
 import { useNavigate } from 'react-router-dom';
 
+import { removeFromHistory } from '../../redux/reducers/historyReducer';
+
 const HistoryModalMenu = ({ workout }) => {
+    //console.log("SSSSSSSSSS ", workout );
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -34,7 +37,7 @@ const HistoryModalMenu = ({ workout }) => {
     }
 
     const handleClose = () => {
-        console.log("handling close");
+       // console.log("handling close");
         setAnchorEl(null)
     }
 
@@ -48,11 +51,11 @@ const HistoryModalMenu = ({ workout }) => {
 
     const deleteWorkout = async () => { // infinte request spam servulle jos deleteExercise ja removeExercise sama nimi
         try {
-            const response = await exerciseService.remove(exercise?.id)
-            dispatch(removeExercise(exercise.id))
+            const response = await workoutService.remove(workout?.id)
+            dispatch(removeFromHistory(workout?.id))
             handleClose()
-            toast.success("Exercise deleted succesfully!");
-            navigate('/exercises')
+            toast.success("Workoutdeleted succesfully!");
+            //navigate('/exercises')
         } catch (error) {
             toast.error(error.message)
         }
@@ -99,7 +102,7 @@ const HistoryModalMenu = ({ workout }) => {
                 /> 
                 <ConfirmationModal
                     menuItem={true}
-                    modalType='deleteWorkout'
+                    modalType='deleteWorkoutModal'
                     color='error'
                     openButton={
                         <Stack direction={'row'} spacing={1}>

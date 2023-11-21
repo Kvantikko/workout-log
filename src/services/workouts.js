@@ -51,6 +51,7 @@ const update = async (id, name, muscle ) => {
 }
 
 const remove = (id) => {
+    console.log("AXIOS REMOVE WORKOUT, ID: ", id);
     const config = {
         headers: {
             Authorization: token

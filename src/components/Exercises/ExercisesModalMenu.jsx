@@ -102,6 +102,30 @@ const ExercisesModalMenu = ({ exercise, showDateRange }) => {
                 MenuListProps={{
                     'aria-labelledby': 'basic-button',
                 }}>
+                {showDateRange &&
+                    <FormModal
+                        menuItem={true}
+                        modalType='pickDateModal'
+                        //color=''
+                        openButton={
+                            <Stack direction="row" spacing={1}>
+                                <CalendarMonthIcon color='info' />
+                                <div>Date</div>
+                            </Stack>
+                        }
+                        //confirmButton='Delete forever'
+                        //confirmFunction={deleteExercise}
+                        handleMenuClose={handleClose}
+                    //object={exercise}
+                    />
+
+                    /*   <MenuItem onClick={(event) => handleMenuClick(event, "pickDateModal")}>
+                          <Stack direction="row" spacing={1}>
+                              <CalendarMonthIcon />
+                              <div>Range</div>
+                          </Stack>
+                      </MenuItem> */
+                }
                 <FormModal
                     onClick={() => {
                         console.log("clickity click");
@@ -143,34 +167,7 @@ const ExercisesModalMenu = ({ exercise, showDateRange }) => {
                     confirmFunction={deleteExercise}
                     handleMenuClose={handleClose}
                 />
-
-
-                {showDateRange &&
-                    <FormModal
-                        menuItem={true}
-                        modalType='pickDateModal'
-                        //color=''
-                        openButton={
-                            <Stack direction="row" spacing={1}>
-                                <CalendarMonthIcon color='info' />
-                                <div>Date</div>
-                            </Stack>
-                        }
-                        //confirmButton='Delete forever'
-                        //confirmFunction={deleteExercise}
-                        handleMenuClose={handleClose}
-                    //object={exercise}
-                    />
-
-                    /*   <MenuItem onClick={(event) => handleMenuClick(event, "pickDateModal")}>
-                          <Stack direction="row" spacing={1}>
-                              <CalendarMonthIcon />
-                              <div>Range</div>
-                          </Stack>
-                      </MenuItem> */
-                }
             </Menu>
-            {/*  <ModalRoot open={showModal} setOpen={setShowModal} openButtonText={"kaka"} title={"kaka"} modalType={modalType} exercise={exercise} /> */}
         </Box>
     );
 }

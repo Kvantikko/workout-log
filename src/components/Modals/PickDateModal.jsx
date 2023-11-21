@@ -18,7 +18,7 @@ const PickDateModal = () => {
     return (
         <>
             <DateRangeForm
-                title={'Show exercise history between a date range'}
+                title={'Show history between a date range'}
             />
         </>
     )

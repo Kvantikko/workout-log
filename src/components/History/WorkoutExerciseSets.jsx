@@ -3,7 +3,7 @@ import generateId from "../../utils/generateId"
 
 const WorkoutExerciseSets = ({ workoutExerciseSets }) => {
 
-    console.log("WORKOUT EXERCISE SETS ", workoutExerciseSets);
+   // console.log("WORKOUT EXERCISE SETS ", workoutExerciseSets);
 
     const renderArray = (title, setArray) => {
         if (setArray.length === 0) {

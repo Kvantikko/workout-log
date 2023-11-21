@@ -1,30 +1,17 @@
-import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { createExercise } from '../../redux/reducers/exerciseLibraryReducer'
-import dayjs from 'dayjs'
-import ExerciseForm from '../Forms/ExerciseForm'
-
-import exerciseService from '../../services/exercises'
-
-import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-import { style } from './Helper'
-
+import { Box, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material'
+import WarningIcon from '@mui/icons-material/Warning';
 
 const ConfirmCopyModal = ({ handleClose, copyFunction }) => {
     return (
         <>
-            <h2>Workout in progress</h2>
-            <h4>
+            <Stack direction={'row'} spacing={1} justifyContent={'center'}>
+                <WarningIcon color='warning' fontSize='large' />
+                <Typography variant='h4'>Warning!</Typography>
+            </Stack>
+            <Typography>
                 You have a workout in progress,
                 are you sure you want to override the current workout?
-            </h4>
-
-            <Stack direction={"row"} alignContent={"center"}>
-                <Button variant="outlined" onClick={handleClose}>Cancel</Button>
-                <Button variant="contained" onClick={copyFunction}>Yes</Button>
-            </Stack>
+            </Typography>
         </>
     )
 }

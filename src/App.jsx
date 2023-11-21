@@ -92,8 +92,8 @@ const App = () => {
     const authenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
     const navigate = useNavigate()
 
-    console.log("Rendering App.jsx ", authenticated);
-    console.log("Rendering App.jsxakaka ", user);
+    //console.log("Rendering App.jsx ", authenticated);
+    //console.log("Rendering App.jsxakaka ", user);
 
     const dispatch = useDispatch() // react-redux | tätä funktiota käytetään actionien dispatchaamiseen
 
@@ -118,7 +118,7 @@ const App = () => {
                 .getAllUserWorkouts(user.email)
                 .then((response) => {
                     const workouts = response
-                    console.log("EFFECT workouts response: ", workouts);
+                   // console.log("EFFECT workouts response: ", workouts);
                     dispatch(setWorkouts(workouts))
                 })
                 .catch(error => {
