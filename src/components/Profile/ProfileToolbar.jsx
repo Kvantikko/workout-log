@@ -1,5 +1,5 @@
 import { Button, Container, Stack, Box, Typography } from "@mui/material"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../../redux/reducers/userReducer"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -13,7 +13,8 @@ import { useState } from "react"
 import { darkModeOn, darkModeOff } from "../../redux/reducers/darkModeReducer"
 
 const ProfileToolbar = () => {
-    const [darkmode, setDarkmode] = useState(false)
+    const darkModeState = useSelector(state => state.darkMode)
+    const [darkmode, setDarkmode] = useState(darkModeState)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -25,10 +26,13 @@ const ProfileToolbar = () => {
     }
 
     const handleDarkmode = () => {
+        console.log("handling darkmode");
         if (darkmode) {
+            console.log("darkmode true");
             setDarkmode(false)
             dispatch(darkModeOff())
         } else {
+            console.log("darkmode false");
             setDarkmode(true)
             dispatch(darkModeOn())
         }

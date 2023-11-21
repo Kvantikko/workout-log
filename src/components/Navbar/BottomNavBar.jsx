@@ -14,6 +14,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import { useSelector } from 'react-redux';
 //import { makeStyles } from '@mui/styles'; 
 
 /* const useStyles = makeStyles({
@@ -32,6 +33,8 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
 const FixedBottomNavigation = () => {
     const ref = React.useRef(null)
+
+    const darkMode = useSelector(state => state.darkMode)
 
 
     const location = useLocation()
@@ -66,70 +69,68 @@ const FixedBottomNavigation = () => {
             <CssBaseline />
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
                 <BottomNavigation
-                
+
                     showLabels
                     value={pageIndex()}
                     onChange={(event, newPageIndex) => {
                         if (pageIndex() === 0) {
                             sessionStorage.setItem("scrollPosition", window.scrollY);
                         }
-                        
-                        //console.log("SESSION STOR ", sessionStorage.getItem("scrollPosition"));
-                        //console.log("newvalue ", newPageIndex);
-                        //setPageIndex(newPageIndex);
                     }}
-                    sx={{
-                        //width: "100%",
-                        //position: "fixed",
-                        //bottom: 0,
+                    sx={darkMode ?
+                        {
 
-                        //overflow: "auto",
-                        //justifyContent: "left",
-
-                        //backgroundColor: "#434445",
-                        //display: 'inline',
-                        //mx: 1
-                        bgcolor: "#1565c0",
-
-                        "& .MuiBottomNavigationAction-root": {
-                            "@media (max-width: 768px)": {
-                                minWidth: "auto",
-                                padding: "6px 0"
-                            }
-                        },
-
-                        '& .MuiSvgIcon-root, & .MuiBottomNavigationAction-label': {
-                            //color: theme => theme.palette.secondary.main
-                            color: 'white'
-                        },
-                        '& .Mui-selected': {
-                            //bgcolor: theme => theme.palette.primary.main,
-                            //borderTop: `2px solid ${theme => theme.palette.secondary.light}`,
-                            borderTop: `3px solid #ffb74d`,
-                            '& .MuiBottomNavigationAction-label': {
-                                fontSize: theme => theme.typography.caption,
-                                //transition: 'none',
-                                fontWeight: 'bold',
-                                lineHeight: '20px',
-                                //bgcolor: "black",
+                            bgcolor: "rgba(255, 255, 255, 0.08)",
+                            "& .MuiBottomNavigationAction-root": {
+                                "@media (max-width: 768px)": {
+                                    minWidth: "auto",
+                                    padding: "6px 0"
+                                }
                             },
-                            /* '& .MuiSvgIcon-root, & .MuiBottomNavigationAction-label': {
-                                //color: theme => theme.palette.secondary.main
-                                color: 'white',
-                                
-                            } */
-                            '& .MuiSvgIcon-root': {
-                                //color: theme => theme.palette.secondary.main
-                                color: theme => theme.palette.warning.light
-                                
-                            },
-                            '& .MuiBottomNavigationAction-label': {
-                                //color: theme => theme.palette.secondary.main
-                                color: 'white',
-                                borderTop: "none",       
-                            } 
                         }
-                    }}
+                        :
+                        {
+                            bgcolor: "#1565c0",
+
+                            "& .MuiBottomNavigationAction-root": {
+                                "@media (max-width: 768px)": {
+                                    minWidth: "auto",
+                                    padding: "6px 0"
+                                }
+                            },
+
+                            '& .MuiSvgIcon-root, & .MuiBottomNavigationAction-label': {
+                                //color: theme => theme.palette.secondary.main
+                                color: 'white'
+                            },
+                            '& .Mui-selected': {
+                                //bgcolor: theme => theme.palette.primary.main,
+                                //borderTop: `2px solid ${theme => theme.palette.secondary.light}`,
+                                borderTop: `3px solid #ffb74d`,
+                                '& .MuiBottomNavigationAction-label': {
+                                    fontSize: theme => theme.typography.caption,
+                                    //transition: 'none',
+                                    fontWeight: 'bold',
+                                    lineHeight: '20px',
+                                    //bgcolor: "black",
+                                },
+                                /* '& .MuiSvgIcon-root, & .MuiBottomNavigationAction-label': {
+                                    //color: theme => theme.palette.secondary.main
+                                    color: 'white',
+                                    
+                                } */
+                                '& .MuiSvgIcon-root': {
+                                    //color: theme => theme.palette.secondary.main
+                                    color: theme => theme.palette.warning.light
+
+                                },
+                                '& .MuiBottomNavigationAction-label': {
+                                    //color: theme => theme.palette.secondary.main
+                                    color: 'white',
+                                    borderTop: "none",
+                                }
+                            }
+                        }}
                 >
                     {['Workout', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
                         <BottomNavigationAction
