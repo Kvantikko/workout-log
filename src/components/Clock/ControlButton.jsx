@@ -15,15 +15,24 @@ export default function ControlButtons(props) {
         </div>
     );
     const ActiveButtons = (
-        <Box sx={{ alignItems: 'center', margin: 'auto' }}>
-            <Stack spacing={2} sx={{ justifyContent: 'space-between', alignItems: 'center', margin: 'auto' }}>
-                <Button variant="secondary" onClick={props.handleReset}>
+        <Box
+            justifyContent={'center'}
+            alignContent={'center'}
+            alignItems={'center'}
+            //display={'flex'}
+            //flexDirection={'row'}
+            gap={2}
+            /* sx={{
+                alignItems: 'center',
+                margin: 'auto'
+            }} */
+            >
+                <Button variant="secondary" sx={{ margin: 0 }} onClick={props.handleReset}>
                     <CloseIcon></CloseIcon>
                 </Button>
-                <Button variant="contained" onClick={props.handlePauseResume}>
+                <Button variant="contained"  sx={{ marginY: 2 }} onClick={props.handlePauseResume}>
                     {props.isPaused ? <PlayArrowIcon /> : <PauseIcon />}
                 </Button>
-            </Stack>
         </Box>
     );
 

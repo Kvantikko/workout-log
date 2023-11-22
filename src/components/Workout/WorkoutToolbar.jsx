@@ -36,7 +36,7 @@ const WorkoutToolbar = () => {
             {workoutStarted &&
                 <Stack direction={"row"} spacing={1} >
                     {!stopWatchIsActive &&
-                        <Button color='info' variant="contained" onClick={() => dispatch(startWatch())}>
+                        <Button  variant="contained" onClick={() => dispatch(startWatch())}>
                             <TimerIcon />
                         </Button>}
                     <Button

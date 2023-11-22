@@ -15,7 +15,7 @@ const HistoryToolbar = () => {
             <FormModal
                 menuItem={false}
                 modalType='pickDateModal'
-                color='info'
+                //color='info'
                 openButton={
                     <Stack direction="row" spacing={1}>
                         <CalendarMonthIcon />

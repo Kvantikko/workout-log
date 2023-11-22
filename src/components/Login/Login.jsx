@@ -171,6 +171,7 @@ const Login = (props) => {
             //minWidth="75vh"
             paddingX={3}
             gap={3}
+            //sx={{ backgroundColor: 'black' }}
         >
             <Typography variant="h4" textAlign="center">WORKOUT LOG</Typography>
             <Typography variant="h5">{typography[0]}</Typography>

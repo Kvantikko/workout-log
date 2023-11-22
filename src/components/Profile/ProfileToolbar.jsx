@@ -46,7 +46,7 @@ const ProfileToolbar = () => {
             <Stack direction={'row'} spacing={2}>
                 <Button
                     variant="contained"
-                    color="info"
+                    //color="info"
                     onClick={handleDarkmode}
                 >
                     {darkmode ? <LightModeIcon /> : <DarkModeIcon />}
@@ -54,7 +54,7 @@ const ProfileToolbar = () => {
 
                 <ConfirmationModal
                     modalType='logoutModal'
-                    color='info'
+                    //color='info'
                     openButton={
                         <Stack direction={'row'} spacing={2}>
                             <div>logout</div>

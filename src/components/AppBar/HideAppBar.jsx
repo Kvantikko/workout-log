@@ -130,7 +130,7 @@ const HideAppBar = (props) => {
                         </Stack>
                     </Toolbar>
                     {workoutStarted && stopWatchIsActive &&
-                        <Toolbar>
+                        <Toolbar sx={{ justifyContent: "center" }} /* justifyContent={"center"} */>
                             <StopWatch></StopWatch>
                         </Toolbar>
                     }

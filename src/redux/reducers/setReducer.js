@@ -11,7 +11,11 @@ const setSlice = createSlice({
         addSet: (state, action) => {
             const setToAdd = action.payload
             //console.log("STATE ", JSON.parse(JSON.stringify(state)));
-            state.push(setToAdd);
+            const setWithDoneField = {
+                ...setToAdd,
+                done: false
+            }
+            state.push(setWithDoneField);
             return state
         },
         deleteSet: (state, action) => {

@@ -71,7 +71,7 @@ const Profile = ({ user }) => {
                 <Stack spacing={2}>
                     <FormModal
                         modalType='editUserModal'
-                        color='info'
+                        //color='info'
                         openButton={
                             <Stack direction={'row'} spacing={1}>
                                 <EditIcon />

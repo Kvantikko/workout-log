@@ -31,6 +31,7 @@ import ConfirmationModal from "../Modals/ConfirmationModal";
 
 const HistoryListItem = ({ workout }) => {
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
+    const darkMode = useSelector(state => state.darkMode)
     const [showModal, setShowModal] = useState(false)
 
     const dispatch = useDispatch()
@@ -68,8 +69,6 @@ const HistoryListItem = ({ workout }) => {
     return (
         <Stack padding={1.5} spacing={0}>
 
-           {/*  <ModalRoot open={showModal} setOpen={setShowModal} modalType={"confirmCopyModal"} copyFunction={handleCopy} /> */}
-
             {/* DATE */}
             <Typography align='center' variant="h5" noWrap >
                 {formatDateTime(workout.createdAt, true)}
@@ -77,15 +76,34 @@ const HistoryListItem = ({ workout }) => {
             <Divider />
 
             {/* THE WHOLE BUTTON     <ListItemButton/>   */}
-            <Box padding={1} sx={{ minWidth: 1, overflow: "hidden", textOverflow: 'ellipsis', backgroundColor: "#d8e0ed" }} >
-                <Stack spacing={2} sx={{ minWidth: 1, justifyContent: 'space-between', /* backgroundColor: "red" */ }}>
+            <Box
+                padding={1}
+                sx={darkMode ? {
+                    minWidth: 1,
+                    overflow: "hidden",
+                    textOverflow: 'ellipsis',
+                    backgroundColor: "rgba(255, 255, 255, 0.12)"
+                } : {
+                    minWidth: 1,
+                    overflow: "hidden",
+                    textOverflow: 'ellipsis',
+                    backgroundColor: "#d8e0ed"
+                }}
+            >
+                <Stack
+                    spacing={2}
+                    sx={{
+                        minWidth: 1,
+                        justifyContent: 'space-between',
+                        // backgroundColor: "red"
+                    }}>
 
                     {/* WORKOUT TITLE */}
                     <Stack direction={'row'} justifyContent={'space-between'}>
                         <Typography variant="h5" noWrap >
                             {workout.title}
                         </Typography>
-                        <HistoryModalMenu workout={workout}/>
+                        <HistoryModalMenu workout={workout} />
                     </Stack>
 
                     {/* WORKOUT_EXERCISE LIST */}
@@ -96,20 +114,20 @@ const HistoryListItem = ({ workout }) => {
                         showModal={showModal}
                         closeFromParent={setShowModal}
                         hideOpenButton='true'
-                       // menuItem={true}
+                        // menuItem={true}
                         modalType='confirmCopyModal'
-                        color='info'
+                        //color='info'
                         openButton={
                             'Perform again'
                         }
                         //confirmButton='Delete'
                         confirmFunction={handleCopy}
-                        //handleMenuClose={handleClose}
+                    //handleMenuClose={handleClose}
                     />
                     <Button
                         // component={Link}
                         //to='/workout'
-                        color="info"
+                        //color="info"
                         variant="contained" onClick={(event) => handleCopy(event)} >
                         Perform again
                     </Button>

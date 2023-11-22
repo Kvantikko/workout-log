@@ -20,6 +20,7 @@ import WorkoutExerciseSets from "./WorkoutExerciseSets";
 
 
 const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
+    
 
     console.log("LIST, WORKOUTEXERCISES: ", workoutExercises);
 
@@ -29,7 +30,7 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
                 <ListItem
                     key={exercise.id}
                     //disablePadding
-                    sx={{ minWidth: 1, backgroundColor: "#d8e0ed" }}
+                    
                 >
                     {console.log("MAPPING ARRAY OF WORKOUTEXERCISES, EXERCISE: ", exercise)}
 

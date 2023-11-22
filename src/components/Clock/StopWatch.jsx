@@ -1,78 +1,53 @@
-
-import React, { useState } from "react";
-//import "./StopWatch.css";
-import Timer from "./Timer";
-import ControlButtons from "./ControlButton";
-import { Container, Stack, Typography } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { pauseWatch, startWatch, stopWatch } from "../../redux/reducers/stopWatchReducer";
-
-
+import StopWatchWorker from 'worker-loader!./stopwatch-worker'; // Adjust the path
 
 function StopWatch() {
-    const dispatch = useDispatch()
-    const isActive = useSelector(state => state.stopWatch.isActive)
-    const isPaused = useSelector(state => state.stopWatch.isPaused)
-    //const [isActive, setIsActive] = useState(false);
-    //const [isPaused, setIsPaused] = useState(true);
-    const [time, setTime] = useState(0);
-    //const [timerSize, setTimerSize] = useState("")
-    const timerSize = useSelector(state => state.stopWatch.timerSize)
+  const dispatch = useDispatch();
+  const isActive = useSelector((state) => state.stopWatch.isActive);
+  const isPaused = useSelector((state) => state.stopWatch.isPaused);
+  const [time, setTime] = useState(0);
+  const timerSize = useSelector((state) => state.stopWatch.timerSize);
+  const workerRef = useRef();
 
-    React.useEffect(() => {
-        let interval = null;
+  useEffect(() => {
+    workerRef.current = new StopWatchWorker();
 
-        if (isActive && isPaused === false) {
-            interval = setInterval(() => {
-                setTime((time) => time + 10);
-            }, 10);
-        } else {
-            clearInterval(interval);
-        }
-        return () => {
-            clearInterval(interval);
-        };
-    }, [isActive, isPaused]);
-
-    const handleStart = () => {
-        //setIsActive(true);
-        //setIsPaused(false);
-        dispatch(startWatch())
-        setTimerSize("h2")
+    workerRef.current.onmessage = (e) => {
+      setTime(e.data);
     };
 
-    const handlePauseResume = () => {
-        //setIsPaused(!isPaused);
-        dispatch(pauseWatch())
+    return () => {
+      workerRef.current.terminate();
     };
+  }, []);
 
-    const handleReset = () => {
-        //setIsActive(false);
-        dispatch(stopWatch())
-        setTime(0);
-        //setTimerSize("")
-    };
+  const handleStart = () => {
+    workerRef.current.postMessage('start');
+    dispatch(startWatch());
+  };
 
-    return (
-        <div >
-            <Stack direction={"row"} spacing={3} justifyContent={"center"}>
-                <Typography variant={timerSize}>
-                    <Timer time={time} />
-                </Typography>
-                <Container sx={{ justifyContent: 'space-between', alignItems: 'center', margin: 'auto' }}>
-                    <ControlButtons
-                        sx={{ justifyContent: 'space-between', alignItems: 'center', margin: 'auto' }}
-                        active={isActive}
-                        isPaused={isPaused}
-                        handleStart={handleStart}
-                        handlePauseResume={handlePauseResume}
-                        handleReset={handleReset}
-                    />
-                </Container>
+  const handlePauseResume = () => {
+    workerRef.current.postMessage(isPaused ? 'start' : 'pause');
+    dispatch(pauseWatch());
+  };
 
-            </Stack>
-        </div>
-    );
+  const handleReset = () => {
+    workerRef.current.postMessage('reset');
+    dispatch(stopWatch());
+    setTime(0);
+  };
+
+  return (
+    <>
+      <Typography variant={timerSize} textAlign={"center"}>
+        {time}
+      </Typography>
+      {/* Rest of your component */}
+    </>
+  );
 }
 
 export default StopWatch;

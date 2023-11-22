@@ -18,7 +18,6 @@ import Exercise from './components/Exercise/Exercise'
 import History from './components/History/History'
 import Profile from './components/Profile/Profile'
 import Login from './components/Login/Login'
-import Register from './components/Register/Register'
 
 import StopWatch from './components/Clock/StopWatch'
 
@@ -284,10 +283,12 @@ const App = () => {
                                     <Navigate to="/workout" />
                                 </ProtectedRoute>}
                             />
-
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/register" element={<Register />} />
+                            <Route
+                                path="/login"
+                                element={<Login />}
+                            />
                         </Routes>
+                        
                         <ToastContainer
                             className="toast-position"
                             position="bottom-center"

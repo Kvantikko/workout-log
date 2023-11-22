@@ -66,14 +66,18 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                         Exercises
                     </Typography>
                     <Stack direction="row" spacing={2}>
-                        <Button color='info' variant="contained" onClick={handleSearchClick} >
+                        <Button
+                            //color='info'
+                            variant="contained"
+                            onClick={handleSearchClick}
+                        >
                             <SearchIcon />
                         </Button>
 
                         <FormModal
                             //menuItem={false}
                             modalType='createExercise'
-                            color='info'
+                            //color='info'
                             openButton={
                                 <AddIcon />
                             }
@@ -82,13 +86,6 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                             //object={exercise}
                             //handleMenuClose={handleClose}
                         />
-
-
-                        {/* <Button color='info' variant="contained" onClick={() => setOpen(true)}  >
-                            <AddIcon />
-                        </Button> */}
-
-
                     </Stack>
                 </>
             }

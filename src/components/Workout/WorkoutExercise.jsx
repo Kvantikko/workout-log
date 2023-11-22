@@ -128,14 +128,14 @@ const WorkoutExercise = ({ exerciseId, name }) => { // deleteExercise
 
     return (
 
-        <Box sx={{ alignItems: 'center', backgroundColor: "white" }}>
-            <Stack direction={"row"} sx={{ justifyContent: "space-between", backgroundColor: "white" }}>
+        <Box sx={{ alignItems: 'center' }}>
+            <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
                 <Typography variant="h6">{name}</Typography>
                 <Button variant="outlined" color="error" onClick={() => removeExercise(exerciseId)}>
                     <DeleteIcon />
                 </Button>
             </Stack>
-            <Stack direction={"row"} spacing={6} sx={{ justifyContent: "space-between", backgroundColor: "white", my: 1 }}>
+            <Stack direction={"row"} spacing={6} sx={{ justifyContent: "space-between", my: 1 }}>
                 <Box sx={{ width: 20 }}>Set</Box>
                 <Box sx={{ width: 70 }}>Kg</Box>
                 <Box sx={{ width: 70 }}>Reps</Box>
