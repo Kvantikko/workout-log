@@ -109,7 +109,6 @@ const SaveWorkoutModal = ({ handleClose }) => {
                 gap={1.5}
             >
                 <Button variant="contained" onClick={saveWorkoutToDb}>Save to database</Button>
-                <Button variant="outlined" onClick={handleClose}>Keep logging</Button>
             </Box>
         </>
     )
