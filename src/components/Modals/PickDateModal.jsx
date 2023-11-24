@@ -13,12 +13,13 @@ import { style } from './Helper'
 import DateRangeForm from '../Forms/DateRangeForm'
 
 
-const PickDateModal = () => {
+const PickDateModal = ({ confirmFunction }) => {
 
     return (
         <>
             <DateRangeForm
                 title={'Show history between a date range'}
+                filterFunction={confirmFunction}
             />
         </>
     )

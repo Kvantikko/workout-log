@@ -76,10 +76,15 @@ const WorkoutExercise = ({ exerciseId, name }) => { // deleteExercise
         // copying last done set values 
         if (!(sets.length === 0)) {
             let lastSet = sets[sets.length - 1]
-            // console.log(lastSet);
+            console.log("all sets ", sets);
+            console.log("last set ", lastSet);
             weight = lastSet.weight
             reps = lastSet.reps
         }
+
+        console.log("if over ");
+        console.log("weight: ", weight);
+        console.log("reps ", reps);
 
         const newSet = {
             id: generateId(),//setId,
@@ -89,6 +94,8 @@ const WorkoutExercise = ({ exerciseId, name }) => { // deleteExercise
             weight: weight,
             reps: reps
         }
+
+        console.log("This is the new set: ", newSet, " dispatching...");
 
         dispatch(addSet(newSet))
 
@@ -109,7 +116,7 @@ const WorkoutExercise = ({ exerciseId, name }) => { // deleteExercise
         return (
             <Stack spacing={0}  >
                 {sets.map((set, index) => {
-                    //console.log('mapping set:', set);
+                    console.log('mapping set:', set);
                     if (!set.warmup) {
                         //console.log('this is NOT a warmup set');
                         setNumber = setNumber + 1

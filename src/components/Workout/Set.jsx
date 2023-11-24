@@ -1,6 +1,6 @@
 import React from "react"
 import { useState } from "react"
-import { TextField, Button, Stack } from "@mui/material"
+import { TextField, Button, Stack, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 
 import DoneIcon from '@mui/icons-material/Done';
@@ -15,13 +15,12 @@ const Set = ({ set, number, index }) => {
     const [weight, _setWeight] = useState(set.weight)
     const [reps, _setReps] = useState(set.reps)
     const [color, setColor] = useState(set.done ? "rgba(25, 255, 255, 0.12)" : "") // only works darmodes
-   // const [color, setColor] = useState(set.done ? { darkMode ? "rgba(255, 255, 255, 0.12)" : "#c9ffcc"} : "")
-   console.log("----- Color ------ ", color);
+    // const [color, setColor] = useState(set.done ? { darkMode ? "rgba(255, 255, 255, 0.12)" : "#c9ffcc"} : "")
 
     const dispatch = useDispatch()
 
     const updateSet = (weight, reps, warmup) => {
-        const changedSet = { ...set, weight: parseInt(weight), reps: parseInt(reps), warmup }
+        const changedSet = { ...set, weight: parseFloat(weight), reps: parseFloat(reps), warmup }
         _setWeight(weight)
         _setReps(reps)
         dispatch(editSet({ setId: set.id, changedSet: changedSet }))
@@ -29,22 +28,15 @@ const Set = ({ set, number, index }) => {
 
     const removeSet = () => {
         if (index === 0) {
-            console.log("kayttäjälle ilmotus että pitää olla ainakin yksi setti");
-            return
+            /* console.log("kayttäjälle ilmotus että pitää olla ainakin yksi setti");
+            return */
         }
         dispatch(deleteSet(set.id))
     }
 
     const handleDoneClick = () => {
         if (color === "") {
-            /* if (darkMode) {
-                setColor("rgba(25, 255, 255, 0.12)")
-            } else {
-                setColor("#c9ffcc")
-            } */
-
             setColor("rgba(25, 255, 255, 0.12)")
-
             const changedSet = { ...set, done: true }
             dispatch(editSet({ setId: set.id, changedSet: changedSet }))
         } else {
@@ -57,36 +49,55 @@ const Set = ({ set, number, index }) => {
     return (
         <Stack direction={"row"} paddingX={1} spacing={1} sx={{ justifyContent: "space-between", py: 1, backgroundColor: color }}>
             <Button onClick={() => updateSet(weight, reps, !set.warmup)} sx={{ maxWidth: 0, minWidth: 0 }}>
-                {number === 0 ? <div>W</div> : number}
+                {number === 0 ? <Typography color={'#ffa726'}>W</Typography> : number}
             </Button>
 
             <TextField
                 variant="outlined" size="small"
                 style={{ width: 100, minWidth: 80 }}
-                id="outlined-number"
+                id="weight"
                 type="number"
                 defaultValue={weight}
                 min={0}
                 InputLabelProps={{
                     shrink: true
                 }}
-                inputProps={{ style: { textAlign: 'center' } }}
+                inputProps={{
+                    style: { textAlign: 'center' },
+                    min: 0,
+                    step: 2.5
+                }}
                 onChange={(e) => updateSet(e.target.value, reps, set.warmup)}
+                onKeyDown={(event) => {
+                    if (event?.key === '-' || event?.key === '+' || event?.key === '.') {
+                        event.preventDefault();
+                    }
+                }}
+              
             //margin="normal"
 
             />
             <TextField
                 variant="outlined" size="small"
                 style={{ width: 100, minWidth: 60 }}
-                id="outlined-number-2"
+                id="reps"
                 type="number"
                 defaultValue={reps}
                 min={0}
                 InputLabelProps={{
                     shrink: true,
                 }}
-                inputProps={{ style: { textAlign: 'center' } }}
+                inputProps={{
+                    style: { textAlign: 'center' },
+                    min: 0,
+                    step: 1
+                }}
                 onChange={(e) => updateSet(weight, e.target.value, set.warmup)}
+                onKeyDown={(event) => {
+                    if (event?.key === '-' || event?.key === '+' || event?.key === '.' || event?.key === ',') {
+                        event.preventDefault();
+                    }
+                }}
             //margin="normal"
             />
 

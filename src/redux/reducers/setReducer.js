@@ -28,9 +28,7 @@ const setSlice = createSlice({
         },
         editSet(state, action) {
             const setId = action.payload.setId
-            console.log("here we are in edit set reducer ", setId);
-            console.log("coonery ", JSON.parse(JSON.stringify(state[state.findIndex(set => set.id === setId)])));
-            console.log(action.payload.changedSet);
+          
     
             state[state.findIndex(set => set.id === setId)] = action.payload.changedSet
 

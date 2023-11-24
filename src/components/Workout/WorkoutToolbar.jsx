@@ -25,16 +25,20 @@ const WorkoutToolbar = () => {
     const exercises = useSelector(state => state.exercises)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const [showModal, setShowModal] = useState(false)
-    const [modalType, setModalType] = useState('')
 
     const dispatch = useDispatch()
 
-    const handleModalOpen = (type) => {
+    const handleModalOpen = () => {
         setShowModal(true)
-        setModalType(type)
     }
 
-
+    const handleFinishClick = () => {
+        if (exercises.length === 0) {
+            toast.warning('Add at least one exercise before finishing!')
+            return
+        }
+        handleModalOpen()
+    }
 
     const handleClear = () => {
         dispatch(clearWorkout())
@@ -49,9 +53,20 @@ const WorkoutToolbar = () => {
             <Typography variant="h6" component="div">
                 Workout
             </Typography>
-            <ModalRoot open={showModal} modalType={modalType} setOpen={setShowModal} />
+            <FormModal
+                hideOpenButton='true'
+                showModal={showModal}
+                closeFromParent={setShowModal}
+                modalType='saveWorkout'
+                color='success'
+                openButton={
+                    <CheckCircleOutlineIcon />
+                }
+            //confirmButton=''
+            //confirmFunction={handleClear}
+            />
             {workoutStarted &&
-                <Stack direction={"row"} spacing={1} >
+                <Stack direction={"row"} spacing={1}  >
                     {!stopWatchIsActive &&
                         <Button variant="contained" onClick={() => dispatch(startWatch())}>
                             <TimerIcon />
@@ -66,45 +81,17 @@ const WorkoutToolbar = () => {
                         confirmButton='Yes'
                         confirmFunction={handleClear}
                     />
-                    {/* <Button
-                        color="error"
-                        variant="contained"
-                        onClick={() => handleModalOpen("cancelWorkout")}
-                    >
-                        <NotInterestedIcon />
-                    </Button> */}
-                    <div onClick={() => {
-                        if (exercises.length === 0) {
-                            toast.warning('Add at least one exercise before finishing!')
-                            return
-                        }
-                    }}>
-                        <FormModal
-                            modalType='saveWorkout'
-                            color='success'
-                            openButton={
-                                <CheckCircleOutlineIcon />
-                            }
-                        //confirmButton=''
-                        //confirmFunction={handleClear}
-                        />
-                    </div>
-
-                    {/* <Button
+                    <Button
                         color="success"
                         variant="contained"
-                        onClick={() => {
-                            if (exercises.length === 0) {
-                                toast.warning('Add at least one exercise before finishing!')
-                                return
-                            }
-                            handleModalOpen("saveWorkout")
-                        }}
+                        sx={{ width: 0, maxWidth: 0 }}
+                        onClick={handleFinishClick}
                     >
                         <CheckCircleOutlineIcon />
-                    </Button> */}
+                    </Button>
                 </Stack>
             }
+            
         </>
     )
 }

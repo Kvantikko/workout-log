@@ -31,7 +31,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { toast } from "react-toastify"
-
+import { useSelector } from "react-redux"
 
 
 
@@ -41,9 +41,14 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 
-const DateRangeForm = ({ submitButton, title }) => {
+const DateRangeForm = ({ submitButton, title, filterFunction }) => {
 
-    const currentDate = new Date()
+    const user = useSelector(state => state.user)
+    const userCreatedDate = new Date(user.createdAt).toISOString().split('T')[0]
+
+    const currentDate = new Date().toISOString().split('T')[0]
+    console.log("FORM ", currentDate)
+    // const formattedDate = currentDate
     const [startDate, setStartDate] = useState(currentDate)
     const [endDate, setEndDate] = useState(currentDate)
 
@@ -55,16 +60,11 @@ const DateRangeForm = ({ submitButton, title }) => {
     const onSubmit = async (event) => {
         event.preventDefault()
 
-        const requestDate = () => {
-            console.log("request date");
-        }
+        /* console.log("Submitting...:");
+        console.log("Form state start: ", startDate);
+        console.log("Form state end: ", endDate); */
 
-        try {
-            requestDate()
-        } catch (err) {
-            console.log(err);
-        }
-
+        filterFunction(startDate, endDate)
     }
 
 
@@ -85,10 +85,33 @@ const DateRangeForm = ({ submitButton, title }) => {
                     <DatePicker
                         //label={"Start date"}
                         defaultValue={dayjs(currentDate)}
-                        onChange={(value) => setStartDate(value.$d)}
+                        onChange={(value) => {
+                            const isoDateTime =
+                                new Date(value.$d.getTime() - (value.$d.getTimezoneOffset() * 60000)).toISOString()
+
+                            /* console.log("ISO DATE TIEM ", isoDateTime)
+                            console.log("Startdate is chaning... ", value.$d);
+                            console.log("Kaka ", isoDateTime);
+                            console.log("Mutadet: ", isoDateTime.split('T')[0]); */
+
+                            setStartDate(isoDateTime.split('T')[0])
+                        }}
                     />
                     <Typography>End date</Typography>
-                    <DatePicker defaultValue={dayjs(currentDate)} onChange={(value) => setEndDate(value.$d)} />
+                    <DatePicker
+                        defaultValue={dayjs(currentDate)}
+                        onChange={(value) => {
+                            const isoDateTime =
+                                new Date(value.$d.getTime() - (value.$d.getTimezoneOffset() * 60000)).toISOString()
+
+                            /* console.log("ISO DATE TIEM ", isoDateTime)
+                            console.log("Startdate is chaning... ", value.$d);
+                            console.log("Kaka ", isoDateTime);
+                            console.log("Mutadet: ", isoDateTime.split('T')[0]); */
+
+                            setStartDate(isoDateTime.split('T')[0])
+                        }}
+                    />
                 </>
             </Stack>
             <Button

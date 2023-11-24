@@ -166,18 +166,13 @@ const App = () => {
         const token = window.localStorage.getItem('userToken')
         //console.log("TOken FROM LOC STORage ", token);
         if (loggedUserJSON) {
-            console.log("if is true");
             const user = JSON.parse(loggedUserJSON)
-            console.log("TRUE, parsed user: ", user);
             dispatch(setUser(user))
             exerciseService.setToken(token)
             workoutService.setToken(token)
             userService.setToken(token)
             //Service.setToken(token)
             navigate('/')
-
-
-
         }
     }, [])
 
@@ -203,33 +198,25 @@ const App = () => {
 
     const ProtectedRoute = ({ children }) => {
         if (!authenticated) {
-            console.log("NOT AUTHENTICATED");
             return <Navigate to="/login" />
         }
 
         const isTokenExpired = () => {
             const token = window.localStorage.getItem('userToken')
-
-            const decodedToken = jwtDecode(token)// process.env.SECRET
+            const decodedToken = jwtDecode(token)
             const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
-
-            return Date.now() > expirationTime;
-        };
-
-        //const location = useLocation();
-        //const authenticated = useSelector((state) => state.auth.authenticated)
+            return Date.now() > expirationTime
+        }
 
         if (isTokenExpired()) {
             dispatch(logout())
             //navigate('/')
-            toast.warning('Your token has expired! For security reasons you need to log in again.')
+            toast.warning('Your session has timed out! For security reasons you need to log in again.')
             return <Navigate to="/login" />
         }
 
         return children;
-    };
-
-    const notify = () => toast("This is a toast notification !");
+    }
 
     return (
         <ThemeProvider theme={darkMode ? darkTheme : theme}>
@@ -298,6 +285,7 @@ const App = () => {
                             pauseOnFocusLoss
                             draggable
                             pauseOnHover
+                            theme={darkMode ? 'dark' : 'light'}
                         />
                     </div>
                     {authenticated && <BottomNavBar />}

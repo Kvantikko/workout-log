@@ -46,10 +46,8 @@ const ConfirmationModal = ({
                     <Button
                         variant="contained"
                         color={color}
+                        fullWidth
                         onClick={(event) => handleOpen(event)}
-                        //use these two together: fullWidth and then limit it as desired
-                        fullWidth={true}
-                    // sx={{ maxWidth: '50vw' }}
                     >
                         {openButton ? openButton : <div>Open modal</div>}
                     </Button>

@@ -8,7 +8,7 @@ const historySlice = createSlice({
             return action.payload
         },
         addToHistory(state, action) {
-            state.push(action.payload)
+            state.unshift(action.payload)
         },
         removeFromHistory(state, action) {
             console.log("STATE BEFORE: ", JSON.parse(JSON.stringify(state)))

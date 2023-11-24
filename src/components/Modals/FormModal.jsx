@@ -3,6 +3,9 @@ import { Box, Button, MenuItem, Modal, Stack } from '@mui/material'
 import { style, renderModalText, renderModalChildren } from './Helper'
 
 const FormModal = ({
+    showModal,
+    closeFromParent,
+    hideOpenButton,
     menuItem,
     color,
     openButton,
@@ -21,7 +24,7 @@ const FormModal = ({
             console.log("menuItem true ", menuItem )
             handleMenuClose()
         }
-        setOpen(false)
+        showModal ? closeFromParent(false) : setOpen(false)
     }
     const handleOpen = (event) => {
         //console.log("opening modal");
@@ -29,26 +32,36 @@ const FormModal = ({
         setOpen(true)
     }
 
+    const renderOpenButton = () => {
+        if (hideOpenButton) {
+            return null
+        }
+        return (
+            <>
+                {menuItem ?
+                    <MenuItem onClick={(event) => handleOpen(event)}>
+                        {openButton ? openButton : <div>Open modal</div>}
+                    </MenuItem>
+                    :
+                    <Button
+                        variant="contained"
+                        color={color}
+                        fullWidth
+                        onClick={(event) => handleOpen(event)}
+                        //sx={{ margin: 32 }}
+                    >
+                        {openButton ? openButton : <div>Open modal</div>}
+                    </Button>
+                }
+            </>
+        )
+    }
+
     return (
         <div>
-            {menuItem ?
-                <MenuItem onClick={(event) => handleOpen(event)}>
-                    {openButton ? openButton : <div>Open modal</div>}
-                </MenuItem>
-                :
-                <Button
-                    variant="contained"
-                    color={color}
-                    onClick={(event) => handleOpen(event)}
-                    //use these two together: fullWidth and then limit it as desired
-                    fullWidth={true}
-                   // sx={{ maxWidth: '50vw' }}
-                >
-                    {openButton ? openButton : <div>Open modal</div>}
-                </Button>
-            }
+            {renderOpenButton()}
             <Modal
-                open={open}
+                open={showModal ? showModal : open}
                 onClose={handleClose}
                 BackdropProps={{
                     timeout: 500,

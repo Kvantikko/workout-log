@@ -28,7 +28,7 @@ const Measurements = ({ user }) => {
             //minHeight="75vh"
             >
                 <Typography variant="h6" textAlign="center">
-                    &#128679; &#9940;&#128119;  This part of the application is still under construction &#128119; &#9940; &#128679;
+                    This part of the application is still under construction &#128119; &#9940; &#128679;
                 </Typography>
             </Box>
         </>

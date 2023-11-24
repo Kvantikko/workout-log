@@ -26,6 +26,19 @@ const getAllUserWorkouts = async (userEmail) => {
     return response.data // metodi then.palauttaa myös promisen.
 }
 
+const getByDateRange = async (userEmail, startDate, endDate) => {
+    const config = {
+        headers: {
+            Authorization: token
+        }
+    }
+    const request = axios.get(`${baseUrl}?email=${userEmail}&start=${startDate}&end=${endDate}`, config) // request on promise olio
+    console.log("request ", request);
+    const response = await request
+    console.log("response ", response)
+    return response.data // metodi then.palauttaa myös promisen.
+}
+
 const createNew = async (workout) => {
     const config = {
         headers: {
@@ -65,5 +78,6 @@ export default {
     createNew,
     update,
     remove,
-    setToken
+    setToken,
+    getByDateRange
 }
