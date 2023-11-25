@@ -17,6 +17,9 @@ import { clearExercises } from "../../redux/reducers/exerciseReducer";
 import { clearSets } from "../../redux/reducers/setReducer";
 import { stopWatch } from "../../redux/reducers/stopWatchReducer";
 import FormModal from "../Modals/FormModal";
+import { Link } from "react-router-dom";
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 const WorkoutToolbar = () => {
@@ -50,23 +53,38 @@ const WorkoutToolbar = () => {
 
     return (
         <>
-            <Typography variant="h6" component="div">
-                Workout
-            </Typography>
-            <FormModal
-                hideOpenButton='true'
-                showModal={showModal}
-                closeFromParent={setShowModal}
-                modalType='saveWorkout'
-                color='success'
-                openButton={
-                    <CheckCircleOutlineIcon />
-                }
-            //confirmButton=''
-            //confirmFunction={handleClear}
-            />
+            {!workoutStarted &&
+                <Typography variant="h6" component="div">
+                    Workout
+                </Typography>
+            }
             {workoutStarted &&
                 <Stack direction={"row"} spacing={1}  >
+                    <Button
+                        variant='secondary'
+                        component={Link}
+                        to={'/'}
+                        sx={{
+                            minWidth: 'auto',
+                            paddingRight: 0,
+                            paddingLeft: 0
+
+                        }}
+                    >
+                        <ArrowBackIcon />
+                    </Button>
+                    <FormModal
+                        hideOpenButton='true'
+                        showModal={showModal}
+                        closeFromParent={setShowModal}
+                        modalType='saveWorkout'
+                        color='success'
+                        openButton={
+                            <CheckCircleOutlineIcon />
+                        }
+                    //confirmButton=''
+                    //confirmFunction={handleClear}
+                    />
                     {!stopWatchIsActive &&
                         <Button variant="contained" onClick={() => dispatch(startWatch())}>
                             <TimerIcon />
@@ -91,7 +109,7 @@ const WorkoutToolbar = () => {
                     </Button>
                 </Stack>
             }
-            
+
         </>
     )
 }

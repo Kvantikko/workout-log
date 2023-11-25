@@ -24,7 +24,6 @@ import { useNavigate } from 'react-router-dom';
 import { removeFromHistory } from '../../redux/reducers/historyReducer';
 
 const HistoryModalMenu = ({ workout }) => {
-    //console.log("SSSSSSSSSS ", workout );
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -43,7 +42,6 @@ const HistoryModalMenu = ({ workout }) => {
 
     const handleMenuClick = (event, modalType) => {
         //event.stopPropagation()
-
         handleClose()
     }
 
@@ -54,8 +52,8 @@ const HistoryModalMenu = ({ workout }) => {
             const response = await workoutService.remove(workout?.id)
             dispatch(removeFromHistory(workout?.id))
             handleClose()
-            toast.success("Workoutdeleted succesfully!");
-            //navigate('/exercises')
+            toast.success("Workout deleted!");
+            navigate('/history')
         } catch (error) {
             toast.error(error.message)
         }

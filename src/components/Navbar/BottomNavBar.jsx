@@ -15,31 +15,16 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { useSelector } from 'react-redux';
-//import { makeStyles } from '@mui/styles'; 
-
-/* const useStyles = makeStyles({
-    root: {
-      width: "100%",
-      position: "fixed",
-      bottom: 0,
-      "& .MuiBottomNavigationAction-root": {
-        "@media (max-width: 768px)": {
-          minWidth: "auto",
-          padding: "6px 0"
-        }
-      }
-    }
-  }); */
 
 const FixedBottomNavigation = ({ workoutStarted }) => {
     const ref = React.useRef(null)
 
     const darkMode = useSelector(state => state.darkMode)
 
-
     const location = useLocation()
 
     const match = useMatch('/exercises/:id')
+    const matchHistory = useMatch('/history/:id')
     //console.log("MATCH ", match);
     /*  const exercise = match
          ? exercises.find(exercise => exercise.id === Number(match.params.id))
@@ -50,6 +35,8 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
             case "/workout":
                 return 0
             case "/history":
+                return 1
+            case `/history/${matchHistory?.params.id}`:
                 return 1
             case "/exercises":
                 return 2
@@ -69,7 +56,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
 
             <CssBaseline />
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-                {workoutStarted && <Box>kakaakakaaaaaaaaaaaaaaaaaaaaa</Box> }
+              {/*   {workoutStarted && <Box>kakaakakaaaaaaaaaaaaaaaaaaaaa</Box>} */}
                 <BottomNavigation
 
                     showLabels

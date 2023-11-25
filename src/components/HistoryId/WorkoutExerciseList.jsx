@@ -20,38 +20,29 @@ import WorkoutExerciseSets from "./WorkoutExerciseSets";
 
 
 const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
-    
+
 
     console.log("LIST, WORKOUTEXERCISES: ", workoutExercises);
 
     return (
         <Stack spacing={3} >
             {workoutExercises.map((exercise, text, index) => (
-                <ListItem
-                    key={exercise.id}
-                    //disablePadding
-                    
-                >
-                    {console.log("MAPPING ARRAY OF WORKOUTEXERCISES, EXERCISE: ", exercise)}
-
-
-
-                    <Stack sx={{/* backgroundColor: "green", */ width: 1 }}>
-                        {showDate &&
-                            <Typography variant="h6" noWrap >
-                                {formatDateTime(exercise.createdAt)}
-                            </Typography>
-                        }
-
+                <Stack key={exercise.id} sx={{/* backgroundColor: "green", */ width: 1 }}>
+                    {showDate &&
                         <Typography variant="h6" noWrap >
-                            {exercise.name}
+                            {formatDateTime(exercise.createdAt)}
                         </Typography>
+                    }
 
-                        {/* ALL EXERCISE SETS */}
-                        <WorkoutExerciseSets workoutExerciseSets={exercise.sets} />
+                    <Typography variant="h6" noWrap >
+                        {exercise.name}
+                    </Typography>
 
-                    </Stack>
-                </ListItem>
+                    {/* ALL EXERCISE SETS */}
+                    <WorkoutExerciseSets workoutExerciseSets={exercise.sets} />
+
+                </Stack>
+
             ))}
         </Stack>
     )

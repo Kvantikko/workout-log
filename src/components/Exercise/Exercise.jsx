@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import exerciseService from '../../services/exercises'
-import WorkoutExerciseList from '../History/WorkoutExerciseList';
+import WorkoutExerciseList from '../HistoryId/WorkoutExerciseList';
 import { useSelector } from 'react-redux';
 import { Typography, Box } from '@mui/material';
 

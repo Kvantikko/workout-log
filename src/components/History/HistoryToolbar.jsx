@@ -30,9 +30,7 @@ const HistoryToolbar = ({ filter, removeFilter, showRemoveFilterButton, setShowR
                     modalType='pickDateModal'
                     //color='info'
                     openButton={
-                        <Stack direction="row" spacing={1}>
-                            <CalendarMonthIcon />
-                        </Stack>
+                        <CalendarMonthIcon />
                     }
                     //confirmButton='Delete forever'
                     confirmFunction={filter}

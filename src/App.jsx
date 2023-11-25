@@ -18,6 +18,7 @@ import Exercise from './components/Exercise/Exercise'
 import History from './components/History/History'
 import Profile from './components/Profile/Profile'
 import Login from './components/Login/Login'
+import HistoryId from './components/HistoryId/HistoryId'
 
 import StopWatch from './components/Clock/StopWatch'
 
@@ -180,14 +181,16 @@ const App = () => {
 
 
     const exercises = useSelector(state => state.exerciseLibrary)
-    //console.log("täsä nää exercises ", exercises)
-
     const match = useMatch('/exercises/:id')
-    //console.log("MATCH APP.JSX ", match);
     const exercise = match
         ? exercises.find(exercise => exercise.id === Number(match.params.id))
         : null
-    //console.log("no lötyylö? ", exercise);
+
+    const workouts = useSelector(state => state.history)
+    const matchHistory = useMatch('/history/:id')
+    const workout = matchHistory
+        ? workouts.find(workout => workout.id === Number(matchHistory.params.id))
+        : null
 
     const margin = () => {
         if (!stopWatchIsActive) {
@@ -228,6 +231,12 @@ const App = () => {
                             path="/workout"
                             element={<ProtectedRoute>
                                 <Workout user={user} style={{ margin: '110' }} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/history/:id"
+                            element={<ProtectedRoute>
+                                <HistoryId workout={workout} />
                             </ProtectedRoute>}
                         />
                         <Route
@@ -292,7 +301,7 @@ const App = () => {
 
                 </AppBar> */}
                 {authenticated && <BottomNavBar workoutStarted={workoutStarted} />}
-                
+
                 {/* <HideAppBar sx={{ padding: 200 }}>
                     {workoutStarted && stopWatchIsActive &&
                         <StopWatch></StopWatch>

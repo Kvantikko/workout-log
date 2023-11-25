@@ -3,11 +3,21 @@ import generateId from "../../utils/generateId"
 
 const WorkoutExerciseSets = ({ workoutExerciseSets }) => {
 
-   // console.log("WORKOUT EXERCISE SETS ", workoutExerciseSets);
+    // console.log("WORKOUT EXERCISE SETS ", workoutExerciseSets);
 
-    const renderArray = (title, setArray) => {
+    const renderArray = (title, setArray, color) => {
         if (setArray.length === 0) {
-            return <ListItemText secondary={<>No reps</>} />
+            return (
+                <>
+                    
+                    <ListItemText primary={title} />
+                    <ListItemText secondary={<>No sets</>}/>
+                    {/* <Typography variant="body2" color={color}>
+                        <>No reps</>
+                    </Typography> */}
+                </>
+
+            )
         }
         return (
             <div>
@@ -19,9 +29,12 @@ const WorkoutExerciseSets = ({ workoutExerciseSets }) => {
                                 return (
                                     <Grid key={generateId()} item sx={{ margin: 0, padding: 0 }}  >
                                         <Stack direction={"row"} spacing={0.5} >
-                                            <ListItemText primary={index + 1 + ":"} />
+                                            <Typography variant="body2" color={color}>
+                                                <>{index + 1 + ":"}</>
+                                            </Typography>
+                                            {/*  <ListItemText secondary={index + 1 + ":"} /> */}
                                             <ListItemText >
-                                                <Typography variant="body1" color="textSecondary">
+                                                <Typography variant="body2" color="text.secondary">
                                                     <>{set.weight}kg x{set.reps}</>
                                                 </Typography>
                                             </ListItemText>
@@ -50,8 +63,8 @@ const WorkoutExerciseSets = ({ workoutExerciseSets }) => {
 
     return (
         <div>
-            {renderArray("warmup sets", warmups)}
-            {renderArray("work sets", works)}
+            {renderArray("Warmup sets", warmups, "#ffba54")}
+            {renderArray("Work sets", works, "#42a5f5")}
         </div>
     )
 }

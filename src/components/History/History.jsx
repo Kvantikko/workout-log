@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { startWorkout } from "../../redux/reducers/workoutReducer";
 
-import HistoryListItem from "./HistoryListItem";
-
-import { ListItemButton, Box } from "@mui/material";
+import { ListItemButton, Box, Stack } from "@mui/material";
 
 import HideAppBar from "../AppBar/HideAppBar";
 import HistoryToolbar from "./HistoryToolbar";
@@ -14,7 +12,7 @@ import { useState } from "react";
 
 import workoutService from '../../services/workouts'
 import { addToHistory, setWorkouts } from "../../redux/reducers/historyReducer";
-
+import HistoryListCard from "./HistoryListCard";
 
 
 const History = () => {
@@ -33,7 +31,7 @@ const History = () => {
         //console.log('workouts[length-1]', workouts[length]);
 
         const furthestWorkoutDateInStore =
-            new Date(workouts[workouts.length-1].createdAt).toISOString().split('T')[0]
+            new Date(workouts[workouts.length - 1].createdAt).toISOString().split('T')[0]
 
         //console.log('furthestWorkoutDateInStore' ,furthestWorkoutDateInStore);
 
@@ -47,7 +45,7 @@ const History = () => {
             } catch (err) {
                 console.log(err);
             }
-            
+
         }
 
         //console.log("Start: " , startDate)
@@ -79,6 +77,7 @@ const History = () => {
 
     return (
         <>
+            
             <HideAppBar>
                 <HistoryToolbar
                     filter={filterByDate}
@@ -103,12 +102,23 @@ const History = () => {
                 </Box>
             }
 
-            {filteredWorkouts.map(workout =>
+            {/* {filteredWorkouts.map(workout =>
                 //<ListItemButton >
                 <HistoryListItem key={workout.id} workout={workout} />
                 // </ListItemButton>
 
-            )}
+            )} */}
+
+            <Stack
+                spacing={2}
+                padding={1.5}
+                alignItems={'center'}
+            >
+                {filteredWorkouts.map(workout =>
+                    <HistoryListCard key={workout.id} workout={workout} />
+                )}
+            </Stack>
+
         </>
     )
 }
