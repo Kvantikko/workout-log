@@ -31,7 +31,7 @@ import { useSelector } from 'react-redux';
     }
   }); */
 
-const FixedBottomNavigation = () => {
+const FixedBottomNavigation = ({ workoutStarted }) => {
     const ref = React.useRef(null)
 
     const darkMode = useSelector(state => state.darkMode)
@@ -66,8 +66,10 @@ const FixedBottomNavigation = () => {
 
     return (
         <Box sx={{ pb: 7 }} ref={ref}>
+
             <CssBaseline />
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+                {workoutStarted && <Box>kakaakakaaaaaaaaaaaaaaaaaaaaa</Box> }
                 <BottomNavigation
 
                     showLabels

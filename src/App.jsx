@@ -48,6 +48,7 @@ import { logout } from './redux/reducers/userReducer';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useTheme } from '@mui/material/styles';
+import { AppBar } from '@mui/material';
 
 /* const theme = createTheme({
     palette: {
@@ -220,77 +221,84 @@ const App = () => {
 
     return (
         <ThemeProvider theme={darkMode ? darkTheme : theme}>
-            <div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    {/* <HideAppBar sx={{ padding: 200 }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <div style={{ marginTop: margin() }}>
+                    <Routes>
+                        <Route
+                            path="/workout"
+                            element={<ProtectedRoute>
+                                <Workout user={user} style={{ margin: '110' }} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/history"
+                            element={<ProtectedRoute>
+                                <History />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/exercises/:id"
+                            element={<ProtectedRoute>
+                                <Exercise exercise={exercise} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/exercises"
+                            element={<ProtectedRoute>
+                                <Exercises />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/measure"
+                            element={<ProtectedRoute>
+                                <Measurements></Measurements>
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/profile"
+                            element={<ProtectedRoute>
+                                <Profile user={user} />
+                            </ProtectedRoute>} />
+                        <Route
+                            path="/"
+                            element={<ProtectedRoute>
+                                <Navigate to="/workout" />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/login"
+                            element={<Login />}
+                        />
+                    </Routes>
+
+                    <ToastContainer
+                        className="toast-position"
+                        position="bottom-center"
+                        autoClose={4000}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme={darkMode ? 'dark' : 'light'}
+                    />
+                </div>
+                {/* <AppBar
+                    position="fixed"
+                    color="primary"
+                    sx={{ top: 'auto', bottom: 56   }}
+                >
+                    dawdawd
+
+                </AppBar> */}
+                {authenticated && <BottomNavBar workoutStarted={workoutStarted} />}
+                
+                {/* <HideAppBar sx={{ padding: 200 }}>
                     {workoutStarted && stopWatchIsActive &&
                         <StopWatch></StopWatch>
                     }
                 </HideAppBar> */}
-                    <div style={{ marginTop: margin() }}>
-                        <Routes>
-                            <Route
-                                path="/workout"
-                                element={<ProtectedRoute>
-                                    <Workout user={user} style={{ margin: '110' }} />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/history"
-                                element={<ProtectedRoute>
-                                    <History />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/exercises/:id"
-                                element={<ProtectedRoute>
-                                    <Exercise exercise={exercise} />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/exercises"
-                                element={<ProtectedRoute>
-                                    <Exercises />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/measure"
-                                element={<ProtectedRoute>
-                                    <Measurements></Measurements>
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/profile"
-                                element={<ProtectedRoute>
-                                    <Profile user={user} />
-                                </ProtectedRoute>} />
-                            <Route
-                                path="/"
-                                element={<ProtectedRoute>
-                                    <Navigate to="/workout" />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/login"
-                                element={<Login />}
-                            />
-                        </Routes>
-                        
-                        <ToastContainer
-                            className="toast-position"
-                            position="bottom-center"
-                            autoClose={4000}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            theme={darkMode ? 'dark' : 'light'}
-                        />
-                    </div>
-                    {authenticated && <BottomNavBar />}
-                </LocalizationProvider>
-            </div>
+            </LocalizationProvider>
         </ThemeProvider>
     )
 }
