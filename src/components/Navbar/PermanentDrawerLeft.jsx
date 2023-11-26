@@ -82,7 +82,8 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                 anchor="left"
             >
                 {/*  <Toolbar /> */}
-                <List sx={{ margin: 'auto' }} >
+                <Typography variant='h3' marginY={5} padding={2} textAlign={'center'}> workout log</Typography>
+                <List sx={{ /* margin: 'auto' */ }} >
                     {['Workout', 'History', 'Exercises', 'Measurements', 'Profile'].map((text, index) => (
                         <ListItem key={text} disablePadding >
                             <ListItemButton

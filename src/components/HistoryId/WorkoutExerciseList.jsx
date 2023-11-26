@@ -22,7 +22,7 @@ import WorkoutExerciseSets from "./WorkoutExerciseSets";
 const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
 
 
-    console.log("LIST, WORKOUTEXERCISES: ", workoutExercises);
+   
 
     return (
         <Stack spacing={3} >

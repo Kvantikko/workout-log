@@ -20,7 +20,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
     const ref = React.useRef(null)
 
     const navLocations = useSelector(state => state.nav)
-    console.log(navLocations);
+   
 
     const darkMode = true // useSelector(state => state.darkMode)
 
@@ -28,7 +28,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
 
     const match = useMatch('/exercises/:id')
     const matchHistory = useMatch('/history/:id')
-    //console.log("MATCH ", match);
+  
     /*  const exercise = match
          ? exercises.find(exercise => exercise.id === Number(match.params.id))
          : null */

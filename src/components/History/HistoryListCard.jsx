@@ -47,7 +47,7 @@ const HistoryListCard = ({ workout }) => {
     }
 
     return (
-        <Card sx={{ width: 1, maxWidth: 600, border: '1px solid #878787' }} >
+        <Card sx={{ /* width: 1,  maxWidth: 600, */ border: '1px solid #878787', width: 0, minWidth: { xs: '100%', sm: '80%', md: '60%'}  }} >
             <CardActionArea component={Link} to={`/history/${workout.id}`} onClick={handleClick}>
                 {/* <CardHeader
                     title={new Date(workout.createdAt).toLocaleDateString()}

@@ -15,18 +15,24 @@ import HistoryModalMenu from './HistoryModalMenu';
 import { useDispatch } from 'react-redux';
 import { resetHistory } from '../../redux/reducers/navReducer';
 
+import ConfirmationModal from '../Modals/ConfirmationModal';
+
 //import ArrowBackIcon from '@mui/icons-material/ArrowBac';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
-const HistoryIdToolbar = ({ workout }) => {
 
-    const dispatch = useDispatch()
-// sx={{ padding: 0, alignItems: 'center', alignContent: 'center' }}>
+const HistoryIdToolbar = ({ workout, handleCopy, showModal, setShowModal }) => {
+    console.log("rendering HistoryIdToolbar.jsx");
+
+    const isSmallScreen = useMediaQuery('(min-width:900px)');
+
+
     return (
         <>
-            <Stack direction={"row"} spacing={2} >
+            <Stack direction={"row"} spacing={2} overflow={'hidden'}>
                 <Button
                     variant='secondary'
                     component={Link}
@@ -43,13 +49,35 @@ const HistoryIdToolbar = ({ workout }) => {
                 </Button>
                 <Typography
                     variant="h6"
-                    component="div"
-                    sx={{ paddingY: 1.5 }}  // paddinY 1.5 for mobile, 2 for bigger
+                   // component="div"
+                    sx={{ paddingY: 1.5, margin: 'auto' }}  // paddinY 1.5 for mobile, 2 for bigger
+                    alignSelf={'center'}
+                    overflow={'hidden'}
+                    noWrap
                 >
                     {workout.title}
                 </Typography>
             </Stack>
-            <HistoryModalMenu workout={workout} />
+            <Stack
+                direction={"row"}
+                spacing={2}
+                padding={2}
+                alignSelf={'flex-start'}
+            >
+                {/* padding={0}  joo mutta nimi menee pois koska suunnittelin niin sen jos on pitkä nimi*/}
+                {isSmallScreen ?
+                    <Button
+                    
+                        sx={{ height: 1, margin: 'auto', whiteSpace: 'nowrap',
+                        textAlign: 'center'}}
+                        variant="contained" onClick={(event) => handleCopy(event)} >
+                        Perform again
+                    </Button>
+                    :
+                    null
+                }
+                <HistoryModalMenu workout={workout} />
+            </Stack>
         </>
     )
 }

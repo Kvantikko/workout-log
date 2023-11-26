@@ -81,21 +81,12 @@ import { AddBoxOutlined } from '@mui/icons-material';
 // '#1F1B24'
 
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-    },
-    zIndex: {
-        //appBar: 0,
-        //modal: 1250,
-        //drawer: 0
-    }
-    /*  drawer: {
-         zIndex: "500 !important"
-     }, */
-});
+
+
+
 
 
 
@@ -109,23 +100,34 @@ const darkTheme = createTheme({
 
 
 const App = () => {
-    const darkMode = true //useSelector(state => state.darkMode)
+    console.log("rendering App.jsx");
+    
+    // STATE
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const user = useSelector(state => state.user)
     const authenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
-    const navigate = useNavigate()
-
+    
+    // HOOKS
     const theme = useTheme();
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    //const isSmallScreen = useMediaQuery('(min-width:900px)');
 
-    //console.log("Rendering App.jsx ", authenticated);
-    //console.log("Rendering App.jsxakaka ", user);
-
-    const dispatch = useDispatch() // react-redux | tätä funktiota käytetään actionien dispatchaamiseen
-
-    const [pageIndex, setPageIndex] = useState(0)
-    // const [value, setValue] = React.useState(0);
+    // CONSTANTS
     const [drawerWidth, setdrawerWidth] = useState(250)
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+        },
+        zIndex: {
+            //appBar: 0,
+            //modal: 1250,
+            //drawer: 0
+        },
+        //isSmallScreen
+    });
+    const darkMode = true //useSelector(state => state.darkMode)
 
 
 
@@ -246,16 +248,16 @@ const App = () => {
 
 
                 <Box sx={{ display: 'flex', marginTop: 0 }}  >
-                   {/*  <HideAppBar drawerWidth={drawerWidth} ></HideAppBar> */}
+                    {/*  <HideAppBar drawerWidth={drawerWidth} ></HideAppBar> */}
                     {authenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
 
-                  
+
                     <Box
                         component="main"
                         sx={{ flexGrow: 1 }}
                     >
                         <Toolbar />  {/* // for margin */}
-        
+
 
                         <Routes>
                             <Route
@@ -271,25 +273,25 @@ const App = () => {
                             <Route
                                 path="/history/:id"
                                 element={<ProtectedRoute>
-                                    <HistoryId workout={workout} drawerWidth={drawerWidth}/>
+                                    <HistoryId workout={workout} drawerWidth={drawerWidth} />
                                 </ProtectedRoute>}
                             />
                             <Route
                                 path="/history"
                                 element={<ProtectedRoute>
-                                    <History  drawerWidth={drawerWidth} />
+                                    <History drawerWidth={drawerWidth} />
                                 </ProtectedRoute>}
                             />
                             <Route
                                 path="/exercises/:id"
                                 element={<ProtectedRoute>
-                                    <Exercise exercise={exercise} drawerWidth={drawerWidth}/>
+                                    <Exercise exercise={exercise} drawerWidth={drawerWidth} />
                                 </ProtectedRoute>}
                             />
                             <Route
                                 path="/exercises"
                                 element={<ProtectedRoute>
-                                    <Exercises drawerWidth={drawerWidth}/>
+                                    <Exercises drawerWidth={drawerWidth} />
                                 </ProtectedRoute>}
                             />
                             <Route
@@ -328,9 +330,9 @@ const App = () => {
                     </Box>
 
 
-                    
+
                 </Box>
-                {authenticated && <BottomNavBar workoutStarted={workoutStarted} />}
+                {authenticated && <BottomNavBar />}
 
 
 

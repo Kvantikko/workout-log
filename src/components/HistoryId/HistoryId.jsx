@@ -35,6 +35,9 @@ import ModalRoot from "../Modals/ModalRoot";
 import { useEffect, useState } from "react";
 import ConfirmationModal from "../Modals/ConfirmationModal";
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+
 
 
 
@@ -43,7 +46,9 @@ const HistoryId = ({ workout, drawerWidth }) => {
 
     const history = useNavigate()
 
-    
+    const isSmallScreen = useMediaQuery('(min-width:900px)');
+
+
 
     /**
      * ekalla componentin mountilla fetchataan data ja pistetään storeen, ja aina kun komponentti
@@ -109,25 +114,31 @@ const HistoryId = ({ workout, drawerWidth }) => {
     return (
         <>
             <HideAppBar drawerWidth={drawerWidth}>
-                <HistoryIdToolbar workout={workout} />
+                <HistoryIdToolbar
+                    workout={workout}
+                    setShowModal={setShowModal}
+                    showModal={showModal}
+                    handleCopy={handleCopy}
+                />
             </HideAppBar>
+
+            {/* DATE */}
+            <Typography align='center' color="text.secondary" variant="body1" noWrap paddingBottom={0} paddingTop={2} >
+                {/*   {formatDateTime(workout.createdAt, true)} */}
+                {format(new Date(workout.createdAt))
+
+                }
+            </Typography>
 
             <Box
                 display="flex"
-                justifyContent="center"
-                //alignItems="center"
-                //minHeight="100vh"
-                paddingX={2} paddingBottom={12}
+                // justifyContent="center"
+
+                paddingX={2} paddingBottom={12} paddingTop={2}
             >
                 <Stack spacing={0} maxWidth={700} >
 
-                    {/* DATE */}
-                    <Typography align='center' color="text.secondary" variant="body1" noWrap paddingBottom={2} >
-                        {/*   {formatDateTime(workout.createdAt, true)} */}
-                        {format(new Date(workout.createdAt))
 
-                        }
-                    </Typography>
 
                     <Box
                         padding={0}
@@ -147,13 +158,21 @@ const HistoryId = ({ workout, drawerWidth }) => {
                             <WorkoutExerciseList workoutExercises={workout.workoutExercises} />
                         </Stack>
                     </Box>
-
                 </Stack>
+
                 <AppBar
                     position="fixed"
                     color=""
                     elevation={0}
-                    sx={{ top: 'auto', bottom: 56, padding: 2, paddingBottom: 2 }}
+                    sx={{
+                        top: 'auto',
+                        // bottom: theme => theme.isSmallScreen ? 0 : 56,
+                        bottom: isSmallScreen ? 0 : 56,
+                        padding: 2,
+                        paddingBottom: 2,
+                        //width: isSmallScreen ? `calc(100% - ${drawerWidth}px)` :   '100%',
+                        display: { xs: 'flex', md: 'none' },
+                    }}
                 >
 
                     <Button

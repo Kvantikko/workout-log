@@ -27,7 +27,7 @@ export const HideOnScroll = (props) => {
         target: window ? window() : undefined,
     })
 
-    
+
     return (
         <Slide appear={false} direction="down" in={!trigger}>
             {children}
@@ -40,9 +40,9 @@ const HideAppBar = (props) => {
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
 
-    const matches = useMediaQuery('(min-width:900px)');
 
-    const isSmallScreen = useMediaQuery('(max-width:900px)');
+
+    const isSmallScreen = useMediaQuery('(min-width:900px)');
 
 
     return (
@@ -52,10 +52,11 @@ const HideAppBar = (props) => {
                 <AppBar
                     //style={{ width: isSmallScreen ? '100%' : '50%' }}
                     position="fixed"
-                   sx={{
-                        width: isSmallScreen ? '100%' : `calc(100% - ${props.drawerWidth}px)` ,
-               
-                       // width: `calc(100% - ${props.drawerWidth}px)`,
+                    sx={{
+                        width: isSmallScreen ? `calc(100% - ${props.drawerWidth}px)` : '100%' ,
+                       
+
+                        // width: `calc(100% - ${props.drawerWidth}px)`,
                         //ml: `${props.drawerWidth}px`,
                         /* "& .MuiAppBar-root": {
                             width: '20'
@@ -65,10 +66,10 @@ const HideAppBar = (props) => {
                             }
                         }, */
 
-                    
+
                     }}
 
-                  
+
                 >
 
                     {/* <Toolbar>
@@ -76,14 +77,14 @@ const HideAppBar = (props) => {
                             Permanent drawerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
                         </Typography>
                     </Toolbar> */}
-                    
+
                     <Toolbar disableGutters={false} >
                         <Stack
                             direction="row"
                             justifyContent={'space-between'}
                             width={1}
                         >
-                           
+
                             {props.children}
                         </Stack>
                     </Toolbar>
