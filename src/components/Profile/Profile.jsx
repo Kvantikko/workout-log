@@ -18,7 +18,7 @@ import ConfirmationModal from "../Modals/ConfirmationModal"
 import FormModal from "../Modals/FormModal"
 
 
-const Profile = ({ user }) => {
+const Profile = ({ user, drawerWidth }) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -47,7 +47,7 @@ const Profile = ({ user }) => {
 
     return (
         <>
-            <HideAppBar>
+            <HideAppBar drawerWidth={drawerWidth}>
                 <ProfileToolbar />
             </HideAppBar>
 

@@ -12,6 +12,8 @@ import { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import OpenModalMenu from '../Exercises/ExercisesModalMenu';
 import HistoryModalMenu from './HistoryModalMenu';
+import { useDispatch } from 'react-redux';
+import { resetHistory } from '../../redux/reducers/navReducer';
 
 //import ArrowBackIcon from '@mui/icons-material/ArrowBac';
 
@@ -19,6 +21,8 @@ import HistoryModalMenu from './HistoryModalMenu';
 
 
 const HistoryIdToolbar = ({ workout }) => {
+
+    const dispatch = useDispatch()
 // sx={{ padding: 0, alignItems: 'center', alignContent: 'center' }}>
     return (
         <>
@@ -27,6 +31,7 @@ const HistoryIdToolbar = ({ workout }) => {
                     variant='secondary'
                     component={Link}
                     to={'/history'}
+                    onClick={() => dispatch(resetHistory())}
                     sx={{
                         minWidth: 'auto',
                         paddingRight: 0,

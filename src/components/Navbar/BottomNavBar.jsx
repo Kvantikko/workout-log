@@ -19,7 +19,10 @@ import { useSelector } from 'react-redux';
 const FixedBottomNavigation = ({ workoutStarted }) => {
     const ref = React.useRef(null)
 
-    const darkMode = useSelector(state => state.darkMode)
+    const navLocations = useSelector(state => state.nav)
+    console.log(navLocations);
+
+    const darkMode = true // useSelector(state => state.darkMode)
 
     const location = useLocation()
 
@@ -52,13 +55,21 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
     }
 
     return (
-        <Box sx={{ pb: 7 }} ref={ref}>
+        <Box
+
+            sx={{
+                pb: 7,
+                display: { xs: 'block', md: 'none' },
+            }}
+            ref={ref}
+
+        >
 
             <CssBaseline />
             <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-              {/*   {workoutStarted && <Box>kakaakakaaaaaaaaaaaaaaaaaaaaa</Box>} */}
+                {/*   {workoutStarted && <Box>kakaakakaaaaaaaaaaaaaaaaaaaaa</Box>} */}
                 <BottomNavigation
-
+                    //style={{ zIndex: 1500 }}
                     showLabels
                     value={pageIndex()}
                     onChange={(event, newPageIndex) => {
@@ -68,7 +79,6 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                     }}
                     sx={darkMode ?
                         {
-
                             bgcolor: "rgba(255, 255, 255, 0.08)",
                             "& .MuiBottomNavigationAction-root": {
                                 "@media (max-width: 768px)": {
@@ -76,6 +86,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                                     padding: "6px 0"
                                 }
                             },
+                            //zIndex: 1500
                         }
                         :
                         {
@@ -125,13 +136,11 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                         <BottomNavigationAction
                             key={text}
                             component={Link}
-                            to={`/${text.toLowerCase()}`}
+                            //to={`/${text.toLowerCase()}`}
+                            to={`/${navLocations[index]}`}
                             label={text}
-                            //onClick={() => console.log("clicked")}
-                            //color='red'
-                            // onClick={() => setPage(text)}
                             icon={
-                                index === 0 && <AddIcon color='red' /> ||
+                                index === 0 && <AddIcon /> ||
                                 index === 1 && <HistoryIcon /> ||
                                 index === 2 && <FitnessCenterIcon /> ||
                                 index === 3 && <StraightenIcon /> ||

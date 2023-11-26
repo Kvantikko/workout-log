@@ -10,8 +10,10 @@ import ModalRoot from "../Modals/ModalRoot"
 import WorkoutToolbar from "./WorkoutToolbar"
 import HideAppBar from "../AppBar/HideAppBar"
 
+import PermanentDrawerLeft from "../Navbar/PermanentDrawerLeft"
 
-const Workout = ({ user }) => {
+
+const Workout = ({ user, drawerWidth }) => {
     console.log("Workout is rendering");
     //setPageIndex(1)
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
@@ -34,9 +36,10 @@ const Workout = ({ user }) => {
 
     return (
         <>
-            <HideAppBar>
-                <WorkoutToolbar />
+            <HideAppBar drawerWidth={drawerWidth} >
+                <WorkoutToolbar  />
             </HideAppBar>
+  
 
             {!workoutStarted &&
                 <Stack padding={3} spacing={2} alignItems="center">
@@ -79,6 +82,7 @@ const Workout = ({ user }) => {
             }
 
             {workoutStarted && <ActiveWorkout style={{ padding: 10 }} />}
+            
         </>
     )
 }

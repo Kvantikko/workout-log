@@ -20,7 +20,7 @@ import { useMatch } from 'react-router-dom';
 
 
 
-const Exercises = () => {
+const Exercises = ({ drawerWidth }) => {
     const exercises = useSelector(state => state.exerciseLibrary)
     //console.log("EXERCISES LIBRARY ", exercises);
     const [visibleExercises, setVisibleExercises] = useState(exercises)
@@ -44,7 +44,7 @@ const Exercises = () => {
     return (
         <div>
             <ModalRoot open={open} setOpen={setOpen} modalType={"createExercise"} />
-            <HideAppBar>
+            <HideAppBar drawerWidth={drawerWidth} >
                 <ExercisesToolbar input={input} setInput={setInput} setOpen={setOpen}/>
             </HideAppBar>
             <FilteredExercises exercises={visibleExercises} />

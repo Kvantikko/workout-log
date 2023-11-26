@@ -49,7 +49,10 @@ import { logout } from './redux/reducers/userReducer';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useTheme } from '@mui/material/styles';
-import { AppBar } from '@mui/material';
+import { AppBar, Box, Container, Drawer, Typography, Divider, Toolbar, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import TemporaryDrawer from './components/Navbar/TemporaryDrawer';
+import PermanentDrawerLeft from './components/Navbar/PermanentDrawerLeft';
+import { AddBoxOutlined } from '@mui/icons-material';
 
 /* const theme = createTheme({
     palette: {
@@ -78,11 +81,23 @@ import { AppBar } from '@mui/material';
 // '#1F1B24'
 
 
+
+
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
     },
+    zIndex: {
+        //appBar: 0,
+        //modal: 1250,
+        //drawer: 0
+    }
+    /*  drawer: {
+         zIndex: "500 !important"
+     }, */
 });
+
+
 
 
 /* vois kyllä tehddä modalin jossa on nappi ja ei haittaa että menu jää taustalle
@@ -94,7 +109,7 @@ const darkTheme = createTheme({
 
 
 const App = () => {
-    const darkMode = useSelector(state => state.darkMode)
+    const darkMode = true //useSelector(state => state.darkMode)
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const user = useSelector(state => state.user)
@@ -110,7 +125,8 @@ const App = () => {
 
     const [pageIndex, setPageIndex] = useState(0)
     // const [value, setValue] = React.useState(0);
-    const [searchInput, setSearchInput] = useState('')
+    const [drawerWidth, setdrawerWidth] = useState(250)
+
 
 
 
@@ -196,7 +212,7 @@ const App = () => {
         if (!stopWatchIsActive) {
             return 70
         } else {
-            return 180
+            return 0
         }
     }
 
@@ -225,88 +241,99 @@ const App = () => {
     return (
         <ThemeProvider theme={darkMode ? darkTheme : theme}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <div style={{ marginTop: margin() }}>
-                    <Routes>
-                        <Route
-                            path="/workout"
-                            element={<ProtectedRoute>
-                                <Workout user={user} style={{ margin: '110' }} />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/history/:id"
-                            element={<ProtectedRoute>
-                                <HistoryId workout={workout} />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/history"
-                            element={<ProtectedRoute>
-                                <History />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/exercises/:id"
-                            element={<ProtectedRoute>
-                                <Exercise exercise={exercise} />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/exercises"
-                            element={<ProtectedRoute>
-                                <Exercises />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/measure"
-                            element={<ProtectedRoute>
-                                <Measurements></Measurements>
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/profile"
-                            element={<ProtectedRoute>
-                                <Profile user={user} />
-                            </ProtectedRoute>} />
-                        <Route
-                            path="/"
-                            element={<ProtectedRoute>
-                                <Navigate to="/workout" />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/login"
-                            element={<Login />}
-                        />
-                    </Routes>
 
-                    <ToastContainer
-                        className="toast-position"
-                        position="bottom-center"
-                        autoClose={4000}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme={darkMode ? 'dark' : 'light'}
-                    />
-                </div>
-                {/* <AppBar
-                    position="fixed"
-                    color="primary"
-                    sx={{ top: 'auto', bottom: 56   }}
-                >
-                    dawdawd
 
-                </AppBar> */}
+
+
+                <Box sx={{ display: 'flex', marginTop: 0 }}  >
+                   {/*  <HideAppBar drawerWidth={drawerWidth} ></HideAppBar> */}
+                    {authenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
+
+                  
+                    <Box
+                        component="main"
+                        sx={{ flexGrow: 1 }}
+                    >
+                        <Toolbar />  {/* // for margin */}
+        
+
+                        <Routes>
+                            <Route
+                                path="/workout"
+                                element={<ProtectedRoute>
+                                    <Workout
+                                        user={user}
+                                        //style={{ margin: '110' }}
+                                        drawerWidth={drawerWidth}
+                                    />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/history/:id"
+                                element={<ProtectedRoute>
+                                    <HistoryId workout={workout} drawerWidth={drawerWidth}/>
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/history"
+                                element={<ProtectedRoute>
+                                    <History  drawerWidth={drawerWidth} />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/exercises/:id"
+                                element={<ProtectedRoute>
+                                    <Exercise exercise={exercise} drawerWidth={drawerWidth}/>
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/exercises"
+                                element={<ProtectedRoute>
+                                    <Exercises drawerWidth={drawerWidth}/>
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/measure"
+                                element={<ProtectedRoute>
+                                    <Measurements drawerWidth={drawerWidth} />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/profile"
+                                element={<ProtectedRoute>
+                                    <Profile user={user} drawerWidth={drawerWidth} />
+                                </ProtectedRoute>} />
+                            <Route
+                                path="/"
+                                element={<ProtectedRoute>
+                                    <Navigate to="/workout" />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/login"
+                                element={<Login />}
+                            />
+                        </Routes>
+                        <ToastContainer
+                            className="toast-position"
+                            position="bottom-right"
+                            autoClose={4000}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme={darkMode ? 'dark' : 'light'}
+                        />
+                    </Box>
+
+
+                    
+                </Box>
                 {authenticated && <BottomNavBar workoutStarted={workoutStarted} />}
 
-                {/* <HideAppBar sx={{ padding: 200 }}>
-                    {workoutStarted && stopWatchIsActive &&
-                        <StopWatch></StopWatch>
-                    }
-                </HideAppBar> */}
+
+
             </LocalizationProvider>
         </ThemeProvider>
     )

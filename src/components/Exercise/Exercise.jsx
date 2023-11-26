@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { Typography, Box } from '@mui/material';
 
 
-const Exercise = ({ exercise }) => {
+const Exercise = ({ exercise, drawerWidth }) => {
     //workoutExercises
     const history = useSelector(state => state.history)
     const user = useSelector(state => state.user)
@@ -33,7 +33,7 @@ const Exercise = ({ exercise }) => {
 
     return (
         <div>
-            <HideAppBar>
+            <HideAppBar drawerWidth={drawerWidth} >
                 <ExerciseToolbar exercise={exercise} />
             </HideAppBar>
             {(workoutExercises.length === 0) &&

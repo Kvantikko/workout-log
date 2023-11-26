@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-
+import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 
 import HistoryIcon from '@mui/icons-material/History';
@@ -42,31 +42,28 @@ const TemporaryDrawer = ( {setPage} ) => {
         right: false,
     });
 
-    const toggleDrawer = (anchor, open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
 
-        setState({ ...state, [anchor]: open });
-    };
 
     const list = (anchor) => (
         <Box
-            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250, marginLeft: "auto"}}
-            role="presentation"
-            onClick={toggleDrawer(anchor, false)}
-            onKeyDown={toggleDrawer(anchor, false)}
+           /*  sx={{
+                width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250,
+                marginLeft: "auto"
+            }} */
+            //role="presentation"
+           // onClick={toggleDrawer(anchor, false)}
+           // onKeyDown={toggleDrawer(anchor, false)}
         
         >
             <Divider />
             <List>
                 {['Workout', 'History', 'Exercises','Measurements', 'Profile'].map((text, index) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton component={ReactRouterLink} to={`/${text.toLowerCase()}`} onClick={() => setPage(text)}>
+                        <ListItemButton component={ReactRouterLink} to={`/${text.toLowerCase()}`} >
                             <ListItemIcon>
-                                {index === 0 && <FitnessCenterIcon />}
+                                {index === 0 && <AddIcon />}
                                 {index === 1 && <HistoryIcon />}
-                                {index === 2 && <FormatListBulletedIcon />}
+                                {index === 2 && <FitnessCenterIcon />}
                                 {index === 3 && <StraightenIcon />}
                                 {index === 4 && <PersonIcon />}
                             </ListItemIcon>
@@ -82,54 +79,32 @@ const TemporaryDrawer = ( {setPage} ) => {
                 </ListItemIcon>
                 <ListItemText primary='Profile' />
             </ListItemButton> */}
-            <Button>
-                <ArrowDownwardIcon  />
-            </Button>
         </Box>
     );
 
+
     return (
-
-                    <React.Fragment key={"bottom"}>
-                        <Fab
-                            sx={{
-                                position: "fixed",
-                                bottom: (theme) => theme.spacing(2),
-                                right: (theme) => theme.spacing(2)
-                            }}
-                            onClick={toggleDrawer("bottom", true)}
-                            color="primary"
-                        >
-                            <MenuIcon />
-                        </Fab>
-                
-                        <Drawer
-                            anchor={"bottom"}
-                            open={state["bottom"]}
-                            onClose={toggleDrawer("bottom", false)}
-                        >
-                            {list("bottom")}
-                        </Drawer>
-                    </React.Fragment>
-              
-    );
-
-    /* return (
       <div>
-        {['left', 'right', 'top', 'bottom'].map((anchor) => (
-          <React.Fragment key={anchor}>
-            <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <React.Fragment key={'left'}>
             <Drawer
-              anchor={anchor}
-              open={state[anchor]}
-              onClose={toggleDrawer(anchor, false)}
+              //anchor={'left'}
+              //elevation={0}
+              open
+              //open={state[anchor]}
+              //onClose={toggleDrawer(anchor, false)}
+              variant="permanent"
+              sx={{
+                display: { xs: 'none', md: 'block' },
+                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 300 },
+                zIndex: 0
+              }}
             >
-              {list(anchor)}
+              {list('left')}
             </Drawer>
           </React.Fragment>
-        ))}
+    
       </div>
-    ); */
+    )
 }
 
 export default TemporaryDrawer

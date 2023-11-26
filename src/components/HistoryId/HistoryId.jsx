@@ -37,7 +37,13 @@ import ConfirmationModal from "../Modals/ConfirmationModal";
 
 
 
-const HistoryId = ({ workout }) => {
+
+
+const HistoryId = ({ workout, drawerWidth }) => {
+
+    const history = useNavigate()
+
+    
 
     /**
      * ekalla componentin mountilla fetchataan data ja pistetään storeen, ja aina kun komponentti
@@ -52,6 +58,8 @@ const HistoryId = ({ workout }) => {
                 setworkoutExercises(response)
             })
     }, [history]) */
+
+    //history.push(`/history/${workout?.id}`);
 
 
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
@@ -100,7 +108,7 @@ const HistoryId = ({ workout }) => {
 
     return (
         <>
-            <HideAppBar>
+            <HideAppBar drawerWidth={drawerWidth}>
                 <HistoryIdToolbar workout={workout} />
             </HideAppBar>
 

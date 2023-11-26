@@ -6,12 +6,12 @@ import { logout } from "../../redux/reducers/userReducer"
 import { useNavigate } from "react-router-dom"
 import MeasurementsToolbar from "./MeasurementsToolbar"
 
-const Measurements = ({ user }) => {
+const Measurements = ({ user, drawerWidth }) => {
 
 
     return (
         <>
-            <HideAppBar>
+            <HideAppBar drawerWidth={drawerWidth} >
                 <MeasurementsToolbar />
             </HideAppBar>
 

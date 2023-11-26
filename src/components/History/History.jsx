@@ -5,7 +5,7 @@ import { ListItemButton, Box, Stack } from "@mui/material";
 
 import HideAppBar from "../AppBar/HideAppBar";
 import HistoryToolbar from "./HistoryToolbar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation,  useNavigate, useNavigation } from "react-router-dom";
 
 import { Typography } from "@mui/material";
 import { useState } from "react";
@@ -15,14 +15,21 @@ import { addToHistory, setWorkouts } from "../../redux/reducers/historyReducer";
 import HistoryListCard from "./HistoryListCard";
 
 
-const History = () => {
+
+
+const History = ({ drawerWidth }) => {
     const workouts = useSelector(state => state.history)
     const user = useSelector(state => state.user)
     const [filteredWorkouts, setFilteredWorkouts] = useState(workouts)
     const [showRemoveFilterButton, setShowRemoveFilterButton] = useState(false)
-    const currentDate = new Date()
-    //const [startDate, setStartDate] = useState(currentDate)
-    //const [endDate, setEndDate] = useState(currentDate)
+
+    const location = useLocation();
+    //const workoutId = location.pathname.split('/').pop();
+
+    //console.log(workoutId);
+    const navigate = useNavigate()
+
+    const workoutId = useSelector(state => state.nav.history)
 
     const dispatch = useDispatch()
 
@@ -74,11 +81,14 @@ const History = () => {
     const handleClick = () => {
         dispatch(startWorkout())
     }
+    
 
     return (
         <>
-            
-            <HideAppBar>
+
+            {/*  {historyId && <Navigate to={`/history/${historyId}`} />} */}
+
+            <HideAppBar drawerWidth={drawerWidth} >
                 <HistoryToolbar
                     filter={filterByDate}
                     removeFilter={removeDateFilter}
