@@ -22,6 +22,8 @@ import { clearSets } from "../../redux/reducers/setReducer";
 import { stopWatch } from "../../redux/reducers/stopWatchReducer";
 import { resetWorkout } from "../../redux/reducers/navReducer"
 
+import { keyframes } from '@mui/system';
+
 
 
 const Workout = ({ user, drawerWidth }) => {
@@ -34,6 +36,17 @@ const Workout = ({ user, drawerWidth }) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+/*     const blink = keyframes`
+  from { opacity: 0.75; }
+  to { opacity: 1; }
+`; */
+
+const blink = keyframes`
+from { background-color: #c62828; }
+to { background-color: #ff9800; }
+`;
+
 
     const handleScrollPosition = () => {
         const scrollPosition = sessionStorage.getItem("scrollPosition");
@@ -69,7 +82,7 @@ const Workout = ({ user, drawerWidth }) => {
             return
         }
         navigate('/workout')
-        
+
         dispatch(clearWorkout())
         dispatch(clearExercises())
         dispatch(clearSets())
@@ -108,7 +121,13 @@ const Workout = ({ user, drawerWidth }) => {
                             onClick={handleClick2}
                             color={'error'}
 
-                            sx={{ maxWidth: 0.8, padding: 2, textAlign: 'center',/*  marginY: 20  */ }} >
+                            sx={{
+                                maxWidth: 0.8,
+                                padding: 2,
+                                textAlign: 'center',
+                                animation: `${blink} 1s linear infinite alternate`,
+                            }}
+                        >
                             You have a workout in progress!
                         </Button>
                         <Divider orientation="horizontal" flexItem>
@@ -125,7 +144,7 @@ const Workout = ({ user, drawerWidth }) => {
                     sx={{ maxWidth: 0.8 }} >
                     Start a new workout
                 </Button>
-                
+
 
 
                 <Divider orientation="horizontal" flexItem>
@@ -147,19 +166,19 @@ const Workout = ({ user, drawerWidth }) => {
                 </Typography>
             </Stack >
             <ConfirmationModal
-                    showModal={showModal}
-                    closeFromParent={setShowModal}
-                    hideOpenButton='true'
-                    // menuItem={true}
-                    modalType='confirmCopyModal'
-                    //color='info'
-                    openButton={
-                        'Start new'
-                    }
-                    //confirmButton='Delete'
-                    confirmFunction={handleClick}
-                //handleMenuClose={handleClose}
-                />
+                showModal={showModal}
+                closeFromParent={setShowModal}
+                hideOpenButton='true'
+                // menuItem={true}
+                modalType='confirmCopyModal'
+                //color='info'
+                openButton={
+                    'Start new'
+                }
+                //confirmButton='Delete'
+                confirmFunction={handleClick}
+            //handleMenuClose={handleClose}
+            />
 
 
             {/*   {workoutStarted && <ActiveWorkout style={{ padding: 10 }} />} */}
