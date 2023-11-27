@@ -45,7 +45,7 @@ const ActiveWorkout = () => {
             note: "",
         }
         dispatch(addExercise(newExercise))
-       // console.log("exercise dsipatched ", exercises);
+        // console.log("exercise dsipatched ", exercises);
 
     }
 
@@ -58,7 +58,12 @@ const ActiveWorkout = () => {
 
 
     return (
-        <Container >
+        <Container sx={{
+            marginTop: { xs: 3, sm: 4, md: 6 },
+            width: 0,
+            minWidth: { xs: '100%', sm: '90%', md: '80%' }
+        }}
+        >
             {exercises.length === 0 &&
                 <Container>
                     <Typography variant="h6" align={"center"} sx={{ marginBottom: 2, marginTop: 15 }}>
@@ -75,7 +80,7 @@ const ActiveWorkout = () => {
                                 key={exercise.id}
                                 exerciseId={exercise.id}
                                 name={exercise.name}
-                                //deleteExercise={memoizedRemoveExercise}
+                            //deleteExercise={memoizedRemoveExercise}
                             />
                         )
                     })}

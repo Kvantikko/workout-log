@@ -212,9 +212,9 @@ const App = () => {
 
     const margin = () => {
         if (!stopWatchIsActive) {
-            return 70
-        } else {
             return 0
+        } else {
+            return 10
         }
     }
 
@@ -247,7 +247,7 @@ const App = () => {
 
 
 
-                <Box sx={{ display: 'flex', marginTop: 0 }}  >
+                <Box sx={{ display: 'flex', marginTop: margin() }}  >
                     {/*  <HideAppBar drawerWidth={drawerWidth} ></HideAppBar> */}
                     {authenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
 

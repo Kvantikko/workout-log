@@ -98,6 +98,7 @@ const TemporaryDrawer = ( {setPage} ) => {
                 '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 300 },
                 zIndex: 0
               }}
+             // ModalProps={{ disableScrollLock: true }}
             >
               {list('left')}
             </Drawer>

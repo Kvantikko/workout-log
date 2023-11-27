@@ -104,7 +104,7 @@ const Set = ({ set, number, index }) => {
             <Button variant="outlined" color="warning" onClick={removeSet} sx={{ minWidth: 0 }}>
                 <CloseIcon />
             </Button>
-            <Button variant="outlined" color="success" onClick={handleDoneClick} sx={{ minWidth: 0 }}>
+            <Button variant={color === '' ? "outlined" : 'contained'} color="success" onClick={handleDoneClick} sx={{ minWidth: 0 }}>
                 <DoneIcon />
             </Button>
         </Stack>

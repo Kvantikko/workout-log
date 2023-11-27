@@ -59,7 +59,7 @@ const WorkoutToolbar = () => {
                 </Typography>
             }
             {workoutStarted &&
-                <Stack direction={"row"} spacing={1}  >
+                <>
                     <Button
                         variant='secondary'
                         component={Link}
@@ -73,41 +73,44 @@ const WorkoutToolbar = () => {
                     >
                         <ArrowBackIcon />
                     </Button>
-                    <FormModal
-                        hideOpenButton='true'
-                        showModal={showModal}
-                        closeFromParent={setShowModal}
-                        modalType='saveWorkout'
-                        color='success'
-                        openButton={
+                    <Stack direction={"row"} spacing={{ xs: 1, sm: 2}} >
+
+                        <FormModal
+                            hideOpenButton='true'
+                            showModal={showModal}
+                            closeFromParent={setShowModal}
+                            modalType='saveWorkout'
+                            color='success'
+                            openButton={
+                                <CheckCircleOutlineIcon />
+                            }
+                        //confirmButton=''
+                        //confirmFunction={handleClear}
+                        />
+                        {!stopWatchIsActive &&
+                            <Button variant="contained" onClick={() => dispatch(startWatch())}>
+                                <TimerIcon />
+                            </Button>
+                        }
+                        <ConfirmationModal
+                            modalType='cancelWorkout'
+                            color='error'
+                            openButton={
+                                <NotInterestedIcon />
+                            }
+                            confirmButton='Yes'
+                            confirmFunction={handleClear}
+                        />
+                        <Button
+                            color="success"
+                            variant="contained"
+                            sx={{ width: 0, maxWidth: 0 }}
+                            onClick={handleFinishClick}
+                        >
                             <CheckCircleOutlineIcon />
-                        }
-                    //confirmButton=''
-                    //confirmFunction={handleClear}
-                    />
-                    {!stopWatchIsActive &&
-                        <Button variant="contained" onClick={() => dispatch(startWatch())}>
-                            <TimerIcon />
                         </Button>
-                    }
-                    <ConfirmationModal
-                        modalType='cancelWorkout'
-                        color='error'
-                        openButton={
-                            <NotInterestedIcon />
-                        }
-                        confirmButton='Yes'
-                        confirmFunction={handleClear}
-                    />
-                    <Button
-                        color="success"
-                        variant="contained"
-                        sx={{ width: 0, maxWidth: 0 }}
-                        onClick={handleFinishClick}
-                    >
-                        <CheckCircleOutlineIcon />
-                    </Button>
-                </Stack>
+                    </Stack>
+                </>
             }
 
         </>

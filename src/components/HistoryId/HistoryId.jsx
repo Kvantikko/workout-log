@@ -123,7 +123,14 @@ const HistoryId = ({ workout, drawerWidth }) => {
             </HideAppBar>
 
             {/* DATE */}
-            <Typography align='center' color="text.secondary" variant="body1" noWrap paddingBottom={0} paddingTop={2} >
+            <Typography
+                align='center'
+                color="text.secondary"
+                variant="body1"
+                noWrap
+                paddingBottom={0}
+                paddingTop={{ xs: 2, sm: 3, md: 4 }}
+            >
                 {/*   {formatDateTime(workout.createdAt, true)} */}
                 {format(new Date(workout.createdAt))
 
@@ -134,7 +141,7 @@ const HistoryId = ({ workout, drawerWidth }) => {
                 display="flex"
                 // justifyContent="center"
 
-                paddingX={2} paddingBottom={12} paddingTop={2}
+                paddingX={{ xs: 2, sm: 4, md: 8 }} paddingBottom={12} paddingTop={2}
             >
                 <Stack spacing={0} maxWidth={700} >
 

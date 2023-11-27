@@ -22,17 +22,18 @@ export default function ControlButtons(props) {
             //display={'flex'}
             //flexDirection={'row'}
             gap={2}
-            /* sx={{
-                alignItems: 'center',
-                margin: 'auto'
-            }} */
-            >
-                <Button variant="secondary" sx={{ margin: 0 }} onClick={props.handleReset}>
-                    <CloseIcon></CloseIcon>
-                </Button>
-                <Button variant="contained"  sx={{ marginY: 2 }} onClick={props.handlePauseResume}>
-                    {props.isPaused ? <PlayArrowIcon /> : <PauseIcon />}
-                </Button>
+        /* sx={{
+            alignItems: 'center',
+            margin: 'auto'
+        }} */
+        >
+            <Button variant="contained" sx={{ marginY: 2, marginLeft: 1.5 }} onClick={props.handlePauseResume}>
+                {props.isPaused ? <PlayArrowIcon /> : <PauseIcon />}
+            </Button>
+            <Button variant="secondary" sx={{ margin: 0 }} onClick={props.handleReset}>
+                <CloseIcon></CloseIcon>
+            </Button>
+
         </Box>
     );
 
