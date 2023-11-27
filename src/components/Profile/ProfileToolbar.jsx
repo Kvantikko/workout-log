@@ -44,13 +44,13 @@ const ProfileToolbar = () => {
                 Profile
             </Typography>
             <Stack direction={'row'} spacing={2}>
-                <Button
+              {/*   <Button
                     variant="contained"
                     //color="info"
                     onClick={handleDarkmode}
                 >
                     {darkmode ? <LightModeIcon /> : <DarkModeIcon />}
-                </Button>
+                </Button> */}
 
                 <ConfirmationModal
                     modalType='logoutModal'

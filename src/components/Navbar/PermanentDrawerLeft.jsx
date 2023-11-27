@@ -22,11 +22,15 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
 import { Link as ReactRouterLink,  useLocation, useMatch } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+
 
 
 
 
 const PermanentDrawerLeft = ({ drawerWidth }) => {
+
+    const navLocations = useSelector(state => state.nav)
 
     const match = useMatch('/exercises/:id')
     const matchHistory = useMatch('/history/:id')
@@ -84,11 +88,12 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                 {/*  <Toolbar /> */}
                 <Typography variant='h3' marginY={5} padding={2} textAlign={'center'}> workout log</Typography>
                 <List sx={{ /* margin: 'auto' */ }} >
-                    {['Workout', 'History', 'Exercises', 'Measurements', 'Profile'].map((text, index) => (
+                    {['Workout', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
                         <ListItem key={text} disablePadding >
                             <ListItemButton
                                 component={ReactRouterLink}
-                                to={`/${text.toLowerCase()}`}
+                                //to={`/${text.toLowerCase()}`}
+                                to={`/${navLocations[index]}`}
                                 selected={pageIndex() === index}
                             >
                                 <ListItemIcon>

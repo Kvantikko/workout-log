@@ -90,7 +90,7 @@ const HideAppBar = (props) => {
                     </Toolbar>
                     {workoutStarted && stopWatchIsActive &&
                         <Toolbar sx={{ justifyContent: "center" }} >
-                            <StopWatch></StopWatch>
+                            <StopWatch showButtons={true} timerSize={'h2'}></StopWatch>
                         </Toolbar>
                     }
                 </AppBar>

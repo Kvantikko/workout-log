@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 
-import Workout from './components/Workout/Workout'
+import Workout from './components/Home/Workout'
 import Exercises from './components/Exercises/Exercises'
 import Exercise from './components/Exercise/Exercise'
 import History from './components/History/History'
@@ -53,6 +53,10 @@ import { AppBar, Box, Container, Drawer, Typography, Divider, Toolbar, List, Lis
 import TemporaryDrawer from './components/Navbar/TemporaryDrawer';
 import PermanentDrawerLeft from './components/Navbar/PermanentDrawerLeft';
 import { AddBoxOutlined } from '@mui/icons-material';
+
+import { CssBaseline } from '@mui/material';
+
+import ActiveWorkout from './components/Workout/ActiveWorkout';
 
 /* const theme = createTheme({
     palette: {
@@ -101,13 +105,13 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 const App = () => {
     console.log("rendering App.jsx");
-    
+
     // STATE
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const user = useSelector(state => state.user)
     const authenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
-    
+
     // HOOKS
     const theme = useTheme();
     const navigate = useNavigate()
@@ -180,9 +184,9 @@ const App = () => {
     }, [authenticated])
 
     useEffect(() => {
-        console.log("EFFECT");
+        //console.log("EFFECT");
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
-        console.log(loggedUserJSON);
+        //console.log(loggedUserJSON);
         const token = window.localStorage.getItem('userToken')
         //console.log("TOken FROM LOC STORage ", token);
         if (loggedUserJSON) {
@@ -242,6 +246,7 @@ const App = () => {
 
     return (
         <ThemeProvider theme={darkMode ? darkTheme : theme}>
+            <CssBaseline />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
 
@@ -261,9 +266,19 @@ const App = () => {
 
                         <Routes>
                             <Route
-                                path="/workout"
+                                path="/"
                                 element={<ProtectedRoute>
                                     <Workout
+                                        user={user}
+                                        //style={{ margin: '110' }}
+                                        drawerWidth={drawerWidth}
+                                    />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/workout"
+                                element={<ProtectedRoute>
+                                    <ActiveWorkout
                                         user={user}
                                         //style={{ margin: '110' }}
                                         drawerWidth={drawerWidth}
@@ -305,12 +320,12 @@ const App = () => {
                                 element={<ProtectedRoute>
                                     <Profile user={user} drawerWidth={drawerWidth} />
                                 </ProtectedRoute>} />
-                            <Route
+                            {/* <Route
                                 path="/"
                                 element={<ProtectedRoute>
                                     <Navigate to="/workout" />
                                 </ProtectedRoute>}
-                            />
+                            /> */}
                             <Route
                                 path="/login"
                                 element={<Login />}

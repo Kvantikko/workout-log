@@ -6,10 +6,10 @@ import Timer from './Timer';
 import ControlButtons from './ControlButton';
 import { startWorker as startWorkerManager, stopWorker as stopWorkerManager, postMessageToWorker as postMessageToWorkerManager, getWorker } from './workerManager';
 
-function StopWatch() {
+function StopWatch({ showButtons, timerSize }) {
     const dispatch = useDispatch();
     const { isActive, isPaused, time, isWorker } = useSelector((state) => state.stopWatch);
-    const timerSize = useSelector((state) => state.stopWatch.timerSize);
+    //const timerSize = useSelector((state) => state.stopWatch.timerSize);
     const workerRef = useRef();
 
     useEffect(() => {
@@ -28,11 +28,11 @@ function StopWatch() {
             dispatch(updateTime(e.data));
         }
 
-       /*  return () => {
-            console.log('Terminating worker...');
-            stopWorkerManager();
-            dispatch(setWorker(null));
-        }; */
+        /*  return () => {
+             console.log('Terminating worker...');
+             stopWorkerManager();
+             dispatch(setWorker(null));
+         }; */
     }, [dispatch, isWorker]);
 
     const handleStart = () => {
@@ -57,14 +57,17 @@ function StopWatch() {
             <Typography variant={timerSize} textAlign={'center'}>
                 <Timer time={time} />
             </Typography>
-            <ControlButtons
-                sx={{ justifyContent: 'space-between', alignItems: 'center', margin: 'auto' }}
-                active={isActive}
-                isPaused={isPaused}
-                handleStart={handleStart}
-                handlePauseResume={handlePauseResume}
-                handleReset={handleReset}
-            />
+            {showButtons &&
+                <ControlButtons
+                    sx={{ justifyContent: 'space-between', alignItems: 'center', margin: 'auto' }}
+                    active={isActive}
+                    isPaused={isPaused}
+                    handleStart={handleStart}
+                    handlePauseResume={handlePauseResume}
+                    handleReset={handleReset}
+                />
+            }
+
         </>
     );
 }

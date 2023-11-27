@@ -6,8 +6,11 @@ import { Autocomplete, Button, TextField, Input, Stack, Container, Box, Typograp
 import { useSelector } from "react-redux"
 import generateId from "../../utils/generateId"
 import { addExercise, deleteExercise } from "../../redux/reducers/exerciseReducer"
+import HideAppBar from "../AppBar/HideAppBar"
+import WorkoutToolbar from "./WorkoutToolbar"
 
-const ActiveWorkout = () => {
+
+const ActiveWorkout = ({ drawerWidth }) => {
     console.log("ActiveWorkout is rendering");
     const exerciseNames = useSelector(state => state.exerciseLibrary).map(e => e.name)
     const exercises = useSelector(state => state.exercises)
@@ -58,60 +61,65 @@ const ActiveWorkout = () => {
 
 
     return (
-        <Container sx={{
-            marginTop: { xs: 3, sm: 4, md: 6 },
-            width: 0,
-            minWidth: { xs: '100%', sm: '90%', md: '80%' }
-        }}
-        >
-            {exercises.length === 0 &&
-                <Container>
-                    <Typography variant="h6" align={"center"} sx={{ marginBottom: 2, marginTop: 15 }}>
-                        Start adding exercises!
-                    </Typography>
-                </Container>
-            }
-            {!(exercises.length === 0) &&
-                <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
-                    {exercises.map(exercise => {
-                        //console.log("mappping exercises... ", exercise)
-                        return (
-                            <WorkoutExercise
-                                key={exercise.id}
-                                exerciseId={exercise.id}
-                                name={exercise.name}
-                            //deleteExercise={memoizedRemoveExercise}
+        <>
+            <HideAppBar drawerWidth={drawerWidth} >
+                <WorkoutToolbar />
+            </HideAppBar>
+            <Container sx={{
+                marginTop: { xs: 3, sm: 4, md: 6 },
+                width: 0,
+                minWidth: { xs: '100%', sm: '90%', md: '80%' }
+            }}
+            >
+                {exercises.length === 0 &&
+                    <Container>
+                        <Typography variant="h6" align={"center"} sx={{ marginBottom: 2, marginTop: 15 }}>
+                            Start adding exercises!
+                        </Typography>
+                    </Container>
+                }
+                {!(exercises.length === 0) &&
+                    <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
+                        {exercises.map(exercise => {
+                            //console.log("mappping exercises... ", exercise)
+                            return (
+                                <WorkoutExercise
+                                    key={exercise.id}
+                                    exerciseId={exercise.id}
+                                    name={exercise.name}
+                                //deleteExercise={memoizedRemoveExercise}
+                                />
+                            )
+                        })}
+                    </Stack>
+                }
+                <Stack direction={"row"} sx={{ justifyContent: "center", mx: 0, marginBottom: 6 }}>
+                    <Autocomplete
+                        onInputChange={(event, newInputValue) => setSelected(newInputValue)}
+                        freeSolo
+                        disablePortal
+                        id="combo-box-demo"
+                        options={exerciseNames}
+                        sx={{ width: 300 }}
+                        renderInput={(params) =>
+                            <TextField {...params}
+                                label="Exercise"
+                                size="small"
+                                //style={{ height: 4  0 }}
+                                onKeyDown={e => {
+                                    if (e.code === 'enter' && e.target.value) {
+                                        setSelected(e.target.value)
+                                        //setAutoCompleteValue(autoCompleteValue.concat(e.target.value));
+                                    }
+                                }}
                             />
-                        )
-                    })}
+                        }
+                    />
+                    <Button variant="contained" onClick={createExercise}>Add</Button>
                 </Stack>
-            }
-            <Stack direction={"row"} sx={{ justifyContent: "center", mx: 0, marginBottom: 6 }}>
-                <Autocomplete
-                    onInputChange={(event, newInputValue) => setSelected(newInputValue)}
-                    freeSolo
-                    disablePortal
-                    id="combo-box-demo"
-                    options={exerciseNames}
-                    sx={{ width: 300 }}
-                    renderInput={(params) =>
-                        <TextField {...params}
-                            label="Exercise"
-                            size="small"
-                            //style={{ height: 4  0 }}
-                            onKeyDown={e => {
-                                if (e.code === 'enter' && e.target.value) {
-                                    setSelected(e.target.value)
-                                    //setAutoCompleteValue(autoCompleteValue.concat(e.target.value));
-                                }
-                            }}
-                        />
-                    }
-                />
-                <Button variant="contained" onClick={createExercise}>Add</Button>
-            </Stack>
 
-        </Container>
+            </Container>
+        </>
     )
 }
 

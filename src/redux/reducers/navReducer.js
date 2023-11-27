@@ -9,10 +9,10 @@ import { createSlice } from '@reduxjs/toolkit'
 } */
 
 const initialState = [
-    'workout',
+    '',
     'history',
     'exercises',
-    'measurements',
+    'measure',
     'profile'
 ]
 
@@ -20,6 +20,14 @@ const navSlice = createSlice({
     name: 'nav',
     initialState,
     reducers: {
+        pushWorkout: (state, action) => {
+            state[0] = 'workout'
+            return state
+        },
+        resetWorkout: (state, action) => {
+            state[0] = ''
+            return state
+        },
         pushHistory: (state, action) => {
             state[1] = action.payload
             return state
@@ -27,10 +35,16 @@ const navSlice = createSlice({
         resetHistory: (state, action) => {
             state[1] = 'history'
             return state
-        }
+        },
+        
     }
 });
 
-export const { pushHistory, resetHistory} = navSlice.actions;
+export const {
+    pushWorkout,
+    resetWorkout,
+    pushHistory,
+    resetHistory
+} = navSlice.actions;
 
 export default navSlice.reducer

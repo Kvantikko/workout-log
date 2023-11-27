@@ -29,6 +29,9 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { toast } from "react-toastify"
 
 const Login = (props) => {
+    console.log(theme => theme);
+
+
     const [typography, setTypography] = useState(["Login", "Don't have an account? ", "Register"])
 
     const [email, setEmail] = useState("")
@@ -186,6 +189,7 @@ const Login = (props) => {
                         error={!(errorEmail === '')}
                         helperText={errorEmail}
                         fullWidth={true}
+                        autoComplete="off"
                     //sx={{ width: 1}}
                     />
                     {(typography[0] === "Register") &&
@@ -236,7 +240,7 @@ const Login = (props) => {
                     <Button
                         type="submit"
                         variant="contained"
-                        sx={{ marginTop: 2 }}
+                        sx={{ marginTop: 4 }}
                     >
                         <Stack direction={'row'} spacing={2}>
                             <div>{typography[0]}</div>

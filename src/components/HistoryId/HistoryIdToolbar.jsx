@@ -29,6 +29,8 @@ const HistoryIdToolbar = ({ workout, handleCopy, showModal, setShowModal }) => {
 
     const isSmallScreen = useMediaQuery('(min-width:900px)');
 
+    const dispatch = useDispatch()
+
 
     return (
         <>
