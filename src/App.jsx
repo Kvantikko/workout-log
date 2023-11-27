@@ -129,6 +129,15 @@ const App = () => {
             //modal: 1250,
             //drawer: 0
         },
+        /* components: {
+            MuiCssBaseline: {
+                styleOverrides: `
+                h1, h2, h3, h4, h5, h6, p {
+                  margin: 0;
+                }
+              `
+            }
+        } */
         //isSmallScreen
     });
     const darkMode = true //useSelector(state => state.darkMode)

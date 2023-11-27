@@ -16,10 +16,12 @@ import { clearWorkout } from "../../redux/reducers/workoutReducer";
 import { clearExercises } from "../../redux/reducers/exerciseReducer";
 import { clearSets } from "../../redux/reducers/setReducer";
 import { stopWatch } from "../../redux/reducers/stopWatchReducer";
+import { resetWorkout } from "../../redux/reducers/navReducer"
+
 import FormModal from "../Modals/FormModal";
 import { Link, useNavigate } from "react-router-dom";
 
-import { resetWorkout } from "../../redux/reducers/navReducer"
+
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -28,7 +30,7 @@ import StopWatch from "../Clock/StopWatch";
 
 
 
-const WorkoutToolbar = () => {
+const WorkoutToolbar = ({ handleClear }) => {
     console.log("WorkoutToolbar is rendering");
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const exercises = useSelector(state => state.exercises)
@@ -50,15 +52,14 @@ const WorkoutToolbar = () => {
         handleModalOpen()
     }
 
-    const handleClear = () => {
+    /* const handleClear = () => {
         dispatch(clearWorkout())
         dispatch(clearExercises())
         dispatch(clearSets())
         dispatch(stopWatch())
         dispatch(resetWorkout())
         navigate('/')
-        // handleClose()
-    }
+    } */
 
     return (
         <>

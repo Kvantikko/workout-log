@@ -34,7 +34,11 @@ const HistoryIdToolbar = ({ workout, handleCopy, showModal, setShowModal }) => {
 
     return (
         <>
-            <Stack direction={"row"} spacing={2} overflow={'hidden'}>
+            <Stack direction={"row"} spacing={0} overflow={'hidden'}>
+
+
+
+
                 <Button
                     variant='secondary'
                     component={Link}
@@ -43,35 +47,62 @@ const HistoryIdToolbar = ({ workout, handleCopy, showModal, setShowModal }) => {
                     sx={{
                         minWidth: 'auto',
                         paddingRight: 0,
-                        paddingLeft: 0
+                        paddingLeft: 0,
+                        marginRight: 0,
 
+                        textTransform: 'none'
                     }}
                 >
-                    <ArrowBackIcon />
+                    <ArrowBackIcon sx={{ marginRight: isSmallScreen ? 1 : 0 }} />
+                    {isSmallScreen ?
+                        <Typography
+                            variant="h6"
+
+                            //sx={{ paddingY: 1.5, marginY: 'auto' }} 
+                            alignSelf={'center'}
+                            overflow={'hidden'}
+                            noWrap
+                        >
+                            {`History /`}
+                        </Typography>
+                        :
+                        null
+                    }
                 </Button>
+
+
+
                 <Typography
                     variant="h6"
-                   // component="div"
-                    sx={{ paddingY: 1.5, margin: 'auto' }}  // paddinY 1.5 for mobile, 2 for bigger
+                    component="div"
+                    sx={{ marginLeft: 1 }}
                     alignSelf={'center'}
                     overflow={'hidden'}
                     noWrap
+                    margin={0}
                 >
-                    {workout.title}
+                    {`${workout.title}`}
                 </Typography>
             </Stack>
+
+
+
+
             <Stack
                 direction={"row"}
                 spacing={2}
                 padding={2}
                 alignSelf={'flex-start'}
             >
-                {/* padding={0}  joo mutta nimi menee pois koska suunnittelin niin sen jos on pitkä nimi*/}
+
                 {isSmallScreen ?
                     <Button
-                    
-                        sx={{ height: 1, margin: 'auto', whiteSpace: 'nowrap',
-                        textAlign: 'center'}}
+
+                        sx={{
+                            height: 1, margin: 'auto', whiteSpace: 'nowrap',
+                            textAlign: 'center', paddingY: 0.5, paddingX: 2
+
+                        }}
                         variant="contained" onClick={(event) => handleCopy(event)} >
                         Perform again
                     </Button>

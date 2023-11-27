@@ -94,7 +94,7 @@ const Workout = ({ user, drawerWidth }) => {
 
             <Stack padding={3} spacing={2} alignItems="center">
                 {!workoutStarted &&
-                    < Stack spacing={1} padding={3}>
+                    < Stack spacing={2} padding={3}>
                         <Typography variant="h5" textAlign={'center'}> Hello {user.firstname}! &#128075;</Typography>
                         <Typography variant="h5" textAlign={'center'}>Time to workout?</Typography>
                     </Stack>
