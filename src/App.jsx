@@ -350,6 +350,7 @@ const App = () => {
                             draggable
                             pauseOnHover
                             theme={darkMode ? 'dark' : 'light'}
+                            toastStyle={{ backgroundColor: "#474747" }}
                         />
                     </Box>
 

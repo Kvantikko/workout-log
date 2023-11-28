@@ -21,7 +21,12 @@ const SearchBar = () => {
         fullWidth
         onFocus={handleSearchClick}
         onBlur={handleSearchClick}
-        sx={{ ml: isExpanded ? 1 : -1, flexGrow: isExpanded ? 1 : 0 }}
+        sx={{
+            ml: isExpanded ? 1 : -1,
+            flexGrow: isExpanded ? 1 : 0,
+            backgroundColor: 'red',
+            color: 'red'
+        }}
       />
     </Paper>
   );

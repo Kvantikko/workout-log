@@ -16,31 +16,63 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import ClearIcon from '@mui/icons-material/Clear';
 import FormModal from '../Modals/FormModal';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setSearch } from '../../redux/reducers/searchReducer';
+
+
 
 const ExercisesToolbar = ({ input, setInput, setOpen }) => {
     console.log("ExerciseToolbar rendering");
-    const [showSearch, setShowSearch] = useState(false)
 
+    const searchState = useSelector(state => state.search)
+
+    const [showFullWidthSearch, setShowFullWidthSearch] = useState(searchState.showFullWidth)
+    
+
+    const isSmallScreen = useMediaQuery('(max-width:700px)');
 
     const inputRef = useRef(null);
 
-    /* useEffect(() => {
-        if (inputRef !== null) {
-            console.log("EFFECT AND NOT NULL");
-            inputRef.current?.focus()
-        }
-    }) */
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        setInput(searchState.searchString)
+        setShowFullWidthSearch(searchState.showFullWidth)
+    }, [])
 
     const handleSearchClick = (event) => {
-        setShowSearch(true)
+        setShowFullWidthSearch(true)
+    }
+
+    const handleClick = () => {
+        //console.log("blur happening");
+        if (isSmallScreen) {
+
+        }
+        setShowFullWidthSearch(false)
+        setInput('')
+        dispatch(
+            setSearch({
+                searchString: '',
+                showFullWidth: false
+            })
+        )
+
+        //setInput('')
+        //console.log(inputRef.current);
+        //inputRef.current.focus()
     }
 
     const handleBlur = () => {
-        console.log("blur happening");
-        setShowSearch(false)
-        setInput('')
-        //console.log(inputRef.current);
-        //inputRef.current.focus()
+        console.log("handling blur...")
+        dispatch(
+            setSearch({
+                searchString: input,
+                showFullWidth: showFullWidthSearch
+            })
+        )
     }
 
     const handleClear = (event) => {
@@ -58,41 +90,121 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
         //setShowSearch(true)
     }
 
+    const searchInput = () => {
+
+        return (
+            <TextField
+                //label="Search field"
+                ref={inputRef}
+                size='small'
+                type="text"
+                variant="outlined"
+                placeholder="Search"
+                autoFocus
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                onFocus={() => console.log("FOCUSED")}
+                onBlur={handleBlur}
+                onClick={() => console.log("clicked textf")}
+                onMouseDown={() => console.log("mousse down textf")}
+                fullWidth
+                sx={{ paddingX: { xs: 0, sm: 4 } }}
+                //width={1000}
+
+
+                //InputProps={{ sx: { borderRadius: 0 } }}
+                InputProps={{
+                    sx: {
+                        //backgroundColor: '#3a88d6',
+                        input: {
+                            //color: 'white',
+                            //backgroundColor: '#42a1f5'
+                        }
+                    },
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon />
+                        </InputAdornment>
+                    ),
+                    endAdornment: input && (
+                        <IconButton
+                            onClick={() => console.log("clicked clear button")}
+                            onMouseDown={handleMouseDown}
+                            color='white'
+                        >
+                            <ClearIcon sx={{ color: 'white' }} />
+                        </IconButton>
+                    )
+                }}
+            />
+
+        )
+
+    }
+
     return (
         <>
-            {(!showSearch) &&
+            {!showFullWidthSearch &&
                 <>
                     <Typography variant="h6" component="div" >
                         Exercises
                     </Typography>
-                    <Stack direction="row" spacing={2}>
-                        <Button
-                            //color='info'
-                            variant="contained"
-                            onClick={handleSearchClick}
-                        >
-                            <SearchIcon />
-                        </Button>
 
+                    {!isSmallScreen &&
+                        searchInput()
+                    }
+
+                    <Stack direction="row" spacing={2}>
+                        {isSmallScreen &&
+                            <Button
+                                variant="contained"
+                                onClick={handleSearchClick}
+                            >
+                                <SearchIcon />
+                            </Button>
+                        }
                         <FormModal
-                            //menuItem={false}
                             modalType='createExercise'
-                            //color='info'
                             openButton={
                                 <AddIcon />
                             }
                             confirmButton='Create'
-                            //confirmFunction={deleteExercise}
-                            //object={exercise}
-                            //handleMenuClose={handleClose}
                         />
                     </Stack>
                 </>
             }
 
-            {(showSearch) &&
+            {showFullWidthSearch && !isSmallScreen &&
+                <>
+                    <Typography variant="h6" component="div" >
+                        Exercises
+                    </Typography>
+                    {searchInput()}
+                    <Stack direction="row" spacing={2}>
+                        {isSmallScreen &&
+                            <Button
+                                variant="contained"
+                                onClick={handleSearchClick}
+                            >
+                                <SearchIcon />
+                            </Button>
+                        }
+                        <FormModal
+                            modalType='createExercise'
+                            openButton={
+                                <AddIcon />
+                            }
+                            confirmButton='Create'
+                        />
+                    </Stack>
+                </>
+            }
+
+
+            {isSmallScreen && showFullWidthSearch &&
                 <>
                     <Button variant="secondary"
+                        onClick={handleClick}
                         sx={{
                             minWidth: 'auto',
                             paddingRight: 0.5,
@@ -102,47 +214,7 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                     >
                         <ArrowBackIcon />
                     </Button>
-                    <TextField
-                        //label="Search field"
-                        ref={inputRef}
-                        size='small'
-                        type="text"
-                        variant="outlined"
-                        placeholder="Search"
-                        autoFocus
-                        value={input}
-                        onChange={(event) => setInput(event.target.value)}
-                        onFocus={() => console.log("FOCUSED")}
-                        onBlur={handleBlur}
-                        onClick={() => console.log("clicked textf")}
-                        onMouseDown={() => console.log("mousse down textf")}
-                        fullWidth
-
-                        //InputProps={{ sx: { borderRadius: 0 } }}
-                        InputProps={{
-                            sx: {
-                                backgroundColor: '#3a88d6',
-                                input: {
-                                    color: 'white',
-                                    //backgroundColor: '#42a1f5'
-                                }
-                            },
-                            /* startAdornment: (
-                              <InputAdornment position="start">
-                                <SearchIcon />
-                              </InputAdornment>
-                            ), */
-                            endAdornment: input && (
-                                <IconButton
-                                    onClick={() => console.log("clicked clear button")}
-                                    onMouseDown={handleMouseDown}
-                                    color='white'
-                                >
-                                    <ClearIcon sx={{ color: 'white' }} />
-                                </IconButton>
-                            )
-                        }}
-                    />
+                    {searchInput()}
                 </>
             }
         </>

@@ -18,21 +18,40 @@ import ExercisesToolbar from './ExercisesToolbar';
 
 import { useMatch } from 'react-router-dom';
 
+import { setSearchExercises } from '../../redux/reducers/searchReducer';
+
 
 
 const Exercises = ({ drawerWidth }) => {
     const exercises = useSelector(state => state.exerciseLibrary)
+    const exercisesFilteredSearch = useSelector(state => state.search.exercises)
+    const searchState = useSelector(state => state.search)
+    const [input, setInput] = useState(searchState.searchString)
     //console.log("EXERCISES LIBRARY ", exercises);
-    const [visibleExercises, setVisibleExercises] = useState(exercises)
-    const [input, setInput] = useState('')
+    const [visibleExercises, setVisibleExercises] =
+        useState(
+            ((exercisesFilteredSearch.length !== 0) ||
+                (
+                    (exercisesFilteredSearch.length === 0) &&
+                    (input.length !== 0)
+                )
+            )
+            ?
+            exercisesFilteredSearch
+            :
+            exercises
+        )
     const [open, setOpen] = useState(false)
-    
+
+    const dispatch = useDispatch()
+
 
     useEffect(() => {
         let filteredExercises = exercises?.filter(
             e => e.name.toLowerCase().includes(input.toLowerCase())
         )
         setVisibleExercises(filteredExercises)
+        dispatch(setSearchExercises(filteredExercises))
     }, [input, exercises])
 
     /* const match = useMatch('/exercises/:id')
@@ -45,7 +64,7 @@ const Exercises = ({ drawerWidth }) => {
         <div>
             <ModalRoot open={open} setOpen={setOpen} modalType={"createExercise"} />
             <HideAppBar drawerWidth={drawerWidth} >
-                <ExercisesToolbar input={input} setInput={setInput} setOpen={setOpen}/>
+                <ExercisesToolbar input={input} setInput={setInput} setOpen={setOpen} />
             </HideAppBar>
             <FilteredExercises exercises={visibleExercises} />
         </div>
