@@ -21,17 +21,19 @@ import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import HomeIcon from '@mui/icons-material/Home';
 
-import { Link as ReactRouterLink,  useLocation, useMatch } from 'react-router-dom';
+import { Link as ReactRouterLink, useLocation, useMatch } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
 
-
+import { blink } from '../../utils/Blink';
 
 
 const PermanentDrawerLeft = ({ drawerWidth }) => {
 
     const navLocations = useSelector(state => state.nav)
+
+    const workoutInProgress = useSelector(state => state.workout.workoutStarted)
 
     const match = useMatch('/exercises/:id')
     const matchHistory = useMatch('/history/:id')
@@ -105,7 +107,13 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                                     {index === 4 && <PersonIcon />}
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
+                                {index === 0 && workoutInProgress && (pageIndex() !== index) && <Box sx={{
+                                    borderRadius: 2,
+                                    paddingX: 1.5,
+                                    animation: `${blink} 1s linear infinite alternate`,
+                                }} > ! </Box>}
                             </ListItemButton>
+
                         </ListItem>
                     ))}
                 </List>

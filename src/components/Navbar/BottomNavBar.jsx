@@ -15,6 +15,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import HomeIcon from '@mui/icons-material/Home';
+import { Badge } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 
@@ -22,7 +23,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
     const ref = React.useRef(null)
 
     const navLocations = useSelector(state => state.nav)
-   
+
 
     const darkMode = true // useSelector(state => state.darkMode)
 
@@ -30,7 +31,9 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
 
     const match = useMatch('/exercises/:id')
     const matchHistory = useMatch('/history/:id')
-  
+
+    const workoutInProgress = useSelector(state => state.workout.workoutStarted)
+
     /*  const exercise = match
          ? exercises.find(exercise => exercise.id === Number(match.params.id))
          : null */
@@ -142,10 +145,23 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                             to={`/${navLocations[index]}`}
                             label={text}
                             icon={
-                                index === 0 && <HomeIcon /> ||
-                                index === 1 && <HistoryIcon /> ||
-                                index === 2 && <FitnessCenterIcon /> ||
-                                index === 3 && <StraightenIcon /> ||
+                                (
+                                    index === 0 &&
+                                    workoutInProgress &&
+                                    pageIndex() !== 0 &&
+                                    <Badge badgeContent={workoutInProgress ? '!' : ''} color="error">
+                                        <HomeIcon color="action" />
+                                    </Badge>
+                                )
+                                ||
+                                index === 0 && <HomeIcon />
+                                ||
+                                index === 1 && <HistoryIcon />
+                                ||
+                                index === 2 && <FitnessCenterIcon />
+                                ||
+                                index === 3 && <StraightenIcon /> 
+                                ||
                                 index === 4 && <PersonIcon />
                             }
                         />

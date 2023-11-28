@@ -25,6 +25,8 @@ import { resetWorkout } from "../../redux/reducers/navReducer"
 
 import { keyframes } from '@mui/system';
 
+import { blink } from "../../utils/Blink"
+
 
 
 const Workout = ({ user, drawerWidth }) => {
@@ -38,15 +40,8 @@ const Workout = ({ user, drawerWidth }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-/*     const blink = keyframes`
-  from { opacity: 0.75; }
-  to { opacity: 1; }
-`; */
 
-const blink = keyframes`
-from { background-color: #c62828; }
-to { background-color: #ff9800; }
-`;
+
 
 
     const handleScrollPosition = () => {
