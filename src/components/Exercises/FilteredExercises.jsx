@@ -2,10 +2,14 @@ import { Stack, TextField, Divider, Box, Typography } from '@mui/material'
 import ExerciseListItem from './ExerciseListItem'
 import { ListItem, ListItemButton } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
+import { setExercisesPath } from '../../redux/reducers/navReducer'
 
 
 const FilteredExercises = ({ exercises }) => {
+    const dispatch = useDispatch()
+    
 
     // use List instead of Stack?
     return (
@@ -17,7 +21,7 @@ const FilteredExercises = ({ exercises }) => {
                 paddingX: { xs: 0, sm: 2, md: 4 },
                 //overflow: "hidden",
                 //textOverflow: 'ellipsis',
-               // width: 1,
+                // width: 1,
             }}
 
 
@@ -28,19 +32,23 @@ const FilteredExercises = ({ exercises }) => {
                 <Box sx={{
                     //overflow: "hidden",
                     //textOverflow: 'ellipsis',
-                   // width: 1,
+                    // width: 1,
                     width: 0,
                     minWidth: 1 //{ xs: '100%', sm: '80%', md: '60%'}
                 }} >
                     <ListItem key={exercise.id} disablePadding>
-                        <ListItemButton component={Link} to={`/exercises/${exercise.id}`} onClick={() => console.log("dad")}>
+                        <ListItemButton
+                            component={Link}
+                            to={`/exercises/${exercise.id}`}
+                            onClick={() => dispatch(setExercisesPath(`exercises/${exercise.id}`))}
+                        >
                             <Typography paddingY={0.75} noWrap>
                                 {exercise.name}
 
                             </Typography>
                             {/*  <ExerciseListItem key={exercise.id} exercise={exercise} /> */}
                         </ListItemButton>
-                       {/*  <div>dadwadaw</div> */}
+                        {/*  <div>dadwadaw</div> */}
                     </ListItem>
                     <Divider></Divider>
                 </Box>

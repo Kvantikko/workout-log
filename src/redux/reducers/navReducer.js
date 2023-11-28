@@ -36,6 +36,14 @@ const navSlice = createSlice({
             state[1] = 'history'
             return state
         },
+        setExercisesPath: (state, action) => {
+            state[2] = action.payload
+            return state
+        },
+        resetExercisePath: (state, action) => {
+            state[2] = 'exercises'
+            return state
+        },
         
     }
 });
@@ -44,7 +52,9 @@ export const {
     pushWorkout,
     resetWorkout,
     pushHistory,
-    resetHistory
+    resetHistory,
+    setExercisesPath,
+    resetExercisePath,
 } = navSlice.actions;
 
 export default navSlice.reducer
