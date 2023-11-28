@@ -7,66 +7,45 @@ import { Link } from 'react-router-dom'
 
 const FilteredExercises = ({ exercises }) => {
 
-    // addind <div>'s made sx margin work
+    // use List instead of Stack?
     return (
-        <Box
-            display="flex"
-            flexDirection="column"
-            //justifyContent="center"
-            alignItems="center"
-        //minHeight="75vh"
-        //minWidth="75vh"
-        //padding={4}
+
+        <Stack
+            spacing={0}
+            sx={{
+                marginTop: 2,
+                paddingX: { xs: 0, sm: 2, md: 4 },
+                //overflow: "hidden",
+                //textOverflow: 'ellipsis',
+               // width: 1,
+            }}
+
+
+
         >
+            {exercises.length === 0 && <Typography variant='h6'>No exercises found &#129300;</Typography>}
+            {exercises.map(exercise =>
+                <Box sx={{
+                    //overflow: "hidden",
+                    //textOverflow: 'ellipsis',
+                   // width: 1,
+                    width: 0,
+                    minWidth: 1 //{ xs: '100%', sm: '80%', md: '60%'}
+                }} >
+                    <ListItem key={exercise.id} disablePadding>
+                        <ListItemButton component={Link} to={`/exercises/${exercise.id}`} onClick={() => console.log("dad")}>
+                            <Typography paddingY={0.75} noWrap>
+                                {exercise.name}
 
-            {/*  <List>
-                {exercises.map((exercise, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton component={ReactRouterLink} to={`/${text.toLowerCase()}`} onClick={() => setPage(text)}>
-                            <ListItemIcon>
-                                {index === 0 && <FitnessCenterIcon />}
-                                {index === 1 && <HistoryIcon />}
-                                {index === 2 && <FormatListBulletedIcon />}
-                                {index === 3 && <StraightenIcon />}
-                                {index === 4 && <PersonIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
+                            </Typography>
+                            {/*  <ExerciseListItem key={exercise.id} exercise={exercise} /> */}
                         </ListItemButton>
+                       {/*  <div>dadwadaw</div> */}
                     </ListItem>
-                ))}
-            </List> */}
-            <Stack
-                spacing={0}
-                sx={{
-                    marginTop: 2,
-                    padding: 2, width: "1",
-                    overflow: "hidden",
-                    //maxWidth: '90vw', suuremmissa ruuduissa
-                }}
-                justifyContent="space-between"
-                //alignItems="center"
-
-            >
-                {exercises.length === 0 && <Typography variant='h6'>No exercises found &#129300;</Typography>}
-                {exercises.map(exercise =>
-                    <Box alignContent={'left'} alignItems={'left'} textAlign={'left'}>
-                        <ListItem key={exercise.id} disablePadding>
-                            <ListItemButton component={Link} to={`/exercises/${exercise.id}`} onClick={() => console.log("dad")}>
-                                <Typography padding={0.75}noWrap>
-                                    {exercise.name}
-
-                                </Typography>
-                                {/*  <ExerciseListItem key={exercise.id} exercise={exercise} /> */}
-                            </ListItemButton>
-                        </ListItem>
-                        <Divider></Divider>
-                    </Box>
-
-
-                )}
-            </Stack>
-            {/* <ExerciseListItem key={exercise.id} exercise={exercise} />  */}
-        </Box>
+                    <Divider></Divider>
+                </Box>
+            )}
+        </Stack>
     )
 }
 
