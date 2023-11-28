@@ -23,6 +23,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import StopWatch from "../Clock/StopWatch";
@@ -30,15 +31,18 @@ import StopWatch from "../Clock/StopWatch";
 
 
 
-const WorkoutToolbar = ({ handleClear }) => {
+const WorkoutToolbar = ({ }) => {
     console.log("WorkoutToolbar is rendering");
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const exercises = useSelector(state => state.exercises)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const [showModal, setShowModal] = useState(false)
+    const isSmallScreen = useMediaQuery('(min-width:900px)');
+
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
 
     const handleModalOpen = () => {
         setShowModal(true)
@@ -52,34 +56,72 @@ const WorkoutToolbar = ({ handleClear }) => {
         handleModalOpen()
     }
 
-    /* const handleClear = () => {
+    const handleClear = () => {
         dispatch(clearWorkout())
         dispatch(clearExercises())
         dispatch(clearSets())
         dispatch(stopWatch())
         dispatch(resetWorkout())
         navigate('/')
-    } */
+    }
 
     return (
         <>
             <>
-                <Button
-                    variant='secondary'
-                    component={Link}
-                    to={'/'}
-                    onClick={() => dispatch(resetWorkout())}
-                    sx={{
-                        minWidth: 'auto',
-                        paddingRight: 0,
-                        paddingLeft: 0
+                <Stack direction={"row"} spacing={0} overflow={'hidden'}>
+                    <Button
+                        variant='secondary'
+                        component={Link}
+                        to={'/'}
+                        onClick={() => dispatch(resetWorkout())}
+                        sx={{
+                            minWidth: 'auto',
+                            paddingRight: 0,
+                            paddingLeft: 0,
+                            marginRight: 0,
 
-                    }}
+                            textTransform: 'none'
+                        }}
+                    >
+                        <ArrowBackIcon sx={{ marginRight: isSmallScreen ? 1 : 0 }} />
+                        {isSmallScreen ?
+                            <Typography
+                                variant="h6"
+                                component="div"
+                                sx={{ padding: 0, margin: '0 !important' }}
+                                
+                                //alignSelf={'center'}
+                                //overflow={'hidden'}
+                                noWrap
+                            >
+                                {`Home /`}
+                            </Typography>
+                            :
+                            null
+                        }
+                    </Button>
+                    <Typography
+                        variant="h6"
+                        
+                        component="div"
+                        sx={{ marginLeft: 1 }}
+                        alignSelf={'center'}
+                        overflow={'hidden'}
+                        noWrap
+                        margin={0}
+                    >
+                        Workout
+                    </Typography>
+                </Stack>
+
+
+                {/*  <StopWatch timerSize={'h5'}/> */}
+                <Stack
+                    direction={"row"}
+                    spacing={{ xs: 1, sm: 2 }}
+                    paddingY={1.5}
+                    alignSelf={'flex-start'}
                 >
-                    <ArrowBackIcon />
-                </Button>
-               {/*  <StopWatch timerSize={'h5'}/> */}
-                <Stack direction={"row"} spacing={{ xs: 1, sm: 2 }} >
 
                     <FormModal
                         hideOpenButton='true'
@@ -107,14 +149,16 @@ const WorkoutToolbar = ({ handleClear }) => {
                         confirmButton='Yes'
                         confirmFunction={handleClear}
                     />
+             
                     <Button
                         color="success"
                         variant="contained"
-                        sx={{ width: 0, maxWidth: 0 }}
+                        
                         onClick={handleFinishClick}
                     >
                         <CheckCircleOutlineIcon />
                     </Button>
+                
                 </Stack>
             </>
 

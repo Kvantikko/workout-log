@@ -1,5 +1,8 @@
 import { Stack, TextField, Divider, Box, Typography } from '@mui/material'
 import ExerciseListItem from './ExerciseListItem'
+import { ListItem, ListItemButton } from '@mui/material'
+import { Link } from 'react-router-dom'
+
 
 
 const FilteredExercises = ({ exercises }) => {
@@ -11,9 +14,9 @@ const FilteredExercises = ({ exercises }) => {
             flexDirection="column"
             //justifyContent="center"
             alignItems="center"
-            //minHeight="75vh"
-            //minWidth="75vh"
-            //padding={4}
+        //minHeight="75vh"
+        //minWidth="75vh"
+        //padding={4}
         >
 
             {/*  <List>
@@ -33,7 +36,7 @@ const FilteredExercises = ({ exercises }) => {
                 ))}
             </List> */}
             <Stack
-                spacing={1.75}
+                spacing={0}
                 sx={{
                     marginTop: 2,
                     padding: 2, width: "1",
@@ -41,14 +44,28 @@ const FilteredExercises = ({ exercises }) => {
                     //maxWidth: '90vw', suuremmissa ruuduissa
                 }}
                 justifyContent="space-between"
-                alignItems="center"
+                //alignItems="center"
 
             >
                 {exercises.length === 0 && <Typography variant='h6'>No exercises found &#129300;</Typography>}
                 {exercises.map(exercise =>
-                    <ExerciseListItem key={exercise.id} exercise={exercise} />
+                    <Box alignContent={'left'} alignItems={'left'} textAlign={'left'}>
+                        <ListItem key={exercise.id} disablePadding>
+                            <ListItemButton component={Link} to={`/exercises/${exercise.id}`} onClick={() => console.log("dad")}>
+                                <Typography padding={0.75}noWrap>
+                                    {exercise.name}
+
+                                </Typography>
+                                {/*  <ExerciseListItem key={exercise.id} exercise={exercise} /> */}
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider></Divider>
+                    </Box>
+
+
                 )}
             </Stack>
+            {/* <ExerciseListItem key={exercise.id} exercise={exercise} />  */}
         </Box>
     )
 }

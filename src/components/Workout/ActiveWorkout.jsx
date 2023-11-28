@@ -8,6 +8,9 @@ import generateId from "../../utils/generateId"
 import { addExercise, deleteExercise } from "../../redux/reducers/exerciseReducer"
 import HideAppBar from "../AppBar/HideAppBar"
 import WorkoutToolbar from "./WorkoutToolbar"
+import FormModal from "../Modals/FormModal"
+import AddIcon from '@mui/icons-material/Add';
+import ConfirmationModal from "../Modals/ConfirmationModal"
 
 
 const ActiveWorkout = ({ drawerWidth }) => {
@@ -15,7 +18,9 @@ const ActiveWorkout = ({ drawerWidth }) => {
     const exerciseNames = useSelector(state => state.exerciseLibrary).map(e => e.name)
     const exercises = useSelector(state => state.exercises)
     //const workout = useSelector(state => state.workout)
-    const [selected, setSelected] = useState("")
+    const [selected, setSelected] = useState('')
+    const [showModal, setShowModal] = useState(false)
+    const [showModal2, setShowModal2] = useState(false)
     //const title = useSelector(state => state.workout.workoutTitle)
     //const thisWorkout = useSelector(state => state.workout)
     //const [exercises, setExercises] = useState([])
@@ -39,8 +44,16 @@ const ActiveWorkout = ({ drawerWidth }) => {
 
         if (!exerciseNames.includes(selected)) {
             console.log("ei ole databasessa");
-            // laita uusi nimi databaseen?
+            setShowModal2(true)
+        } else {
+            addNewExercise()
+            // console.log("exercise dsipatched ", exercises);
         }
+        
+
+    }
+
+    const addNewExercise = () => {
         const newExercise = {
             id: generateId(),
             name: selected,
@@ -48,8 +61,16 @@ const ActiveWorkout = ({ drawerWidth }) => {
             note: "",
         }
         dispatch(addExercise(newExercise))
-        // console.log("exercise dsipatched ", exercises);
+    }
 
+    const handleNewExercise = () => {
+        setShowModal2(false)
+        setShowModal(true)
+    }
+
+    const paska = () => {
+        addNewExercise()
+        setShowModal(false)
     }
 
 
@@ -95,21 +116,33 @@ const ActiveWorkout = ({ drawerWidth }) => {
                 }
                 <Stack direction={"row"} sx={{ justifyContent: "center", mx: 0, marginBottom: 6 }}>
                     <Autocomplete
+                        value={selected}
                         onInputChange={(event, newInputValue) => setSelected(newInputValue)}
                         freeSolo
                         disablePortal
                         id="combo-box-demo"
                         options={exerciseNames}
                         sx={{ width: 300 }}
+                        onKeyDown={e => {
+                            if (e.code === 'enter' && e.target.value) {
+                                console.log("dööööööööööö");
+                                // setSelected(e.target.value)
+                                //setAutoCompleteValue(autoCompleteValue.concat(e.target.value));
+                            }
+                        }}
                         renderInput={(params) =>
                             <TextField {...params}
                                 label="Exercise"
                                 size="small"
                                 //style={{ height: 4  0 }}
                                 onKeyDown={e => {
-                                    if (e.code === 'enter' && e.target.value) {
-                                        setSelected(e.target.value)
+                                    if (e.code === 'Enter' && e.target.value) {
+                                        console.log("dööööööööööö");
+                                        //setSelected(e.target.value)
                                         //setAutoCompleteValue(autoCompleteValue.concat(e.target.value));
+                                        setSelected('')
+                                        createExercise()
+
                                     }
                                 }}
                             />
@@ -117,6 +150,29 @@ const ActiveWorkout = ({ drawerWidth }) => {
                     />
                     <Button variant="contained" onClick={createExercise}>Add</Button>
                 </Stack>
+
+                <FormModal
+                    hideOpenButton='true'
+                    showModal={showModal}
+                    closeFromParent={setShowModal}
+
+                    //menuItem={false}
+                    modalType='createExercise'
+                    //color='info'
+                    confirmButton='Create'
+                    confirmFunction={paska}
+                //object={exercise}
+                //handleMenuClose={handleClose}
+                />
+                <ConfirmationModal
+                    hideOpenButton='true'
+                    showModal={showModal2}
+                    closeFromParent={setShowModal2}
+                    modalType='exerciseDoesntExist'
+                    color='info'
+                    confirmButton='Yes'
+                    confirmFunction={handleNewExercise}
+                />
 
             </Container>
         </>

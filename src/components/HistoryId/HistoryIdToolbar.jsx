@@ -24,6 +24,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 
+
 const HistoryIdToolbar = ({ workout, handleCopy, showModal, setShowModal }) => {
     console.log("rendering HistoryIdToolbar.jsx");
 
@@ -35,10 +36,6 @@ const HistoryIdToolbar = ({ workout, handleCopy, showModal, setShowModal }) => {
     return (
         <>
             <Stack direction={"row"} spacing={0} overflow={'hidden'}>
-
-
-
-
                 <Button
                     variant='secondary'
                     component={Link}
@@ -69,9 +66,6 @@ const HistoryIdToolbar = ({ workout, handleCopy, showModal, setShowModal }) => {
                         null
                     }
                 </Button>
-
-
-
                 <Typography
                     variant="h6"
                     component="div"

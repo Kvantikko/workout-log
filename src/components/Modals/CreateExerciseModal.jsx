@@ -29,7 +29,7 @@ const CreateExerciseModal = ({ handleClose, confirmButton }) => {
             toast.error(err.response)
         }
 
-    }
+    }   
 
     return (
         <>

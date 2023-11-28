@@ -9,6 +9,7 @@ import { startWorkout } from "../../redux/reducers/workoutReducer"
 import ModalRoot from "../Modals/ModalRoot"
 import WorkoutToolbar from "./WorkoutToolbar"
 import HideAppBar from "../AppBar/HideAppBar"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import PermanentDrawerLeft from "../Navbar/PermanentDrawerLeft"
 
@@ -128,7 +129,7 @@ to { background-color: #ff9800; }
                                 animation: `${blink} 1s linear infinite alternate`,
                             }}
                         >
-                            You have a workout in progress!
+                            <>You have a workout in progress!</> <ArrowForwardIcon sx={{ marginLeft: 1}}/>
                         </Button>
                         <Divider orientation="horizontal" flexItem>
                             start again?

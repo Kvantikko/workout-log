@@ -19,6 +19,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import HomeIcon from '@mui/icons-material/Home';
 
 import { Link as ReactRouterLink,  useLocation, useMatch } from 'react-router-dom';
 
@@ -88,7 +89,7 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                 {/*  <Toolbar /> */}
                 <Typography variant='h3' marginY={5} padding={2} textAlign={'center'}> workout log</Typography>
                 <List sx={{ /* margin: 'auto' */ }} >
-                    {['Workout', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
+                    {['Home', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
                         <ListItem key={text} disablePadding >
                             <ListItemButton
                                 component={ReactRouterLink}
@@ -97,7 +98,7 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                                 selected={pageIndex() === index}
                             >
                                 <ListItemIcon>
-                                    {index === 0 && <AddIcon />}
+                                    {index === 0 && <HomeIcon />}
                                     {index === 1 && <HistoryIcon />}
                                     {index === 2 && <FitnessCenterIcon />}
                                     {index === 3 && <StraightenIcon />}

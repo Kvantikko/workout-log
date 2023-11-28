@@ -12,7 +12,7 @@ const MeasurementsToolbar = () => {
     return (
         <>
             <Typography variant="h6" component="div">
-                Measurements
+                Measure
             </Typography>
    
         </>

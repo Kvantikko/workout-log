@@ -14,6 +14,8 @@ import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import HomeIcon from '@mui/icons-material/Home';
+
 import { useSelector } from 'react-redux';
 
 const FixedBottomNavigation = ({ workoutStarted }) => {
@@ -132,7 +134,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                             }
                         }}
                 >
-                    {['Workout', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
+                    {['Home', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
                         <BottomNavigationAction
                             key={text}
                             component={Link}
@@ -140,7 +142,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                             to={`/${navLocations[index]}`}
                             label={text}
                             icon={
-                                index === 0 && <AddIcon /> ||
+                                index === 0 && <HomeIcon /> ||
                                 index === 1 && <HistoryIcon /> ||
                                 index === 2 && <FitnessCenterIcon /> ||
                                 index === 3 && <StraightenIcon /> ||

@@ -15,6 +15,7 @@ const Set = ({ set, number, index }) => {
     const [weight, _setWeight] = useState(set.weight)
     const [reps, _setReps] = useState(set.reps)
     const [color, setColor] = useState(set.done ? "rgba(25, 255, 255, 0.12)" : "") // only works darmodes
+    //const [placeholder, setPlaceHolder] = useState(0)
     // const [color, setColor] = useState(set.done ? { darkMode ? "rgba(255, 255, 255, 0.12)" : "#c9ffcc"} : "")
 
     const dispatch = useDispatch()
@@ -32,6 +33,25 @@ const Set = ({ set, number, index }) => {
             return */
         }
         dispatch(deleteSet(set.id))
+    }
+
+    const handleBlur = (event) => {
+        console.log("handling blur", event.target.value);
+
+
+        if (event.target.value === "" && event.target.id === "weight") {
+            console.log('AAAAAAAAAAAAAAAAAAA');
+            _setWeight(0)
+            console.log(weight);
+        }
+
+        if (event.target.value === "" && event.target.id === "reps") {
+            console.log('BBBBBBBBBBBBBBBBBBBB');
+            _setReps(0)
+            console.log(reps);
+        }
+
+
     }
 
     const handleDoneClick = () => {
@@ -57,7 +77,9 @@ const Set = ({ set, number, index }) => {
                 style={{ width: 100, minWidth: 80 }}
                 id="weight"
                 type="number"
-                defaultValue={weight}
+                value={weight}
+                //defaultValue={}
+                // placeholder={placeholder}
                 min={0}
                 InputLabelProps={{
                     shrink: true
@@ -65,15 +87,24 @@ const Set = ({ set, number, index }) => {
                 inputProps={{
                     style: { textAlign: 'center' },
                     min: 0,
-                    step: 2.5
+                    step: 2.5,
+                    inputmode: 'numeric',
+                    pattern: '[0-9]*'
                 }}
+                //inputProps={{ inputmode: 'numeric' pattern: '[0-9]*' }}
                 onChange={(e) => updateSet(e.target.value, reps, set.warmup)}
                 onKeyDown={(event) => {
-                    if (event?.key === '-' || event?.key === '+' || event?.key === '.') {
+                    if (event?.key === '-' ||
+                        event?.key === '+' ||
+                        event?.key === '.' ||
+                        event?.key === 'e' ||
+                        event?.key === 'E') {
                         event.preventDefault();
                     }
                 }}
-              
+                onBlur={(event) => handleBlur(event)}
+            // onClick={() => setPlaceHolder('')}
+
             //margin="normal"
 
             />
@@ -82,7 +113,8 @@ const Set = ({ set, number, index }) => {
                 style={{ width: 100, minWidth: 60 }}
                 id="reps"
                 type="number"
-                defaultValue={reps}
+                value={reps}
+                // placeholder={placeholder}
                 min={0}
                 InputLabelProps={{
                     shrink: true,
@@ -94,10 +126,15 @@ const Set = ({ set, number, index }) => {
                 }}
                 onChange={(e) => updateSet(weight, e.target.value, set.warmup)}
                 onKeyDown={(event) => {
-                    if (event?.key === '-' || event?.key === '+' || event?.key === '.' || event?.key === ',') {
+                    if (event?.key === '-' ||
+                        event?.key === '+' ||
+                        event?.key === '.' ||
+                        event?.key === 'e' ||
+                        event?.key === 'E') {
                         event.preventDefault();
                     }
                 }}
+                onBlur={(event) => handleBlur(event)}
             //margin="normal"
             />
 

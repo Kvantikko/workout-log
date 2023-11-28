@@ -41,7 +41,7 @@ const WorkoutToolbar = () => {
         <>
 
             <Typography variant="h6" component="div">
-                Workout
+                Home
             </Typography>
 
 
