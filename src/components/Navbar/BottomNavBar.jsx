@@ -149,9 +149,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                                     index === 0 &&
                                     workoutInProgress &&
                                     pageIndex() !== 0 &&
-                                    <Badge badgeContent={workoutInProgress ? '!' : ''} color="error">
-                                        <HomeIcon color="action" />
-                                    </Badge>
+                                    <Badge variant='dot' color="error"> <HomeIcon /> </Badge>
                                 )
                                 ||
                                 index === 0 && <HomeIcon />
