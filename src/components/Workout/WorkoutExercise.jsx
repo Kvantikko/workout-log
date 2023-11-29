@@ -202,10 +202,10 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
             {renderSets()}
             <Box textAlign='center' sx={{ mt: 2 }} > {/* box is for centering the button */}
                 <Button
-                    variant="contained"
+                    variant="text"
                     onClick={() => createSet(false)}
-                    //fullWidth={{ xs: true, md: false }}
-                    sx={{ width: { xs: 0.8, sm: 0.3 } }}
+                    fullWidth
+                    //sx={{ width: { xs: 0.8, sm: 0.3 } }}
                 >
                     Add set
                 </Button>

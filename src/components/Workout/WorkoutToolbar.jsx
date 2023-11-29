@@ -1,5 +1,5 @@
 import { Typography, Stack, Button, IconButton } from "@mui/material"
-import TimerIcon from '@mui/icons-material/Timer';
+import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { startWatch } from "../../redux/reducers/stopWatchReducer";
 import ModalRoot from "../Modals/ModalRoot";
@@ -144,7 +144,7 @@ const WorkoutToolbar = ({ }) => {
                             sx={{ color: '#90CAF9', padding: 0.5 }}
                             onClick={() => dispatch(startWatch())}
                         >
-                            <TimerIcon />
+                            <TimerOutlinedIcon />
                         </IconButton>
 
                         /*    <Button variant="contained" onClick={() => dispatch(startWatch())}>

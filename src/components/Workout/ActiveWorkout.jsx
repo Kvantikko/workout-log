@@ -21,6 +21,7 @@ const ActiveWorkout = ({ drawerWidth }) => {
     const [selected, setSelected] = useState('')
     const [showModal, setShowModal] = useState(false)
     const [showModal2, setShowModal2] = useState(false)
+    const [showAddExerciseModal, setShowAddExerciseModal] = useState(false)
     //const title = useSelector(state => state.workout.workoutTitle)
     //const thisWorkout = useSelector(state => state.workout)
     //const [exercises, setExercises] = useState([])
@@ -49,7 +50,7 @@ const ActiveWorkout = ({ drawerWidth }) => {
             addNewExercise()
             // console.log("exercise dsipatched ", exercises);
         }
-        
+
 
     }
 
@@ -69,11 +70,11 @@ const ActiveWorkout = ({ drawerWidth }) => {
     }
 
     const paska = () => {
-        
+
 
 
         addNewExercise()
-       // setShowModal(false)
+        // setShowModal(false)
     }
 
 
@@ -93,12 +94,12 @@ const ActiveWorkout = ({ drawerWidth }) => {
                 marginTop: { xs: 3, sm: 4, md: 6 },
                 width: 0,
                 minWidth: { xs: '100%', sm: '90%', md: '80%' },
-               
+
             }}
             >
                 {exercises.length === 0 &&
                     <Container>
-                        <Typography variant="h6" align={"center"} sx={{ marginBottom: 2, marginTop: 15 }}>
+                        <Typography variant="h6" color={'text.secondary'} align={"center"} sx={{ marginBottom: 2, marginTop: 15 }}>
                             Start adding exercises!
                         </Typography>
                     </Container>
@@ -118,6 +119,7 @@ const ActiveWorkout = ({ drawerWidth }) => {
                         })}
                     </Stack>
                 }
+
                 <Stack direction={"row"} sx={{ justifyContent: "center", mx: 0, marginBottom: 6 }}>
                     <Autocomplete
                         value={selected}
@@ -155,6 +157,22 @@ const ActiveWorkout = ({ drawerWidth }) => {
                     <Button variant="contained" onClick={createExercise}>Add</Button>
                 </Stack>
 
+                <Button variant="text" fullWidth onClick={() => setShowAddExerciseModal(true)}>Add exercise</Button>
+
+                <FormModal
+                    hideOpenButton='true'
+                    showModal={showAddExerciseModal}
+                    closeFromParent={setShowAddExerciseModal}
+
+                    //menuItem={false}
+                    modalType='addExerciseToWorkout'
+                    //color='info'
+                    confirmButton=''
+                //confirmFunction={paska}
+                    object={exerciseNames}
+                //handleMenuClose={handleClose}
+                />
+
                 <FormModal
                     hideOpenButton='true'
                     showModal={showModal}
@@ -164,7 +182,7 @@ const ActiveWorkout = ({ drawerWidth }) => {
                     modalType='createExercise'
                     //color='info'
                     confirmButton='Create'
-                    //confirmFunction={paska}
+                //confirmFunction={paska}
                 //object={exercise}
                 //handleMenuClose={handleClose}
                 />
@@ -178,7 +196,7 @@ const ActiveWorkout = ({ drawerWidth }) => {
                     confirmFunction={handleNewExercise}
                 />
 
-            </Container>
+            </Container >
         </>
     )
 }

@@ -9,6 +9,7 @@ import DeleteUserModal from './DeleteUserModal'
 import EditUserModal from './EditUserModal'
 import LogoutModal from './LogoutModal'
 import DeleteWorkoutModal from './DeleteWorkoutModal'
+import AddExerciseToWorkoutModal from './AddExerciseToWorkoutModal'
 
 export const renderModalChildren = (modalType, confirmFunction, confirmButton, object) => {
     //console.log("RENDERMODALCHILD FUNC PROPS: ", modalType, handleClose, confirmFunction, confirmButton, color);
@@ -29,6 +30,8 @@ export const renderModalChildren = (modalType, confirmFunction, confirmButton, o
             return <PickDateModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "confirmCopyModal":
             return <ConfirmCopyModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
+        case "addExerciseToWorkout":
+            return <AddExerciseToWorkoutModal confirmFunction={confirmFunction} confirmButton={confirmButton} exercises={object} />
         default:
             return <div>Not yet implemented</div>
     }
@@ -73,6 +76,24 @@ export const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    //display: 'flex',
+    //flexDirection: 'column'
+};
+
+export const style2 = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100vw',
+    //height: '100wh',
+    maxHeight: '80%',
+    maxWidth: 550,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    //overflow: 'scroll'
     //display: 'flex',
     //flexDirection: 'column'
 };
