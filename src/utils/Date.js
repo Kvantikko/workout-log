@@ -17,7 +17,7 @@ export const formatDateTime = (dateToBeFormatted, showTime) => {
     const formatTime = (hours, minutes) => {
         if (hours < 10) { hours = "0" + hours }
         if (minutes < 10) { minutes = "0" + minutes }
-        return new String(" at " + hours + ":" + minutes)
+        return new String(" @ " + hours + ":" + minutes)
     }
 
     if (showTime) {

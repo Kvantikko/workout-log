@@ -30,8 +30,8 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
                 <div>
                     <Stack key={exercise.id} sx={{/* backgroundColor: "green", */ width: 1 }}>
                         {showDate &&
-                            <Typography variant="h6" /* color={'text.secondary'} */noWrap /* textAlign={'center'} */ >
-                                {formatDateTime(exercise.createdAt)}
+                            <Typography variant="h6" /* color={'text.secondary'} */ noWrap /* textAlign={'center'} */ >
+                                {formatDateTime(exercise.createdAt, true)}
                             </Typography>
                         }
 
@@ -39,10 +39,19 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
                             {exercise.name}
                         </Typography>
 
+                        <Typography
+                            variant="body1"
+                            color={'text.secondary'}
+                            sx={{  paddingX: 0, width: 'fit-content', borderRadius: 1 }}
+                            //noWrap
+                        >
+                            {exercise.note}
+                        </Typography>
+
                         {/* ALL EXERCISE SETS */}
                         <WorkoutExerciseSets workoutExerciseSets={exercise.sets} />
                     </Stack>
-                    <Divider sx={{ marginTop: 2 }}/>
+                    <Divider sx={{ marginTop: 2 }} />
                 </div>
 
 

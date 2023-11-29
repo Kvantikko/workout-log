@@ -69,8 +69,11 @@ const ActiveWorkout = ({ drawerWidth }) => {
     }
 
     const paska = () => {
+        
+
+
         addNewExercise()
-        setShowModal(false)
+       // setShowModal(false)
     }
 
 
@@ -86,10 +89,11 @@ const ActiveWorkout = ({ drawerWidth }) => {
             <HideAppBar drawerWidth={drawerWidth} >
                 <WorkoutToolbar />
             </HideAppBar>
-            <Container sx={{
+            <Container disableGutters sx={{
                 marginTop: { xs: 3, sm: 4, md: 6 },
                 width: 0,
-                minWidth: { xs: '100%', sm: '90%', md: '80%' }
+                minWidth: { xs: '100%', sm: '90%', md: '80%' },
+               
             }}
             >
                 {exercises.length === 0 &&
@@ -106,7 +110,7 @@ const ActiveWorkout = ({ drawerWidth }) => {
                             return (
                                 <WorkoutExercise
                                     key={exercise.id}
-                                    exerciseId={exercise.id}
+                                    exercise={exercise}
                                     name={exercise.name}
                                 //deleteExercise={memoizedRemoveExercise}
                                 />
@@ -160,7 +164,7 @@ const ActiveWorkout = ({ drawerWidth }) => {
                     modalType='createExercise'
                     //color='info'
                     confirmButton='Create'
-                    confirmFunction={paska}
+                    //confirmFunction={paska}
                 //object={exercise}
                 //handleMenuClose={handleClose}
                 />

@@ -87,7 +87,7 @@ const Exercise = ({ exercise, drawerWidth }) => {
                         }
 
 
-                        <Box paddingY={ {xs: 2, md: 3} } paddingX={ {xs: 2, sm: 3, md: 5} }  >
+                        <Box paddingY={ {xs: 2, md: 5} } paddingX={ {xs: 2, sm: 4, md: 6} }  >
                             <WorkoutExerciseList workoutExercises={workoutExercises} showDate={true} />
                         </Box>
                     </div>

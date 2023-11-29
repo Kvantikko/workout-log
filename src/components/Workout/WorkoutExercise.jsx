@@ -7,17 +7,20 @@ import { addSet, deleteSet } from "../../redux/reducers/setReducer"
 import DeleteIcon from "@mui/icons-material/Delete"
 import generateId from "../../utils/generateId"
 
-import { deleteExercise } from "../../redux/reducers/exerciseReducer"
+import { deleteExercise, editExerciseNote } from "../../redux/reducers/exerciseReducer"
 
-const WorkoutExercise = ({ exerciseId, name }) => { // deleteExercise
+const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
     console.log("WorkoutExercise is rendering");
     /**
      * PIDÄ STATE LÄHELLÄ SITÄ COMPONENTTIA MILLE SE ON RELEVENTTI.
      * TÄSSÄ NÄYTTÄISI ETTÄ SETTIEN PITÄMINEN LIIAN YLHÄÄLLÄ HUONO
      */
+    const noteFromStore = useSelector(state => state.exercises.find(e => e.id === exercise.id).note )  
+    const [note, setNote] = useState(noteFromStore)
+    const [focused, setFocused] = useState(false)
     const allSetsFromState = useSelector(state => state.sets) // filter funktio aiheuttaa varootuksen jos käyttää tässä kohtaa...!?
     //const sets = allSetsFromState.filter(set => set.exerciseId === exerciseId)
-    const sets = React.useMemo(() =>  allSetsFromState.filter(set => set.exerciseId === exerciseId), [allSetsFromState]  )
+    const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
     //console.log('WorkoutExercise: const sets: ', sets);
     const [setId, setSetId] = useState(1) // used for keys and sorting set order, TÄÄ ON HUONO KU SE RESETOITUU
     //const [isSetsLengthZero, setIsSetsLengthZero] = useState(sets.length === 0)
@@ -46,17 +49,17 @@ const WorkoutExercise = ({ exerciseId, name }) => { // deleteExercise
             console.log('WorkoutExercise: useEffect() creating a set');
             createSet(true) // tää aiheuttaa sen että ei scrollaa pohjaan
             //window.scrollTo(0, document.body.scrollHeight)
-           // window.scrollTo(0, document.body.scrollHeight, "smooth")
-            
+            // window.scrollTo(0, document.body.scrollHeight, "smooth")
+
             setTimeout(() => {
                 console.log("Delayed for 1 second.");
                 window.scrollTo({
                     top: document.body.scrollHeight,
                     left: 0,
                     behavior: "smooth",
-                  });
-              }, "100");
-              
+                });
+            }, "100");
+
         }
     }, [])
 
@@ -88,7 +91,7 @@ const WorkoutExercise = ({ exerciseId, name }) => { // deleteExercise
 
         const newSet = {
             id: generateId(),//setId,
-            exerciseId: exerciseId,
+            exerciseId: exercise.id,
             createdAt: new Date().toJSON(),
             warmup: warmup,
             weight: weight,
@@ -133,25 +136,77 @@ const WorkoutExercise = ({ exerciseId, name }) => { // deleteExercise
         )
     }
 
+    const handleBlur = () => {
+        console.log("handling blur");
+        setFocused(false)
+        const changedExercise = { ...exercise, note: note }
+        dispatch(editExerciseNote({ exerciseId: exercise.id, changedExercise: changedExercise }))
+    }
+
     return (
 
         <Box sx={{ alignItems: 'center' }}>
-            <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
-                <Typography variant="h6">{name}</Typography>
-                <Button variant="outlined" color="error" onClick={() => removeExercise(exerciseId)}>
-                    <DeleteIcon />
-                </Button>
-            </Stack>
-            <Stack direction={"row"} spacing={6} sx={{ justifyContent: "space-between", my: 1 }}>
-                <Box sx={{ width: 20 }}>Set</Box>
-                <Box sx={{ width: 70 }}>Kg</Box>
-                <Box sx={{ width: 70 }}>Reps</Box>
-                <Box sx={{ width: 50 }}></Box>
-                <Box sx={{ width: 50 }}></Box>
-            </Stack>
+            <Box paddingX={2}>
+                <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
+                    <Typography variant="h6">{name}</Typography>
+                    <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => removeExercise(exercise.id)}
+                        sx={{ marginBottom: 1 }}
+                    >
+                        <DeleteIcon />
+                    </Button>
+                </Stack>
+
+                <TextField
+                    variant="outlined" size="small"
+                    fullWidth
+                    placeholder="Exercise note"
+                    //style={{ width: 100, minWidth: 80 }}
+                    id="note"
+                    type="text"
+                    value={note}
+                    autoComplete="off"
+                    inputProps={{
+                        sx: {
+                            color: focused ?
+                                theme => theme.palette.action.active :
+                                theme => theme.palette.text.disabled
+                        },
+                    }}
+
+                    onFocus={() => setFocused(true)}
+                    onBlur={handleBlur}
+
+                    onChange={(event) => setNote(event.target.value)}
+                    // onBlur={(event) => handleBlur(event)}
+                    sx={{
+                        borderRadius: 2,
+                        backgroundColor: theme => theme.palette.action.disabledBackground,
+                        marginY: 1,
+
+                        "& fieldset": { border: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: 2 },
+                    }}
+                />
+
+                <Stack direction={"row"} spacing={1} sx={{ justifyContent: "space-between", my: 1 }}>
+                    <Box sx={{ maxWidth: 0.2, minWidth: 0.1 }} textAlign={'center'} >Set</Box>
+                    <Box sx={{ width: 100, minWidth: 80 }} textAlign={'center'} >Kg</Box>
+                    <Box sx={{ width: 100, minWidth: 40 }} textAlign={'center'} >Reps</Box>
+                    <Box sx={{ minWidth: 0.1 }} textAlign={'center'} ></Box>
+                    <Box sx={{ width: 0.07 }} textAlign={'center'} ></Box>
+                </Stack>
+            </Box>
+
             {renderSets()}
             <Box textAlign='center' sx={{ mt: 2 }} > {/* box is for centering the button */}
-                <Button variant="contained" onClick={() => createSet(false)} sx={{ width: 0.6 }}  >
+                <Button
+                    variant="contained"
+                    onClick={() => createSet(false)}
+                    //fullWidth={{ xs: true, md: false }}
+                    sx={{ width: { xs: 0.8, sm: 0.3 } }}
+                >
                     Add set
                 </Button>
             </Box>

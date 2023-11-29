@@ -138,34 +138,21 @@ const HistoryId = ({ workout, drawerWidth }) => {
             </Typography>
 
             <Box
-                display="flex"
+                //display="flex"
                 // justifyContent="center"
-
-                paddingX={{ xs: 2, sm: 4, md: 8 }} paddingBottom={12} paddingTop={2}
+                paddingX={{ xs: 2, sm: 4, md: 6 }} paddingBottom={12} paddingTop={2}
             >
-                <Stack spacing={0} maxWidth={700} >
 
-
-
-                    <Box
-                        padding={0}
-                        sx={{
-                            minWidth: 1,
-                            overflow: "hidden",
-                            textOverflow: 'ellipsis',
-                        }}
-                    >
-                        <Stack
-                            spacing={2}
-                            sx={{
-                                minWidth: 1,
-                                justifyContent: 'space-between',
-                                // backgroundColor: "red"
-                            }}>
-                            <WorkoutExerciseList workoutExercises={workout.workoutExercises} />
-                        </Stack>
-                    </Box>
-                </Stack>
+                <Box
+                    padding={0}
+                    sx={{
+                        minWidth: 1,
+                        overflow: "hidden",
+                        textOverflow: 'ellipsis',
+                    }}
+                >
+                    <WorkoutExerciseList workoutExercises={workout.workoutExercises} />
+                </Box>
 
                 <AppBar
                     position="fixed"

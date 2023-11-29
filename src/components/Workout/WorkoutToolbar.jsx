@@ -1,4 +1,4 @@
-import { Typography, Stack, Button } from "@mui/material"
+import { Typography, Stack, Button, IconButton } from "@mui/material"
 import TimerIcon from '@mui/icons-material/Timer';
 import { useDispatch, useSelector } from "react-redux";
 import { startWatch } from "../../redux/reducers/stopWatchReducer";
@@ -91,7 +91,7 @@ const WorkoutToolbar = ({ }) => {
                                 variant="h6"
                                 component="div"
                                 sx={{ padding: 0, margin: '0 !important' }}
-                                
+
                                 //alignSelf={'center'}
                                 //overflow={'hidden'}
                                 noWrap
@@ -104,7 +104,7 @@ const WorkoutToolbar = ({ }) => {
                     </Button>
                     <Typography
                         variant="h6"
-                        
+
                         component="div"
                         sx={{ marginLeft: 1 }}
                         alignSelf={'center'}
@@ -138,29 +138,45 @@ const WorkoutToolbar = ({ }) => {
                     //confirmFunction={handleClear}
                     />
                     {!stopWatchIsActive &&
-                        <Button variant="contained" onClick={() => dispatch(startWatch())}>
+
+                        <IconButton
+                            aria-label="stopwatch"
+                            sx={{ color: '#90CAF9', padding: 0.5 }}
+                            onClick={() => dispatch(startWatch())}
+                        >
                             <TimerIcon />
-                        </Button>
+                        </IconButton>
+
+                        /*    <Button variant="contained" onClick={() => dispatch(startWatch())}>
+                               <TimerIcon />
+                           </Button> */
                     }
                     <ConfirmationModal
                         modalType='cancelWorkout'
                         color='error'
                         openButton={
-                            <NotInterestedIcon />
+            
+                                <NotInterestedIcon />
+                       
+
                         }
                         confirmButton='Yes'
                         confirmFunction={handleClear}
                     />
-             
-                    <Button
+
+                    {/* <IconButton aria-label="finish" color="success" onClick={handleFinishClick}>
+                        <CheckCircleOutlineIcon />
+                    </IconButton> */}
+
+                     <Button
                         color="success"
                         variant="contained"
-                        
+
                         onClick={handleFinishClick}
                     >
                         <CheckCircleOutlineIcon />
                     </Button>
-                
+
                 </Stack>
             </>
 

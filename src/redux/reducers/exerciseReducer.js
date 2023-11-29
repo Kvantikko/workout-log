@@ -22,6 +22,15 @@ const workoutSlice = createSlice({
         copyExercises(state, action) {
             state = action.payload
             return state
+        },
+        editExerciseNote(state, action) {
+            console.log("REDUUUUUUUUUUUUCER");
+            const exerciseId = action.payload.exerciseId
+            console.log(action.payload);  
+            
+            state[state.findIndex(exercise => exercise.id === exerciseId)] = action.payload.changedExercise
+            //console.log("editSet end, state:", JSON.parse(JSON.stringify(state.exercises)))
+            return state
         }
     }
 })
@@ -30,7 +39,8 @@ export const {
     clearExercises,
     addExercise,
     deleteExercise,
-    copyExercises
+    copyExercises,
+    editExerciseNote
 } = workoutSlice.actions
 
 export default workoutSlice.reducer

@@ -14,9 +14,7 @@ const Set = ({ set, number, index }) => {
     const darkMode = useSelector(state => state.darkMode)
     const [weight, _setWeight] = useState(set.weight)
     const [reps, _setReps] = useState(set.reps)
-    const [color, setColor] = useState(set.done ? "rgba(25, 255, 255, 0.12)" : "") // only works darmodes
-    //const [placeholder, setPlaceHolder] = useState(0)
-    // const [color, setColor] = useState(set.done ? { darkMode ? "rgba(255, 255, 255, 0.12)" : "#c9ffcc"} : "")
+    const [color, setColor] = useState(set.done ? "rgba(25, 255, 255, 0.12)" : "")
 
     const dispatch = useDispatch()
 
@@ -28,7 +26,8 @@ const Set = ({ set, number, index }) => {
     }
 
     const removeSet = () => {
-        if (index === 0) {
+        if (set.done) {
+            setShowConfirm
             /* console.log("kayttäjälle ilmotus että pitää olla ainakin yksi setti");
             return */
         }
@@ -38,20 +37,15 @@ const Set = ({ set, number, index }) => {
     const handleBlur = (event) => {
         console.log("handling blur", event.target.value);
 
-
         if (event.target.value === "" && event.target.id === "weight") {
-            console.log('AAAAAAAAAAAAAAAAAAA');
             _setWeight(0)
             console.log(weight);
         }
 
         if (event.target.value === "" && event.target.id === "reps") {
-            console.log('BBBBBBBBBBBBBBBBBBBB');
             _setReps(0)
             console.log(reps);
         }
-
-
     }
 
     const handleDoneClick = () => {
@@ -67,19 +61,28 @@ const Set = ({ set, number, index }) => {
     }
 
     return (
-        <Stack direction={"row"} paddingX={1} spacing={1} sx={{ justifyContent: "space-between", py: 1, backgroundColor: color }}>
-            <Button onClick={() => updateSet(weight, reps, !set.warmup)} sx={{ maxWidth: 0, minWidth: 0 }}>
-                {number === 0 ? <Typography color={'#ffa726'}>W</Typography> : number}
+        <Stack
+            direction={"row"}
+            paddingRight={2}
+            paddingLeft={2}
+            spacing={1}
+            sx={{ justifyContent: "space-between", py: 1, backgroundColor: color, borderRadius: { xs: 0, sm: 2 } }}
+        >
+            <Button
+                onClick={() => updateSet(weight, reps, !set.warmup)}
+                sx={{ maxWidth: 0.2, minWidth: 0.1 }}
+                disabled={set.done ? true : false}
+            >
+                {number === 0 ? <Typography color={set.done ? theme => theme.palette.text.disabled : '#ffa726'}>W</Typography> : number}
             </Button>
 
             <TextField
+                disabled={set.done ? true : false}
                 variant="outlined" size="small"
                 style={{ width: 100, minWidth: 80 }}
                 id="weight"
                 type="number"
                 value={weight}
-                //defaultValue={}
-                // placeholder={placeholder}
                 min={0}
                 InputLabelProps={{
                     shrink: true
@@ -88,10 +91,9 @@ const Set = ({ set, number, index }) => {
                     style: { textAlign: 'center' },
                     min: 0,
                     step: 2.5,
-                    inputmode: 'numeric',
-                    pattern: '[0-9]*'
+                    //disableUnderline: true, // <== added this
+                    //maxLength: 6, ei toimi jos tyyppi on number
                 }}
-                //inputProps={{ inputmode: 'numeric' pattern: '[0-9]*' }}
                 onChange={(e) => updateSet(e.target.value, reps, set.warmup)}
                 onKeyDown={(event) => {
                     if (event?.key === '-' ||
@@ -99,22 +101,37 @@ const Set = ({ set, number, index }) => {
                         event?.key === '.' ||
                         event?.key === 'e' ||
                         event?.key === 'E') {
-                        event.preventDefault();
+                        event.preventDefault()
                     }
                 }}
                 onBlur={(event) => handleBlur(event)}
+                onInput={(e) => {
+                    e.target.value = Math.max(0, parseFloat(e.target.value)).toString().slice(0, 5)
+                }}
+                sx={{
+                    borderRadius: 2,
+                    "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                        display: "none",
+                    },
+                    "& input[type=number]": {
+                        MozAppearance: "textfield",
+                    },
+                    backgroundColor: set.done ? '' : theme => theme.palette.action.disabledBackground,
+
+                    "& fieldset": { border: set.done ? 'none' : '1px solid rgba(255, 255, 255, 0.16)', borderRadius: 2 },
+                }}
             // onClick={() => setPlaceHolder('')}
 
             //margin="normal"
 
             />
             <TextField
+                disabled={set.done ? true : false}
                 variant="outlined" size="small"
-                style={{ width: 100, minWidth: 60 }}
+                style={{ width: 100, minWidth: 40 }}
                 id="reps"
                 type="number"
                 value={reps}
-                // placeholder={placeholder}
                 min={0}
                 InputLabelProps={{
                     shrink: true,
@@ -122,8 +139,10 @@ const Set = ({ set, number, index }) => {
                 inputProps={{
                     style: { textAlign: 'center' },
                     min: 0,
-                    step: 1
+                    step: 1,
+                    //maxLength: 6, ei toimi jos tyyppi on number
                 }}
+
                 onChange={(e) => updateSet(weight, e.target.value, set.warmup)}
                 onKeyDown={(event) => {
                     if (event?.key === '-' ||
@@ -135,13 +154,38 @@ const Set = ({ set, number, index }) => {
                     }
                 }}
                 onBlur={(event) => handleBlur(event)}
-            //margin="normal"
+                onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 3)
+                }}
+                sx={{
+                    borderRadius: 2,
+                    "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                        display: "none",
+                    },
+                    "& input[type=number]": {
+                        MozAppearance: "textfield",
+                    },
+                    backgroundColor: set.done ? '' : theme => theme.palette.action.disabledBackground,
+
+                    "& fieldset": { border: set.done ? 'none' : '1px solid rgba(255, 255, 255, 0.16)', borderRadius: 2 },
+                }}
             />
 
-            <Button variant="outlined" color="warning" onClick={removeSet} sx={{ minWidth: 0 }}>
+            <Button
+                variant={color === '' ? 'text' : 'text'}
+                color="warning"
+                onClick={removeSet}
+                sx={{ minWidth: 0.1 }}
+            >
                 <CloseIcon />
             </Button>
-            <Button variant={color === '' ? "outlined" : 'contained'} color="success" onClick={handleDoneClick} sx={{ minWidth: 0 }}>
+            <Button
+                variant={color === '' ? "outlined" : 'contained'}
+                color="success"
+                onClick={handleDoneClick}
+                sx={{ maxWidth: 0.15, minWidth: 0 }}
+                //sx={{ minWidth: 0 }}
+            >
                 <DoneIcon />
             </Button>
         </Stack>
