@@ -8,9 +8,10 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import generateId from "../../utils/generateId"
 
 import { deleteExercise, editExerciseNote } from "../../redux/reducers/exerciseReducer"
+import DeleteExerciseFromWorkoutModal from "../Modals/DeleteExerciseFromWorkoutModal"
 
 const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
-    console.log("WorkoutExercise is rendering");
+    console.log("WorkoutExercise is rendering ", exercise);
     /**
      * PIDÄ STATE LÄHELLÄ SITÄ COMPONENTTIA MILLE SE ON RELEVENTTI.
      * TÄSSÄ NÄYTTÄISI ETTÄ SETTIEN PITÄMINEN LIIAN YLHÄÄLLÄ HUONO
@@ -26,6 +27,8 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
     //const [isSetsLengthZero, setIsSetsLengthZero] = useState(sets.length === 0)
     // console.log('WorkoutExercise: const sets.length === 0: ', sets.length === 0);
     //console.log('WorkoutExercise: const !sets.length === 0: ', !(sets.length === 0));
+
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
     /* const memoSets = React.useMemo(() => {
         return {
@@ -63,8 +66,24 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
         }
     }, [])
 
-    const removeExercise = (exerciseId) => {
-        dispatch(deleteExercise(exerciseId))
+    const handleRemoveExercise = () => {
+        let isDone = false 
+
+        sets.forEach(set => {
+            console.log(set);
+            if (set.done === true) {
+                console.log("TOTTATATATAT");
+                setOpenDeleteModal(true)
+                isDone = true
+                return
+            }
+        })
+
+        if (!isDone) removeExercise()
+    }
+
+    const removeExercise = () => {
+        dispatch(deleteExercise(exercise.id))
     }
 
 
@@ -152,11 +171,16 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
                     <Button
                         variant="outlined"
                         color="error"
-                        onClick={() => removeExercise(exercise.id)}
+                        onClick={handleRemoveExercise}
                         sx={{ marginBottom: 1 }}
                     >
                         <DeleteIcon />
                     </Button>
+                    <DeleteExerciseFromWorkoutModal
+                        open={openDeleteModal}
+                        onClose={setOpenDeleteModal}
+                        confirmFunction={removeExercise}
+                    />
                 </Stack>
 
                 <TextField

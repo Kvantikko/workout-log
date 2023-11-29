@@ -29,6 +29,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import StopWatch from "../Clock/StopWatch";
+import BasicModal from "../Modals/BasicModal";
+import CancelWorkoutModal from "../Modals/CancelWorkoutModal";
+import FinishWorkoutModal from "../Modals/FinishWorkoutModal";
 
 
 
@@ -40,6 +43,9 @@ const WorkoutToolbar = ({ }) => {
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const [showModal, setShowModal] = useState(false)
     const isSmallScreen = useMediaQuery('(min-width:900px)');
+
+    const [openCancelModal, setOpenCancelModal] = useState(false);
+    const [openFinishModal, setOpenFinishModal] = useState(false);
 
 
     const dispatch = useDispatch()
@@ -65,6 +71,14 @@ const WorkoutToolbar = ({ }) => {
         dispatch(stopWatch())
         dispatch(resetWorkout())
         navigate('/')
+    }
+
+    const handleOpenFinishModal = () => {
+        if (exercises.length === 0) {
+            toast.warning('Add at least one exercise before finishing!')
+            return
+        }
+        setOpenFinishModal(true)
     }
 
     return (
@@ -125,7 +139,41 @@ const WorkoutToolbar = ({ }) => {
                     alignSelf={'flex-start'}
                 >
 
-                    <FormModal
+
+                    {!stopWatchIsActive &&
+                        <IconButton
+                            aria-label="stopwatch"
+                            sx={{ color: '#90CAF9' }}
+                            onClick={() => dispatch(startWatch())}
+                        >
+                            <TimerOutlinedIcon />
+                        </IconButton>
+
+                        /*    <Button variant="contained" onClick={() => dispatch(startWatch())}>
+                               <TimerIcon />
+                           </Button> */
+                    }
+                    <IconButton aria-label="cancel" color="error" onClick={() => setOpenCancelModal(true)}>
+                        <NotInterestedIcon />
+                    </IconButton>
+                    <CancelWorkoutModal
+                        open={openCancelModal}
+                        onClose={setOpenCancelModal}
+                        confirmFunction={handleClear}
+                    />
+
+                    <IconButton aria-label="finish" color="success" onClick={handleOpenFinishModal}>
+                        <CheckCircleOutlineIcon />
+                    </IconButton>
+                    <FinishWorkoutModal
+                        open={openFinishModal}
+                        onClose={setOpenFinishModal}
+                        //confirmFunction={handleClear}
+                    />
+
+
+
+                {/*     <FormModal
                         hideOpenButton='true'
                         showModal={showModal}
                         closeFromParent={setShowModal}
@@ -136,46 +184,8 @@ const WorkoutToolbar = ({ }) => {
                         }
                     //confirmButton=''
                     //confirmFunction={handleClear}
-                    />
-                    {!stopWatchIsActive &&
+                    /> */}
 
-                        <IconButton
-                            aria-label="stopwatch"
-                            sx={{ color: '#90CAF9', padding: 0.5 }}
-                            onClick={() => dispatch(startWatch())}
-                        >
-                            <TimerOutlinedIcon />
-                        </IconButton>
-
-                        /*    <Button variant="contained" onClick={() => dispatch(startWatch())}>
-                               <TimerIcon />
-                           </Button> */
-                    }
-                    <ConfirmationModal
-                        modalType='cancelWorkout'
-                        color='error'
-                        openButton={
-            
-                                <NotInterestedIcon />
-                       
-
-                        }
-                        confirmButton='Yes'
-                        confirmFunction={handleClear}
-                    />
-
-                    {/* <IconButton aria-label="finish" color="success" onClick={handleFinishClick}>
-                        <CheckCircleOutlineIcon />
-                    </IconButton> */}
-
-                     <Button
-                        color="success"
-                        variant="contained"
-
-                        onClick={handleFinishClick}
-                    >
-                        <CheckCircleOutlineIcon />
-                    </Button>
 
                 </Stack>
             </>

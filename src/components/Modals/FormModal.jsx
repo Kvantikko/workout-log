@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Box, Button, MenuItem, Modal, Stack } from '@mui/material'
-import { style, style2, renderModalText, renderModalChildren } from './Helper'
+import { style, renderModalText, renderModalChildren } from './Helper'
 
 const FormModal = ({
     showModal,
@@ -70,7 +70,7 @@ const FormModal = ({
                     },
                 }}
             >
-                <Box sx={style2}>
+                <Box sx={style}>
                     <Stack spacing={2}>
 
                         {renderModalChildren(modalType, confirmFunction, confirmButton, object)}

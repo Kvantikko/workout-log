@@ -2,7 +2,7 @@ import CreateExerciseModal from './CreateExerciseModal'
 import EditExerciseModal from './EditExerciseModal'
 import DeleteExerciseModal from './DeleteExerciseModal'
 import CancelWorkoutModal from './CancelWorkoutModal'
-import SaveWorkoutModal from './SaveWorkoutModal'
+//import SaveWorkoutModal from './FinishWorkoutModal'
 import PickDateModal from './PickDateModal'
 import ConfirmCopyModal from './ConfirmCopyModal'
 import DeleteUserModal from './DeleteUserModal'
@@ -24,8 +24,8 @@ export const renderModalChildren = (modalType, confirmFunction, confirmButton, o
             return <CreateExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "cancelWorkout":
             return <CancelWorkoutModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
-        case "saveWorkout":
-            return <SaveWorkoutModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
+    /*     case "saveWorkout":
+            return <SaveWorkoutModal confirmFunction={confirmFunction} confirmButton={confirmButton} /> */
         case "pickDateModal":
             return <PickDateModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
         case "confirmCopyModal":
@@ -71,28 +71,13 @@ export const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '100vw',
-    maxWidth: 550,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-    //display: 'flex',
-    //flexDirection: 'column'
-};
-
-export const style2 = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '100vw',
     //height: '100wh',
     maxHeight: '80%',
     maxWidth: 550,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: { xs: 2, sm: 4},
     //overflow: 'scroll'
     //display: 'flex',
     //flexDirection: 'column'

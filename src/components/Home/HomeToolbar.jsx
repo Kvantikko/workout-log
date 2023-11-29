@@ -22,32 +22,16 @@ import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
-const WorkoutToolbar = () => {
-    console.log("WorkoutToolbar is rendering");
-    const workoutStarted = useSelector(state => state.workout.workoutStarted)
-    const exercises = useSelector(state => state.exercises)
-    const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
-    const [showModal, setShowModal] = useState(false)
-
-    const dispatch = useDispatch()
-
-    const handleModalOpen = () => {
-        setShowModal(true)
-    }
-
-  
+const HomeToolbar = () => {
+    console.log("Rendering HomeToolbar.jsx");
 
     return (
         <>
-
             <Typography variant="h6" component="div">
                 Home
             </Typography>
-
-
-
         </>
     )
 }
 
-export default WorkoutToolbar
+export default HomeToolbar

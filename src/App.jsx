@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 
-import Workout from './components/Home/Workout'
+import Workout from './components/Home/Home'
 import Exercises from './components/Exercises/Exercises'
 import Exercise from './components/Exercise/Exercise'
 import History from './components/History/History'
@@ -49,14 +49,14 @@ import { logout } from './redux/reducers/userReducer';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useTheme } from '@mui/material/styles';
-import { AppBar, Box, Container, Drawer, Typography, Divider, Toolbar, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import TemporaryDrawer from './components/Navbar/TemporaryDrawer';
+import { AppBar, Box, Container, Drawer, Typography, Divider, Toolbar, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
+
 import PermanentDrawerLeft from './components/Navbar/PermanentDrawerLeft';
 import { AddBoxOutlined } from '@mui/icons-material';
 
 import { CssBaseline } from '@mui/material';
 
-import ActiveWorkout from './components/Workout/ActiveWorkout';
+import ActiveWorkout from './components/Workout/Workout';
 
 /* const theme = createTheme({
     palette: {
@@ -86,6 +86,7 @@ import ActiveWorkout from './components/Workout/ActiveWorkout';
 
 
 import useMediaQuery from '@mui/material/useMediaQuery';
+import SwipeableEdgeDrawer from './components/Navbar/SwipeableEdgeDrawer';
 
 
 
@@ -129,16 +130,16 @@ const App = () => {
             //modal: 1250,
             //drawer: 0
         },
-      /*   components: {
-            MuiCssBaseline: {
-                styleOverrides: `
-                h1, h2, h3, h4, h5, h6, p {
-                  margin: 2;
-                }
-              `
-            }
-        } */
-    
+        /*   components: {
+              MuiCssBaseline: {
+                  styleOverrides: `
+                  h1, h2, h3, h4, h5, h6, p {
+                    margin: 2;
+                  }
+                `
+              }
+          } */
+
     });
     const darkMode = true //useSelector(state => state.darkMode)
 
@@ -340,6 +341,8 @@ const App = () => {
                                 element={<Login />}
                             />
                         </Routes>
+                     {/*    <SwipeableEdgeDrawer/> */}
+
                         <ToastContainer
                             className="toast-position"
                             position="bottom-right"
@@ -354,10 +357,22 @@ const App = () => {
                         />
                     </Box>
 
+                    <Drawer
+                        variant="temporary"
+                        ModalProps={{
+                            keepMounted: true,
+                        }}
+                    >
+                        <div>dadawdwadwadawdawd</div>
+                    </Drawer>
+                  {/*   <SwipeableEdgeDrawer/> */}
+
 
 
                 </Box>
                 {authenticated && <BottomNavBar />}
+
+                <SwipeableEdgeDrawer/>
 
 
 

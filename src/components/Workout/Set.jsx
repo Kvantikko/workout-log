@@ -7,6 +7,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { editSet, deleteSet } from "../../redux/reducers/setReducer"
+import DeleteSetModal from "../Modals/DeleteSetModal";
 
 const Set = ({ set, number, index }) => {
     console.log("-------------------- A set is rendering ----------------------------- ", index)
@@ -15,6 +16,8 @@ const Set = ({ set, number, index }) => {
     const [weight, _setWeight] = useState(set.weight)
     const [reps, _setReps] = useState(set.reps)
     const [color, setColor] = useState(set.done ? "rgba(25, 255, 255, 0.12)" : "")
+
+    const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -26,12 +29,15 @@ const Set = ({ set, number, index }) => {
     }
 
     const removeSet = () => {
-        if (set.done) {
-            setShowConfirm
-            /* console.log("kayttäjälle ilmotus että pitää olla ainakin yksi setti");
-            return */
-        }
         dispatch(deleteSet(set.id))
+    }
+
+    const handleRemove = () => {
+        if (set.done) {
+            setOpenDeleteModal(true)
+            return
+        }
+        removeSet()
     }
 
     const handleBlur = (event) => {
@@ -174,11 +180,16 @@ const Set = ({ set, number, index }) => {
             <Button
                 variant={color === '' ? 'text' : 'text'}
                 color="warning"
-                onClick={removeSet}
+                onClick={handleRemove}
                 sx={{ minWidth: 0.1 }}
             >
                 <CloseIcon />
             </Button>
+            <DeleteSetModal
+                open={openDeleteModal}
+                onClose={setOpenDeleteModal}
+                confirmFunction={removeSet}
+            />
             <Button
                 variant={color === '' ? "outlined" : 'contained'}
                 color="success"

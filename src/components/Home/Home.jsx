@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import ActiveWorkout from "../Workout/ActiveWorkout"
+import ActiveWorkout from "../Workout/Workout"
 import { useEffect, useState } from "react"
 import { Button, Stack, Divider, Container, Box, Modal, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { startWorkout } from "../../redux/reducers/workoutReducer"
 
 import ModalRoot from "../Modals/ModalRoot"
-import WorkoutToolbar from "./WorkoutToolbar"
+import WorkoutToolbar from "./HomeToolbar"
 import HideAppBar from "../AppBar/HideAppBar"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -29,7 +29,7 @@ import { blink } from "../../utils/Blink"
 
 
 
-const Workout = ({ user, drawerWidth }) => {
+const Home = ({ user, drawerWidth }) => {
 
     console.log("Workout is rendering");
     console.log(theme => theme);
@@ -183,4 +183,4 @@ const Workout = ({ user, drawerWidth }) => {
     )
 }
 
-export default Workout
+export default Home

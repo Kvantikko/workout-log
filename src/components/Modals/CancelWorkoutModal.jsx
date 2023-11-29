@@ -8,10 +8,13 @@ import { Box, Button, Modal, TextField, Stack, Typography, FormControl, InputLab
 
 
 import WarningIcon from '@mui/icons-material/Warning'
+import BasicModal from './BasicModal'
 
-const CancelWorkoutModal = ({ handleClose }) => {
-    
-    return (
+const CancelWorkoutModal = ({ open, onClose, confirmFunction }) => {
+
+
+
+    /* return (
         <>
             <Stack direction={'row'} spacing={1} justifyContent={'center'}>
                 <WarningIcon color='warning' fontSize='large' />
@@ -21,6 +24,21 @@ const CancelWorkoutModal = ({ handleClose }) => {
                 Discard ongoing workout?
             </Typography>
         </>
+    ) */
+
+
+    return (
+        <BasicModal
+            open={open}
+            onClose={onClose}
+            title="Discard ongoing workout?"
+            //subTitle="Discard ongoing workout?"
+            confirmButtonText={'Yes'}
+            cancelButtonText={'Keep logging'}
+            //content={getContent()}
+            onSubmit={confirmFunction}
+        />
+
     )
 }
 

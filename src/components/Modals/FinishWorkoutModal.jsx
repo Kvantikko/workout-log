@@ -7,6 +7,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
 import exerciseService from '../../services/exercises'
 
+import BasicModal from './BasicModal'
 
 import { clearWorkout } from "../../redux/reducers/workoutReducer"
 import { clearSets } from "../../redux/reducers/setReducer"
@@ -24,7 +25,7 @@ import { resetWorkout } from '../../redux/reducers/navReducer'
 import { useNavigate } from 'react-router-dom'
 
 
-const SaveWorkoutModal = ({ handleClose }) => {
+const FinishWorkoutModal = ({ open, onClose }) => {
     //console.log("RENDERING");
     //const [open, setOpen] = useState(false)
     //const workout = useSelector(state => state.workout)
@@ -68,7 +69,7 @@ const SaveWorkoutModal = ({ handleClose }) => {
             const response = await workoutService.createNew(newWorkoutObject)
             console.log('servu palautti: ', response.data, ' dispatchataan storeen')
             // pistä servulata palautettu objekti stateen?
-           
+
             dispatch(addToHistory(response.data))
             dispatch(clearWorkout())
             dispatch(clearExercises())
@@ -83,16 +84,15 @@ const SaveWorkoutModal = ({ handleClose }) => {
         }
     }
 
-    return (
-        <>
-            <Stack direction={'row'} spacing={1} justifyContent={'center'}>
-                <HelpOutlineIcon color='info' fontSize='large'/>
-                <Typography variant='h5'>Finish workout?</Typography>
-            </Stack>
+    const getContent = () => {
+        return (
+            <>
             <TextField
+                fullWidth
+                id='workout title'
                 variant="outlined"
-                size='small'
-                label="Workout name *"
+                size='medium'
+                label="Workout name"
                 value={input}
                 onChange={(event) => {
                     //console.log(event.target.value)
@@ -107,16 +107,26 @@ const SaveWorkoutModal = ({ handleClose }) => {
                 onClick={() => setInputError('')}
                 error={!(inputError === '')}
                 helperText={inputError}
+                sx={{ paddingBottom: 2 }}
             />
-            <Box
-                display={'flex'}
-                flexDirection={'column'}
-                gap={1.5}
-            >
-                <Button variant="contained" onClick={saveWorkoutToDb}>Save to database</Button>
-            </Box>
-        </>
+            </>
+        )
+
+    }
+
+    return (
+        <BasicModal
+            open={open}
+            onClose={onClose}
+            title="Finish workout?"
+            //subTitle="Discard ongoing workout?"
+            confirmButtonText={'Save'}
+            cancelButtonText={'Keep logging'}
+            content={getContent()}
+            onSubmit={saveWorkoutToDb}
+        />
+
     )
 }
 
-export default SaveWorkoutModal
+export default FinishWorkoutModal

@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ConfirmationModal from "../Modals/ConfirmationModal"
 
 
-const ActiveWorkout = ({ drawerWidth }) => {
+const Workout = ({ drawerWidth }) => {
     console.log("ActiveWorkout is rendering");
     const exerciseNames = useSelector(state => state.exerciseLibrary).map(e => e.name)
     const exercises = useSelector(state => state.exercises)
@@ -201,4 +201,4 @@ const ActiveWorkout = ({ drawerWidth }) => {
     )
 }
 
-export default ActiveWorkout
+export default Workout

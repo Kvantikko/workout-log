@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Box, Button, Modal, Stack } from '@mui/material'
-import { style, style2, renderModalChildren } from './Helper'
+import { style,  renderModalChildren } from './Helper'
 
 const ModalRoot = ({ open, setOpen, openButtonText, modalType, exercise, copyFunction }) => {
     // const [open, setOpen] = useState(false)
