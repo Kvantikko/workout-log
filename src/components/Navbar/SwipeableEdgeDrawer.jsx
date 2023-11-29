@@ -47,14 +47,14 @@ function SwipeableEdgeDrawer(props) {
     return (
         <Root>
             <CssBaseline />
-            <Global
+            {<Global
                 styles={{
                     '.MuiDrawer-root > .MuiPaper-root': {
-                        height: `calc(50% - ${drawerBleeding}px)`,
+                        height: `calc(90% - ${drawerBleeding}px)`,
                         overflow: 'visible',
                     },
                 }}
-            />
+            />}
             <Box sx={{ textAlign: 'center', pt: 1 }}>
                 <Button onClick={toggleDrawer(true)}>Open</Button>
             </Box>
@@ -68,7 +68,32 @@ function SwipeableEdgeDrawer(props) {
                 disableSwipeToOpen={false}
                 ModalProps={{
                     keepMounted: true,
+                    height: 2400
                 }}
+                PaperProps={{
+                    sx: {
+                        width: "90%",
+                        height: 'calc(100% - 6px)',
+                        top: 6,
+                        backgroundColor: 'red'
+                    }
+                }}
+
+         
+
+                SlideProps={{
+                    sx: {
+                        height: 2400
+                    }
+                }}
+                sx={{
+                    height: 2000,
+                    '& .MuiSwipeableDrawer-root': {
+                        height: 1000
+                    }
+                }}
+
+
             >
                 <StyledBox
                     sx={{
@@ -79,6 +104,7 @@ function SwipeableEdgeDrawer(props) {
                         visibility: 'visible',
                         right: 0,
                         left: 0,
+                        //backgroundColor: 'red'
                     }}
                 >
                     <Puller />
@@ -96,7 +122,7 @@ function SwipeableEdgeDrawer(props) {
                         <div>fafadawdwf</div>
                     </Skeleton> */}
 
-                    <Workout/>
+                   <Workout /> 
 
                 </StyledBox>
             </SwipeableDrawer>
