@@ -24,7 +24,6 @@ const HistoryCard = ({ workout }) => {
     console.log("Rendering HistoryListCard ", workout.id, workout)
 
     const dispatch = useDispatch()
-
     const navigate = useNavigate()
 
     const formatDayAndMonthFinnish = (objDate) => {
@@ -61,7 +60,7 @@ const HistoryCard = ({ workout }) => {
                 /> */}
                 <CardContent >
                     <Typography sx={{ mb: 0.5 }} color="text.secondary" textAlign={'center'} noWrap >
-                        {formatDayAndMonthFinnish(new Date(workout.createdAt))} {/* {new Date(workout.createdAt).toLocaleDateString()} */}
+                        {formatDayAndMonthFinnish(new Date(workout.createdAt))}
                     </Typography>
                     <Typography gutterBottom variant="h6" component="div" noWrap >
                         {workout.title}

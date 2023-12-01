@@ -2,7 +2,11 @@ import { Stack } from "@mui/material"
 import HistoryCard from "./HistoryCard"
 import { memo } from "react"
 
+import Defer from "../Defer/Defer"
+
 const HistoryCardList = ({ workouts }) => {
+
+
 
     return (
         <Stack
@@ -10,9 +14,15 @@ const HistoryCardList = ({ workouts }) => {
             padding={1.5}
             alignItems={'center'}
         >
-            {workouts.map(workout =>
+
+            <Defer chunkSize={6}>
+                {workouts.map(workout =>
+                    <HistoryCard key={workout.id} workout={workout} />
+                )}
+            </Defer>
+       {/*      {workouts.map(workout =>
                 <HistoryCard key={workout.id} workout={workout} />
-            )}
+            )} */}
         </Stack>
     )
 }

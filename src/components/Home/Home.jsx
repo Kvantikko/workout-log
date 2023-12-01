@@ -115,15 +115,14 @@ const Home = ({ user, drawerWidth }) => {
                             component={Link} to={`/workout`}
                             onClick={handleClick2}
                             color={'error'}
-
                             sx={{
                                 maxWidth: 0.8,
-                                padding: 2,
+                                padding: 1.5,
                                 textAlign: 'center',
                                 animation: `${blink} 1s linear infinite alternate`,
                             }}
                         >
-                            <>You have a workout in progress!</> <ArrowForwardIcon sx={{ marginLeft: 1}}/>
+                            <>Workout in progress!</> <ArrowForwardIcon sx={{ marginLeft: 1}}/>
                         </Button>
                         <Divider orientation="horizontal" flexItem>
                             start again?
@@ -132,7 +131,7 @@ const Home = ({ user, drawerWidth }) => {
                 }
 
                 <Button
-                    variant="contained"
+                    variant="text"
                     //component={Link} to={`/workout`}
                     onClick={handleClick}
                     //onClick={() => dispatch(startWorkout())}
@@ -146,7 +145,7 @@ const Home = ({ user, drawerWidth }) => {
                     or
                 </Divider>
                 <Button
-                    variant="contained"
+                    variant="text"
                     sx={{ maxWidth: 0.8 }}
                     component={Link} to='/history'
                 //onClick={() => setPageIndex(1)}

@@ -11,6 +11,8 @@ import LogoutModal from './LogoutModal'
 import DeleteWorkoutModal from './DeleteWorkoutModal'
 import AddExerciseToWorkoutModal from './AddExerciseToWorkoutModal'
 
+import { useMediaQuery } from '@mui/material'
+
 export const renderModalChildren = (modalType, confirmFunction, confirmButton, object) => {
     //console.log("RENDERMODALCHILD FUNC PROPS: ", modalType, handleClose, confirmFunction, confirmButton, color);
     switch (modalType) {
@@ -77,7 +79,26 @@ export const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: { xs: 2, sm: 4},
+    //p: { xs: 2, sm: 4},
+
+    //overflow: 'scroll'
+    //display: 'flex',
+    //flexDirection: 'column'
+};
+
+export const addExerciseToWorkoutStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: { xs: '100vw', sm: '70vw' },
+    height: { xs: '100vh', sm: '90%' },
+    //maxHeight: '100%',
+   // maxWidth: 550,
+    bgcolor: 'background.paper',
+    //border: '2px solid #000',
+    boxShadow: 24,
+    //p: { xs: 2, sm: 4},
 
     //overflow: 'scroll'
     //display: 'flex',

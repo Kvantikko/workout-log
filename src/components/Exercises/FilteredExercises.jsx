@@ -14,8 +14,8 @@ const FilteredExercises = ({ exercises, handleListClick }) => {
         <Stack
             spacing={0}
             sx={{
-                marginTop: 2,
-                paddingX: { xs: 0, sm: 2, md: 4 },
+                //marginTop: 2,
+               // paddingX: { xs: 0, sm: 2, md: 4 },
                 //overflow: "hidden",
                 //textOverflow: 'ellipsis',
                 // width: 1,

@@ -13,13 +13,13 @@ import AddIcon from '@mui/icons-material/Add';
 import ConfirmationModal from "../Modals/ConfirmationModal"
 import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
 
+import Defer from "../Defer/Defer"
 
 const ActiveWorkout = () => {
     console.log("Rendering ActiveWorkout");
 
     //const exerciseNames = useSelector(state => state.exerciseLibrary).map(e => e.name)
     const exercises = useSelector(state => state.exercises)
-    const [selected, setSelected] = useState('')
 
     const [showModal, setShowModal] = useState(false)
     const [showModal2, setShowModal2] = useState(false)
@@ -65,51 +65,21 @@ const ActiveWorkout = () => {
             }
             {!(exercises.length === 0) &&
                 <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
-                    {exercises.map(exercise => {
-                        return (
-                            <WorkoutExercise
-                                key={exercise.id}
-                                exercise={exercise}
-                            />
-                        )
-                    })}
+                    <Defer chunkSize={1}>
+                        {exercises.map(exercise => {
+                            return (
+                                <WorkoutExercise
+                                    key={exercise.id}
+                                    exercise={exercise}
+                                />
+                            )
+                        })}
+                    </Defer>
+
+
+
                 </Stack>
             }
-
-            {/* <Stack direction={"row"} sx={{ justifyContent: "center", mx: 0, marginBottom: 6 }}>
-                    <Autocomplete
-                        value={selected}
-                        onInputChange={(event, newInputValue) => setSelected(newInputValue)}
-                        freeSolo
-                        disablePortal
-                        id="combo-box-demo"
-                        options={exerciseNames}
-                        sx={{ width: 300 }}
-                        onKeyDown={e => {
-                            if (e.code === 'enter' && e.target.value) {
-                                // setSelected(e.target.value)
-                                //setAutoCompleteValue(autoCompleteValue.concat(e.target.value));
-                            }
-                        }}
-                        renderInput={(params) =>
-                            <TextField {...params}
-                                label="Exercise"
-                                size="small"
-                                //style={{ height: 4  0 }}
-                                onKeyDown={e => {
-                                    if (e.code === 'Enter' && e.target.value) {
-                                        //setSelected(e.target.value)
-                                        //setAutoCompleteValue(autoCompleteValue.concat(e.target.value));
-                                        setSelected('')
-                                        createExercise()
-
-                                    }
-                                }}
-                            />
-                        }
-                    />
-                    <Button variant="contained" onClick={createExercise}>Add</Button>
-                </Stack> */}
 
             <Button variant="text" fullWidth sx={{ marginBottom: 25 }} onClick={() => setOpenAddModal(true)}>Add exercise</Button>
 
@@ -117,14 +87,10 @@ const ActiveWorkout = () => {
                 <AddExerciseToWorkoutModal
                     open={openAddModal}
                     onClose={setOpenAddModal}
-                    //confirmFunction={addExercises}
+                //confirmFunction={addExercises}
                 //exercises={exercises}
                 />
             }
-
-
-
-
         </>
     )
 }

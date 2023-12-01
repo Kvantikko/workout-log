@@ -15,12 +15,11 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
     /**
      * VOISKO NOPEUTTAA JO ID ON INDEKSI NIIN EI TARVI ETSIÄ?
      */
-    const noteFromStore = useSelector(state => state.exercises.find(e => e.id === exercise.id).note )  
-    const [note, setNote] = useState(noteFromStore)
+    const [note, setNote] = useState(   useSelector(state => state.exercises.find(e => e.id === exercise.id).note )  )   //!!!!!!!
     const [focused, setFocused] = useState(false)
-    const allSetsFromState = useSelector(state => state.sets) // filter funktio aiheuttaa varootuksen jos käyttää tässä kohtaa...!?
+    const allSetsFromState = useSelector(state => state.sets) // filter funktio aiheuttaa varootuksen
+    const sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)     // !!!!!!!!!!!!!!!!!1
     //const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
-    const sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
 
