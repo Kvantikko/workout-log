@@ -28,6 +28,9 @@ const ExerciseToolbar = ({ exercise }) => {
 
     const isSmallScreen = useMediaQuery('(min-width:900px)')
 
+
+    
+
     return (
         <>
             <Stack direction={"row"} spacing={2} >

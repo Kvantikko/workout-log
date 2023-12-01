@@ -20,7 +20,8 @@ import { pushHistory } from '../../redux/reducers/navReducer';
 import { Link } from "react-router-dom"
 import { useDispatch } from 'react-redux';
 
-const HistoryListCard = ({ workout }) => {
+const HistoryCard = ({ workout }) => {
+    console.log("Rendering HistoryListCard ", workout.id, workout)
 
     const dispatch = useDispatch()
 
@@ -83,4 +84,4 @@ const HistoryListCard = ({ workout }) => {
     );
 }
 
-export default HistoryListCard
+export default React.memo(HistoryCard)

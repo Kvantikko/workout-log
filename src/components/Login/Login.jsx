@@ -29,7 +29,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { toast } from "react-toastify"
 
 const Login = (props) => {
-    console.log(theme => theme);
+  
 
 
     const [typography, setTypography] = useState(["Login", "Don't have an account? ", "Register"])
@@ -78,7 +78,6 @@ const Login = (props) => {
         event.preventDefault()
 
         if (!inputFieldsValid()) {
-            console.log("not valid");
             return
         }
 

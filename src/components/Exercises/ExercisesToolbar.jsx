@@ -24,7 +24,7 @@ import { setSearch } from '../../redux/reducers/searchReducer';
 
 
 const ExercisesToolbar = ({ input, setInput, setOpen }) => {
-    console.log("ExerciseToolbar rendering");
+    console.log("Rendering ExerciseToolbar ");
 
     const searchState = useSelector(state => state.search)
 
@@ -66,7 +66,7 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
     }
 
     const handleBlur = () => {
-        console.log("handling blur...")
+        //console.log("handling blur...")
         dispatch(
             setSearch({
                 searchString: input,
@@ -103,10 +103,10 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                 autoFocus
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
-                onFocus={() => console.log("FOCUSED")}
+                //onFocus={() => console.log("FOCUSED")}
                 onBlur={handleBlur}
-                onClick={() => console.log("clicked textf")}
-                onMouseDown={() => console.log("mousse down textf")}
+                //onClick={() => console.log("clicked textf")}
+                //onMouseDown={() => console.log("mousse down textf")}
                 fullWidth
                 sx={{ paddingX: { xs: 0, sm: 4 } }}
                 //width={1000}

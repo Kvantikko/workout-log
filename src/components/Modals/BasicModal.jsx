@@ -4,9 +4,23 @@ import { style } from './Helper'
 const BasicModal = ({ open, onClose, title, subTitle, confirmButtonText, cancelButtonText, content, onSubmit }) => {
 
     console.log("Rendering BasicModal.jsx ");
+    
+    const handleSubmit = () => {
+        onSubmit()
+        onClose()
+    }
 
     return (
-        <Modal open={open} onClose={() => onClose()} >
+        <Modal
+            open={open}
+            onClose={() => onClose()}
+            BackdropProps={{
+                timeout: 500,
+                sx: {
+                    backdropFilter: 'blur(4px)'
+                },
+            }}
+        >
             <Box sx={style}>
                 <Typography
                     variant="h5"
@@ -24,7 +38,7 @@ const BasicModal = ({ open, onClose, title, subTitle, confirmButtonText, cancelB
                     <Button
                         variant="contained"
                         fullWidth
-                        onClick={onSubmit}
+                        onClick={handleSubmit}
                         sx={{ marginY: 1 }}
                     >
                         {confirmButtonText ? confirmButtonText : <div>Ok</div>}

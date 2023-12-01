@@ -20,20 +20,17 @@ const setSlice = createSlice({
         },
         deleteSet: (state, action) => {
             const id = action.payload
-            console.log("REDUCER ", id);
+            //console.log("REDUCER ", id);
             //console.log(JSON.parse(JSON.stringify(state.filter(set => set.id !== id))));
             state = state.filter(set => set.id !== id); // immutable, mutta ei tarvis täs
-            console.log("STATE AFTER DELETE", JSON.parse(JSON.stringify(state)));
+           // console.log("STATE AFTER DELETE", JSON.parse(JSON.stringify(state)));
             return state
         },
         editSet(state, action) {
             const setId = action.payload.setId
           
-    
             state[state.findIndex(set => set.id === setId)] = action.payload.changedSet
-
             //console.log("editSet end, state:", JSON.parse(JSON.stringify(state.exercises)))
-
             return state
         },
         copySets(state, action) {

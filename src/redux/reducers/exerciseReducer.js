@@ -8,10 +8,14 @@ const workoutSlice = createSlice({
             state = []
             return state
         },
-        addExercise: (state, action) => {
-            const exerciseToAdd = action.payload
-            state.push(exerciseToAdd)
-            //console.log("STATE: ", JSON.parse(JSON.stringify(state)))
+        addExercises: (state, action) => {
+            //console.log();
+            const exercisesToAdd = action.payload
+            exercisesToAdd.forEach(e => {
+                state.push(e)
+            })
+           
+            console.log("STATE: ", JSON.parse(JSON.stringify(state)))
             return state
         },
         deleteExercise: (state, action) => {
@@ -37,7 +41,7 @@ const workoutSlice = createSlice({
 
 export const {
     clearExercises,
-    addExercise,
+    addExercises,
     deleteExercise,
     copyExercises,
     editExerciseNote

@@ -8,7 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { setExercises } from './redux/reducers/exerciseLibraryReducer'
 import { setWorkouts } from './redux/reducers/historyReducer'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -20,7 +20,9 @@ import Profile from './components/Profile/Profile'
 import Login from './components/Login/Login'
 import HistoryId from './components/HistoryId/HistoryId'
 
-import StopWatch from './components/Clock/StopWatch'
+import ProtectedRoute from './components/Router/ProtectedRoute';
+
+
 
 import { jwtDecode } from 'jwt-decode';
 
@@ -58,6 +60,9 @@ import { CssBaseline } from '@mui/material';
 
 import ActiveWorkout from './components/Workout/Workout';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+import SwipeableEdgeDrawer from './components/Navbar/SwipeableEdgeDrawer';
+
 /* const theme = createTheme({
     palette: {
         primary: {
@@ -85,33 +90,30 @@ import ActiveWorkout from './components/Workout/Workout';
 // '#1F1B24'
 
 
-import useMediaQuery from '@mui/material/useMediaQuery';
-import SwipeableEdgeDrawer from './components/Navbar/SwipeableEdgeDrawer';
-
-
-
-
-
-
-
-
-
-/* vois kyllä tehddä modalin jossa on nappi ja ei haittaa että menu jää taustalle
-
- */
-
 
 
 
 
 const App = () => {
-    console.log("rendering App.jsx");
+    console.log("Rendering App.jsx");
 
     // STATE
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
-    const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
+    //const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const user = useSelector(state => state.user)
-    const authenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
+    const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
+
+    const exercises = useSelector(state => state.exerciseLibrary)
+    const match = useMatch('/exercises/:id')
+    const exercise = match
+        ? exercises.find(exercise => exercise.id === Number(match.params.id))
+        : null
+
+    const workouts = useSelector(state => state.history)
+    const matchHistory = useMatch('/history/:id')
+    const workout = matchHistory
+        ? workouts.find(workout => workout.id === Number(matchHistory.params.id))
+        : null
 
     // HOOKS
     const theme = useTheme();
@@ -141,9 +143,7 @@ const App = () => {
           } */
 
     });
-    const darkMode = true //useSelector(state => state.darkMode)
-
-
+    // const darkMode = true //useSelector(state => state.darkMode)
 
 
 
@@ -154,9 +154,7 @@ const App = () => {
     // 2: toista parametria käytetään tarkentamaan sitä, miten usein efekti suoritetaan.
     // Jos toisena parametrina on tyhjä taulukko [], suoritetaan efekti ainoastaan komponentin ensimmäisen renderöinnin jälkeen.
     useEffect(() => {
-
-        if (authenticated) {
-            console.log("EFFECT WORKOUTS AUTH TRUE");
+        if (isAuthenticated) {
             workoutService
                 .getAllUserWorkouts(user.email)
                 .then((response) => {
@@ -168,30 +166,26 @@ const App = () => {
                     //alert("tapahtui virhe hakiessa kaikkia liikkeitä")
                     console.log('error: ', error);
                 })
-
         }
-
         // axios.get palauttaa promise olion
         // Takaisinkutsun rekisteröinti tapahtuu antamalla promisen then-metodille käsittelijäfunktio (response)... ymmärsinlö oikein
-
-    }, [authenticated])
+    }, [isAuthenticated])
 
     useEffect(() => {
         // console.log("EFFECT EXERCISES");
-        if (authenticated) {
+        if (isAuthenticated) {
             //console.log("EFFECT EXERCISES AUTH TRUE");
             exerciseService
                 .getAll()
                 .then((initialExercises) => {
-                    dispatch(setExercises(initialExercises)) // redux storeen
+                    dispatch(setExercises(initialExercises))
                 })
                 .catch(error => {
-                    //alert("tapahtui virhe hakiessa kaikkia liikkeitä")
                     console.log('error: ', error);
                 })
         }
 
-    }, [authenticated])
+    }, [isAuthenticated])
 
     useEffect(() => {
         //console.log("EFFECT");
@@ -212,59 +206,29 @@ const App = () => {
 
 
 
-    const exercises = useSelector(state => state.exerciseLibrary)
-    const match = useMatch('/exercises/:id')
-    const exercise = match
-        ? exercises.find(exercise => exercise.id === Number(match.params.id))
-        : null
 
-    const workouts = useSelector(state => state.history)
-    const matchHistory = useMatch('/history/:id')
-    const workout = matchHistory
-        ? workouts.find(workout => workout.id === Number(matchHistory.params.id))
-        : null
 
-    const margin = () => {
+  /*   const margin = () => {
         if (!stopWatchIsActive) {
             return 0
         } else {
             return 10
         }
     }
+ */
 
-    const ProtectedRoute = ({ children }) => {
-        if (!authenticated) {
-            return <Navigate to="/login" />
-        }
-
-        const isTokenExpired = () => {
-            const token = window.localStorage.getItem('userToken')
-            const decodedToken = jwtDecode(token)
-            const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
-            return Date.now() > expirationTime
-        }
-
-        if (isTokenExpired()) {
-            dispatch(logout())
-            //navigate('/')
-            toast.warning('Your session has timed out! For security reasons you need to log in again.')
-            return <Navigate to="/login" />
-        }
-
-        return children;
-    }
 
     return (
-        <ThemeProvider theme={darkMode ? darkTheme : theme}>
+        <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
 
 
 
-                <Box sx={{ display: 'flex', marginTop: margin() }}  >
+                <Box sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
                     {/*  <HideAppBar drawerWidth={drawerWidth} ></HideAppBar> */}
-                    {authenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
+                    {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
 
 
                     <Box
@@ -277,7 +241,7 @@ const App = () => {
                         <Routes>
                             <Route
                                 path="/"
-                                element={<ProtectedRoute>
+                                element={<ProtectedRoute  >
                                     <Workout
                                         user={user}
                                         //style={{ margin: '110' }}
@@ -329,19 +293,13 @@ const App = () => {
                                 path="/profile"
                                 element={<ProtectedRoute>
                                     <Profile user={user} drawerWidth={drawerWidth} />
-                                </ProtectedRoute>} />
-                            {/* <Route
-                                path="/"
-                                element={<ProtectedRoute>
-                                    <Navigate to="/workout" />
                                 </ProtectedRoute>}
-                            /> */}
+                            />
                             <Route
                                 path="/login"
                                 element={<Login />}
                             />
                         </Routes>
-                     {/*    <SwipeableEdgeDrawer/> */}
 
                         <ToastContainer
                             className="toast-position"
@@ -352,27 +310,24 @@ const App = () => {
                             pauseOnFocusLoss
                             draggable
                             pauseOnHover
-                            theme={darkMode ? 'dark' : 'light'}
+                            theme={'dark'}
                             toastStyle={{ backgroundColor: "#474747" }}
                         />
                     </Box>
 
-                    <Drawer
-                        variant="temporary"
-                        ModalProps={{
-                            keepMounted: true,
-                        }}
-                    >
-                        <div>dadawdwadwadawdawd</div>
-                    </Drawer>
-                  {/*   <SwipeableEdgeDrawer/> */}
-
-
+                    {isAuthenticated && <BottomNavBar />}
 
                 </Box>
-                {authenticated && <BottomNavBar />}
 
-                <SwipeableEdgeDrawer/>
+
+
+                {/* {slowComponent} */}
+
+                {/*  <SwipeableEdgeDrawer /> */}
+
+
+
+
 
 
 

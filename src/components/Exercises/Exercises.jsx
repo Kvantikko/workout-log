@@ -22,7 +22,7 @@ import { setSearchExercises } from '../../redux/reducers/searchReducer';
 
 
 
-const Exercises = ({ drawerWidth }) => {
+const Exercises = ({ drawerWidth, handleListClick }) => {
     const exercises = useSelector(state => state.exerciseLibrary)
     const exercisesFilteredSearch = useSelector(state => state.search.exercises)
     const searchState = useSelector(state => state.search)
@@ -42,6 +42,7 @@ const Exercises = ({ drawerWidth }) => {
             exercises
         )
     const [open, setOpen] = useState(false)
+   // const [selectedExercises, setSelectedExercises] = useState([])
 
     const dispatch = useDispatch()
 
@@ -66,7 +67,7 @@ const Exercises = ({ drawerWidth }) => {
             <HideAppBar drawerWidth={drawerWidth} >
                 <ExercisesToolbar input={input} setInput={setInput} setOpen={setOpen} />
             </HideAppBar>
-            <FilteredExercises exercises={visibleExercises} />
+            <FilteredExercises exercises={visibleExercises} handleListClick={handleListClick} />
         </div>
     )
 }

@@ -23,11 +23,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 const HomeToolbar = () => {
-    console.log("Rendering HomeToolbar.jsx");
+    console.log("Rendering HomeToolbar");
 
     return (
         <>
-            <Typography variant="h6" component="div">
+            <Typography variant="h6" >
                 Home
             </Typography>
         </>

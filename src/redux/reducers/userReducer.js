@@ -14,17 +14,13 @@ const userSlice = createSlice({
             const user = action.payload
            // console.log("REDUCER ", user);
             //const {access, refresh} = action.payload;
-           
             //localStorage.setItem("refreshToken", refresh);
             state = user
-            console.log("REDUCER2 ", state);
             return state
         },
         logout: (state, action) => {
-            console.log("log out reducer");
             window.localStorage.clear()
             state = {}
-            console.log("state: ", state);
             return state
         }
     }

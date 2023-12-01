@@ -15,7 +15,7 @@ import { toast } from 'react-toastify'
 
 
 const CreateExerciseModal = ({ handleClose, confirmButton }) => {
-    console.log("rendering CreateExerciseModal");
+    console.log("Rendering CreateExerciseModal");
     const dispatch = useDispatch()
 
     const saveExercise = async (exerciseName, targetMuscle) => {

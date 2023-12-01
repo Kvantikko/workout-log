@@ -37,7 +37,7 @@ import FinishWorkoutModal from "../Modals/FinishWorkoutModal";
 
 
 const WorkoutToolbar = ({ }) => {
-    console.log("WorkoutToolbar is rendering");
+    console.log("Rendering WorkoutToolbar");
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const exercises = useSelector(state => state.exercises)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)

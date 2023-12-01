@@ -71,13 +71,14 @@ export const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '100vw',
-    //height: '100wh',
-    maxHeight: '80%',
+    height: '100wh',
+    maxHeight: '100%',
     maxWidth: 550,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: { xs: 2, sm: 4},
+
     //overflow: 'scroll'
     //display: 'flex',
     //flexDirection: 'column'

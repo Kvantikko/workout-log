@@ -12,7 +12,7 @@ import { useState } from "react";
 
 import workoutService from '../../services/workouts'
 import { addToHistory, setWorkouts } from "../../redux/reducers/historyReducer";
-import HistoryListCard from "./HistoryListCard";
+import HistoryCardList from "./HistoryCardList";
 
 
 
@@ -119,15 +119,7 @@ const History = ({ drawerWidth }) => {
 
             )} */}
 
-            <Stack
-                spacing={2}
-                padding={1.5}
-                alignItems={'center'}
-            >
-                {filteredWorkouts.map(workout =>
-                    <HistoryListCard key={workout.id} workout={workout} />
-                )}
-            </Stack>
+            <HistoryCardList workouts={filteredWorkouts} />
 
         </>
     )

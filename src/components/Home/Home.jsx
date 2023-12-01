@@ -31,9 +31,8 @@ import { blink } from "../../utils/Blink"
 
 const Home = ({ user, drawerWidth }) => {
 
-    console.log("Workout is rendering");
-    console.log(theme => theme);
-    //setPageIndex(1)
+    console.log("Rendering Home");
+   
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const [showModal, setShowModal] = useState(false)
 
@@ -55,7 +54,7 @@ const Home = ({ user, drawerWidth }) => {
 
     // efekti ei vie täysin ikkunan pohjaan, koska luodaan yksi automaattinen seti sen jälkeen
     useEffect(() => {
-        console.log("EFFECT SCROLL POSITION");
+        //console.log("EFFECT SCROLL POSITION");
         handleScrollPosition()
     }, [])
 

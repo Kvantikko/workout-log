@@ -11,6 +11,7 @@ import WarningIcon from '@mui/icons-material/Warning'
 import BasicModal from './BasicModal'
 
 const CancelWorkoutModal = ({ open, onClose, confirmFunction }) => {
+    console.log("Rendering CancelWorkoutModal");
 
 
 

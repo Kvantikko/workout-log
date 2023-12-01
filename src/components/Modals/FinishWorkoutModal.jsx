@@ -26,11 +26,11 @@ import { useNavigate } from 'react-router-dom'
 
 
 const FinishWorkoutModal = ({ open, onClose }) => {
-    //console.log("RENDERING");
+    console.log("Rendering FinishWorkoutModal");
     //const [open, setOpen] = useState(false)
     //const workout = useSelector(state => state.workout)
     const workoutName = useSelector(state => state.workout.workoutTitle)
-    console.log("WORKOUTNAME ", workoutName);
+  
     const email = useSelector(state => state.user.email)
     const exercises = useSelector(state => state.exercises)
     const sets = useSelector(state => state.sets)
@@ -67,7 +67,7 @@ const FinishWorkoutModal = ({ open, onClose }) => {
 
         try {
             const response = await workoutService.createNew(newWorkoutObject)
-            console.log('servu palautti: ', response.data, ' dispatchataan storeen')
+           // console.log('servu palautti: ', response.data, ' dispatchataan storeen')
             // pistä servulata palautettu objekti stateen?
 
             dispatch(addToHistory(response.data))

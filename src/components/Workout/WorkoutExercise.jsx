@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react"
-import Set from "./Set"
+import Set from "./SetRow"
 import { Button, Divider, Box, TextField, Stack, Grid, Paper, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { addSet, deleteSet } from "../../redux/reducers/setReducer"
@@ -10,33 +10,18 @@ import generateId from "../../utils/generateId"
 import { deleteExercise, editExerciseNote } from "../../redux/reducers/exerciseReducer"
 import DeleteExerciseFromWorkoutModal from "../Modals/DeleteExerciseFromWorkoutModal"
 
-const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
-    console.log("WorkoutExercise is rendering ", exercise);
+const WorkoutExercise = ({ exercise }) => { // deleteExercise
+    console.log("Rendering WorkoutExercise", exercise.name);
     /**
-     * PIDÄ STATE LÄHELLÄ SITÄ COMPONENTTIA MILLE SE ON RELEVENTTI.
-     * TÄSSÄ NÄYTTÄISI ETTÄ SETTIEN PITÄMINEN LIIAN YLHÄÄLLÄ HUONO
+     * VOISKO NOPEUTTAA JO ID ON INDEKSI NIIN EI TARVI ETSIÄ?
      */
     const noteFromStore = useSelector(state => state.exercises.find(e => e.id === exercise.id).note )  
     const [note, setNote] = useState(noteFromStore)
     const [focused, setFocused] = useState(false)
     const allSetsFromState = useSelector(state => state.sets) // filter funktio aiheuttaa varootuksen jos käyttää tässä kohtaa...!?
-    //const sets = allSetsFromState.filter(set => set.exerciseId === exerciseId)
-    const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
-    //console.log('WorkoutExercise: const sets: ', sets);
-    const [setId, setSetId] = useState(1) // used for keys and sorting set order, TÄÄ ON HUONO KU SE RESETOITUU
-    //const [isSetsLengthZero, setIsSetsLengthZero] = useState(sets.length === 0)
-    // console.log('WorkoutExercise: const sets.length === 0: ', sets.length === 0);
-    //console.log('WorkoutExercise: const !sets.length === 0: ', !(sets.length === 0));
-
+    //const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
+    const sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
-
-    /* const memoSets = React.useMemo(() => {
-        return {
-            firstName: "Amr"
-        }
-    }, [])
- */
-
 
 
     const dispatch = useDispatch()
@@ -46,49 +31,32 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
      * When use creates a new exercise, the default set of one is created and ActiveWorkout component cannot
      * update bc WorkoutExercise component is rendering the default set of one.
      */
+    // REMEMEER: useEffect is executed after a render
     useEffect(() => {
-        console.log('WorkoutExercise: useEffect() start');
+        console.log('EFFECT WorkoutExercise');
         if (sets.length === 0) {
-            console.log('WorkoutExercise: useEffect() creating a set');
+            console.log('WorkoutExercise: useEffect(): creating a set because sets.length is 0');
             createSet(true) // tää aiheuttaa sen että ei scrollaa pohjaan
             //window.scrollTo(0, document.body.scrollHeight)
             // window.scrollTo(0, document.body.scrollHeight, "smooth")
 
-            setTimeout(() => {
-                console.log("Delayed for 1 second.");
+
+            /* setTimeout(() => {
+              
                 window.scrollTo({
                     top: document.body.scrollHeight,
                     left: 0,
                     behavior: "smooth",
                 });
-            }, "100");
+            }, "100"); */
 
         }
     }, [])
 
-    const handleRemoveExercise = () => {
-        let isDone = false 
-
-        sets.forEach(set => {
-            console.log(set);
-            if (set.done === true) {
-                console.log("TOTTATATATAT");
-                setOpenDeleteModal(true)
-                isDone = true
-                return
-            }
-        })
-
-        if (!isDone) removeExercise()
-    }
-
-    const removeExercise = () => {
-        dispatch(deleteExercise(exercise.id))
-    }
-
+    const removeExercise = () => dispatch(deleteExercise(exercise.id))
 
     const createSet = (warmup) => {
-        console.log('WorkoutExercise: createSet() start');
+        //console.log('WorkoutExercise: createSet() start');
 
         // default values for input
         let weight = 20
@@ -98,47 +66,45 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
         // copying last done set values 
         if (!(sets.length === 0)) {
             let lastSet = sets[sets.length - 1]
-            console.log("all sets ", sets);
-            console.log("last set ", lastSet);
+            //console.log("all sets ", sets);
+            //console.log("last set ", lastSet);
             weight = lastSet.weight
             reps = lastSet.reps
         }
 
-        console.log("if over ");
-        console.log("weight: ", weight);
-        console.log("reps ", reps);
+        //console.log("if over ");
+        //console.log("weight: ", weight);
+        //console.log("reps ", reps);
 
         const newSet = {
-            id: generateId(),//setId,
+            id: generateId(),
             exerciseId: exercise.id,
-            createdAt: new Date().toJSON(),
+            createdAt: new Date().toJSON(), // tää servulla?
             warmup: warmup,
             weight: weight,
             reps: reps
         }
 
-        console.log("This is the new set: ", newSet, " dispatching...");
+        //console.log("This is the new set: ", newSet, " dispatching...");
 
         dispatch(addSet(newSet))
 
-        setSetId(setId + 1)
-
-        if (sets.length === 0) {
+        /* if (sets.length === 0) {
             console.log('WorkoutExercise: createSet(): sets length === 0...scrolling...');
             window.scrollTo(0, document.body.scrollHeight)
-        }
+        } */
     }
 
 
     let setNumber = 0
 
     const renderSets = () => {
-        console.log('WorkoutExercise: renderSets() start');
+        //console.log('WorkoutExercise: renderSets() start');
 
         return (
             <Stack spacing={0}  >
                 {sets.map((set, index) => {
-                    console.log('mapping set:', set);
+                    //console.log('mapping set:', set);
                     if (!set.warmup) {
                         //console.log('this is NOT a warmup set');
                         setNumber = setNumber + 1
@@ -167,11 +133,11 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
         <Box sx={{ alignItems: 'center' }}>
             <Box paddingX={2}>
                 <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
-                    <Typography variant="h6">{name}</Typography>
+                    <Typography variant="h6">{exercise.name}</Typography>
                     <Button
                         variant="outlined"
                         color="error"
-                        onClick={handleRemoveExercise}
+                        onClick={() => setOpenDeleteModal(true)}
                         sx={{ marginBottom: 1 }}
                     >
                         <DeleteIcon />
@@ -202,14 +168,11 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
 
                     onFocus={() => setFocused(true)}
                     onBlur={handleBlur}
-
                     onChange={(event) => setNote(event.target.value)}
-                    // onBlur={(event) => handleBlur(event)}
                     sx={{
                         borderRadius: 2,
                         backgroundColor: theme => theme.palette.action.disabledBackground,
                         marginY: 1,
-
                         "& fieldset": { border: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: 2 },
                     }}
                 />
@@ -224,18 +187,19 @@ const WorkoutExercise = ({ exercise, name }) => { // deleteExercise
             </Box>
 
             {renderSets()}
+
             <Box textAlign='center' sx={{ mt: 2 }} > {/* box is for centering the button */}
                 <Button
                     variant="text"
                     onClick={() => createSet(false)}
                     fullWidth
-                    //sx={{ width: { xs: 0.8, sm: 0.3 } }}
                 >
                     Add set
                 </Button>
             </Box>
-            {/* {renderWarmupButton()} */}
+
             <Divider sx={{ my: 3 }} />
+            
         </Box>
     )
 }

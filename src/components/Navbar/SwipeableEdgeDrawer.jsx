@@ -9,19 +9,19 @@ import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Workout from '../Workout/Workout';
+import ActiveWorkout from '../Workout/ActiveWorkout';
 
 const drawerBleeding = 56;
 
-const Root = styled('div')(({ theme }) => ({
+const Root = React.memo(styled('div')(({ theme }) => ({
     height: '100%',
     backgroundColor:
         theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
-}));
+})))
 
 const StyledBox = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
-}));
+}))
 
 const Puller = styled(Box)(({ theme }) => ({
     width: 30,
@@ -31,9 +31,11 @@ const Puller = styled(Box)(({ theme }) => ({
     position: 'absolute',
     top: 8,
     left: 'calc(50% - 15px)',
-}));
+}))
 
 function SwipeableEdgeDrawer(props) {
+    console.log('------------- Rendering SwipeableEdgeDrawer -----------');
+
     const { window } = props;
     const [open, setOpen] = React.useState(false);
 
@@ -42,7 +44,7 @@ function SwipeableEdgeDrawer(props) {
     };
 
     // This is used only for the example
-    const container = window !== undefined ? () => window().document.body : undefined;
+    /* const container = window !== undefined ? () => window().document.body : undefined; */
 
     return (
         <Root>
@@ -52,14 +54,18 @@ function SwipeableEdgeDrawer(props) {
                     '.MuiDrawer-root > .MuiPaper-root': {
                         height: `calc(90% - ${drawerBleeding}px)`,
                         overflow: 'visible',
+                        
                     },
                 }}
             />}
             <Box sx={{ textAlign: 'center', pt: 1 }}>
                 <Button onClick={toggleDrawer(true)}>Open</Button>
             </Box>
+
+
+            
             <SwipeableDrawer
-                container={container}
+                //container={container}
                 anchor="bottom"
                 open={open}
                 onClose={toggleDrawer(false)}
@@ -122,20 +128,23 @@ function SwipeableEdgeDrawer(props) {
                         <div>fafadawdwf</div>
                     </Skeleton> */}
 
-                   <Workout /> 
+                 <ActiveWorkout />
 
                 </StyledBox>
             </SwipeableDrawer>
+
+
+
         </Root>
     );
 }
 
-SwipeableEdgeDrawer.propTypes = {
+/* SwipeableEdgeDrawer.propTypes = { */
     /**
      * Injected by the documentation to work in an iframe.
      * You won't need it on your project.
      */
-    window: PropTypes.func,
+/*     window: PropTypes.func,
 };
-
-export default SwipeableEdgeDrawer;
+ */
+export default SwipeableEdgeDrawer
