@@ -17,6 +17,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import FormModal from '../Modals/FormModal';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setSearch } from '../../redux/reducers/searchReducer';

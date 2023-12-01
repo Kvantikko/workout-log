@@ -9,6 +9,7 @@ import { setExercises } from './redux/reducers/exerciseLibraryReducer'
 import { setWorkouts } from './redux/reducers/historyReducer'
 
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom';
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -21,6 +22,8 @@ import Login from './components/Login/Login'
 import HistoryId from './components/HistoryId/HistoryId'
 
 import ProtectedRoute from './components/Router/ProtectedRoute';
+
+import PermanentDrawerRight from './components/Navbar/PermanentDrawerRight';
 
 
 
@@ -94,8 +97,13 @@ import SwipeableEdgeDrawer from './components/Navbar/SwipeableEdgeDrawer';
 
 
 
+
 const App = () => {
     console.log("Rendering App.jsx");
+
+    const isSmallScreen = useMediaQuery('(max-width:1000px)');
+
+    console.log(isSmallScreen);
 
     // STATE
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
@@ -122,27 +130,9 @@ const App = () => {
     //const isSmallScreen = useMediaQuery('(min-width:900px)');
 
     // CONSTANTS
-    const [drawerWidth, setdrawerWidth] = useState(250)
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-        },
-        zIndex: {
-            //appBar: 0,
-            //modal: 1250,
-            //drawer: 0
-        },
-        /*   components: {
-              MuiCssBaseline: {
-                  styleOverrides: `
-                  h1, h2, h3, h4, h5, h6, p {
-                    margin: 2;
-                  }
-                `
-              }
-          } */
+    const [drawerWidth, setdrawerWidth] = useState(200)
+    const [rightDrawerWidth, setRightDrawerWidth] = useState(500)
 
-    });
     // const darkMode = true //useSelector(state => state.darkMode)
 
 
@@ -208,131 +198,145 @@ const App = () => {
 
 
 
-  /*   const margin = () => {
-        if (!stopWatchIsActive) {
-            return 0
-        } else {
-            return 10
-        }
-    }
- */
+    /*   const margin = () => {
+          if (!stopWatchIsActive) {
+              return 0
+          } else {
+              return 10
+          }
+      }
+   */
 
 
     return (
-        <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+           {/*  {workoutStarted && isAuthenticated && (!isSmallScreen) && createPortal(
+                <PermanentDrawerRight />,
+                document.getElementById('outsideRouter')
+            )} */}
+
+          {/*   {workoutStarted && isAuthenticated && (isSmallScreen === true) && createPortal(
+                <SwipeableEdgeDrawer />,
+                document.body
+            )}
+ */}
 
 
 
-
-                <Box sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
-                    {/*  <HideAppBar drawerWidth={drawerWidth} ></HideAppBar> */}
-                    {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
-
-
-                    <Box
-                        component="main"
-                        sx={{ flexGrow: 1 }}
-                    >
-                        <Toolbar />  {/* // for margin */}
+            <Box  sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
+                {/*  <HideAppBar drawerWidth={drawerWidth} ></HideAppBar> */}
+                {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
 
 
-                        <Routes>
-                            <Route
-                                path="/"
-                                element={<ProtectedRoute  >
-                                    <Workout
-                                        user={user}
-                                        //style={{ margin: '110' }}
-                                        drawerWidth={drawerWidth}
-                                    />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/workout"
-                                element={<ProtectedRoute>
-                                    <ActiveWorkout
-                                        user={user}
-                                        //style={{ margin: '110' }}
-                                        drawerWidth={drawerWidth}
-                                    />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/history/:id"
-                                element={<ProtectedRoute>
-                                    <HistoryId workout={workout} drawerWidth={drawerWidth} />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/history"
-                                element={<ProtectedRoute>
-                                    <History drawerWidth={drawerWidth} />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/exercises/:id"
-                                element={<ProtectedRoute>
-                                    <Exercise exercise={exercise} drawerWidth={drawerWidth} />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/exercises"
-                                element={<ProtectedRoute>
-                                    <Exercises drawerWidth={drawerWidth} />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/measure"
-                                element={<ProtectedRoute>
-                                    <Measurements drawerWidth={drawerWidth} />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/profile"
-                                element={<ProtectedRoute>
-                                    <Profile user={user} drawerWidth={drawerWidth} />
-                                </ProtectedRoute>}
-                            />
-                            <Route
-                                path="/login"
-                                element={<Login />}
-                            />
-                        </Routes>
+                <Box
+                    component="main"
+                    sx={{
+                        flexGrow: 1,
+                        //width: 33,!isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' ,
+                        minWidth: 400,
+                        maxWidth: !isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' 
+                    }}
+                >
+                    <Toolbar />  {/* // for margin */}
 
-                        <ToastContainer
-                            className="toast-position"
-                            position="bottom-right"
-                            autoClose={4000}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            theme={'dark'}
-                            toastStyle={{ backgroundColor: "#474747" }}
+
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={<ProtectedRoute  >
+                                <Workout
+                                    user={user}
+                                    //style={{ margin: '110' }}
+                                    drawerWidth={drawerWidth}
+                                />
+                            </ProtectedRoute>}
                         />
-                    </Box>
+                        <Route
+                            path="/workout"
+                            element={<ProtectedRoute>
+                                <ActiveWorkout
+                                    user={user}
+                                    //style={{ margin: '110' }}
+                                    drawerWidth={drawerWidth}
+                                />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/history/:id"
+                            element={<ProtectedRoute>
+                                <HistoryId workout={workout} drawerWidth={drawerWidth} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/history"
+                            element={<ProtectedRoute>
+                                <History drawerWidth={drawerWidth} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/exercises/:id"
+                            element={<ProtectedRoute>
+                                <Exercise exercise={exercise} drawerWidth={drawerWidth} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/exercises"
+                            element={<ProtectedRoute>
+                                <Exercises drawerWidth={drawerWidth} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/measure"
+                            element={<ProtectedRoute>
+                                <Measurements drawerWidth={drawerWidth} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/profile"
+                            element={<ProtectedRoute>
+                                <Profile user={user} drawerWidth={drawerWidth} />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/login"
+                            element={<Login />}
+                        />
+                    </Routes>
 
-                    {isAuthenticated && <BottomNavBar />}
-
+                    <ToastContainer
+                        className="toast-position"
+                        position="bottom-right"
+                        autoClose={4000}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme={'dark'}
+                        toastStyle={{ backgroundColor: "#474747" }}
+                    />
                 </Box>
 
+                {isAuthenticated && <BottomNavBar />}
 
-
-                {/* {slowComponent} */}
-
-                {/*  <SwipeableEdgeDrawer /> */}
-
+            </Box>
 
 
 
+            {/* {slowComponent} */}
+
+            {/*  <SwipeableEdgeDrawer /> */}
 
 
 
-            </LocalizationProvider>
-        </ThemeProvider>
+
+
+
+
+        </LocalizationProvider>
+
     )
 }
 

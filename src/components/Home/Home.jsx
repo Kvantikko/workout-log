@@ -27,12 +27,16 @@ import { keyframes } from '@mui/system';
 
 import { blink } from "../../utils/Blink"
 
+import { createPortal } from "react-dom"
+import SwipeableEdgeDrawer from "../Navbar/SwipeableEdgeDrawer"
+import PermanentDrawerRight from "../Navbar/PermanentDrawerRight"
+
 
 
 const Home = ({ user, drawerWidth }) => {
 
     console.log("Rendering Home");
-   
+
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const [showModal, setShowModal] = useState(false)
 
@@ -76,7 +80,7 @@ const Home = ({ user, drawerWidth }) => {
             setShowModal(true)
             return
         }
-        navigate('/workout')
+        //navigate('/workout')
 
         dispatch(clearWorkout())
         dispatch(clearExercises())
@@ -117,12 +121,12 @@ const Home = ({ user, drawerWidth }) => {
                             color={'error'}
                             sx={{
                                 maxWidth: 0.8,
-                                padding: 1.5    ,
+                                padding: 1.5,
                                 textAlign: 'center',
                                 animation: `${blink} 1s linear infinite alternate`,
                             }}
                         >
-                            <>Workout in progress!</> <ArrowForwardIcon sx={{ marginLeft: 1}}/>
+                            <>Workout in progress!</> <ArrowForwardIcon sx={{ marginLeft: 1 }} />
                         </Button>
                         <Divider orientation="horizontal" flexItem>
                             start again?
@@ -138,6 +142,8 @@ const Home = ({ user, drawerWidth }) => {
                     sx={{ maxWidth: 0.8 }} >
                     Start a new workout
                 </Button>
+
+               
 
 
 

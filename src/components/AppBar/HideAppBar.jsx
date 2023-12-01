@@ -53,7 +53,8 @@ const HideAppBar = (props) => {
                     //style={{ width: isSmallScreen ? '100%' : '50%' }}
                     position="fixed"
                     sx={{
-                        width: isSmallScreen ? `calc(100% - ${props.drawerWidth}px)` : '100%' ,
+                        width: isSmallScreen ? `calc(100% - ${props.drawerWidth+500}px)` : '100%' ,
+                        right: 500
                        
 
                         // width: `calc(100% - ${props.drawerWidth}px)`,

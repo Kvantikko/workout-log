@@ -14,12 +14,15 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import ActiveWorkout from '../Workout/ActiveWorkout';
+import WorkoutToolbar from '../Workout/WorkoutToolbar';
 
-const drawerWidth = 500;
+//const drawerWidth = 500;
 
 export default function PermanentDrawerRight() {
+    console.log("---------------- Rendering PermanentDrawerRigth --------------------");
+
     return (
-        <Box sx={{ display: 'flex' }}>
+   /*      <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar
                 position="fixed"
@@ -39,12 +42,12 @@ export default function PermanentDrawerRight() {
                 <Typography>dadawdwadawdddddddddddddddddddd</Typography>
 
             </Box>
-
+ */
 
 
 
             <Drawer
-                sx={{
+                /* sx={{
                     width: drawerWidth,
                     flexShrink: 0,
                     '& .MuiDrawer-paper': {
@@ -53,16 +56,35 @@ export default function PermanentDrawerRight() {
                     },
                 }}
                 variant="permanent"
+                anchor="right" */
+
+
+                sx={{
+                    width: { xs: 'none', md: 400, lg: 500 },
+                    flexShrink: 0,
+                    display: { xs: 'none', md: 'block' },
+                    //backgroundColor: theme => theme.palette.action.hover,
+                    '& .MuiDrawer-paper': {
+                        width: { xs: 'none', md: 400, lg: 500 },
+                        boxSizing: 'border-box',
+                        bgcolor: theme => theme.palette.action.hover,
+                    },
+
+
+                    //justifyContent: 'center',
+                    //flexDirection: 'column'
+                }}
+                variant="permanent"
                 anchor="right"
             >
-                <Toolbar />
+              {/*   <WorkoutToolbar /> */}
                 <ActiveWorkout></ActiveWorkout>
 
 
 
 
             </Drawer>
-        </Box>
+    
     );
 }
 

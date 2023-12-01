@@ -4,7 +4,7 @@ import store from './redux/store'
 import { Provider, useSelector } from 'react-redux'
 import App from './App'
 import './Main.css'
-import { Box, SwipeableDrawer, ThemeProvider, CssBaseline  } from '@mui/material'
+import { Box, SwipeableDrawer, ThemeProvider, CssBaseline } from '@mui/material'
 import { createTheme } from '@mui/material/styles';
 import ActiveWorkout from './components/Workout/ActiveWorkout'
 import SwipeableEdgeDrawer from './components/Navbar/SwipeableEdgeDrawer'
@@ -38,13 +38,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
-
-            {/*USE A PORTAL HERE*/}
-
-            <PermanentDrawerRight/>
+            <div id='outsideRouter'>
 
 
-          {/*   <Box
+                {/*USE A PORTAL HERE......*/}
+
+                <PermanentDrawerRight />
+
+
+                {/*   <Box
                 sx={{
                     //position: 'absolute',
                     zIndex: 0
@@ -56,10 +58,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </Box>
  */}
 
-            
-            <Router>
-                <App />
-            </Router>
+
+                <Router>
+                    <App />
+                </Router>
+            </div>
         </ThemeProvider>
     </Provider >
 

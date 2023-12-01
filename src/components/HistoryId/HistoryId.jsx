@@ -88,7 +88,7 @@ const HistoryId = ({ workout, drawerWidth }) => {
             return
         }
 
-        navigate('/workout')
+        //navigate('/workout')
         clear()
         dispatch(copyWorkout({ title: workout.title, exercises: workout.workoutExercises }))
         dispatch(copyExercises(workout.workoutExercises))
