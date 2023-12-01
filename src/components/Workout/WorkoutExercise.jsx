@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react"
 import Set from "./SetRow"
-import { Button, Divider, Box, TextField, Stack, Grid, Paper, Typography } from "@mui/material"
+import { Button, Divider, Box, TextField, Stack, Grid, Paper, Typography, Collapse } from "@mui/material"
+import { TransitionGroup } from 'react-transition-group';
 import { useDispatch, useSelector } from "react-redux"
 import { addSet, deleteSet } from "../../redux/reducers/setReducer"
 
@@ -15,10 +16,11 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
     /**
      * VOISKO NOPEUTTAA JO ID ON INDEKSI NIIN EI TARVI ETSIÄ?
      */
-    const [note, setNote] = useState(   useSelector(state => state.exercises.find(e => e.id === exercise.id).note )  )   //!!!!!!!
+    const noteFromState =  useSelector(state => state.exercises.find(e => e.id === exercise.id).note)
+    const [note, setNote] = (noteFromState ? noteFromState : '')       //!!!!!!!
     const [focused, setFocused] = useState(false)
     const allSetsFromState = useSelector(state => state.sets) // filter funktio aiheuttaa varootuksen
-    const sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)     // !!!!!!!!!!!!!!!!!1
+    const sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)     // !!!!!!!!!!!!!!!!!
     //const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
@@ -102,7 +104,22 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
 
         return (
             <Stack spacing={0}  >
-                {sets.map((set, index) => {
+
+
+                <TransitionGroup>
+                    {sets.map((set, index) => (
+                        <Collapse key={set.id}>
+                            <Set key={set.id}
+                                set={set}
+                                number={set.warmup === true ? 0 : setNumber}
+                                index={index}
+                            />
+                        </Collapse>
+                    ))}
+                </TransitionGroup>
+
+
+               {/*  {sets.map((set, index) => {
                     //console.log('mapping set:', set);
                     if (!set.warmup) {
                         //console.log('this is NOT a warmup set');
@@ -115,7 +132,9 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
                             index={index}
                         />
                     )
-                })}
+                })} */}
+
+
             </Stack>
         )
     }
@@ -198,7 +217,7 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
             </Box>
 
             <Divider sx={{ my: 3 }} />
-            
+
         </Box>
     )
 }

@@ -2,7 +2,8 @@
 import WorkoutExercise from "./WorkoutExercise"
 import { useState, useEffect, useCallback, memo } from "react"
 import { useDispatch } from "react-redux"
-import { Autocomplete, Button, TextField, Input, Stack, Container, Box, Typography } from "@mui/material"
+import { Autocomplete, Button, TextField, Input, Stack, Container, Box, Typography, Collapse } from "@mui/material"
+import { TransitionGroup } from 'react-transition-group';
 import { useSelector } from "react-redux"
 import generateId from "../../utils/generateId"
 import { addExercises, deleteExercise } from "../../redux/reducers/exerciseReducer"
@@ -66,6 +67,21 @@ const ActiveWorkout = () => {
             {!(exercises.length === 0) &&
                 <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
                     <Defer chunkSize={1}>
+
+
+                       {/*  <TransitionGroup>
+                            {exercises.map(exercise => (
+                                <Collapse key={exercise.id}>
+                                    <WorkoutExercise
+                                        key={exercise.id}
+                                        exercise={exercise}
+                                    />
+                                </Collapse>
+                            ))}
+                        </TransitionGroup> */}
+
+
+
                         {exercises.map(exercise => {
                             return (
                                 <WorkoutExercise
@@ -74,6 +90,11 @@ const ActiveWorkout = () => {
                                 />
                             )
                         })}
+
+
+
+
+
                     </Defer>
 
 

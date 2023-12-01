@@ -1,13 +1,14 @@
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router } from "react-router-dom"
 import store from './redux/store'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import App from './App'
 import './Main.css'
 import { Box, SwipeableDrawer, ThemeProvider, CssBaseline  } from '@mui/material'
 import { createTheme } from '@mui/material/styles';
 import ActiveWorkout from './components/Workout/ActiveWorkout'
 import SwipeableEdgeDrawer from './components/Navbar/SwipeableEdgeDrawer'
+import PermanentDrawerRight from './components/Navbar/PermanentDrawerRight'
 
 
 const darkTheme = createTheme({
@@ -32,10 +33,15 @@ const darkTheme = createTheme({
 });
 
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <ThemeProvider theme={darkTheme}>
             <CssBaseline />
+
+            {/*USE A PORTAL HERE*/}
+
+            <PermanentDrawerRight/>
 
 
           {/*   <Box

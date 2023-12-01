@@ -117,7 +117,7 @@ const Home = ({ user, drawerWidth }) => {
                             color={'error'}
                             sx={{
                                 maxWidth: 0.8,
-                                padding: 1.5,
+                                padding: 1.5    ,
                                 textAlign: 'center',
                                 animation: `${blink} 1s linear infinite alternate`,
                             }}

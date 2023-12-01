@@ -15,7 +15,7 @@ const HistoryCardList = ({ workouts }) => {
             alignItems={'center'}
         >
 
-            <Defer chunkSize={6}>
+            <Defer chunkSize={5}>
                 {workouts.map(workout =>
                     <HistoryCard key={workout.id} workout={workout} />
                 )}

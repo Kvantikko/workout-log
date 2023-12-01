@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setExercisesPath } from '../../redux/reducers/navReducer'
 import ExerciseListButton from './ExerciseListButton'
+import Defer from '../Defer/Defer'
 
 const FilteredExercises = ({ exercises, handleListClick }) => {
     const dispatch = useDispatch()
@@ -15,7 +16,7 @@ const FilteredExercises = ({ exercises, handleListClick }) => {
             spacing={0}
             sx={{
                 //marginTop: 2,
-               // paddingX: { xs: 0, sm: 2, md: 4 },
+                // paddingX: { xs: 0, sm: 2, md: 4 },
                 //overflow: "hidden",
                 //textOverflow: 'ellipsis',
                 // width: 1,
@@ -23,7 +24,9 @@ const FilteredExercises = ({ exercises, handleListClick }) => {
         >
             {exercises.length === 0 && <Typography variant='h6'>No exercises found &#129300;</Typography>}
             {exercises.map(exercise =>
-                <ExerciseListButton key={exercise.id} exercise={exercise} handleListClick={handleListClick} />
+                <Defer chunkSize={10}>
+                    <ExerciseListButton key={exercise.id} exercise={exercise} handleListClick={handleListClick} />
+                </Defer>
             )}
         </Stack>
     )
