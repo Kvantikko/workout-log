@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { createExercise } from '../../redux/reducers/exerciseLibraryReducer'
 
 import ExerciseForm from '../Forms/ExerciseForm'
+import BasicModal from './BasicModal'
 
 
 import exerciseService from '../../services/exercises'
@@ -14,7 +15,7 @@ import { toast } from 'react-toastify'
 
 
 
-const CreateExerciseModal = ({ handleClose, confirmButton }) => {
+const CreateExerciseModal = ({ open, onClose, confirmFunction, handleClose, confirmButton }) => {
     console.log("Rendering CreateExerciseModal");
     const dispatch = useDispatch()
 
@@ -29,17 +30,28 @@ const CreateExerciseModal = ({ handleClose, confirmButton }) => {
             toast.error(err.response)
         }
 
-    }   
+    }
 
     return (
         <>
-            <Stack direction={'row'} spacing={0} justifyContent={'center'}>
-                <Typography variant='h5'>Create a new exercise</Typography>
-            </Stack>
-            <ExerciseForm
-                handleClose={handleClose}
-                handleSave={saveExercise}
-                confirmButton={confirmButton}
+
+
+            <BasicModal
+                open={open}
+                onClose={onClose}
+                title="Create a new exercise"
+                //subTitle="Discard ongoing workout?"
+                confirmButtonText={'Create'}
+                //cancelButtonText={'Keep logging'}
+                hideConfirmButton={true}
+                content={
+                    <ExerciseForm
+                        handleClose={handleClose}
+                        handleSave={saveExercise}
+                        confirmButton={confirmButton}
+                    />
+                }
+                //onSubmit={confirmFunction}
             />
         </>
     );

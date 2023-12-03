@@ -33,7 +33,7 @@ const Workout = ({ drawerWidth }) => {
 
             }}
             >
-                <ActiveWorkout />
+                <ActiveWorkout  />
             </Container >
         </>
     )

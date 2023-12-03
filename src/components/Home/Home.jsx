@@ -28,8 +28,8 @@ import { keyframes } from '@mui/system';
 import { blink } from "../../utils/Blink"
 
 import { createPortal } from "react-dom"
-import SwipeableEdgeDrawer from "../Navbar/SwipeableEdgeDrawer"
-import PermanentDrawerRight from "../Navbar/PermanentDrawerRight"
+import SwipeableEdgeDrawer from "../Drawers/SwipeableEdgeDrawer"
+import PermanentDrawerRight from "../Drawers/PermanentDrawerRight"
 
 
 
@@ -88,7 +88,7 @@ const Home = ({ user, drawerWidth }) => {
         dispatch(stopWatch())
         dispatch(resetWorkout())
 
-        dispatch(pushWorkout())
+        //dispatch(pushWorkout())
         dispatch(startWorkout())
     }
 

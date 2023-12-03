@@ -65,6 +65,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
             sx={{
                 pb: 7,
                 display: { xs: 'block', md: 'none' },
+                //zIndex: 0
             }}
             ref={ref}
 
@@ -88,10 +89,14 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                             "& .MuiBottomNavigationAction-root": {
                                 "@media (max-width: 768px)": {
                                     minWidth: "auto",
-                                    padding: "6px 0"
+                                    padding: "6px 0",
+                                    zIndex: 1500
                                 }
                             },
-                            //zIndex: 1500
+                            "& .MuiBottomNavigation-root": {
+                                zIndex: 1500
+                            },
+                           
                         }
                         :
                         {

@@ -23,7 +23,7 @@ import HistoryId from './components/HistoryId/HistoryId'
 
 import ProtectedRoute from './components/Router/ProtectedRoute';
 
-import PermanentDrawerRight from './components/Navbar/PermanentDrawerRight';
+import PermanentDrawerRight from './components/Drawers/PermanentDrawerRight';
 
 
 
@@ -64,7 +64,9 @@ import { CssBaseline } from '@mui/material';
 import ActiveWorkout from './components/Workout/Workout';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import SwipeableEdgeDrawer from './components/Navbar/SwipeableEdgeDrawer';
+import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer';
+import WorkoutToolbar from './components/Workout/WorkoutToolbar';
+import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentDrawer';
 
 /* const theme = createTheme({
     palette: {
@@ -103,7 +105,9 @@ const App = () => {
 
     const isSmallScreen = useMediaQuery('(max-width:1000px)');
 
-    console.log(isSmallScreen);
+    const isExpanded = useSelector(state => state.drawer)
+
+
 
     // STATE
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
@@ -130,10 +134,13 @@ const App = () => {
     //const isSmallScreen = useMediaQuery('(min-width:900px)');
 
     // CONSTANTS
-    const [drawerWidth, setdrawerWidth] = useState(200)
-    const [rightDrawerWidth, setRightDrawerWidth] = useState(500)
+    const drawerWidth = workoutStarted ?
+        { xs: 0, sm: 0, md: 75, lg: 75, xl: 225 }
+        :
+        { xs: 0, sm: 0, md: 75, lg: 225 }
 
-    // const darkMode = true //useSelector(state => state.darkMode)
+
+    const [open, setOpen] = useState(false)
 
 
 
@@ -212,12 +219,12 @@ const App = () => {
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
 
-           {/*  {workoutStarted && isAuthenticated && (!isSmallScreen) && createPortal(
+            {/*  {workoutStarted && isAuthenticated && (!isSmallScreen) && createPortal(
                 <PermanentDrawerRight />,
                 document.getElementById('outsideRouter')
             )} */}
 
-          {/*   {workoutStarted && isAuthenticated && (isSmallScreen === true) && createPortal(
+            {/*   {workoutStarted && isAuthenticated && (isSmallScreen === true) && createPortal(
                 <SwipeableEdgeDrawer />,
                 document.body
             )}
@@ -225,18 +232,45 @@ const App = () => {
 
 
 
-            <Box  sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
-                {/*  <HideAppBar drawerWidth={drawerWidth} ></HideAppBar> */}
+            <Box sx={{ display: isExpanded ? 'flex' : 'flex', marginTop: 0 /* margin() */ }}  >
+
                 {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
+
+
+
+                {/* 
+                <Drawer
+                    sx={{
+                        width: 200,
+                        flexShrink: 0,
+                        '& .MuiDrawer-paper': {
+                            width: 200,
+                        },
+                    }}
+                    //variant="persistent"
+                    variant='permanent'
+                    anchor="right"
+                    open={open}
+                >
+                    <div>dadwadawdwd</div>
+
+                    <ActiveWorkout></ActiveWorkout>
+
+
+                </Drawer> */}
+
+
 
 
                 <Box
                     component="main"
                     sx={{
                         flexGrow: 1,
+                       // width:   `calc(100% - ${+600}px)` ,
+                        marginLeft: 10
                         //width: 33,!isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' ,
-                        minWidth: 400,
-                        maxWidth: !isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' 
+                        //minWidth: 400,
+                        //maxWidth: !isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' 
                     }}
                 >
                     <Toolbar />  {/* // for margin */}
@@ -318,6 +352,35 @@ const App = () => {
                         toastStyle={{ backgroundColor: "#474747" }}
                     />
                 </Box>
+
+                {isAuthenticated && workoutStarted &&
+
+                    <ExpandablePermanentDrawer />
+       
+                    
+                }
+
+               {/*  {isAuthenticated && workoutStarted &&
+
+
+                    <Drawer
+                        sx={{
+                            width: { xs: 'none', md: 400, lg: 500 },
+                            flexShrink: 0,
+                            display: { xs: 'none', md: 'block' },
+                            '& .MuiDrawer-paper': {
+                                width: { xs: 'none', md: 400, lg: 500 },
+                                boxSizing: 'border-box',
+                                bgcolor: 'transparent', //theme => theme.palette.action.hover,
+                                pointerEvents: 'none'
+                            },
+                        }}
+                        variant="permanent"
+                        anchor="right"
+                    >
+                    </Drawer>
+
+                } */}
 
                 {isAuthenticated && <BottomNavBar />}
 

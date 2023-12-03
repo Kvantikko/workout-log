@@ -22,7 +22,7 @@ import { addToHistory } from '../../redux/reducers/historyReducer'
 import { toast } from 'react-toastify'
 import workoutService from '../../services/workouts'
 import { resetWorkout } from '../../redux/reducers/navReducer'
-import { useNavigate } from 'react-router-dom'
+//import { useNavigate } from 'react-router-dom'
 
 
 const FinishWorkoutModal = ({ open, onClose }) => {
@@ -40,7 +40,7 @@ const FinishWorkoutModal = ({ open, onClose }) => {
 
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+   // const navigate = useNavigate()
 
     const saveWorkoutToDb = async () => {
         if (input === '') {
@@ -76,7 +76,7 @@ const FinishWorkoutModal = ({ open, onClose }) => {
             dispatch(clearSets())
             dispatch(stopWatch())
             dispatch(resetWorkout())
-            navigate('/')
+            //navigate('/')
             toast.success('Workout saved!')
             handleClose()
         } catch (err) {

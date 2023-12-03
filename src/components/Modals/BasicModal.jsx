@@ -1,7 +1,7 @@
 import { Box, Typography, Modal, Button } from '@mui/material'
 import { style } from './Helper'
 
-const BasicModal = ({ open, onClose, title, subTitle, confirmButtonText, cancelButtonText, content, onSubmit }) => {
+const BasicModal = ({ open, onClose, title, subTitle, confirmButtonText, cancelButtonText, content, onSubmit, hideConfirmButton }) => {
 
     console.log("Rendering BasicModal.jsx ");
     
@@ -35,14 +35,14 @@ const BasicModal = ({ open, onClose, title, subTitle, confirmButtonText, cancelB
                 </Typography>
                 {content}
                 <Box >
-                    <Button
+                    {!hideConfirmButton &&<Button
                         variant="contained"
                         fullWidth
                         onClick={handleSubmit}
                         sx={{ marginY: 1 }}
                     >
                         {confirmButtonText ? confirmButtonText : <div>Ok</div>}
-                    </Button>
+                    </Button>}
                     <Button fullWidth onClick={() => onClose()}>
                         {cancelButtonText ? cancelButtonText : <div>Cancel</div>}
                     </Button>

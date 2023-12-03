@@ -11,10 +11,13 @@ import ConfirmationModal from "../Modals/ConfirmationModal"
 import { useState } from "react"
 
 import { darkModeOn, darkModeOff } from "../../redux/reducers/darkModeReducer"
+import LogoutModal from "../Modals/LogoutModal"
 
 const ProfileToolbar = () => {
     const darkModeState = useSelector(state => state.darkMode)
     const [darkmode, setDarkmode] = useState(darkModeState)
+
+    const [showLogoutModal, setShowLogoutModal] = useState(false)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -44,7 +47,7 @@ const ProfileToolbar = () => {
                 Profile
             </Typography>
             <Stack direction={'row'} spacing={2}>
-              {/*   <Button
+                {/*   <Button
                     variant="contained"
                     //color="info"
                     onClick={handleDarkmode}
@@ -52,18 +55,15 @@ const ProfileToolbar = () => {
                     {darkmode ? <LightModeIcon /> : <DarkModeIcon />}
                 </Button> */}
 
-                <ConfirmationModal
-                    modalType='logoutModal'
-                    //color='info'
-                    openButton={
-                        <Stack direction={'row'} spacing={2}>
-                            <div>logout</div>
-                            <LogoutIcon />
-                        </Stack>
-                    }
-                    confirmButton='Yes'
-                    confirmFunction={handleLogout}
-                />
+                <Button variant="text" onClick={() => setShowLogoutModal(true)} >
+                    <Stack direction={'row'} spacing={1}>
+                        <div>Logout</div>
+                        <LogoutIcon />
+                    </Stack>
+                </Button>
+                {showLogoutModal &&
+                    <LogoutModal open={showLogoutModal} onClose={setShowLogoutModal} confirmFunction={handleLogout} />
+                }
             </Stack>
 
         </>

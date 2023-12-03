@@ -15,6 +15,7 @@ import userReducer from './reducers/userReducer'
 import darkModeReducer from './reducers/darkModeReducer'
 import navReducer from './reducers/navReducer'
 import searchReducer from './reducers/searchReducer'
+import drawerReducer from './reducers/drawerReducer'
 
 const store = configureStore({
     reducer: {
@@ -29,7 +30,8 @@ const store = configureStore({
         stopWatch: stopWatchReducer,
         darkMode: darkModeReducer,
         nav: navReducer,
-        search: searchReducer
+        search: searchReducer,
+        drawer: drawerReducer
     }
 })
 

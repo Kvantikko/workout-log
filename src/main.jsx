@@ -7,8 +7,8 @@ import './Main.css'
 import { Box, SwipeableDrawer, ThemeProvider, CssBaseline } from '@mui/material'
 import { createTheme } from '@mui/material/styles';
 import ActiveWorkout from './components/Workout/ActiveWorkout'
-import SwipeableEdgeDrawer from './components/Navbar/SwipeableEdgeDrawer'
-import PermanentDrawerRight from './components/Navbar/PermanentDrawerRight'
+import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer'
+import PermanentDrawerRight from './components/Drawers/PermanentDrawerRight'
 
 
 const darkTheme = createTheme({
@@ -40,29 +40,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <CssBaseline />
             <div id='outsideRouter'>
 
-
                 {/*USE A PORTAL HERE......*/}
 
-                <PermanentDrawerRight />
-
-
-                {/*   <Box
-                sx={{
-                    //position: 'absolute',
-                    zIndex: 0
-                    //bottom: 30,
-                    //right: 30,
-                }}>
-        
-              <SwipeableEdgeDrawer></SwipeableEdgeDrawer>
-            </Box>
- */}
-
-
-                <Router>
-                    <App />
-                </Router>
+             {/*    <PermanentDrawerRight />
+                <SwipeableEdgeDrawer /> */}
             </div>
+            <Router>
+                <App style={{ overflow: 'hidden '}} />
+            </Router>
+
         </ThemeProvider>
     </Provider >
 

@@ -44,6 +44,12 @@ const HideAppBar = (props) => {
 
     const isSmallScreen = useMediaQuery('(min-width:900px)');
 
+    const calculateWidth = () => {
+        if(workoutStarted) {
+            return 0
+        }
+    }
+
 
     return (
         <React.Fragment>
@@ -53,8 +59,15 @@ const HideAppBar = (props) => {
                     //style={{ width: isSmallScreen ? '100%' : '50%' }}
                     position="fixed"
                     sx={{
-                        width: isSmallScreen ? `calc(100% - ${props.drawerWidth+500}px)` : '100%' ,
-                        right: 500
+                        width:  {
+                            xs: '100%',
+                            sm: '100%',
+                            md:  workoutStarted ? `calc(100% - ${75+400}px)` : `calc(100% - ${75}px)`,
+                            lg:  workoutStarted ?  `calc(100% - ${75+500}px)` :  `calc(100% - ${225}px)`,
+                            xl:  workoutStarted ? `calc(100% - ${225+500}px)` : `calc(100% - ${225}px)`
+                        },
+                       
+                         right: workoutStarted ? { xs: 0, sm: 0, md: 400, lg: 500 } : 0
                        
 
                         // width: `calc(100% - ${props.drawerWidth}px)`,
@@ -89,11 +102,11 @@ const HideAppBar = (props) => {
                             {props.children}
                         </Stack>
                     </Toolbar>
-                    {workoutStarted && stopWatchIsActive &&
+                    {/* {workoutStarted && stopWatchIsActive &&
                         <Toolbar sx={{ justifyContent: "center" }} >
                             <StopWatch showButtons={true} timerSize={'h6'} alwaysOn={true}></StopWatch>
                         </Toolbar>
-                    }
+                    } */}
                 </AppBar>
             </HideOnScroll>
         </React.Fragment >

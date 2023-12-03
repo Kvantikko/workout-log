@@ -21,6 +21,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setSearch } from '../../redux/reducers/searchReducer';
+import CreateExerciseModal from '../Modals/CreateExerciseModal';
 
 
 
@@ -30,7 +31,8 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
     const searchState = useSelector(state => state.search)
 
     const [showFullWidthSearch, setShowFullWidthSearch] = useState(searchState.showFullWidth)
-    
+    const [openAddModal, setOpenAddModal] = useState(false)
+
 
     const isSmallScreen = useMediaQuery('(max-width:700px)');
 
@@ -157,20 +159,22 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
 
                     <Stack direction="row" spacing={2}>
                         {isSmallScreen &&
-                            <Button
-                                variant="contained"
-                                onClick={handleSearchClick}
-                            >
+
+                            <IconButton aria-label="search" sx={{ color: '#90CAF9' }} onClick={handleSearchClick}>
                                 <SearchIcon />
-                            </Button>
+                            </IconButton>
+
                         }
-                        <FormModal
-                            modalType='createExercise'
-                            openButton={
-                                <AddIcon />
-                            }
-                            confirmButton='Create'
+
+                        <IconButton aria-label="add" sx={{ color: '#90CAF9' }} onClick={() => setOpenAddModal(true)} >
+                            <AddIcon />
+                        </IconButton>
+                        <CreateExerciseModal
+                            open={openAddModal}
+                            onClose={setOpenAddModal}
                         />
+
+
                     </Stack>
                 </>
             }
@@ -183,19 +187,22 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                     {searchInput()}
                     <Stack direction="row" spacing={2}>
                         {isSmallScreen &&
-                            <Button
-                                variant="contained"
-                                onClick={handleSearchClick}
-                            >
+
+                            <IconButton aria-label="cancel" color="error" onClick={handleSearchClick}>
                                 <SearchIcon />
-                            </Button>
+                            </IconButton>
+                            /*  <Button
+                                 variant="contained"
+                                 onClick={handleSearchClick}
+                             >
+                                
+                             </Button> */
+
+
                         }
-                        <FormModal
-                            modalType='createExercise'
-                            openButton={
-                                <AddIcon />
-                            }
-                            confirmButton='Create'
+                        <CreateExerciseModal
+                            open={openAddModal}
+                            onClose={setOpenAddModal}
                         />
                     </Stack>
                 </>

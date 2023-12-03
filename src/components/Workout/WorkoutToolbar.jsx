@@ -1,4 +1,4 @@
-import { Typography, Stack, Button, IconButton } from "@mui/material"
+import { Typography, Stack, Button, IconButton, Toolbar, AppBar } from "@mui/material"
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { startWatch } from "../../redux/reducers/stopWatchReducer";
@@ -19,7 +19,7 @@ import { stopWatch } from "../../redux/reducers/stopWatchReducer";
 import { resetWorkout } from "../../redux/reducers/navReducer"
 
 import FormModal from "../Modals/FormModal";
-import { Link, useNavigate } from "react-router-dom";
+
 
 
 
@@ -32,24 +32,29 @@ import StopWatch from "../Clock/StopWatch";
 import BasicModal from "../Modals/BasicModal";
 import CancelWorkoutModal from "../Modals/CancelWorkoutModal";
 import FinishWorkoutModal from "../Modals/FinishWorkoutModal";
+import { ArrowDownward, Cancel, Close } from "@mui/icons-material";
+import HideAppBar from "../AppBar/HideAppBar";
+import ChevronLeft from "@mui/icons-material/ChevronLeft";
+import ChevronRight from "@mui/icons-material/ChevronRight";
 
 
 
 
-const WorkoutToolbar = ({ }) => {
+const WorkoutToolbar = ({ handleDrawerOpen }) => {
     console.log("Rendering WorkoutToolbar");
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const exercises = useSelector(state => state.exercises)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const [showModal, setShowModal] = useState(false)
     const isSmallScreen = useMediaQuery('(min-width:900px)');
+    const isExpanded = useSelector(state => state.drawer)
 
     const [openCancelModal, setOpenCancelModal] = useState(false);
     const [openFinishModal, setOpenFinishModal] = useState(false);
 
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    //const navigate = useNavigate()
 
 
     const handleModalOpen = () => {
@@ -70,7 +75,7 @@ const WorkoutToolbar = ({ }) => {
         dispatch(clearSets())
         dispatch(stopWatch())
         dispatch(resetWorkout())
-        navigate('/')
+        //navigate('/')
     }
 
     const handleOpenFinishModal = () => {
@@ -82,52 +87,45 @@ const WorkoutToolbar = ({ }) => {
     }
 
     return (
-        <>
-            <>
-                <Stack direction={"row"} spacing={0} overflow={'hidden'}>
-                    <Button
-                        variant='secondary'
-                        component={Link}
-                        to={'/'}
-                        onClick={() => dispatch(resetWorkout())}
-                        sx={{
-                            minWidth: 'auto',
-                            paddingRight: 0,
-                            paddingLeft: 0,
-                            marginRight: 0,
+        <AppBar sx={{ width: { md: 400, lg: 500 } }}>
 
-                            textTransform: 'none'
-                        }}
-                    >
-                        <ArrowBackIcon sx={{ marginRight: isSmallScreen ? 1 : 0 }} />
-                        {isSmallScreen ?
-                            <Typography
-                                variant="h6"
-                                component="div"
-                                sx={{ padding: 0, margin: '0 !important' }}
+            <Stack direction={'row'} justifyContent={'space-between'}>
+                <Stack
+                    direction={"row"}
+                    spacing={0}
+                    overflow={'hidden'}
+                    sx={{
+                        //pb: 7,
+                        //display: { xs: 'block', md: 'none' },
+                    }}
+                >
+              
 
-                                //alignSelf={'center'}
-                                //overflow={'hidden'}
-                                noWrap
+                     
+
+                        <IconButton
+                          
+                            onClick={handleDrawerOpen}
+                        >
+                               {isExpanded ? <ChevronRight/> : <ChevronLeft/> }
+                        </IconButton>
+
+                        {!stopWatchIsActive &&
+                            <IconButton
+                                aria-label="stopwatch"
+                                sx={{ color: '#90CAF9' }}
+                                onClick={() => dispatch(startWatch())}
                             >
-                                {`Home /`}
-                            </Typography>
-                            :
-                            null
+                                <TimerOutlinedIcon />
+                            </IconButton>
                         }
-                    </Button>
-                    <Typography
-                        variant="h6"
 
-                        component="div"
-                        sx={{ marginLeft: 1 }}
-                        alignSelf={'center'}
-                        overflow={'hidden'}
-                        noWrap
-                        margin={0}
-                    >
-                        Workout
-                    </Typography>
+                        {workoutStarted && stopWatchIsActive &&
+
+                            <StopWatch showButtons={true} timerSize={'h6'} alwaysOn={true}></StopWatch>
+
+                        }
+
                 </Stack>
 
 
@@ -140,21 +138,17 @@ const WorkoutToolbar = ({ }) => {
                 >
 
 
-                    {!stopWatchIsActive &&
-                        <IconButton
-                            aria-label="stopwatch"
-                            sx={{ color: '#90CAF9' }}
-                            onClick={() => dispatch(startWatch())}
-                        >
-                            <TimerOutlinedIcon />
-                        </IconButton>
+                    <IconButton aria-label="finish" color="success" onClick={handleOpenFinishModal}>
+                        <CheckCircleOutlineIcon />
+                    </IconButton>
+                    <FinishWorkoutModal
+                        open={openFinishModal}
+                        onClose={setOpenFinishModal}
+                    //confirmFunction={handleClear}
+                    />
 
-                        /*    <Button variant="contained" onClick={() => dispatch(startWatch())}>
-                               <TimerIcon />
-                           </Button> */
-                    }
                     <IconButton aria-label="cancel" color="error" onClick={() => setOpenCancelModal(true)}>
-                        <NotInterestedIcon />
+                        {!isSmallScreen ? <NotInterestedIcon /> : <Close></Close>}
                     </IconButton>
                     <CancelWorkoutModal
                         open={openCancelModal}
@@ -162,36 +156,11 @@ const WorkoutToolbar = ({ }) => {
                         confirmFunction={handleClear}
                     />
 
-                    <IconButton aria-label="finish" color="success" onClick={handleOpenFinishModal}>
-                        <CheckCircleOutlineIcon />
-                    </IconButton>
-                    <FinishWorkoutModal
-                        open={openFinishModal}
-                        onClose={setOpenFinishModal}
-                        //confirmFunction={handleClear}
-                    />
-
-
-
-                {/*     <FormModal
-                        hideOpenButton='true'
-                        showModal={showModal}
-                        closeFromParent={setShowModal}
-                        modalType='saveWorkout'
-                        color='success'
-                        openButton={
-                            <CheckCircleOutlineIcon />
-                        }
-                    //confirmButton=''
-                    //confirmFunction={handleClear}
-                    /> */}
-
-
                 </Stack>
-            </>
+            </Stack>
 
+        </AppBar>
 
-        </>
     )
 }
 

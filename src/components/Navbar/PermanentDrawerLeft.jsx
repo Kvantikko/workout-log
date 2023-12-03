@@ -74,11 +74,11 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                     },
                     '& .Mui-selected': {
                         //color: 'red',
-                        bgcolor: 'red',
+                        //bgcolor: 'red',
                         //bgcolor: theme => theme.palette.background.default,
                         //borderTop: `2px solid ${theme => theme.palette.secondary.light}`,
                         //borderTop: `3px solid #ffb74d`,
-                        backgroundColor: 'red'
+                        //backgroundColor: 'red'
 
                     },
 
