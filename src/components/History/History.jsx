@@ -120,7 +120,7 @@ const History = ({ drawerWidth }) => {
 
             )} */}
 
-            <HistoryCardList  overflow='scroll' workouts={filteredWorkouts} />
+            <HistoryCardList  workouts={filteredWorkouts} />
 
         </>
     )

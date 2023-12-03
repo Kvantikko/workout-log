@@ -9,6 +9,7 @@ import { createTheme } from '@mui/material/styles';
 import ActiveWorkout from './components/Workout/ActiveWorkout'
 import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer'
 import PermanentDrawerRight from './components/Drawers/PermanentDrawerRight'
+import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentDrawer'
 
 
 const darkTheme = createTheme({
@@ -42,11 +43,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
                 {/*USE A PORTAL HERE......*/}
 
-              {/*   <PermanentDrawerRight /> */}
+               <ExpandablePermanentDrawer/>
                 <SwipeableEdgeDrawer />
             </div>
             <Router>
-                <App style={{ overflow: 'hidden '}} />
+                <App style={{ overflow: 'scroll'}} />
             </Router>
 
         </ThemeProvider>

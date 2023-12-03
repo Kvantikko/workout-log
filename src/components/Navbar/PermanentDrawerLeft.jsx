@@ -63,6 +63,7 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
         <>
             <Drawer
                 sx={{
+                    zIndex: 1499,
                     width: drawerWidth,
                     flexShrink: 0,
                     display: { xs: 'none', md: 'block' },

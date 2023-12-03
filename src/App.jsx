@@ -353,21 +353,22 @@ const App = () => {
                         toastStyle={{ backgroundColor: "#474747" }}
                     />
                 </Box>
-
+{/* 
                 {isAuthenticated && workoutStarted && !isSmallScreen &&
                     <ExpandablePermanentDrawer />
                 }
 
-                
+                 */}
 
 
 
 
-                {/*  {isAuthenticated && workoutStarted &&
+                {isAuthenticated && workoutStarted &&
 
 
                     <Drawer
                         sx={{
+                            zIndex: 0,
                             width: { xs: 'none', md: 400, lg: 500 },
                             flexShrink: 0,
                             display: { xs: 'none', md: 'block' },
@@ -383,7 +384,7 @@ const App = () => {
                     >
                     </Drawer>
 
-                } */}
+                }
 
                 {isAuthenticated && <BottomNavBar />}
 

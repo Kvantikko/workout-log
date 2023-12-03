@@ -19,6 +19,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+import HideAppBar from '../AppBar/HideAppBar';
+
 import WorkoutToolbar from '../Workout/WorkoutToolbar';
 import ActiveWorkout from '../Workout/ActiveWorkout';
 
@@ -29,7 +31,7 @@ const drawerWidth = '100vw'
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
-   // zIndex: 2000,
+    // zIndex: 2000,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -43,9 +45,11 @@ const closedMixin = (theme) => ({
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: `calc(${theme.spacing(10)} + 1px)`,
     [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(50)} + 1px)`,
+        width: 400 //`calc(${theme.spacing(50)} + 1px)`,
+    },
+    [theme.breakpoints.up('lg')]: {
+        width: 500 //`calc(${theme.spacing(50)} + 1px)`,
     },
 });
 
@@ -132,13 +136,17 @@ export default function ExpandablePermanentDrawer() {
     return (
 
 
-        < Drawer variant="permanent" anchor='right' open={open} >
+        < Drawer variant="permanent" anchor='right' open={open} sx={{ display: { xs: 'none', md: 'block' } }}>
             <DrawerHeader>
                 <IconButton onClick={handleDrawerOpen}>
                     {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
+                <HideAppBar >
+                    <WorkoutToolbar handleDrawerOpen={handleDrawerOpen} />
+                </HideAppBar>
 
-                <WorkoutToolbar handleDrawerOpen={handleDrawerOpen} /> 
+
+
             </DrawerHeader>
 
 
