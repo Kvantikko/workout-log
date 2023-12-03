@@ -13,6 +13,7 @@ const HistoryCardList = ({ workouts }) => {
             spacing={2}
             padding={1.5}
             alignItems={'center'}
+            
         >
 
             <Defer chunkSize={5}>

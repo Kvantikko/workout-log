@@ -27,6 +27,8 @@ import { keyframes } from '@mui/system';
 
 import { blink } from "../../utils/Blink"
 
+import { expand, unExpand } from "../../redux/reducers/drawerReducer"
+
 import { createPortal } from "react-dom"
 import SwipeableEdgeDrawer from "../Drawers/SwipeableEdgeDrawer"
 import PermanentDrawerRight from "../Drawers/PermanentDrawerRight"
@@ -87,6 +89,7 @@ const Home = ({ user, drawerWidth }) => {
         dispatch(clearSets())
         dispatch(stopWatch())
         dispatch(resetWorkout())
+        dispatch(expand())
 
         //dispatch(pushWorkout())
         dispatch(startWorkout())

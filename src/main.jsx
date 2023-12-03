@@ -17,7 +17,7 @@ const darkTheme = createTheme({
     },
     zIndex: {
         //appBar: 0,
-        //modal: 1250,
+        modal: 1501,
         drawer: 1500
     },
     /*   components: {

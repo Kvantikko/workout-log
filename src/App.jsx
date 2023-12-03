@@ -232,7 +232,7 @@ const App = () => {
 
 
 
-            <Box sx={{ display: isExpanded ? 'flex' : 'flex', marginTop: 0 /* margin() */ }}  >
+            <Box  sx={{ display: isExpanded ? 'flex' : 'flex', marginTop: 0 /* margin() */ }}  >
 
                 {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
 
@@ -264,10 +264,11 @@ const App = () => {
 
                 <Box
                     component="main"
+                   
                     sx={{
                         flexGrow: 1,
                         // width:   `calc(100% - ${+600}px)` ,
-                        marginLeft: 10
+                        //marginLeft: 10
                         //width: 33,!isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' ,
                         //minWidth: 400,
                         //maxWidth: !isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' 
@@ -280,7 +281,7 @@ const App = () => {
                         <Route
                             path="/"
                             element={<ProtectedRoute  >
-                                <Workout
+                                <Workout 
                                     user={user}
                                     //style={{ margin: '110' }}
                                     drawerWidth={drawerWidth}
@@ -306,7 +307,7 @@ const App = () => {
                         <Route
                             path="/history"
                             element={<ProtectedRoute>
-                                <History drawerWidth={drawerWidth} />
+                                <History  drawerWidth={drawerWidth} />
                             </ProtectedRoute>}
                         />
                         <Route

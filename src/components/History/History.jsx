@@ -104,6 +104,7 @@ const History = ({ drawerWidth }) => {
                     alignItems="center"
                     minHeight="75vh"
                     padding={4}
+                   
                 >
                     <Typography variant="h6" textAlign="center" >
                         You haven't completed any workouts yet.
@@ -119,7 +120,7 @@ const History = ({ drawerWidth }) => {
 
             )} */}
 
-            <HistoryCardList workouts={filteredWorkouts} />
+            <HistoryCardList  overflow='scroll' workouts={filteredWorkouts} />
 
         </>
     )
