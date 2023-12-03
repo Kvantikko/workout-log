@@ -5,23 +5,26 @@ import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import { Box, Fade, Stack } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import ActiveWorkout from '../Workout/ActiveWorkout';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import FixedBottomNavigation from '../Navbar/BottomNavBar';
 import { BottomNavigation } from '@mui/material';
 import WorkoutToolbar from '../Workout/WorkoutToolbar';
 
+
+import { expand, unExpand } from '../../redux/reducers/drawerReducer';
+
 const drawerBleeding = 56;
 
 const Root = React.memo(styled('div')(({ theme }) => ({
     height: '100%',
-    //zIndex: 0,
+    onTouch: () => console.log("dawdwd"),
     backgroundColor:
         theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
 
@@ -32,29 +35,46 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 }))
 
-const Puller = styled(Box)(({ theme }) => ({
-    width: 30,
-    height: 6,
-    backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[900],
-    borderRadius: 3,
-    position: 'absolute',
-    top: 8,
-    left: 'calc(50% - 15px)',
-}))
-
 function SwipeableEdgeDrawer(props) {
     console.log('------------- Rendering SwipeableEdgeDrawer -----------');
 
     const { window } = props;
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
     const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
 
     const isSmallScreen = useMediaQuery('(max-width:900px)');
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
 
-    const toggleDrawer = (newOpen) => () => {
-        setOpen(newOpen);
+    const dispatch = useDispatch()
+
+    const toggleDrawer = (event) => {
+        console.log("TOGGLE DRAWER ", event);
+        if (event === 'click') {
+            console.log('paskaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        }
+
+        console.log("häh");
+
+        if (open) {
+            setOpen(false);
+            dispatch(unExpand())
+
+        } else {
+            setOpen(true);
+            dispatch(expand())
+
+        }
+        //setOpen(newOpen);
     };
+
+    const handleOpen = () => {
+        console.log('PILUUUUUUUUUUUUUUUU');
+        if (open) return
+        toggleDrawer(true)
+        dispatch(expand())
+    }
+
+
 
     // This is used only for the example
     /* const container = window !== undefined ? () => window().document.body : undefined; */
@@ -62,7 +82,7 @@ function SwipeableEdgeDrawer(props) {
     return (
         <>
             {isSmallScreen && isWorkoutActive ?
-                <Root>
+                <Root >
 
                     {<Global
                         styles={{
@@ -85,15 +105,17 @@ function SwipeableEdgeDrawer(props) {
                         //container={container}
                         anchor="bottom"
                         open={open}
-                        onClose={toggleDrawer(false)}
-                        onOpen={toggleDrawer(true)}
-                        onTouchStart={() => console.log("beign")}
+                        onClose={(event) => toggleDrawer(event)}
+                        onOpen={(event) => toggleDrawer(event)}
+                        //onTouchMove={() => console.log('move')}
+                        //onTouchEnd={() => console.log("end")}
+                        //onTouchStart={() => console.log("beign")}
                         swipeAreaWidth={drawerBleeding * 2}
                         disableSwipeToOpen={false}
 
                         ModalProps={{
                             keepMounted: true,
-                            height: 2400,
+                            //height: 2400,
                             //zIndex: 0,
 
                         }}
@@ -107,7 +129,9 @@ function SwipeableEdgeDrawer(props) {
 
                             }
                         }}
+                        SwipeAreaProps={{
 
+                        }}
 
 
                         SlideProps={{
@@ -131,41 +155,53 @@ function SwipeableEdgeDrawer(props) {
 
 
                     >
+
+
+
+
                         <StyledBox
                             sx={{
                                 position: 'absolute',
                                 //top:-drawerBleeding,
-                                top: -112,
-                                borderTopLeftRadius: 8,
-                                borderTopRightRadius: 8,
+                                top: -125,
                                 visibility: 'visible',
                                 right: 0,
                                 left: 0,
-                               // backgroundColor: 'red',
-                                height: 112
+                                // backgroundColor: 'red',
+                                height: 125
                             }}
-                        
-                            onTouch={() => setOpen(true)}
 
-                        /*  onClick() */
+                           // onTouchStart={() => console.log('dawd--------------------')}
+
+                            //onTouchMove={() => console.log('dawdawdawdawdawd')}
+
+
                         >
-                         {/*    <WorkoutToolbar></WorkoutToolbar> */}
-                            <Puller onClick={() => console.log('dawdwadwadwadwad')} />
+                            <Fade in={true} >
+                                <div>
+                                    {open && <WorkoutToolbar handleDrawerOpen={toggleDrawer} />}
+                                </div>
+
+                            </Fade>
 
 
-                            {/*      {!open &&
-                                <BottomNavigation></BottomNavigation>
-                            } */}
+                            <Fade in={true} >
+                                <div>
+                                    {!open && <div>Workout in progress</div>}
+                                </div>
+                            </Fade>
+
 
 
                         </StyledBox>
+
                         <StyledBox
                             sx={{
                                 px: 2,
                                 pb: 2,
                                 height: '100%',
                                 overflow: 'auto',
-                               // backgroundColor: 'green',
+                                // backgroundColor: 'green',
                             }}
                         >
                             {/*  <Skeleton variant="rectangular" height="100%">
