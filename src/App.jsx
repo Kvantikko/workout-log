@@ -266,7 +266,7 @@ const App = () => {
                     component="main"
                     sx={{
                         flexGrow: 1,
-                       // width:   `calc(100% - ${+600}px)` ,
+                        // width:   `calc(100% - ${+600}px)` ,
                         marginLeft: 10
                         //width: 33,!isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' ,
                         //minWidth: 400,
@@ -353,14 +353,16 @@ const App = () => {
                     />
                 </Box>
 
-                {isAuthenticated && workoutStarted &&
-
+                {isAuthenticated && workoutStarted && !isSmallScreen &&
                     <ExpandablePermanentDrawer />
-       
-                    
                 }
 
-               {/*  {isAuthenticated && workoutStarted &&
+                
+
+
+
+
+                {/*  {isAuthenticated && workoutStarted &&
 
 
                     <Drawer
@@ -384,14 +386,13 @@ const App = () => {
 
                 {isAuthenticated && <BottomNavBar />}
 
+
             </Box>
 
 
-
-            {/* {slowComponent} */}
-
-            {/*  <SwipeableEdgeDrawer /> */}
-
+          {/*   {isAuthenticated && workoutStarted && isSmallScreen &&
+                    <SwipeableEdgeDrawer />
+                } */}
 
 
 

@@ -107,6 +107,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 export default function ExpandablePermanentDrawer() {
+    console.log("Rendering ExpandablePermanentDrawer");
+
+
     const theme = useTheme();
     const dispatch = useDispatch()
     const [open, setOpen] = React.useState(false);

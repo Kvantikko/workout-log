@@ -18,7 +18,7 @@ const darkTheme = createTheme({
     zIndex: {
         //appBar: 0,
         //modal: 1250,
-        //drawer: 0
+        drawer: 1500
     },
     /*   components: {
           MuiCssBaseline: {
@@ -42,8 +42,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
                 {/*USE A PORTAL HERE......*/}
 
-             {/*    <PermanentDrawerRight />
-                <SwipeableEdgeDrawer /> */}
+              {/*   <PermanentDrawerRight /> */}
+                <SwipeableEdgeDrawer />
             </div>
             <Router>
                 <App style={{ overflow: 'hidden '}} />

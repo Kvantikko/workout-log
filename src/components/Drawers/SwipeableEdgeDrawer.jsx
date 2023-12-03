@@ -13,6 +13,9 @@ import ActiveWorkout from '../Workout/ActiveWorkout';
 import { useSelector } from 'react-redux';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
+import FixedBottomNavigation from '../Navbar/BottomNavBar';
+import { BottomNavigation } from '@mui/material';
+import WorkoutToolbar from '../Workout/WorkoutToolbar';
 
 const drawerBleeding = 56;
 
@@ -60,21 +63,21 @@ function SwipeableEdgeDrawer(props) {
         <>
             {isSmallScreen && isWorkoutActive ?
                 <Root>
-                    <CssBaseline />
+
                     {<Global
                         styles={{
                             '.MuiDrawer-root > .MuiPaper-root': {
                                 height: `calc(90% - ${drawerBleeding}px)`,
                                 overflow: 'visible',
-                                
+
 
 
                             },
                         }}
                     />}
-                    <Box sx={{ textAlign: 'center', pt: 1 }}>
+                    {/*    <Box sx={{ textAlign: 'center', pt: 1 }}>
                         <Button onClick={toggleDrawer(true)}>Open</Button>
-                    </Box>
+                    </Box> */}
 
 
 
@@ -84,7 +87,8 @@ function SwipeableEdgeDrawer(props) {
                         open={open}
                         onClose={toggleDrawer(false)}
                         onOpen={toggleDrawer(true)}
-                        //swipeAreaWidth={drawerBleeding*2}
+                        onTouchStart={() => console.log("beign")}
+                        swipeAreaWidth={drawerBleeding * 2}
                         disableSwipeToOpen={false}
 
                         ModalProps={{
@@ -117,11 +121,11 @@ function SwipeableEdgeDrawer(props) {
                             display: { xs: 'block', md: 'none' },
 
                             //zIndex: 0,
-                           
+
                             height: 2000,
                             '& .MuiSwipeableDrawer-root': {
                                 height: 1000,
-                               // zIndex: 0,
+                                // zIndex: 0,
                             }
                         }}
 
@@ -131,20 +135,29 @@ function SwipeableEdgeDrawer(props) {
                             sx={{
                                 position: 'absolute',
                                 //top:-drawerBleeding,
-                                top:-112,
+                                top: -112,
                                 borderTopLeftRadius: 8,
                                 borderTopRightRadius: 8,
                                 visibility: 'visible',
                                 right: 0,
                                 left: 0,
-                                //backgroundColor: 'red',
+                               // backgroundColor: 'red',
+                                height: 112
                             }}
-                            onClick={() => setOpen(true)}
                         
-                           /*  onClick() */
+                            onTouch={() => setOpen(true)}
+
+                        /*  onClick() */
                         >
-                            <Puller onClick={() => console.log('dawdwadwadwadwad')}/>
-                            <Typography sx={{ p: 2, color: 'text.secondary' }}>51 results</Typography>
+                         {/*    <WorkoutToolbar></WorkoutToolbar> */}
+                            <Puller onClick={() => console.log('dawdwadwadwadwad')} />
+
+
+                            {/*      {!open &&
+                                <BottomNavigation></BottomNavigation>
+                            } */}
+
+
                         </StyledBox>
                         <StyledBox
                             sx={{
@@ -152,6 +165,7 @@ function SwipeableEdgeDrawer(props) {
                                 pb: 2,
                                 height: '100%',
                                 overflow: 'auto',
+                               // backgroundColor: 'green',
                             }}
                         >
                             {/*  <Skeleton variant="rectangular" height="100%">
