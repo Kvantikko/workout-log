@@ -32,6 +32,7 @@ const Root = React.memo(styled('div')(({ theme }) => ({
 
 const StyledBox = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
+    
 
 }))
 
@@ -87,7 +88,7 @@ function SwipeableEdgeDrawer(props) {
                     {<Global
                         styles={{
                             '.MuiDrawer-root > .MuiPaper-root': {
-                                height: `calc(90% - ${drawerBleeding}px)`,
+                                height: '90%', //`calc(90% - ${drawerBleeding}px)`,
                                 overflow: 'visible',
 
 
@@ -152,56 +153,46 @@ function SwipeableEdgeDrawer(props) {
                                 // zIndex: 0,
                             }
                         }}
-
-
                     >
-
-
-
 
                         <StyledBox
                             sx={{
                                 position: 'absolute',
                                 //top:-drawerBleeding,
-                                top: -125,
+                                top: -100,
                                 visibility: 'visible',
                                 right: 0,
                                 left: 0,
-                                // backgroundColor: 'red',
-                                height: 125
+                                //backgroundColor: 'red',
+                                height: 100,
+                                
                             }}
 
                            // onTouchStart={() => console.log('dawd--------------------')}
-
                             //onTouchMove={() => console.log('dawdawdawdawdawd')}
-
-
                         >
+
                             <Fade in={true} >
-                                <div>
+                                <Box paddingTop={ open ? 3.5 : 0.5}>
                                     {open && <WorkoutToolbar handleDrawerOpen={toggleDrawer} />}
-                                </div>
-
+                                </Box>
                             </Fade>
-
 
                             <Fade in={true} >
-                                <div>
-                                    {!open && <div>Workout in progress</div>}
-                                </div>
+                                <Box sx={{ justifyItems: 'center'}} >
+                                    {!open && <div>Workout in progress</div> }
+                                </Box>
                             </Fade>
-
-
 
                         </StyledBox>
 
                         <StyledBox
                             sx={{
-                                px: 2,
-                                pb: 2,
+                                px: 0,
+                                pb: 0,
                                 height: '100%',
                                 overflow: 'auto',
-                                // backgroundColor: 'green',
+                                //backgroundColor: 'green',
                             }}
                         >
                             {/*  <Skeleton variant="rectangular" height="100%">
