@@ -23,8 +23,9 @@ import HideAppBar from '../AppBar/HideAppBar';
 
 import WorkoutToolbar from '../Workout/WorkoutToolbar';
 import ActiveWorkout from '../Workout/ActiveWorkout';
+import WorkoutAppBar from '../AppBar/WorkoutAppBar';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { expand, unExpand } from '../../redux/reducers/drawerReducer';
 
 const drawerWidth = '100vw'
@@ -117,6 +118,8 @@ export default function ExpandablePermanentDrawer() {
     const theme = useTheme();
     const dispatch = useDispatch()
     const [open, setOpen] = React.useState(false);
+    const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+    const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
 
     const handleDrawerOpen = () => {
         if (open) {
@@ -134,29 +137,28 @@ export default function ExpandablePermanentDrawer() {
 
 
     return (
+        <>
+            {isAuthenticated &&
+                < Drawer
+                    variant="permanent"
+                    anchor='right'
+                    open={open}
+                    sx={{ display: isWorkoutActive ? { xs: 'none', md: 'block' } : 'none' }}
+                >
+                    <DrawerHeader>
+                        <IconButton onClick={handleDrawerOpen}>
+                            {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
+                        <WorkoutAppBar  >
+                            <WorkoutToolbar handleDrawerOpen={handleDrawerOpen} />
+                        </WorkoutAppBar>
+                    </DrawerHeader>
 
-
-        < Drawer variant="permanent" anchor='right' open={open} sx={{ display: { xs: 'none', md: 'block' } }}>
-            <DrawerHeader>
-                <IconButton onClick={handleDrawerOpen}>
-                    {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </IconButton>
-                <HideAppBar >
-                    <WorkoutToolbar handleDrawerOpen={handleDrawerOpen} />
-                </HideAppBar>
-
-
-
-            </DrawerHeader>
-
-
-            <Box sx={{ paddingTop: 4 }}>
-                <ActiveWorkout />
-            </Box>
-        </Drawer >
-
-
-
-
+                    <Box sx={{ paddingTop: 4 }}>
+                        <ActiveWorkout />
+                    </Box>
+                </Drawer >
+            }
+        </>
     )
 }

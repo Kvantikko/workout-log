@@ -33,7 +33,8 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
 
     const navLocations = useSelector(state => state.nav)
 
-    const workoutInProgress = useSelector(state => state.workout.workoutStarted)
+    const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+    const isExpanded = useSelector(state => state.drawer)
 
     const match = useMatch('/exercises/:id')
     const matchHistory = useMatch('/history/:id')
@@ -90,8 +91,16 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                 anchor="left"
             >
                 {/*  <Toolbar /> */}
-                <Typography variant='h3' marginY={5} padding={2} textAlign={'center'}> workout log</Typography>
-                <List sx={{ /* margin: 'auto' */ }} >
+                <Typography
+                    variant='h3'
+                    marginY={5}
+                    padding={2}
+                    textAlign={'center'}
+                    display={{ xs: 'none', lg: isWorkoutActive ? 'none' : 'block', xl: 'block', }}
+                >
+                    workout log
+                </Typography>
+                <List sx={{ marginY: { xs: 'auto', lg:  isWorkoutActive ? 'auto': 0, xl: 0 } }} >
                     {['Home', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
                         <ListItem key={text} disablePadding >
                             <ListItemButton
@@ -100,15 +109,15 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                                 to={`/${navLocations[index]}`}
                                 selected={pageIndex() === index}
                             >
-                                <ListItemIcon>
+                                <ListItemIcon sx={{ paddingLeft: 1 }} >
                                     {index === 0 && <HomeIcon />}
                                     {index === 1 && <HistoryIcon />}
                                     {index === 2 && <FitnessCenterIcon />}
                                     {index === 3 && <StraightenIcon />}
                                     {index === 4 && <PersonIcon />}
                                 </ListItemIcon>
-                                <ListItemText primary={text} />
-                                {index === 0 && workoutInProgress && (pageIndex() !== index) && <Box sx={{
+                                <ListItemText primary={text} sx={{ paddingLeft: 1 }} />
+                                {index === 0 && isWorkoutActive && (pageIndex() !== index) && <Box sx={{
                                     borderRadius: 2,
                                     paddingX: 1.5,
                                     animation: `${blink} 1s linear infinite alternate`,

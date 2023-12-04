@@ -41,13 +41,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <CssBaseline />
             <div id='outsideRouter'>
 
-                {/*USE A PORTAL HERE......*/}
+                {/*USE A PORTAL HERE?......*/}
 
-               <ExpandablePermanentDrawer/>
+                <ExpandablePermanentDrawer />
                 <SwipeableEdgeDrawer />
             </div>
             <Router>
-                <App style={{ overflow: 'scroll'}} />
+                <App style={{ overflow: 'scroll' }} />
             </Router>
 
         </ThemeProvider>

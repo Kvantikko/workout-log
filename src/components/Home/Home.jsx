@@ -33,6 +33,11 @@ import { createPortal } from "react-dom"
 import SwipeableEdgeDrawer from "../Drawers/SwipeableEdgeDrawer"
 import PermanentDrawerRight from "../Drawers/PermanentDrawerRight"
 
+import coleman from '../../assets/coleman.gif'
+import { getRandomMemeGif } from "../../utils/GifArray"
+
+import schwarzenegger from '../../assets/schwarzenegger.gif'
+
 
 
 const Home = ({ user, drawerWidth }) => {
@@ -105,17 +110,27 @@ const Home = ({ user, drawerWidth }) => {
                 <WorkoutToolbar />
             </HideAppBar>
 
-
+            {console.log("here random", getRandomMemeGif())}
 
             <Stack padding={3} spacing={2} alignItems="center">
-                {!workoutStarted &&
-                    < Stack spacing={2} padding={3}>
-                        <Typography variant="h5" textAlign={'center'}> Hello {user.firstname}! &#128075;</Typography>
-                        <Typography variant="h5" textAlign={'center'}>Time to workout?</Typography>
-                    </Stack>
-                }
+                < Stack spacing={2} padding={3}>
+                    {!workoutStarted &&
+                        <>
+                            <Typography variant="h5" textAlign={'center'}> Hello {user.firstname}! &#128075;</Typography>
+                            <Typography variant="h5" textAlign={'center'}>Time to workout?</Typography>
+                        </>
+                    }
+                    {workoutStarted &&
+                        <>
+                            <Box display={'flex'} justifyContent={'center'}>
+                                <img style={{ padding: 10, width: 300, height: 'auto' }} src={coleman} alt="Yeah buddy!" />
+                            </Box>
+                            <Typography variant="h5" textAlign={'center'}>You have a workout in progress! &#128170;</Typography>
+                        </>
+                    }
+                </Stack>
 
-                {workoutStarted &&
+                {/* {workoutStarted &&
                     <>
                         <Button
                             variant="contained"
@@ -135,7 +150,7 @@ const Home = ({ user, drawerWidth }) => {
                             start again?
                         </Divider>
                     </>
-                }
+                } */}
 
                 <Button
                     variant="text"
@@ -146,7 +161,7 @@ const Home = ({ user, drawerWidth }) => {
                     Start a new workout
                 </Button>
 
-               
+
 
 
 
