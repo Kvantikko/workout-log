@@ -1,4 +1,4 @@
-import { Typography, Stack, Button, IconButton, Toolbar, AppBar } from "@mui/material"
+import { Typography, Stack, Box, Button, IconButton, Toolbar, AppBar } from "@mui/material"
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import { useDispatch, useSelector } from "react-redux";
 import { startWatch } from "../../redux/reducers/stopWatchReducer";
@@ -17,7 +17,9 @@ import { stopWatch } from "../../redux/reducers/stopWatchReducer";
 import { resetWorkout } from "../../redux/reducers/navReducer"
 
 
+import Timer from "../Clock/Timer";
 
+import { terminateTimer } from "../../redux/reducers/timerReducer";
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 
@@ -67,7 +69,7 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
         dispatch(clearSets())
         dispatch(stopWatch())
         dispatch(resetWorkout())
-        //navigate('/')
+        dispatch(terminateTimer())
     }
 
     const handleOpenFinishModal = () => {
@@ -82,37 +84,46 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
         if (!isSmallScreen) return <ArrowDownward></ArrowDownward>
 
         if (isExpanded) {
-            <ChevronRight />
+            return <ChevronRight />
         } else {
-            <ChevronLeft />
+            return <ChevronLeft />
         }
     }
+
+
 
     return (
         /*   <AppBar sx={{ width: { md: 400, lg: 500 } }}> */
 
-        <Stack direction={'row'} justifyContent={'space-between'}>
+        <Stack
+            direction={'row'}
+            justifyContent={'space-between'}
+            paddingRight={2}
+            paddingLeft={1}
+            paddingY={1.5}
+        >
+
             <Stack
                 direction={"row"}
-                spacing={0}
+                spacing={{ xs: 1, sm: 2 }}
+                //paddingY={1.5}
                 overflow={'hidden'}
-                sx={{
-                    //pb: 7,
-                    //display: { xs: 'block', md: 'none' },
-                }}
             >
-
-
-
-
-                <IconButton
-
-                    onClick={handleDrawerOpen}
-                >
+                <IconButton onClick={handleDrawerOpen} >
                     {renderChevron()}
-
                 </IconButton>
 
+                <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} >
+                    <Timer size="h5" />
+                </Box>
+            </Stack>
+
+            <Stack
+                direction={"row"}
+                spacing={{ xs: 1, sm: 2 }}
+                //paddingY={1.5}
+                alignSelf={'flex-start'}
+            >
                 {!stopWatchIsActive &&
                     <IconButton
                         aria-label="stopwatch"
@@ -122,25 +133,11 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
                         <TimerOutlinedIcon />
                     </IconButton>
                 }
-
                 {workoutStarted && stopWatchIsActive &&
-
-                    <StopWatch showButtons={true} timerSize={'h6'} alwaysOn={true}></StopWatch>
-
+                    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} >
+                        <StopWatch showButtons={true} size='h5' />
+                    </Box>
                 }
-
-            </Stack>
-
-
-            {/*  <StopWatch timerSize={'h5'}/> */}
-            <Stack
-                direction={"row"}
-                spacing={{ xs: 1, sm: 2 }}
-                paddingY={1.5}
-                alignSelf={'flex-start'}
-            >
-
-
                 <IconButton aria-label="finish" color="success" onClick={handleOpenFinishModal}>
                     <CheckCircleOutlineIcon />
                 </IconButton>
@@ -160,6 +157,7 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
                 />
 
             </Stack>
+
         </Stack>
 
         /*  </AppBar> */

@@ -42,10 +42,17 @@ const WorkoutAppBar = (props) => {
 
 
 
+    const getScrollbarWidth = () =>
+        window.innerWidth - document.documentElement.clientWidth;
+
+    getScrollbarWidth(); 
+
+ 
+
     const isSmallScreen = useMediaQuery('(min-width:900px)');
 
     const calculateWidth = () => {
-        if(workoutStarted) {
+        if (workoutStarted) {
             return 0
         }
     }
@@ -54,51 +61,52 @@ const WorkoutAppBar = (props) => {
     return (
         <React.Fragment>
             <CssBaseline />
-            <HideOnScroll {...props}>
-                <AppBar
-                    //style={{ width: isSmallScreen ? '100%' : '50%' }}
-                    position="fixed"
-                    sx={{
-                        width:  {
-                            xs: '100%',
-                            sm: '100%',
-                            md:  '100%',//workoutStarted ? `calc(100% - ${75+400}px)` : `calc(100% - ${75}px)`,
-                            lg:  '100%',//</HideOnScroll>workoutStarted ?  `calc(100% - ${75+500}px)` :  `calc(100% - ${225}px)`,
-                            xl:  '100%',//</React.Fragment>workoutStarted ? `calc(100% - ${225+500}px)` : `calc(100% - ${225}px)`
-                        },
-                       
+
+            <AppBar
+                //style={{ width: isSmallScreen ? '100%' : '50%' }}
+                position="fixed"
+                sx={{
+                   // width: 'fit-container',
+                    width: {
+                        xs: '100%',
+                        sm: '100%',
+                        md: 400  - getScrollbarWidth(),
+                        lg: 500  - getScrollbarWidth(),
+                     
+                    }, 
+                
+                    left: { md: `calc(100% - ${400}px)`, lg: `calc(100% - ${500}px)` }
+
+
+
+                    // width: `calc(100% - ${props.drawerWidth}px)`,
+                    //ml: `${props.drawerWidth}px`,
+                    /* "& .MuiAppBar-root": {
+                        width: '20'
+                        "@media (max-width: 768px)": {
+                            width: "250",
+                            ml: "250"
+                        }
+                    }, */
+
+
+                }}
+
+
+            >
+
+
                  
-                       
-
-                        // width: `calc(100% - ${props.drawerWidth}px)`,
-                        //ml: `${props.drawerWidth}px`,
-                        /* "& .MuiAppBar-root": {
-                            width: '20'
-                            "@media (max-width: 768px)": {
-                                width: "250",
-                                ml: "250"
-                            }
-                        }, */
-
-
-                    }}
-
-
-                >
-
-
-                    <Toolbar disableGutters={false} >
-                        <Stack direction="row" justifyContent={'space-between'} width={1} >
-                            {props.children}
-                        </Stack>
-                    </Toolbar>
-                    {/* {workoutStarted && stopWatchIsActive &&
+                        {props.children}
+                   
+              
+                {/* {workoutStarted && stopWatchIsActive &&
                         <Toolbar sx={{ justifyContent: "center" }} >
                             <StopWatch showButtons={true} timerSize={'h6'} alwaysOn={true}></StopWatch>
                         </Toolbar>
                     } */}
-                </AppBar>
-            </HideOnScroll>
+            </AppBar>
+            {/*   </HideOnScroll> */}
         </React.Fragment >
     )
 }

@@ -19,6 +19,7 @@ import WorkoutToolbar from '../Workout/WorkoutToolbar';
 
 
 import { expand, unExpand } from '../../redux/reducers/drawerReducer';
+import StopWatch from '../Clock/StopWatch';
 
 const drawerBleeding = 56;
 
@@ -32,7 +33,7 @@ const Root = React.memo(styled('div')(({ theme }) => ({
 
 const StyledBox = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
-    
+
 
 }))
 
@@ -45,6 +46,8 @@ function SwipeableEdgeDrawer(props) {
 
     const isSmallScreen = useMediaQuery('(max-width:900px)');
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+
+
 
     const dispatch = useDispatch()
 
@@ -82,7 +85,7 @@ function SwipeableEdgeDrawer(props) {
 
     return (
         <>
-            {isSmallScreen && isWorkoutActive ?
+            {isSmallScreen && isWorkoutActive && isAuthenticated ?
                 <Root >
 
                     {<Global
@@ -163,26 +166,30 @@ function SwipeableEdgeDrawer(props) {
                                 visibility: 'visible',
                                 right: 0,
                                 left: 0,
-                                //backgroundColor: 'red',
+                                //backgroundColor: theme => theme.palette.error.main,
                                 height: 100,
-                                
+
                             }}
 
-                           // onTouchStart={() => console.log('dawd--------------------')}
-                            //onTouchMove={() => console.log('dawdawdawdawdawd')}
+                        // onTouchStart={() => console.log('dawd--------------------')}
+                        //onTouchMove={() => console.log('dawdawdawdawdawd')}
                         >
+                            {open &&
+                                <Fade in={true} >
+                                    <Box paddingTop={open ? 3.5 : 0.5}>
+                                        <WorkoutToolbar handleDrawerOpen={toggleDrawer} />
+                                    </Box>
+                                </Fade>
+                            }
 
-                            <Fade in={true} >
-                                <Box paddingTop={ open ? 3.5 : 0.5}>
-                                    {open && <WorkoutToolbar handleDrawerOpen={toggleDrawer} />}
-                                </Box>
-                            </Fade>
-
-                            <Fade in={true} >
-                                <Box sx={{ justifyItems: 'center'}} >
-                                    {!open && <div>Workout in progress</div> }
-                                </Box>
-                            </Fade>
+                            {!open &&
+                                <Fade in={true} >
+                                    <Box display={'flex'} margin='auto' > 
+                                       {/*  <Typography>Workout in progress:</Typography> */}
+                                        <StopWatch timerSize={'h6'} /> 
+                                    </Box>
+                                </Fade>
+                            }
 
                         </StyledBox>
 

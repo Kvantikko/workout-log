@@ -1,22 +1,23 @@
 import React, { useEffect, useRef } from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Box, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { pauseWatch, setWorker, startWatch, stopWatch, updateTime } from '../../redux/reducers/stopWatchReducer';
 import Timer from './Timer';
 import ControlButtons from './ControlButton';
-import { startWorker as startWorkerManager, stopWorker as stopWorkerManager, postMessageToWorker as postMessageToWorkerManager, getWorker } from './workerManager';
+import { startWorker, stopWorker, postMessageToWorker, getWorker } from './stopWatchWorkerManager';
 
-function StopWatch({ showButtons, timerSize }) {
-    const dispatch = useDispatch();
+function StopWatch({ showButtons, size }) {
+
     const { isActive, isPaused, time, isWorker } = useSelector((state) => state.stopWatch);
-    //const timerSize = useSelector((state) => state.stopWatch.timerSize);
     const workerRef = useRef();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         console.log('STOP WATCH EFFECT');
         if (!isWorker) {
             console.log('Creating worker...');
-            startWorkerManager();
+            startWorker();
             dispatch(setWorker(true));
             handleStart();
         }
@@ -30,33 +31,34 @@ function StopWatch({ showButtons, timerSize }) {
 
         /*  return () => {
              console.log('Terminating worker...');
-             stopWorkerManager();
+             stopWorker();
              dispatch(setWorker(null));
          }; */
     }, [dispatch, isWorker]);
 
     const handleStart = () => {
-        postMessageToWorkerManager('start');
+        postMessageToWorker('start');
         dispatch(startWatch());
     };
 
     const handlePauseResume = () => {
-        postMessageToWorkerManager(isPaused ? 'start' : 'pause');
+        postMessageToWorker(isPaused ? 'start' : 'pause');
         dispatch(pauseWatch());
     };
 
     const handleReset = () => {
-        postMessageToWorkerManager('reset');
+        postMessageToWorker('reset');
         dispatch(stopWatch());
         dispatch(setWorker(false));
         dispatch(updateTime(0));
     };
 
     return (
-        <>
-            <Typography variant={timerSize} textAlign={'center'}>
-                <Timer time={time} />
-            </Typography>
+        <Stack direction={'row'}>
+            <Box sx={{ margin: 'auto' }}>
+                <Timer timeFromStopwatch={time} size={size} stopwatch={true} />
+            </Box>
+
             {showButtons &&
                 <ControlButtons
                     sx={{ justifyContent: 'space-between', alignItems: 'center', margin: 'auto' }}
@@ -68,7 +70,7 @@ function StopWatch({ showButtons, timerSize }) {
                 />
             }
 
-        </>
+        </Stack>
     );
 }
 

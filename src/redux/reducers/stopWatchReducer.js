@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+    time: 0,
     isActive: false,
     isPaused: true,
-    time: 0,
-    timerSize: "",
     worker: null
 }
 
@@ -15,13 +14,11 @@ const stopWatchSlice = createSlice({
         startWatch: (state, action) => {
             state.isActive = true
             state.isPaused = false
-            state.timerSize = "h2"
         },
         stopWatch: (state, action) => {
             state.isActive = false
             state.isPaused = true
             state.time = 0;
-            state.timerSize = ""
         },
         pauseWatch: (state, action) => {
             state.isPaused = !state.isPaused

@@ -100,12 +100,28 @@ import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentD
 
 
 
+
+
+
+
+
+
+
+
+/*
+* IMPORTANT!!!: gets heavy if more exercises, but its okay if one exercise with many sets!!!!!!!!!!!!!!!!!
+*/
+
+
+
+
+
 const App = () => {
     console.log("Rendering App.jsx");
 
     const isSmallScreen = useMediaQuery('(max-width:1000px)');
 
-    const isExpanded = useSelector(state => state.drawer)
+    //const isExpanded = useSelector(state => state.drawer)
 
 
 
@@ -139,8 +155,6 @@ const App = () => {
         :
         { xs: 0, sm: 0, md: 75, lg: 225 }
 
-
-    const [open, setOpen] = useState(false)
 
 
 
@@ -232,14 +246,14 @@ const App = () => {
 
 
 
-            <Box  sx={{ display: isExpanded ? 'flex' : 'flex', marginTop: 0 /* margin() */ }}  >
+            <Box sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
 
                 {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
 
 
 
-                {/* 
-                <Drawer
+
+                {/* <Drawer
                     sx={{
                         width: 200,
                         flexShrink: 0,
@@ -257,14 +271,14 @@ const App = () => {
                     <ActiveWorkout></ActiveWorkout>
 
 
-                </Drawer> */}
+                </Drawer>  */}
 
 
 
 
                 <Box
                     component="main"
-                   
+
                     sx={{
                         flexGrow: 1,
                         // width:   `calc(100% - ${+600}px)` ,
@@ -281,17 +295,7 @@ const App = () => {
                         <Route
                             path="/"
                             element={<ProtectedRoute  >
-                                <Workout 
-                                    user={user}
-                                    //style={{ margin: '110' }}
-                                    drawerWidth={drawerWidth}
-                                />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/workout"
-                            element={<ProtectedRoute>
-                                <ActiveWorkout
+                                <Workout
                                     user={user}
                                     //style={{ margin: '110' }}
                                     drawerWidth={drawerWidth}
@@ -307,7 +311,7 @@ const App = () => {
                         <Route
                             path="/history"
                             element={<ProtectedRoute>
-                                <History  drawerWidth={drawerWidth} />
+                                <History drawerWidth={drawerWidth} />
                             </ProtectedRoute>}
                         />
                         <Route
@@ -353,7 +357,7 @@ const App = () => {
                         toastStyle={{ backgroundColor: "#474747" }}
                     />
                 </Box>
-{/* 
+                {/* 
                 {isAuthenticated && workoutStarted && !isSmallScreen &&
                     <ExpandablePermanentDrawer />
                 }
@@ -390,15 +394,6 @@ const App = () => {
 
 
             </Box>
-
-
-          {/*   {isAuthenticated && workoutStarted && isSmallScreen &&
-                    <SwipeableEdgeDrawer />
-                } */}
-
-
-
-
 
 
         </LocalizationProvider>

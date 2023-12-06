@@ -34,74 +34,63 @@ import SwipeableEdgeDrawer from "../Drawers/SwipeableEdgeDrawer"
 import PermanentDrawerRight from "../Drawers/PermanentDrawerRight"
 
 import coleman from '../../assets/coleman.gif'
-import { getRandomMemeGif } from "../../utils/GifArray"
 
 import schwarzenegger from '../../assets/schwarzenegger.gif'
+import CopyWorkoutModal from "../Modals/CopyWorkoutModal"
 
+const gifArray = [coleman, schwarzenegger]
 
+const getRandomMemeGif = () => {
+    const max = gifArray.length
+    const min = 0
+    const random = Math.floor(Math.random() * (max - min) + min)
+    return gifArray[random]
+}
 
 const Home = ({ user, drawerWidth }) => {
 
     console.log("Rendering Home");
 
-    const workoutStarted = useSelector(state => state.workout.workoutStarted)
-    const [showModal, setShowModal] = useState(false)
+    const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+    const [showCopyWorkoutModal, setShowCopyWorkoutModal] = useState(false)
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
+    /*   const handleScrollPosition = () => {
+          const scrollPosition = sessionStorage.getItem("scrollPosition");
+          if (scrollPosition) {
+              window.scrollTo(0, parseInt(scrollPosition));
+              //   console.log('handling scroll position ', scrollPosition);
+              sessionStorage.removeItem("scrollPosition");
+          }
+      }
+  
+      // efekti ei vie täysin ikkunan pohjaan, koska luodaan yksi automaattinen seti sen jälkeen
+      useEffect(() => {
+          //console.log("EFFECT SCROLL POSITION");
+          handleScrollPosition()
+      }, [])
+   */
 
-
-
-
-    const handleScrollPosition = () => {
-        const scrollPosition = sessionStorage.getItem("scrollPosition");
-        if (scrollPosition) {
-            window.scrollTo(0, parseInt(scrollPosition));
-            //   console.log('handling scroll position ', scrollPosition);
-            sessionStorage.removeItem("scrollPosition");
-        }
-    }
-
-    // efekti ei vie täysin ikkunan pohjaan, koska luodaan yksi automaattinen seti sen jälkeen
-    useEffect(() => {
-        //console.log("EFFECT SCROLL POSITION");
-        handleScrollPosition()
-    }, [])
-
-
-    const handleClear = () => {
+    const _clearWorkout = () => {
         dispatch(clearWorkout())
         dispatch(clearExercises())
         dispatch(clearSets())
         dispatch(stopWatch())
         dispatch(resetWorkout())
-        navigate('/')
     }
-
-
 
     const handleClick = () => {
-        if (workoutStarted && (!showModal)) {
-            //event.stopPropagation()
-            setShowModal(true)
+        if (isWorkoutActive && !showCopyWorkoutModal) {
+            setShowCopyWorkoutModal(true)
             return
         }
-        //navigate('/workout')
 
-        dispatch(clearWorkout())
-        dispatch(clearExercises())
-        dispatch(clearSets())
-        dispatch(stopWatch())
-        dispatch(resetWorkout())
+        _clearWorkout()
+
         dispatch(expand())
-
-        //dispatch(pushWorkout())
         dispatch(startWorkout())
-    }
-
-    const handleClick2 = () => {
-        dispatch(pushWorkout())
+        
     }
 
     return (
@@ -110,22 +99,31 @@ const Home = ({ user, drawerWidth }) => {
                 <WorkoutToolbar />
             </HideAppBar>
 
-            {console.log("here random", getRandomMemeGif())}
-
-            <Stack padding={3} spacing={2} alignItems="center">
+            <Stack padding={3} paddingBottom={20} spacing={2} alignItems="center">
                 < Stack spacing={2} padding={3}>
-                    {!workoutStarted &&
+                    {!isWorkoutActive &&
                         <>
                             <Typography variant="h5" textAlign={'center'}> Hello {user.firstname}! &#128075;</Typography>
                             <Typography variant="h5" textAlign={'center'}>Time to workout?</Typography>
                         </>
                     }
-                    {workoutStarted &&
+                    {isWorkoutActive &&
                         <>
-                            <Box display={'flex'} justifyContent={'center'}>
-                                <img style={{ padding: 10, width: 300, height: 'auto' }} src={coleman} alt="Yeah buddy!" />
+                            <Box
+                                sx={{
+                                    borderRadius: 2,
+                                    padding: 1.5,
+                                    textAlign: 'center',
+                                    //animation: `${blink} 1s linear infinite alternate`,
+                                }}
+                            >
+                                <Typography variant="h5" textAlign={'center'}>You have a workout in progress! &#128170;</Typography>
                             </Box>
-                            <Typography variant="h5" textAlign={'center'}>You have a workout in progress! &#128170;</Typography>
+                            <Box display={'flex'} justifyContent={'center'}>
+                                <img style={{ padding: 10, width: 300, height: 'auto' }} src={getRandomMemeGif()} alt="Yeah buddy!" />
+                            </Box>
+
+
                         </>
                     }
                 </Stack>
@@ -151,55 +149,27 @@ const Home = ({ user, drawerWidth }) => {
                         </Divider>
                     </>
                 } */}
-
-                <Button
-                    variant="text"
-                    //component={Link} to={`/workout`}
-                    onClick={handleClick}
-                    //onClick={() => dispatch(startWorkout())}
-                    sx={{ maxWidth: 0.8 }} >
+                <Button variant="text" onClick={handleClick} sx={{ maxWidth: 0.8 }} >
                     Start a new workout
                 </Button>
-
-
-
-
-
-                <Divider orientation="horizontal" flexItem>
-                    or
-                </Divider>
-                <Button
-                    variant="text"
-                    sx={{ maxWidth: 0.8 }}
-                    component={Link} to='/history'
-                //onClick={() => setPageIndex(1)}
-                >
+                <Divider orientation="horizontal" flexItem> or </Divider>
+                <Button variant="text" sx={{ maxWidth: 0.8 }} component={Link} to='/history' >
                     Select from history
                 </Button>
-                <Divider orientation="horizontal" flexItem>
-                    or
-                </Divider>
+                <Divider orientation="horizontal" flexItem> or </Divider>
                 <Typography variant="h6" textAlign="center">
                     Select a saved template (Feature not implemented yet.)
                 </Typography>
+
             </Stack >
-            <ConfirmationModal
-                showModal={showModal}
-                closeFromParent={setShowModal}
-                hideOpenButton='true'
-                // menuItem={true}
-                modalType='confirmCopyModal'
-                //color='info'
-                openButton={
-                    'Start new'
-                }
-                //confirmButton='Delete'
-                confirmFunction={handleClick}
-            //handleMenuClose={handleClose}
-            />
 
-
-            {/*   {workoutStarted && <ActiveWorkout style={{ padding: 10 }} />} */}
+            {showCopyWorkoutModal &&
+                <CopyWorkoutModal
+                    open={showCopyWorkoutModal}
+                    onClose={setShowCopyWorkoutModal}
+                    copyFunction={handleClick}
+                />
+            }
 
         </>
     )

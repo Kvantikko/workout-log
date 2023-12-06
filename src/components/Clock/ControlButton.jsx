@@ -27,7 +27,7 @@ export default function ControlButtons(props) {
             margin: 'auto'
         }} */
         >
-            <Button variant="contained" sx={{ marginY: 2, marginLeft: 1.5 }} onClick={props.handlePauseResume}>
+            <Button variant="contained" sx={{ marginLeft: 1.5 }} onClick={props.handlePauseResume}>
                 {props.isPaused ? <PlayArrowIcon /> : <PauseIcon />}
             </Button>
             <Button variant="secondary" sx={{ margin: 0 }} onClick={props.handleReset}>
