@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import ActiveWorkout from "../Workout/Workout"
 import { useEffect, useState } from "react"
-import { Button, Stack, Divider, Container, Box, Modal, Typography } from "@mui/material"
+import { Button, IconButton, Stack, Divider, Container, Box, Modal, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 
 import { startWorkout } from "../../redux/reducers/workoutReducer"
@@ -37,6 +37,8 @@ import coleman from '../../assets/coleman.gif'
 
 import schwarzenegger from '../../assets/schwarzenegger.gif'
 import CopyWorkoutModal from "../Modals/CopyWorkoutModal"
+import AddIcon from "@mui/icons-material/Add"
+import HistoryCardList from "../History/HistoryCardList"
 
 const gifArray = [coleman, schwarzenegger]
 
@@ -50,6 +52,8 @@ const getRandomMemeGif = () => {
 const Home = ({ user, drawerWidth }) => {
 
     console.log("Rendering Home");
+
+    const workouts = useSelector(state => state.history)
 
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const [showCopyWorkoutModal, setShowCopyWorkoutModal] = useState(false)
@@ -90,7 +94,7 @@ const Home = ({ user, drawerWidth }) => {
 
         dispatch(expand())
         dispatch(startWorkout())
-        
+
     }
 
     return (
@@ -99,7 +103,7 @@ const Home = ({ user, drawerWidth }) => {
                 <WorkoutToolbar />
             </HideAppBar>
 
-            <Stack padding={3} paddingBottom={20} spacing={2} alignItems="center">
+            <Stack padding={2} paddingBottom={20} spacing={2} alignItems="center" >
                 < Stack spacing={2} padding={3}>
                     {!isWorkoutActive &&
                         <>
@@ -158,8 +162,23 @@ const Home = ({ user, drawerWidth }) => {
                 </Button>
                 <Divider orientation="horizontal" flexItem> or </Divider>
                 <Typography variant="h6" textAlign="center">
-                    Select a saved template (Feature not implemented yet.)
+                    Select a template
                 </Typography>
+
+                <Box width={{ xs: '100%', sm: '80%' }}>
+                    <Stack direction={'row'} justifyContent={'space-between'} >
+                        <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} paddingY={2}>
+                            <Typography variant="body2" textAlign="center">
+                                My templates
+                            </Typography>
+                        </Box>
+                        <IconButton aria-label="search" sx={{ color: '#90CAF9', padding: 0 }} onClick={() => console.log()}>
+                            <AddIcon />
+                        </IconButton>
+                    </Stack>
+                    <HistoryCardList workouts={workouts} />
+                </Box>
+
 
             </Stack >
 

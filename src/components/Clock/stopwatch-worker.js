@@ -12,7 +12,7 @@ onmessage = function (e) {
             startTime = Date.now()
             timerId = setInterval(() => {
                 const elapsedTime = Date.now() - startTime + pausedTime // Adjust for paused time
-                console.log("STOPWATCH ", elapsedTime)
+                //console.log("STOPWATCH ", elapsedTime)
                 postMessage(elapsedTime)
             }, 1000)
         }

@@ -11,8 +11,9 @@ const HistoryCardList = ({ workouts }) => {
     return (
         <Stack
             spacing={2}
-            padding={1.5}
+            //padding={1.5}
             alignItems={'center'}
+            width={"100%"}
             
         >
 

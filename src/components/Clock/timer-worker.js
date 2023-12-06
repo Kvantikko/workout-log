@@ -10,7 +10,7 @@ onmessage = function (e) {
             startTime = Date.now()
             timerId = setInterval(() => {
                 const elapsedTime = Date.now() - startTime
-                console.log("TIMER ", elapsedTime)
+               // console.log("TIMER ", elapsedTime)
                 postMessage(elapsedTime)
             }, 1000)
         }
