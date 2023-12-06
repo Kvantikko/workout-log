@@ -168,7 +168,7 @@ const Home = ({ user, drawerWidth }) => {
                 <Box width={{ xs: '100%', sm: '80%' }}>
                     <Stack direction={'row'} justifyContent={'space-between'} >
                         <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} paddingY={2}>
-                            <Typography variant="body2" textAlign="center">
+                            <Typography variant="body1" textAlign="center">
                                 My templates
                             </Typography>
                         </Box>

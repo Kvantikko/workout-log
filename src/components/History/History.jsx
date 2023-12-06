@@ -5,7 +5,7 @@ import { ListItemButton, Box, Stack } from "@mui/material";
 
 import HideAppBar from "../AppBar/HideAppBar";
 import HistoryToolbar from "./HistoryToolbar";
-import { Link, Navigate, useLocation,  useNavigate, useNavigation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate, useNavigation } from "react-router-dom";
 
 import { Typography } from "@mui/material";
 import { useState } from "react";
@@ -81,7 +81,7 @@ const History = ({ drawerWidth }) => {
     const handleClick = () => {
         dispatch(startWorkout())
     }
-    
+
 
     return (
         <>
@@ -104,23 +104,18 @@ const History = ({ drawerWidth }) => {
                     alignItems="center"
                     minHeight="75vh"
                     padding={4}
-                   
+
                 >
                     <Typography variant="h6" textAlign="center" >
                         You haven't completed any workouts yet.
-                        Start your first <Link to="/workout" onClick={handleClick} >workout!</Link> &#127947;
                     </Typography>
                 </Box>
             }
 
-            {/* {filteredWorkouts.map(workout =>
-                //<ListItemButton >
-                <HistoryListItem key={workout.id} workout={workout} />
-                // </ListItemButton>
+            <Box paddingY={2} paddingX={ {xs: 2, sm: 6, md: 10 } }>
+                <HistoryCardList workouts={filteredWorkouts} showDate={true} />
+            </Box>
 
-            )} */}
-
-            <HistoryCardList  workouts={filteredWorkouts} />
 
         </>
     )

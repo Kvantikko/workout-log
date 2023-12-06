@@ -23,7 +23,7 @@ import { pushHistory } from '../../redux/reducers/navReducer';
 import { Link } from "react-router-dom"
 import { useDispatch } from 'react-redux';
 
-const HistoryCard = ({ workout }) => {
+const WorkoutCard = ({ workout, showDate }) => {
     console.log("Rendering HistoryListCard ", workout.id, workout)
 
     const dispatch = useDispatch()
@@ -52,10 +52,18 @@ const HistoryCard = ({ workout }) => {
     return (
 
         <Grow in={true}>
-           
-                <Card sx={{ /* width: 1,  maxWidth: 600, */ border: '1px solid #878787', width: 0, minWidth: { xs: '100%', sm: '80%', md: '60%' } }} >
-                    <CardActionArea component={Link} to={`/history/${workout.id}`} onClick={handleClick}>
-                        {/* <CardHeader
+
+            <Card
+                sx={{
+                    width: 1,
+                    height: 1,
+                    border: '1px solid #878787',
+                    //width: 0,
+                    //minWidth: { xs: '100%', sm: '80%', md: '60%' }
+                }}
+            >
+                <CardActionArea component={Link} to={`/history/${workout.id}`} onClick={handleClick} sx={{ height: 1 }} >
+                    {/* <CardHeader
                     title={new Date(workout.createdAt).toLocaleDateString()}
                     titleTypographyProps={{ variant: 'body1', color: "text.secondary", noWrap: true, textAlign: 'center' }}
                     action={
@@ -64,32 +72,36 @@ const HistoryCard = ({ workout }) => {
                         </IconButton>
                     }
                 /> */}
-                        <CardContent >
-                            <Typography sx={{ mb: 0.5 }} color="text.secondary" textAlign={'center'} noWrap >
+                    <CardContent >
+                        <Typography variant="h6" component="div" noWrap >
+                            {workout.title}
+                        </Typography>
+                        {showDate &&
+                            <Typography color="text.secondary" /* textAlign={'center'} */ noWrap >
                                 {formatDayAndMonthFinnish(new Date(workout.createdAt))}
                             </Typography>
-                            <Typography gutterBottom variant="h6" component="div" noWrap >
-                                {workout.title}
-                            </Typography>
-                            <Stack>
-                                {workout.workoutExercises.map(wE =>
-                                    <Stack key={wE.id} direction={'row'} spacing={1} >
-                                        <Typography variant="body2" color="text.secondary">{countSets(wE.sets)}</Typography>
-                                        <Typography variant="body2" color="text.secondary">x</Typography>
-                                        <Typography variant="body2" color="text.secondary" noWrap>{wE.name}</Typography>
-                                    </Stack>
-                                )}
-                            </Stack>
-                        </CardContent>
-                    </CardActionArea>
-                    {/* <CardActions>
+
+                        }
+
+                        <Stack marginTop={1.5} sx={{ mT: 2 }}>
+                            {workout.workoutExercises.map(wE =>
+                                <Stack key={wE.id} direction={'row'} spacing={1} >
+                                    <Typography variant="body2" color="text.secondary">{countSets(wE.sets)}</Typography>
+                                    <Typography variant="body2" color="text.secondary">x</Typography>
+                                    <Typography variant="body2" color="text.secondary" noWrap>{wE.name}</Typography>
+                                </Stack>
+                            )}
+                        </Stack>
+                    </CardContent>
+                </CardActionArea>
+                {/* <CardActions>
                 <Button size="small">Perform again</Button>
             </CardActions> */}
-                </Card>
-          
+            </Card>
+
         </Grow >
 
     );
 }
 
-export default React.memo(HistoryCard)
+export default React.memo(WorkoutCard)
