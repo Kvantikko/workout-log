@@ -3,6 +3,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useState } from "react";
 import ModalRoot from "../Modals/ModalRoot";
 import FormModal from "../Modals/FormModal";
+import { DatePicker, MonthCalendar, YearCalendar } from "@mui/x-date-pickers";
 
 const HistoryToolbar = ({ filter, removeFilter, showRemoveFilterButton, setShowRemoveFilterButton }) => {
 
@@ -25,18 +26,20 @@ const HistoryToolbar = ({ filter, removeFilter, showRemoveFilterButton, setShowR
                     </Button>
                 }
 
-                <FormModal
+    
+                {/* <MonthCalendar></MonthCalendar> */}
+              {/*   <YearCalendar></YearCalendar>  */}
+                {/* <FormModal
                     menuItem={false}
                     modalType='pickDateModal'
                     //color='info'
                     openButton={
                         <CalendarMonthIcon />
                     }
-                    //confirmButton='Delete forever'
+               
                     confirmFunction={filter}
-                //handleMenuClose={handleClose}
-                //object={exercise}
-                />
+ 
+                /> */}
 
             </Stack>
 

@@ -4,11 +4,11 @@ import store from './redux/store'
 import { Provider, useSelector } from 'react-redux'
 import App from './App'
 import './Main.css'
-import { Box, SwipeableDrawer, ThemeProvider, CssBaseline } from '@mui/material'
+import { Box, SwipeableDrawer, Toolbar, ThemeProvider, CssBaseline } from '@mui/material'
 import { createTheme } from '@mui/material/styles';
-import ActiveWorkout from './components/Workout/ActiveWorkout'
+import ActiveWorkout from './components/Workout/Workout'
 import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer'
-import PermanentDrawerRight from './components/Drawers/PermanentDrawerRight'
+
 import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentDrawer'
 
 
@@ -42,12 +42,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <div id='outsideRouter'>
 
                 {/*USE A PORTAL HERE?......*/}
-
                 <ExpandablePermanentDrawer />
                 <SwipeableEdgeDrawer />
             </div>
+            {/* <Box sx={{ height: 100 }} /> */}
+       {/*      <Toolbar/> */} {/* Toolbar is for margin */}
             <Router>
-                <App style={{ overflow: 'scroll' }} />
+                <App  />
             </Router>
 
         </ThemeProvider>

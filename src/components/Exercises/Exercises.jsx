@@ -6,23 +6,20 @@ import FilteredExercises from './FilteredExercises'
 
 import HideAppBar from '../AppBar/HideAppBar';
 
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import CssBaseline from '@mui/material/CssBaseline';
-import zIndex from '@mui/material/styles/zIndex';
 
 import ModalRoot from '../Modals/ModalRoot';
 
 import ExercisesToolbar from './ExercisesToolbar';
 
-import { useMatch } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
+
+import { setExercisesPath } from '../../redux/reducers/navReducer';
 
 import { setSearchExercises } from '../../redux/reducers/searchReducer';
 
 
 
-const Exercises = ({ drawerWidth, handleListClick }) => {
+const Exercises = ({ drawerWidth }) => {
     const exercises = useSelector(state => state.exerciseLibrary)
     const exercisesFilteredSearch = useSelector(state => state.search.exercises)
     const searchState = useSelector(state => state.search)
@@ -44,6 +41,7 @@ const Exercises = ({ drawerWidth, handleListClick }) => {
     const [open, setOpen] = useState(false)
    // const [selectedExercises, setSelectedExercises] = useState([])
 
+   const navigate = useNavigate()
     const dispatch = useDispatch()
 
 
@@ -61,6 +59,12 @@ const Exercises = ({ drawerWidth, handleListClick }) => {
         : null */
 
     // button modaalille ja lista menu modaalille eri root?
+
+    const handleListClick = (exercise) => {
+        navigate(`/exercises/${exercise.id}`)
+        dispatch(setExercisesPath(`exercises/${exercise.id}`))
+    }
+
     return (
         <div>
             <ModalRoot open={open} setOpen={setOpen} modalType={"createExercise"} />

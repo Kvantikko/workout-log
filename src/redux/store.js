@@ -17,6 +17,9 @@ import darkModeReducer from './reducers/darkModeReducer'
 import navReducer from './reducers/navReducer'
 import searchReducer from './reducers/searchReducer'
 import drawerReducer from './reducers/drawerReducer'
+import templateReducer from './reducers/templateReducer'
+import templateLibraryReducer from './reducers/templateLibraryReducer'
+
 
 const store = configureStore({
     reducer: {
@@ -33,7 +36,9 @@ const store = configureStore({
         darkMode: darkModeReducer,
         nav: navReducer,
         search: searchReducer,
-        drawer: drawerReducer
+        drawer: drawerReducer,
+        template: templateReducer,
+        templates: templateLibraryReducer
     }
 })
 

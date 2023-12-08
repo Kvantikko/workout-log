@@ -9,7 +9,7 @@ import { Box, Fade, Stack } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import ActiveWorkout from '../Workout/ActiveWorkout';
+import ActiveWorkout from '../Workout/Workout';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -206,7 +206,7 @@ function SwipeableEdgeDrawer(props) {
                         <div>fafadawdwf</div>
                     </Skeleton> */}
 
-                            <ActiveWorkout />
+                            <ActiveWorkout type={'active'} />
 
                         </StyledBox>
                     </SwipeableDrawer>

@@ -17,7 +17,7 @@ const ExerciseListButton = ({ exercise, handleListClick }) => {
               setSelected(true)
           } */
 
-        console.log("jkakaka ", exercise);
+   
 
         handleListClick(exercise)
     }

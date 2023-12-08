@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react"
-import Set from "./SetRow"
-import { Button, Divider, Box, TextField, Stack, Grid, Paper, Typography, Collapse } from "@mui/material"
+import SetRow from "./SetRow"
+import { Button, Divider, Box, TextField, Stack, Grid, Paper, Slide, Typography, Collapse, IconButton } from "@mui/material"
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+
 import { TransitionGroup } from 'react-transition-group';
 import { useDispatch, useSelector } from "react-redux"
 import { addSet, deleteSet } from "../../redux/reducers/setReducer"
@@ -8,22 +11,38 @@ import { addSet, deleteSet } from "../../redux/reducers/setReducer"
 import DeleteIcon from "@mui/icons-material/Delete"
 import generateId from "../../utils/generateId"
 
-import { deleteExercise, editExerciseNote } from "../../redux/reducers/exerciseReducer"
+
+
+import { deleteExercise, editExerciseNote, moveExerciseDown, moveExerciseUpp } from "../../redux/reducers/exerciseReducer"
 import DeleteExerciseFromWorkoutModal from "../Modals/DeleteExerciseFromWorkoutModal"
 
-const WorkoutExercise = ({ exercise }) => { // deleteExercise
-    console.log("Rendering WorkoutExercise", exercise.name);
+import { forwardRef } from 'react';
+import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer";
+
+const WorkoutExercise = forwardRef( ( {exercise, arrayEnd, arrayStart, type }, ref) => {
+    console.log("Rendering WorkoutExercise", exercise.name, arrayEnd)
     /**
      * VOISKO NOPEUTTAA JO ID ON INDEKSI NIIN EI TARVI ETSIÄ?
      */
-    const noteFromState =  useSelector(state => state.exercises.find(e => e.id === exercise.id).note)
+    const noteFromState = type === "active" ? useSelector(state => state.exercises.find(e => e.id === exercise.id).note) : ''
     const [note, setNote] = (noteFromState ? noteFromState : '')       //!!!!!!!
     const [focused, setFocused] = useState(false)
-    const allSetsFromState = useSelector(state => state.sets) // filter funktio aiheuttaa varootuksen
+    let allSetsFromState = []
+    switch (type) {
+        case "active":
+            allSetsFromState = useSelector(state => state.set )
+            break;
+        case "template":
+            allSetsFromState = useSelector(state => state.template.sets )
+            break;
+        default:
+            throw new Error('Component Workout must have a type prop specified!');
+    }
+    
     const sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)     // !!!!!!!!!!!!!!!!!
+    
     //const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
-
 
     const dispatch = useDispatch()
 
@@ -54,28 +73,31 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
         }
     }, [])
 
-    const removeExercise = () => dispatch(deleteExercise(exercise.id))
+    const removeExercise = () => {
+        switch (type) {
+            case "active":
+                dispatch(deleteExercise(exercise.id))
+                break
+            case "template":
+                dispatch(deleteExerciseFromTemplate(exercise.id))
+                break
+            default:
+                throw new Error('Component Workout must have a type prop specified!')
+        }
+        
+     
+    }
 
     const createSet = (warmup) => {
-        //console.log('WorkoutExercise: createSet() start');
 
-        // default values for input
         let weight = 20
         let reps = 15
-        // console.log('WorkoutExercise: const sets.length === 0: ', sets.length === 0);
-        // console.log('WorkoutExercise: const isSetsLengthZero: ', isSetsLengthZero);
-        // copying last done set values 
+
         if (!(sets.length === 0)) {
             let lastSet = sets[sets.length - 1]
-            //console.log("all sets ", sets);
-            //console.log("last set ", lastSet);
             weight = lastSet.weight
             reps = lastSet.reps
         }
-
-        //console.log("if over ");
-        //console.log("weight: ", weight);
-        //console.log("reps ", reps);
 
         const newSet = {
             id: generateId(),
@@ -86,16 +108,24 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
             reps: reps
         }
 
-        //console.log("This is the new set: ", newSet, " dispatching...");
+        switch (type) {
+            case "active":
+                dispatch(addSet(newSet))
+                break
+            case "template":
+                dispatch(addSetToTemplate(newSet))
+                break
+            default:
+                throw new Error('Component Workout must have a type prop specified!')
+        }
 
-        dispatch(addSet(newSet))
+        
 
         /* if (sets.length === 0) {
             console.log('WorkoutExercise: createSet(): sets length === 0...scrolling...');
             window.scrollTo(0, document.body.scrollHeight)
         } */
     }
-
 
     let setNumber = 0
 
@@ -107,59 +137,79 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
 
 
                 <TransitionGroup>
-                    {sets.map((set, index) => (
-                        <Collapse key={set.id}>
-                            <Set key={set.id}
-                                set={set}
-                                number={set.warmup === true ? 0 : setNumber}
-                                index={index}
-                            />
-                        </Collapse>
-                    ))}
+                    {sets.map((set, index) => {
+
+                        if (!set.warmup) {
+                            //console.log('this is NOT a warmup set');
+                            setNumber = setNumber + 1
+                        }
+                        return (
+                            <Collapse key={set.id}>
+                                <SetRow key={set.id}
+                                    set={set}
+                                    number={set.warmup === true ? 0 : setNumber}
+                                    index={index}
+                                    type={type}
+                                />
+                            </Collapse>
+                        )
+                    })}
                 </TransitionGroup>
-
-
-               {/*  {sets.map((set, index) => {
-                    //console.log('mapping set:', set);
-                    if (!set.warmup) {
-                        //console.log('this is NOT a warmup set');
-                        setNumber = setNumber + 1
-                    }
-                    return (
-                        <Set key={set.id}
-                            set={set}
-                            number={set.warmup === true ? 0 : setNumber}
-                            index={index}
-                        />
-                    )
-                })} */}
-
-
             </Stack>
         )
     }
 
     const handleBlur = () => {
-        console.log("handling blur");
         setFocused(false)
         const changedExercise = { ...exercise, note: note }
         dispatch(editExerciseNote({ exerciseId: exercise.id, changedExercise: changedExercise }))
     }
 
+    const handleSwapDown = () => {
+        //setSlide((prev) => !prev)
+        dispatch(moveExerciseDown(exercise.id))
+        //setSlide((prev) => !prev)
+
+    }
+
+    const handleSwapUpp = () => {
+        // setSlide((prev) => !prev)
+        dispatch(moveExerciseUpp(exercise.id))
+        //setSlide((prev) => !prev)
+
+    }
+
     return (
 
-        <Box sx={{ alignItems: 'center' }}>
+        <Box ref={ref} sx={{ alignItems: 'center' }}>
             <Box paddingX={2}>
-                <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
+                <Stack direction={"row"} sx={{ justifyContent: "space-between" }} alignItems={'center'}>
                     <Typography variant="h6">{exercise.name}</Typography>
-                    <Button
-                        variant="outlined"
-                        color="error"
-                        onClick={() => setOpenDeleteModal(true)}
-                        sx={{ marginBottom: 1 }}
-                    >
-                        <DeleteIcon />
-                    </Button>
+                    <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                        <Stack paddingX={1}>
+                            <IconButton
+                                disabled={arrayStart ? true : false}
+                                sx={{ padding: 0.5 }}
+                                onClick={handleSwapUpp}
+                            >
+                                <ExpandLessIcon color={arrayStart ? 'disabled ' : 'info'} />
+                            </IconButton>
+                            <IconButton
+                                disabled={arrayEnd ? true : false}
+                                sx={{ padding: 0.5 }}
+                                onClick={handleSwapDown}
+                            >
+                                <ExpandMoreIcon color={arrayEnd ? 'disabled ' : 'info'} />
+                            </IconButton>
+                        </Stack>
+                        <IconButton
+                            color="error"
+                            onClick={() => setOpenDeleteModal(true)}
+                            sx={{ height: 1 }}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Stack>
                     <DeleteExerciseFromWorkoutModal
                         open={openDeleteModal}
                         onClose={setOpenDeleteModal}
@@ -219,7 +269,9 @@ const WorkoutExercise = ({ exercise }) => { // deleteExercise
             <Divider sx={{ my: 3 }} />
 
         </Box>
+
+
     )
-}
+})
 
 export default React.memo(WorkoutExercise)

@@ -24,8 +24,8 @@ const FilteredExercises = ({ exercises, handleListClick }) => {
         >
             {exercises.length === 0 && <Typography variant='h6'>No exercises found &#129300;</Typography>}
             {exercises.map(exercise =>
-                <Defer chunkSize={10}>
-                    <ExerciseListButton key={exercise.id} exercise={exercise} handleListClick={handleListClick} />
+                <Defer key={exercise.id} chunkSize={10}>
+                    <ExerciseListButton  exercise={exercise} handleListClick={handleListClick} />
                 </Defer>
             )}
         </Stack>

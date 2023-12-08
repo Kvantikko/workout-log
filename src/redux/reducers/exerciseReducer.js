@@ -14,7 +14,7 @@ const workoutSlice = createSlice({
             exercisesToAdd.forEach(e => {
                 state.push(e)
             })
-           
+
             console.log("STATE: ", JSON.parse(JSON.stringify(state)))
             return state
         },
@@ -28,14 +28,44 @@ const workoutSlice = createSlice({
             return state
         },
         editExerciseNote(state, action) {
-            console.log("REDUUUUUUUUUUUUCER");
+
             const exerciseId = action.payload.exerciseId
-            console.log(action.payload);  
-            
+
+
             state[state.findIndex(exercise => exercise.id === exerciseId)] = action.payload.changedExercise
             //console.log("editSet end, state:", JSON.parse(JSON.stringify(state.exercises)))
             return state
-        }
+        },
+        moveExerciseUpp(state, action) {
+            console.log("REDUUUUUUUUUUUUCER UP");
+            const exerciseId = action.payload
+            //console.log(action.payload)
+
+            const index = state.findIndex(exercise => exercise.id === exerciseId)
+
+            if (index === 0) return state
+
+            const temp = state[index - 1]
+            state[index - 1] = state[index]
+            state[index] = temp
+
+            return state
+        },
+        moveExerciseDown(state, action) {
+            console.log("REDUUUUUUUUUUUUCER DOWN");
+            const exerciseId = action.payload
+            //console.log(action.payload)
+
+            const index = state.findIndex(exercise => exercise.id === exerciseId)
+
+            if (index === state.length - 1) return state
+
+            const temp = state[index + 1]
+            state[index + 1] = state[index]
+            state[index] = temp
+
+            return state
+        },
     }
 })
 
@@ -44,7 +74,9 @@ export const {
     addExercises,
     deleteExercise,
     copyExercises,
-    editExerciseNote
+    editExerciseNote,
+    moveExerciseUpp,
+    moveExerciseDown
 } = workoutSlice.actions
 
 export default workoutSlice.reducer

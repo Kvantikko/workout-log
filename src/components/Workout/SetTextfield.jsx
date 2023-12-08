@@ -2,9 +2,10 @@ import { TextField } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { editSet } from "../../redux/reducers/setReducer";
+import { editSetFromTemplate } from "../../redux/reducers/templateReducer";
 
 
-const SetTextField = ({ id, set, minWidth, step }) => {
+const SetTextField = ({ id, set, minWidth, step, type }) => {
     console.log("Rendering SetTextField")
 
     const [value, setValue] = useState(id === "weight" ? set.weight : set.reps)
@@ -17,13 +18,31 @@ const SetTextField = ({ id, set, minWidth, step }) => {
             setValue(0)
         }
         if (id === "weight") {
-            console.log("value ", value);
             const changedSet = { ...set, weight: parseFloat(value), reps: set.reps, warmup: set.warmup }
-            dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+            switch (type) {
+                case "active":
+                    dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+                    break
+                case "template":
+                    dispatch(editSetFromTemplate({ setId: set.id, changedSet: changedSet }))
+                    break
+                default:
+                    throw new Error('Component Workout must have a type prop specified!')
+            }
+
         }
         if (id === "reps") {
             const changedSet = { ...set, weight: set.weight, reps: parseFloat(value), warmup: set.warmup }
-            dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+            switch (type) {
+                case "active":
+                    dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+                    break
+                case "template":
+                    dispatch(editSetFromTemplate({ setId: set.id, changedSet: changedSet }))
+                    break
+                default:
+                    throw new Error('Component Workout must have a type prop specified!')
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 import exerciseService from './services/exercises'
 import workoutService from './services/workouts'
 import userService from "./services/user"
+import templateService from "./services/templates"
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -23,7 +24,6 @@ import HistoryId from './components/HistoryId/HistoryId'
 
 import ProtectedRoute from './components/Router/ProtectedRoute';
 
-import PermanentDrawerRight from './components/Drawers/PermanentDrawerRight';
 
 
 
@@ -61,12 +61,14 @@ import { AddBoxOutlined } from '@mui/icons-material';
 
 import { CssBaseline } from '@mui/material';
 
-import ActiveWorkout from './components/Workout/Workout';
+import ActiveWorkout from './components/Workout/IndexWorkout';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer';
 import WorkoutToolbar from './components/Workout/WorkoutToolbar';
 import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentDrawer';
+import LoginProtect from './components/Router/LoginProtect';
+import { setTemplates } from './redux/reducers/templateLibraryReducer';
 
 /* const theme = createTheme({
     palette: {
@@ -199,6 +201,25 @@ const App = () => {
     }, [isAuthenticated])
 
     useEffect(() => {
+        // console.log("EFFECT EXERCISES");
+        if (isAuthenticated) {
+            //console.log("EFFECT EXERCISES AUTH TRUE");
+            templateService
+                .getAllUserTemplates
+                .then((response) => {
+                    const templates = response
+                    // console.log("EFFECT workouts response: ", workouts);
+                    dispatch(setTemplates(templates))
+                })
+                .catch(error => {
+                    //alert("tapahtui virhe hakiessa kaikkia liikkeitä")
+                    console.log('error: ', error);
+                })
+        }
+
+    }, [isAuthenticated])
+
+    useEffect(() => {
         //console.log("EFFECT");
         const loggedUserJSON = window.localStorage.getItem('loggedUser')
         //console.log(loggedUserJSON);
@@ -246,7 +267,9 @@ const App = () => {
 
 
 
-            <Box sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
+            <Box id='mainContainer' className='mainContainer' sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
+
+
 
                 {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
 
@@ -277,10 +300,12 @@ const App = () => {
 
 
                 <Box
-                    component="main"
+                    component="main" id='main'
 
                     sx={{
                         flexGrow: 1,
+                        height: "100vh",
+                        overflow: 'auto'
                         // width:   `calc(100% - ${+600}px)` ,
                         //marginLeft: 10
                         //width: 33,!isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' ,
@@ -340,7 +365,9 @@ const App = () => {
                         />
                         <Route
                             path="/login"
-                            element={<Login />}
+                            element={<LoginProtect>
+                                <Login />
+                            </LoginProtect>}
                         />
                     </Routes>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 
@@ -29,8 +29,13 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
     const [selectedExercises, setSelectedExercises] = useState([])
     const [visibleExercises, setVisibleExercises] = useState(exercisesFromStore)
 
-
     const dispatch = useDispatch()
+    const ref = useRef(null);
+
+    useEffect(() => {
+        //console.log("EFFECT HAPPENING");
+        ref.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [selectedExercises])
 
     const newExercise = (exercise) => {
         setSelectedExercises(selectedExercises.concat(exercise))
@@ -40,7 +45,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
         setSelectedExercises(selectedExercises.filter(e => e.id !== parseInt(event.target.id)))
     }
 
-    const addExercisesToStore = () => {
+    /* const addExercisesToStore = () => {
         const exercisesToBeAdded = selectedExercises.map(e => {
             const exercise = {
                 id: generateId(),
@@ -56,7 +61,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
         }
         dispatch(addExercises(exercisesToBeAdded))
         onClose()
-    }
+    } */
 
     const getContent = () => {
         return (
@@ -76,17 +81,20 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
                 </Stack>
 
                 <Box
+                    overflow='hidden'
                     sx={{
-                        width: 'fit-content',
-                        paddingY: 0.5,
-                        paddingX: 1
-
+                        width: '100%',
+                        paddingTop: 0.5,
+                        paddingBottom: 1.5,
+                        paddingX: 1,
+                        overflowX: 'auto'
                     }}
                 >
-                    <Stack direction={'row'} flexWrap={'nowrap'} overflow={'scroll'} >
+                    <Stack direction={'row'} flexWrap={'nowrap'} sx={{}}  >
                         {selectedExercises.map(e => {
                             return (
                                 <Box
+                                    ref={ref}
                                     key={e.id}
                                     display='flex'
                                     flexDirection={'row'}
@@ -120,7 +128,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
                 {selectedExercises.length !== 0 &&
 
                     <Fab
-                        onClick={() => addExercisesToStore(selectedExercises)}
+                        onClick={() => confirmFunction(selectedExercises)}
                         color='info'
                         sx={{
                             position: 'absolute',
@@ -128,7 +136,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
                             right: 30,
                             //backgroundColor: theme => theme.palette.primary.light
                         }} >
-                        <Done/>
+                        <Done />
                     </Fab>
                 }
 
@@ -137,7 +145,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
 
 
 
-                <Box sx={{ overflowY: 'scroll', height: '80vh', paddingBottom: 4 }} >
+                <Box sx={{ overflowY: 'scroll', height: '80vh', paddingBottom: 4 }}  >
                     {/*   <Exercises handleListClick={newExercise} /> */}
 
 

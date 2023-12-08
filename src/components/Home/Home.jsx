@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import ActiveWorkout from "../Workout/Workout"
+import ActiveWorkout from "../Workout/IndexWorkout"
 import { useEffect, useState } from "react"
 import { Button, IconButton, Stack, Divider, Container, Box, Modal, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
@@ -31,7 +31,6 @@ import { expand, unExpand } from "../../redux/reducers/drawerReducer"
 
 import { createPortal } from "react-dom"
 import SwipeableEdgeDrawer from "../Drawers/SwipeableEdgeDrawer"
-import PermanentDrawerRight from "../Drawers/PermanentDrawerRight"
 
 import coleman from '../../assets/coleman.gif'
 
@@ -39,6 +38,7 @@ import schwarzenegger from '../../assets/schwarzenegger.gif'
 import CopyWorkoutModal from "../Modals/CopyWorkoutModal"
 import AddIcon from "@mui/icons-material/Add"
 import HistoryCardList from "../History/HistoryCardList"
+import CreateTemplateModal from "../Modals/CreateTemplateModal"
 
 const gifArray = [coleman, schwarzenegger]
 
@@ -53,10 +53,12 @@ const Home = ({ user, drawerWidth }) => {
 
     console.log("Rendering Home");
 
-    const workouts = useSelector(state => state.history)
+    const workouts = useSelector(state => state.templates)
 
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+
     const [showCopyWorkoutModal, setShowCopyWorkoutModal] = useState(false)
+    const [showTemplateModal, setShowTemplateModal] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -172,9 +174,13 @@ const Home = ({ user, drawerWidth }) => {
                                 My templates
                             </Typography>
                         </Box>
-                        <IconButton aria-label="search" sx={{ color: '#90CAF9', padding: 0 }} onClick={() => console.log()}>
+                        <IconButton sx={{ color: '#90CAF9', padding: 0 }} onClick={() => setShowTemplateModal(true)}>
                             <AddIcon />
                         </IconButton>
+                        <CreateTemplateModal
+                            open={showTemplateModal}
+                            onClose={setShowTemplateModal}
+                        />
                     </Stack>
                     <HistoryCardList workouts={workouts} />
                 </Box>

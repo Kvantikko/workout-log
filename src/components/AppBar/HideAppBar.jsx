@@ -13,8 +13,9 @@ import { Button, Stack, Divider } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 
 import StopWatch from '../Clock/StopWatch';
-
 import useMediaQuery from '@mui/material/useMediaQuery';
+
+import { getScrollbarWidth } from '../../utils/ScrollBarWidth';
 
 
 export const HideOnScroll = (props) => {
@@ -24,7 +25,8 @@ export const HideOnScroll = (props) => {
     // will default to window.
     // This is only being set here because the demo is in an iframe.
     const trigger = useScrollTrigger({
-        target: window ? window() : undefined,
+        target: document.getElementById('main') ? document.getElementById('main') : undefined
+        //target: window ? window() : undefined,
     })
 
 
@@ -36,19 +38,25 @@ export const HideOnScroll = (props) => {
 }
 
 
+
+
 const HideAppBar = (props) => {
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
+
+    const ScrollBarWidth = getScrollbarWidth()
 
 
 
     const isSmallScreen = useMediaQuery('(min-width:900px)');
 
     const calculateWidth = () => {
-        if(workoutStarted) {
+        if (workoutStarted) {
             return 0
         }
     }
+
+    console.log("SCROLLBAR WIDTH ", getScrollbarWidth())
 
 
     return (
@@ -59,16 +67,26 @@ const HideAppBar = (props) => {
                     //style={{ width: isSmallScreen ? '100%' : '50%' }}
                     position="fixed"
                     sx={{
-                        width:  {
+                        width: {
                             xs: '100%',
                             sm: '100%',
-                            md:  workoutStarted ? `calc(100% - ${75+400}px)` : `calc(100% - ${75}px)`,
-                            lg:  workoutStarted ?  `calc(100% - ${75+500}px)` :  `calc(100% - ${225}px)`,
-                            xl:  workoutStarted ? `calc(100% - ${225+500}px)` : `calc(100% - ${225}px)`
+                            md: workoutStarted ? `calc(100% - ${75 + 400+getScrollbarWidth()}px)` : `calc(100% - ${75+getScrollbarWidth()}px)`,
+                            lg: workoutStarted ? `calc(100% - ${75 + 500+getScrollbarWidth()}px)` : `calc(100% - ${225+getScrollbarWidth()}px)`,
+                            xl: workoutStarted ? `calc(100% - ${225 + 500+getScrollbarWidth()}px)` : `calc(100% - ${225+getScrollbarWidth()}px)`
                         },
-                       
-                         right: workoutStarted ? { xs: 0, sm: 0, md: 400, lg: 500 } : 0
-                       
+
+
+
+                        right: workoutStarted
+                            ?
+                            {
+                                xs: getScrollbarWidth(),
+                                sm: getScrollbarWidth(),
+                                md: 400 + getScrollbarWidth(),
+                                lg: 500 + getScrollbarWidth()
+                            }
+                            : getScrollbarWidth()
+
 
                         // width: `calc(100% - ${props.drawerWidth}px)`,
                         //ml: `${props.drawerWidth}px`,

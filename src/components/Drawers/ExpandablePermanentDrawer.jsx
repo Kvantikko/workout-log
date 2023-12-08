@@ -22,9 +22,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import HideAppBar from '../AppBar/HideAppBar';
 import { getScrollbarWidth } from '../../utils/ScrollBarWidth';
 import WorkoutToolbar from '../Workout/WorkoutToolbar';
-import ActiveWorkout from '../Workout/ActiveWorkout';
+import Workout from '../Workout/Workout';
 import WorkoutAppBar from '../AppBar/WorkoutAppBar';
-
+import { useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { expand, unExpand } from '../../redux/reducers/drawerReducer';
 
@@ -37,7 +37,7 @@ const openedMixin = (theme) => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
     }),
-    //overflowX: 'hidden',
+    overflow: 'hidden',
 });
 
 const closedMixin = (theme) => ({
@@ -45,13 +45,14 @@ const closedMixin = (theme) => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-    overflowX: 'hidden',
+    //overflowY: 'hidden',
     [theme.breakpoints.up('sm')]: {
         width: 400 //`calc(${theme.spacing(50)} + 1px)`,
     },
     [theme.breakpoints.up('lg')]: {
         width: 500 //`calc(${theme.spacing(50)} + 1px)`,
     },
+    overflow: 'hidden',
 });
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -83,7 +84,7 @@ const AppBar = styled(MuiAppBar, {
         // marginLeft: drawerWidth,
         //display: 'none',
         marginRight: 0,
-        width:  '100%',// `calc(100% - ${drawerWidth}px)`,
+        width: '100%',// `calc(100% - ${drawerWidth}px)`,
         [theme.breakpoints.up('sm')]: {
             width: '100%' //`calc(${theme.spacing(50)} + 1px)`,
         },
@@ -126,14 +127,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function ExpandablePermanentDrawer() {
     console.log("Rendering ExpandablePermanentDrawer");
 
-
     const theme = useTheme();
-    const dispatch = useDispatch()
+  
     const [open, setOpen] = React.useState(true)
-    console.log("OPEN ", open);
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
     const isExpanded = useSelector(state => state.drawer)
+    const isSmallScreen = useMediaQuery('(max-width:900px)')
+
+    const dispatch = useDispatch()
 
     const handleDrawerOpen = () => {
         if (open) {
@@ -152,33 +154,50 @@ export default function ExpandablePermanentDrawer() {
 
     return (
         <>
-            {isAuthenticated &&
-                < Drawer
-                    variant="permanent"
-                    anchor='right'
-                    open={open}
-                    sx={{
-                        display: isWorkoutActive ? { xs: 'none', md: 'block' } : 'none'
-                    }}
-                    PaperProps={{
-                        sx: {
-                          backgroundColor: "#1c1c1c", //theme => theme.palette.divider,
-                        }
-                      }}
-                >
-                    <DrawerHeader>
-                        {/* <IconButton onClick={handleDrawerOpen}>
+
+            {isAuthenticated && !isSmallScreen &&
+                <Box >
+
+
+
+
+                    < Drawer
+                        variant="permanent"
+                        anchor='right'
+                        open={open}
+                        sx={{
+                            display: isWorkoutActive ? { xs: 'none', md: 'block' } : 'none'
+                        }}
+                        PaperProps={{
+                            sx: {
+                                backgroundColor: "#1c1c1c", //theme => theme.palette.divider,
+                            }
+                        }}
+                    >
+
+                        <DrawerHeader>
+
+                            {/* <IconButton onClick={handleDrawerOpen}>
                             {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton> */}
-                        <AppBar open={open} >
-                            <WorkoutToolbar handleDrawerOpen={handleDrawerOpen} />
-                        </AppBar>
-                    </DrawerHeader>
+                            <AppBar open={open} >
+                                <WorkoutToolbar handleDrawerOpen={handleDrawerOpen} />
+                            </AppBar>
 
-                    <Box sx={{ paddingTop: 4, paddingX: { md: isExpanded ? 10 : 0, lg: isExpanded ? 10 : 0, xl: isExpanded ? 20 : 0 } }}>
-                        <ActiveWorkout />
-                    </Box>
-                </Drawer >
+                        </DrawerHeader>
+
+
+
+                        <Box sx={{
+                            paddingTop: 4,
+                            paddingX: { md: isExpanded ? 10 : 0, lg: isExpanded ? 10 : 0, xl: isExpanded ? 20 : 0 },
+                            overflow: 'auto'
+                        }}>
+
+                            <Workout type={"active"}/>
+                        </Box>
+                    </Drawer >
+                </Box>
             }
         </>
     )

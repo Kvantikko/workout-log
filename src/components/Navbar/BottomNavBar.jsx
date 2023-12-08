@@ -75,7 +75,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                     sx={{
                         pb: 7,
                         display: { xs: isExpanded ? 'none' : 'block', md: 'none' },
-                        zIndex: 2000
+                        //zIndex: 2000
                     }}
                     ref={ref}
 

@@ -30,8 +30,6 @@ import { toast } from "react-toastify"
 
 const Login = (props) => {
   
-
-
     const [typography, setTypography] = useState(["Login", "Don't have an account? ", "Register"])
 
     const [email, setEmail] = useState("")

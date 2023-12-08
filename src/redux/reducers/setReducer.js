@@ -69,7 +69,7 @@ const setSlice = createSlice({
         },
         editSet(state, action) {
             const setId = action.payload.setId
-          
+            console.log("REDUCER ", action.payload.changedSet)
             state[state.findIndex(set => set.id === setId)] = action.payload.changedSet
             //console.log("editSet end, state:", JSON.parse(JSON.stringify(state.exercises)))
             return state
