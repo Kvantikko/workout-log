@@ -46,9 +46,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <SwipeableEdgeDrawer />
             </div>
             {/* <Box sx={{ height: 100 }} /> */}
-       {/*      <Toolbar/> */} {/* Toolbar is for margin */}
+            <Toolbar /> {/* Toolbar is for margin */}
             <Router>
-                <App  />
+                <App />
             </Router>
 
         </ThemeProvider>

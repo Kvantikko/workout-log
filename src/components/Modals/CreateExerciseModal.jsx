@@ -44,15 +44,14 @@ const CreateExerciseModal = ({ open, onClose, confirmFunction, handleClose, conf
                 confirmButtonText={'Create'}
                 //cancelButtonText={'Keep logging'}
                 hideConfirmButton={true}
-                content={
-                    <ExerciseForm
-                        handleClose={handleClose}
-                        handleSave={saveExercise}
-                        confirmButton={confirmButton}
-                    />
-                }
-                //onSubmit={confirmFunction}
-            />
+            //onSubmit={confirmFunction}
+            >
+                <ExerciseForm
+                    handleClose={handleClose}
+                    handleSave={saveExercise}
+                    confirmButton={confirmButton}
+                />
+            </BasicModal>
         </>
     );
 }

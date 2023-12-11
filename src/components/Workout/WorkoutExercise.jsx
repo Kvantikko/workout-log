@@ -14,12 +14,12 @@ import generateId from "../../utils/generateId"
 
 
 import { deleteExercise, editExerciseNote, moveExerciseDown, moveExerciseUpp } from "../../redux/reducers/exerciseReducer"
-import DeleteExerciseFromWorkoutModal from "../Modals/DeleteExerciseFromWorkoutModal"
+import BasicModal from "../Modals/BasicModal"
 
 import { forwardRef } from 'react';
 import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer";
 
-const WorkoutExercise = forwardRef( ( {exercise, arrayEnd, arrayStart, type }, ref) => {
+const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, ref) => {
     console.log("Rendering WorkoutExercise", exercise.name, arrayEnd)
     /**
      * VOISKO NOPEUTTAA JO ID ON INDEKSI NIIN EI TARVI ETSIÄ?
@@ -30,17 +30,17 @@ const WorkoutExercise = forwardRef( ( {exercise, arrayEnd, arrayStart, type }, r
     let allSetsFromState = []
     switch (type) {
         case "active":
-            allSetsFromState = useSelector(state => state.set )
+            allSetsFromState = useSelector(state => state.sets)
             break;
         case "template":
-            allSetsFromState = useSelector(state => state.template.sets )
+            allSetsFromState = useSelector(state => state.template.sets)
             break;
         default:
             throw new Error('Component Workout must have a type prop specified!');
     }
-    
+
     const sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)     // !!!!!!!!!!!!!!!!!
-    
+
     //const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
@@ -84,8 +84,8 @@ const WorkoutExercise = forwardRef( ( {exercise, arrayEnd, arrayStart, type }, r
             default:
                 throw new Error('Component Workout must have a type prop specified!')
         }
-        
-     
+
+
     }
 
     const createSet = (warmup) => {
@@ -119,7 +119,7 @@ const WorkoutExercise = forwardRef( ( {exercise, arrayEnd, arrayStart, type }, r
                 throw new Error('Component Workout must have a type prop specified!')
         }
 
-        
+
 
         /* if (sets.length === 0) {
             console.log('WorkoutExercise: createSet(): sets length === 0...scrolling...');
@@ -210,11 +210,17 @@ const WorkoutExercise = forwardRef( ( {exercise, arrayEnd, arrayStart, type }, r
                             <DeleteIcon />
                         </IconButton>
                     </Stack>
-                    <DeleteExerciseFromWorkoutModal
-                        open={openDeleteModal}
-                        onClose={setOpenDeleteModal}
-                        confirmFunction={removeExercise}
-                    />
+                    {openDeleteModal &&
+                        <BasicModal
+                            open={openDeleteModal}
+                            onClose={() => setOpenDeleteModal(false)}
+                            title="Delete exercise?"
+                            subTitle="This action cannot be undone."
+                            confirmButtonText={'Delete'}
+                            cancelButtonText={'Cancel'}
+                            onSubmit={() => removeExercise()}
+                        />
+                    }
                 </Stack>
 
                 <TextField

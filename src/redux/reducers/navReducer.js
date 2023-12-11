@@ -20,11 +20,12 @@ const navSlice = createSlice({
     name: 'nav',
     initialState,
     reducers: {
-        pushWorkout: (state, action) => {
-            state[0] = 'workout'
+        setWorkoutPath: (state, action) => {
+            console.log("PATH REDUCER ");
+            state[0] = action.payload
             return state
         },
-        resetWorkout: (state, action) => {
+        resetWorkoutPath: (state, action) => {
             state[0] = ''
             return state
         },
@@ -49,8 +50,8 @@ const navSlice = createSlice({
 });
 
 export const {
-    pushWorkout,
-    resetWorkout,
+    setWorkoutPath,
+    resetWorkoutPath,
     pushHistory,
     resetHistory,
     setExercisesPath,

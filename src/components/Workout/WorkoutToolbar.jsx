@@ -14,18 +14,18 @@ import { clearWorkout } from "../../redux/reducers/workoutReducer";
 import { clearExercises } from "../../redux/reducers/exerciseReducer";
 import { clearSets } from "../../redux/reducers/setReducer";
 import { stopWatch } from "../../redux/reducers/stopWatchReducer";
-import { resetWorkout } from "../../redux/reducers/navReducer"
+import { resetWorkoutPath } from "../../redux/reducers/navReducer"
 
 
 import Timer from "../Clock/Timer";
 
 import { terminateTimer } from "../../redux/reducers/timerReducer";
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import BasicModal from "../Modals/BasicModal";
 
 import StopWatch from "../Clock/StopWatch";
-import CancelWorkoutModal from "../Modals/CancelWorkoutModal";
-import FinishWorkoutModal from "../Modals/FinishWorkoutModal";
+
+import SaveWorkoutModal from "../Modals/SaveWorkoutModal";
 import { ArrowDownward, Cancel, Close } from "@mui/icons-material";
 import HideAppBar from "../AppBar/HideAppBar";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
@@ -68,8 +68,9 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
         dispatch(clearExercises())
         dispatch(clearSets())
         dispatch(stopWatch())
-        dispatch(resetWorkout())
+        dispatch(resetWorkoutPath())
         dispatch(terminateTimer())
+        setOpenCancelModal(false)
     }
 
     const handleOpenFinishModal = () => {
@@ -141,19 +142,25 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
                 <IconButton aria-label="finish" color="success" onClick={handleOpenFinishModal}>
                     <CheckCircleOutlineIcon />
                 </IconButton>
-                <FinishWorkoutModal
+                <SaveWorkoutModal
                     open={openFinishModal}
                     onClose={setOpenFinishModal}
+                    type={"active"}
                 //confirmFunction={handleClear}
                 />
 
                 <IconButton aria-label="cancel" color="error" onClick={() => setOpenCancelModal(true)}>
                     {!isSmallScreen ? <NotInterestedIcon /> : <Close></Close>}
                 </IconButton>
-                <CancelWorkoutModal
+
+                <BasicModal
                     open={openCancelModal}
-                    onClose={setOpenCancelModal}
-                    confirmFunction={handleClear}
+                    onClose={() => setOpenCancelModal(false)}
+                    title="Discard workout?"
+                    subTitle="Are you sure you want to discard ongoing workout?"
+                    confirmButtonText={'Discard'}
+                    cancelButtonText={'Keep logging'}
+                    onSubmit={() => handleClear()}
                 />
 
             </Stack>

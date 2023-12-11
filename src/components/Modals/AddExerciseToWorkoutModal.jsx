@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from 'react-redux'
 
 
 import { Box, Button, TextField, Stack, Modal, Typography, FormControl, InputLabel, Select, MenuItem, Fab } from '@mui/material'
-import FilteredExercises from '../Exercises/FilteredExercises'
-import Exercises from '../Exercises/Exercises'
+import FilteredExercises from '../Lists/FilteredExercises'
+import Exercises from '../../pages/Exercises/Exercises'
 
 import { addExercises } from '../../redux/reducers/exerciseReducer'
 import generateId from '../../utils/generateId'
@@ -18,7 +18,7 @@ import { addExerciseToWorkoutStyle } from './Helper'
 import WarningIcon from '@mui/icons-material/Warning'
 import BasicModal from './BasicModal'
 import { toast } from 'react-toastify'
-import SearchInput from '../Exercises/SearchInput'
+import SearchInput from '../Inputs/SearchInput'
 import exercises from '../../services/exercises'
 import { Cancel, Close, Done } from '@mui/icons-material'
 

@@ -1,14 +1,11 @@
 import CreateExerciseModal from './CreateExerciseModal'
 import EditExerciseModal from './EditExerciseModal'
-import DeleteExerciseModal from './DeleteExerciseModal'
-import CancelWorkoutModal from './CancelWorkoutModal'
-//import SaveWorkoutModal from './FinishWorkoutModal'
+
+
 import PickDateModal from './PickDateModal'
 import ConfirmCopyModal from './CopyWorkoutModal'
-import DeleteUserModal from './DeleteUserModal'
 import EditUserModal from './EditUserModal'
-import LogoutModal from './LogoutModal'
-import DeleteWorkoutModal from './DeleteWorkoutModal'
+
 import AddExerciseToWorkoutModal from './AddExerciseToWorkoutModal'
 
 import { useMediaQuery } from '@mui/material'
@@ -18,14 +15,12 @@ export const renderModalChildren = (modalType, confirmFunction, confirmButton, o
     switch (modalType) {
         case "editUserModal":
             return <EditUserModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
-        case "deleteExercise":
-            return <DeleteExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
+
         case "editExercise":
             return <EditExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} exercise={object} />
         case "createExercise":
             return <CreateExerciseModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
-        case "cancelWorkout":
-            return <CancelWorkoutModal confirmFunction={confirmFunction} confirmButton={confirmButton} />
+ 
     /*     case "saveWorkout":
             return <SaveWorkoutModal confirmFunction={confirmFunction} confirmButton={confirmButton} /> */
         case "pickDateModal":
@@ -42,14 +37,9 @@ export const renderModalChildren = (modalType, confirmFunction, confirmButton, o
 export const renderModalText = (modalType) => {
 
     switch (modalType) {
-        case "logoutModal":
-            return <LogoutModal />
-        case "deleteUserModal":
-            return <DeleteUserModal />
-        case "deleteWorkoutModal":
-            return <DeleteWorkoutModal />
-        case "deleteExercise":
-            return <DeleteExerciseModal />
+
+  
+       
         case "editExercise":
             return <EditExerciseModal />
         case "createExercise":

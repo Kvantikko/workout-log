@@ -10,19 +10,27 @@ import BasicModal from "./BasicModal"
 
 import { useDispatch, useSelector } from "react-redux"
 import { clearTemplate } from "../../redux/reducers/templateReducer"
+import SaveWorkoutModal from "./SaveWorkoutModal"
+import { toast } from "react-toastify"
 
 
 const CreateTemplateModal = ({ open, onClose }) => {
 
     const isExercises = useSelector(state => state.template.exercises).length !== 0
     const [openWarningModal, setOpenWarningModal] = useState(false)
+    const [openSaveModal, setOpenSaveModal] = useState(false)
     const isSmallScreen = useMediaQuery('(max-width:600px)')
 
     const dispatch = useDispatch()
 
     const handleSave = () => {
-        onClose()
-        dispatch(clearTemplate())
+        if (!isExercises) {
+            toast.warning("Add atleast one exercise before saving!")
+        } else {
+            setOpenSaveModal(true)
+        }
+
+
     }
 
     const handleClose = () => {
@@ -31,6 +39,12 @@ const CreateTemplateModal = ({ open, onClose }) => {
         } else {
             onClose()
         }
+    }
+
+    const handle = () => {
+        onClose(false)
+        setOpenSaveModal(false)
+        dispatch(clearTemplate())
     }
 
     return (
@@ -66,23 +80,24 @@ const CreateTemplateModal = ({ open, onClose }) => {
                     onSubmit={handleSave}
                     title={"Create workout template"}
                     confirmButtonText={"Save"}
-                    content={
-                        <Box sx={{ overflow: 'auto', height: '70vh', /* width: '60vw' */ }} >
-                            <Workout type={'template'} />
-                        </Box>
-                    }
                 >
-
-
+                    <Box sx={{ overflow: 'auto', height: '70vh', /* width: '60vw' */ }} >
+                        <Workout type={'template'} />
+                    </Box>
                 </BasicModal>
             }
             <BasicModal
                 open={openWarningModal}
-                onClose={setOpenWarningModal}
+                onClose={() => setOpenWarningModal(false)}
                 title={"Discard template?"}
                 subTitle={"Are you sure you want to discard the template without saving it?"}
                 confirmButtonText={"Discard"}
-                onSubmit={handleSave}
+                onSubmit={() => handle()}
+            />
+            <SaveWorkoutModal
+                open={openSaveModal}
+                onClose={() => handle()}
+                type={"template"}
             />
         </>
 

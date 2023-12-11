@@ -1,68 +1,48 @@
 import { useState } from 'react'
-import { Box, Button, MenuItem, Modal, Stack } from '@mui/material'
-import { style, renderModalText, renderModalChildren } from './Helper'
+import { Box, Button, MenuItem, Modal, Typography, Stack } from '@mui/material'
+import { useMediaQuery } from '@mui/material'
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100vw',
+    height: '100wh',
+    maxHeight: '100%',
+    maxWidth: 600,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: { xs: 2, sm: 3 },
+    //overflow: 'scroll'
+    display: 'flex',
+    flexDirection: 'column'
+}
 
 const FormModal = ({
-    showModal,
-    closeFromParent,
-    hideOpenButton,
-    menuItem,
-    color,
-    openButton,
-    closeButton,
-    confirmButton,
+    open,
+    onClose,
+    onSubmit,
+    children,
+    hideConfirmButton,
+    title,
+    confirmButtonText,
+    cancelButtonText,
+    confirmButtonColor,
     modalType,
     confirmFunction,
     object,
-    handleMenuClose
-}) => {
-    const [open, setOpen] = useState(false)
+    handleMenuClose }) => {
 
-    const handleClose = () => {
-        //console.log("closing modal");
-        if (menuItem) {
-            console.log("menuItem true ", menuItem )
-            handleMenuClose()
-        }
-        showModal ? closeFromParent(false) : setOpen(false)
-    }
-    const handleOpen = (event) => {
-        //console.log("opening modal");
-        event.stopPropagation()
-        setOpen(true)
-    }
+    const isSmallScreen = useMediaQuery('(max-width:900px)')
 
-    const renderOpenButton = () => {
-        if (hideOpenButton) {
-            return null
-        }
-        return (
-            <>
-                {menuItem ?
-                    <MenuItem onClick={(event) => handleOpen(event)}>
-                        {openButton ? openButton : <div>Open modal</div>}
-                    </MenuItem>
-                    :
-                    <Button
-                        variant="contained"
-                        color={color}
-                        fullWidth
-                        onClick={(event) => handleOpen(event)}
-                        //sx={{ margin: 32 }}
-                    >
-                        {openButton ? openButton : <div>Open modal</div>}
-                    </Button>
-                }
-            </>
-        )
-    }
 
     return (
         <div>
-            {renderOpenButton()}
             <Modal
-                open={showModal ? showModal : open}
-                onClose={handleClose}
+                open={open}
+                onClose={onClose}
                 BackdropProps={{
                     timeout: 500,
                     sx: {
@@ -71,16 +51,17 @@ const FormModal = ({
                 }}
             >
                 <Box sx={style}>
-                    <Stack spacing={2}>
+                    <Typography
+                        variant="h5"
+                        component="h2"
+                        sx={{ mb: 4 }}
+                        textAlign={'center'}
+                    >
+                        {title}
+                    </Typography>
 
-                        {renderModalChildren(modalType, confirmFunction, confirmButton, object)}
+                    {children}
 
-                        <Button
-                            variant="outlined"
-                            onClick={handleClose}>
-                            {closeButton ? closeButton : <div>Cancel</div>}
-                        </Button>
-                    </Stack>
                 </Box>
             </Modal>
         </div>

@@ -7,8 +7,8 @@ import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { editSet, deleteSet } from "../../redux/reducers/setReducer"
-import DeleteSetModal from "../Modals/DeleteSetModal";
-import SetTextField from "./SetTextfield";
+import SetTextField from "./SetTextfield"
+import BasicModal from "../Modals/BasicModal"
 import { deleteSetFromTemplate, editSetFromTemplate } from "../../redux/reducers/templateReducer";
 
 const SetRow = ({ set, number, index, type }) => {
@@ -19,12 +19,17 @@ const SetRow = ({ set, number, index, type }) => {
 
     const dispatch = useDispatch()
 
-    const handleRemove = () => {
+    const handleRemoveClick = () => {
+
         if (set.done) {
             setOpenDeleteModal(true)
             return
         }
+        removeSet()
+    }
 
+    const removeSet = () => {
+        console.log("delete set func, type: ", type);
         switch (type) {
             case "active":
                 dispatch(deleteSet(set.id))
@@ -35,8 +40,6 @@ const SetRow = ({ set, number, index, type }) => {
             default:
                 throw new Error('Component Workout must have a type prop specified!')
         }
-
-
     }
 
     const handleDone = () => {
@@ -105,17 +108,21 @@ const SetRow = ({ set, number, index, type }) => {
             <Button
                 variant='text'
                 color="warning"
-                onClick={handleRemove}
+                onClick={handleRemoveClick}
                 sx={{ minWidth: 0.1 }}
             >
                 <CloseIcon />
             </Button>
             {/* Prevents modal from rendering before it is opened     */}
             {openDeleteModal &&
-                <DeleteSetModal
+                <BasicModal
                     open={openDeleteModal}
-                    onClose={setOpenDeleteModal}
-                    confirmFunction={removeSet}
+                    onClose={() => setOpenDeleteModal(false)}
+                    title="Delete set?"
+                    subTitle="The set is marked as done. Are you sure you want to delete it?"
+                    confirmButtonText={'Delete'}
+                    cancelButtonText={'Cancel'}
+                    onSubmit={() => removeSet()}
                 />
             }
             {type === "active" &&

@@ -6,6 +6,7 @@ const drawerSlice = createSlice({
     reducers: {
         expand: (state, action) => {
             state = true
+            
             return state
         },
         unExpand: (state, action) => {

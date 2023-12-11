@@ -101,7 +101,7 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                     workout log
                 </Typography>
                 <List sx={{ marginY: { xs: 'auto', lg:  isWorkoutActive ? 'auto': 0, xl: 0 } }} >
-                    {['Home', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
+                    {['Workout', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
                         <ListItem key={text} disablePadding >
                             <ListItemButton
                                 component={ReactRouterLink}

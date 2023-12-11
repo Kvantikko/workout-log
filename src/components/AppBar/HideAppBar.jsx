@@ -20,12 +20,10 @@ import { getScrollbarWidth } from '../../utils/ScrollBarWidth';
 
 export const HideOnScroll = (props) => {
     const { children, window } = props;
-    // console.log("hinde", window);
-    // Note that you normally won't need to set the window ref as useScrollTrigger
-    // will default to window.
-    // This is only being set here because the demo is in an iframe.
-    const trigger = useScrollTrigger({
-        target: document.getElementById('main') ? document.getElementById('main') : undefined
+    const isSmallScreen = useMediaQuery('(min-width:900px)');
+
+    const trigger =  useScrollTrigger({  // isSmallScreen ? null :
+        target: !isSmallScreen && document.getElementById('main') ? document.getElementById('main') : undefined
         //target: window ? window() : undefined,
     })
 
@@ -70,9 +68,9 @@ const HideAppBar = (props) => {
                         width: {
                             xs: '100%',
                             sm: '100%',
-                            md: workoutStarted ? `calc(100% - ${75 + 400+getScrollbarWidth()}px)` : `calc(100% - ${75+getScrollbarWidth()}px)`,
-                            lg: workoutStarted ? `calc(100% - ${75 + 500+getScrollbarWidth()}px)` : `calc(100% - ${225+getScrollbarWidth()}px)`,
-                            xl: workoutStarted ? `calc(100% - ${225 + 500+getScrollbarWidth()}px)` : `calc(100% - ${225+getScrollbarWidth()}px)`
+                            md: workoutStarted ? `calc(100% - ${75 + 400}px)` : `calc(100% - ${75}px)`,
+                            lg: workoutStarted ? `calc(100% - ${75 + 500}px)` : `calc(100% - ${225}px)`,
+                            xl: workoutStarted ? `calc(100% - ${225 + 500}px)` : `calc(100% - ${225}px)`
                         },
 
 
@@ -80,12 +78,11 @@ const HideAppBar = (props) => {
                         right: workoutStarted
                             ?
                             {
-                                xs: getScrollbarWidth(),
-                                sm: getScrollbarWidth(),
-                                md: 400 + getScrollbarWidth(),
-                                lg: 500 + getScrollbarWidth()
+                            
+                                md: 400,
+                                lg: 500
                             }
-                            : getScrollbarWidth()
+                            : 0
 
 
                         // width: `calc(100% - ${props.drawerWidth}px)`,

@@ -53,7 +53,7 @@ const Workout = ({ type }) => {
             const exercise = {
                 id: generateId(),
                 name: e.name,
-                createdAt: null, //new Date().toJSON(), !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                createdAt: new Date().toJSON(), // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 note: "",
             }
             return exercise

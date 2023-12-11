@@ -1,6 +1,6 @@
 import { Box, Typography, Modal, Button } from '@mui/material'
-
 import { useMediaQuery } from '@mui/material'
+
 
 const style = {
     position: 'absolute',
@@ -10,32 +10,36 @@ const style = {
     width: '100vw',
     height: '100wh',
     maxHeight: '100%',
-    maxWidth: 1000,
+    maxWidth: 600,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    //p: { xs: 2, sm: 4},
-
+    p: { xs: 2, sm: 3 },
     //overflow: 'scroll'
-    //display: 'flex',
-    //flexDirection: 'column'
-};
+    display: 'flex',
+    flexDirection: 'column'
+}
 
-const BasicModal = ({ open, onClose, title, subTitle, confirmButtonText, cancelButtonText, content, onSubmit, hideConfirmButton }) => {
-
-    const isSmallScreen = useMediaQuery('(max-width:900px)')
+const BasicModal = ({
+    children,
+    open,
+    onClose,
+    onSubmit,
+    title,
+    subTitle,
+    confirmButtonText,
+    confirmButtonColor,
+    cancelButtonText,
+    hideConfirmButton }) => {
 
     console.log("Rendering BasicModal.jsx ");
 
-    const handleSubmit = () => {
-        onSubmit()
-        onClose()
-    }
+    const isSmallScreen = useMediaQuery('(max-width:900px)')
 
     return (
         <Modal
             open={open}
-            onClose={() => onClose()}
+            onClose={onClose} /* pitäisko tää hoitaa niin että ylemmällä tasolla kutsutaan funktiota jo ja tässä on vaan ref */
             BackdropProps={{
                 timeout: 500,
                 sx: {
@@ -52,38 +56,42 @@ const BasicModal = ({ open, onClose, title, subTitle, confirmButtonText, cancelB
                 >
                     {title}
                 </Typography>
-                <Typography sx={{ mb: 2 }}>
+                <Typography sx={{ mb: 4 }}>
                     {subTitle}
                 </Typography>
-                {content}
+                {children}
                 {isSmallScreen &&
                     <Box >
                         {!hideConfirmButton && <Button
                             variant="contained"
+                            color={confirmButtonColor ? confirmButtonColor : 'info'}
                             fullWidth
-                            onClick={handleSubmit}
+                            onClick={onSubmit}
                             sx={{ marginY: 1 }}
                         >
-                            {confirmButtonText ? confirmButtonText : <div>Ok</div>}
+                            {confirmButtonText ? confirmButtonText : <div>Yes</div>}
                         </Button>}
-                        <Button fullWidth onClick={() => onClose()}>
+                        <Button fullWidth onClick={onClose} variant='outlined' >
                             {cancelButtonText ? cancelButtonText : <div>Cancel</div>}
                         </Button>
                     </Box>
                 }
                 {!isSmallScreen &&
-                    <Box display={'flex'} >
-                        <Button fullWidth onClick={() => onClose()}>
+                    <Box display={'flex'} flexDirection={'row'} gap={2} justifyContent={'right'} >
+                        <Box width={300} />
+                        {!hideConfirmButton &&
+                            <Button
+                                variant="contained"
+                                color={confirmButtonColor ? confirmButtonColor : 'info'}
+                                onClick={onSubmit}
+                                fullWidth
+                            // sx={{ marginY: 1 }}
+                            >
+                                {confirmButtonText ? confirmButtonText : <div>Yes</div>}
+                            </Button>}
+                        <Button fullWidth onClick={onClose} variant='outlined'>
                             {cancelButtonText ? cancelButtonText : <div>Cancel</div>}
                         </Button>
-                        {!hideConfirmButton && <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={handleSubmit}
-                            sx={{ marginY: 1 }}
-                        >
-                            {confirmButtonText ? confirmButtonText : <div>Ok</div>}
-                        </Button>}
 
                     </Box>
                 }

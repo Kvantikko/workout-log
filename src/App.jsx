@@ -14,20 +14,19 @@ import { createPortal } from 'react-dom';
 
 import { useSelector, useDispatch } from 'react-redux'
 
-import Workout from './components/Home/Home'
-import Exercises from './components/Exercises/Exercises'
-import Exercise from './components/Exercise/Exercise'
-import History from './components/History/History'
-import Profile from './components/Profile/Profile'
-import Login from './components/Login/Login'
-import HistoryId from './components/HistoryId/HistoryId'
+import Workout from './pages/Workout/Home';
+import Exercises from './pages/Exercises/Exercises'
+import Exercise from './pages/Exercise/Exercise'
+import History from './pages/History/History'
+import Profile from './pages/Profile/Profile'
+import Login from './pages/Login/Login';
+import HistoryId from './pages/HistoryWorkout/HistoryId'
 
 import ProtectedRoute from './components/Router/ProtectedRoute';
 
 
 
 
-import { jwtDecode } from 'jwt-decode';
 
 import {
     Routes,
@@ -47,7 +46,7 @@ import BottomNavBar from './components/Navbar/BottomNavBar'
 import HideAppBar from './components/AppBar/HideAppBar'
 
 import { setUser } from "./redux/reducers/userReducer"
-import Measurements from './components/Measurements/Measurements';
+import Measurements from './pages/Measure/Measurements';
 
 import { logout } from './redux/reducers/userReducer';
 
@@ -61,7 +60,7 @@ import { AddBoxOutlined } from '@mui/icons-material';
 
 import { CssBaseline } from '@mui/material';
 
-import ActiveWorkout from './components/Workout/IndexWorkout';
+import ActiveWorkout from './components/Workout/WorkoutContainer';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer';
@@ -69,6 +68,8 @@ import WorkoutToolbar from './components/Workout/WorkoutToolbar';
 import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentDrawer';
 import LoginProtect from './components/Router/LoginProtect';
 import { setTemplates } from './redux/reducers/templateLibraryReducer';
+
+import Template from './pages/Template/Template';
 
 /* const theme = createTheme({
     palette: {
@@ -132,6 +133,12 @@ const App = () => {
     //const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const user = useSelector(state => state.user)
     const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
+
+    const templates = useSelector(state => state.templates)
+    const matchTemplate = useMatch('/templates/:id')
+    const template = matchTemplate
+        ? templates.find(template => template.id === Number(matchTemplate.params.id))
+        : null
 
     const exercises = useSelector(state => state.exerciseLibrary)
     const match = useMatch('/exercises/:id')
@@ -205,7 +212,7 @@ const App = () => {
         if (isAuthenticated) {
             //console.log("EFFECT EXERCISES AUTH TRUE");
             templateService
-                .getAllUserTemplates
+                .getAllUserTemplates(user.email)
                 .then((response) => {
                     const templates = response
                     // console.log("EFFECT workouts response: ", workouts);
@@ -231,6 +238,7 @@ const App = () => {
             exerciseService.setToken(token)
             workoutService.setToken(token)
             userService.setToken(token)
+            templateService.setToken(token)
             //Service.setToken(token)
             navigate('/')
         }
@@ -297,7 +305,7 @@ const App = () => {
                 </Drawer>  */}
 
 
-
+               
 
                 <Box
                     component="main" id='main'
@@ -325,6 +333,12 @@ const App = () => {
                                     //style={{ margin: '110' }}
                                     drawerWidth={drawerWidth}
                                 />
+                            </ProtectedRoute>}
+                        />
+                        <Route
+                            path="/templates/:id"
+                            element={<ProtectedRoute>
+                                <Template template={template} drawerWidth={drawerWidth} />
                             </ProtectedRoute>}
                         />
                         <Route
