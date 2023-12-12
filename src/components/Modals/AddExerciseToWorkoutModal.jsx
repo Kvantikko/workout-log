@@ -12,7 +12,7 @@ import Exercises from '../../pages/Exercises/Exercises'
 import { addExercises } from '../../redux/reducers/exerciseReducer'
 import generateId from '../../utils/generateId'
 
-import { addExerciseToWorkoutStyle } from './Helper'
+
 
 
 import WarningIcon from '@mui/icons-material/Warning'
@@ -21,6 +21,25 @@ import { toast } from 'react-toastify'
 import SearchInput from '../Inputs/SearchInput'
 import exercises from '../../services/exercises'
 import { Cancel, Close, Done } from '@mui/icons-material'
+
+export const addExerciseToWorkoutStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: { xs: '100vw', sm: '70vw' },
+    height: { xs: '100vh', sm: '90%' },
+    //maxHeight: '100%',
+   // maxWidth: 550,
+    bgcolor: 'background.paper',
+    //border: '2px solid #000',
+    boxShadow: 24,
+    //p: { xs: 2, sm: 4},
+
+    //overflow: 'scroll'
+    //display: 'flex',
+    //flexDirection: 'column'
+}
 
 const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
     console.log("Rendering AddExerciseToWorkoutModal");
@@ -164,7 +183,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
             BackdropProps={{
                 timeout: 500,
                 sx: {
-                    backdropFilter: 'blur(4px)'
+                    backdropFilter: 'blur(3px)'
                 },
             }}
         >

@@ -36,7 +36,7 @@ const FullScreenMobileModal = ({ children, open, onClose, content, onSubmit }) =
             BackdropProps={{
                 timeout: 500,
                 sx: {
-                    backdropFilter: 'blur(4px)'
+                    backdropFilter: 'blur(3px)'
                 },
             }}
         >

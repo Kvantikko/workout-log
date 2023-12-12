@@ -12,7 +12,6 @@ import HideAppBar from "../AppBar/HideAppBar"
 import WorkoutToolbar from "./WorkoutToolbar"
 import FormModal from "../Modals/FormModal"
 import AddIcon from '@mui/icons-material/Add';
-import ConfirmationModal from "../Modals/ConfirmationModal"
 import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
 import FlipMove from "react-flip-move";
 import Defer from "../Defer/Defer"

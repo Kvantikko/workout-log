@@ -39,16 +39,17 @@ const createNew = async (workoutTemplate) => {
     return response
 }
 
-const update = async (id, name, muscle ) => {
-    /* const config = {
+const update = async (id, template) => {
+    const config = {
         headers: {
             Authorization: token
         }
     }
-    const obj = { name: name, muscle: muscle } // { name, muscle } ?
+    const obj = template
     console.log('sending this to the server: ', obj);
     const response = await axios.put(`${baseUrl}/${id}`, obj, config)
-    return response.data */
+    console.log("vastaus: ", response.data)
+    return response.data
 }
 
 const remove = (id) => {

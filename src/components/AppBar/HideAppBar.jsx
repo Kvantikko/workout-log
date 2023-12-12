@@ -54,7 +54,7 @@ const HideAppBar = (props) => {
         }
     }
 
-    console.log("SCROLLBAR WIDTH ", getScrollbarWidth())
+    //console.log("SCROLLBAR WIDTH ", getScrollbarWidth())
 
 
     return (

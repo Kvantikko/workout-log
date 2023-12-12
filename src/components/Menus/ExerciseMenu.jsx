@@ -11,19 +11,18 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useDispatch } from 'react-redux';
 import { openDeleteModal, openEditModal, closeModal } from '../../redux/reducers/modalReducer';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-
-import ConfirmationModal from '../Modals/ConfirmationModal';
+import ExerciseForm from '../Forms/ExerciseForm';
 import { toast } from 'react-toastify';
 
 import exerciseService from '../../services/exercises'
 import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer';
 import FormModal from '../Modals/FormModal';
-import ModalRoot from '../Modals/ModalRoot'
 import { useNavigate } from 'react-router-dom';
 import BasicMenu from './BasicMenu';
 import BasicModal from '../Modals/BasicModal';
+import { updateExercise } from '../../redux/reducers/exerciseLibraryReducer';
 
-const ExercisesMenu = ({ exercise, showDateRange }) => {
+const ExerciseMenu = ({ exercise, showDateRange }) => {
 
 
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -42,6 +41,19 @@ const ExercisesMenu = ({ exercise, showDateRange }) => {
         setOpenDelete(false)
         setOpenEdit(false)
         setAnchorEl(null)
+    }
+
+    const editExercise = async (exerciseName, targetMuscle) => {
+        try {
+            const updatedExercise = await exerciseService.update(exercise.id, exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
+            console.log('servu palautti: ', updatedExercise, ' dispatchataan storeen')
+            dispatch(updateExercise(updatedExercise))
+            toast.success('Exercsise edited!')
+            handleClose()
+        } catch (err) {
+            toast.error(err.response)
+        }
+
     }
 
     const deleteExercise = async () => { // infinte request spam servulle jos deleteExercise ja removeExercise sama nimi
@@ -69,23 +81,12 @@ const ExercisesMenu = ({ exercise, showDateRange }) => {
             />
             {openEdit &&
                 <FormModal
-                    onClick={() => {
-                        console.log("clickity click");
-                    }}
-                    menuItem={true}
-                    modalType='editExercise'
-                    color='error'
-                    openButton={
-                        <Stack direction="row" spacing={1}>
-                            <EditIcon color='info' />
-                            <div>Edit</div>
-                        </Stack>
-                    }
-                    confirmButton='Save'
-                    confirmFunction={deleteExercise}
-                    object={exercise}
-                    handleMenuClose={handleClose}
-                />
+                    open={openEdit}
+                    onClose={() => setOpenEdit(false)}
+                    title="Edit exercise"
+                >
+                    <ExerciseForm onSubmit={editExercise} onCancel={() => setOpenEdit(false)} exercise={exercise} />
+                </FormModal>
             }
             {openDelete &&
                 <BasicModal
@@ -103,4 +104,4 @@ const ExercisesMenu = ({ exercise, showDateRange }) => {
     );
 }
 
-export default ExercisesMenu
+export default ExerciseMenu

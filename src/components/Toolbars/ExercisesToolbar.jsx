@@ -5,23 +5,24 @@ import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import ModalRoot from '../Modals/ModalRoot';
 import { useState, useRef, useEffect } from 'react';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-
+import { createExercise } from '../../redux/reducers/exerciseLibraryReducer';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded'
 import CancelIcon from '@mui/icons-material/Cancel'
 import ClearIcon from '@mui/icons-material/Clear';
 import FormModal from '../Modals/FormModal';
+import ExerciseForm from '../Forms/ExerciseForm';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { useDispatch, useSelector } from 'react-redux';
-
+import { toast } from 'react-toastify';
 import { setSearch } from '../../redux/reducers/searchReducer';
-import CreateExerciseModal from '../Modals/CreateExerciseModal';
+
+import exerciseService from "../../services/exercises"
 
 
 
@@ -76,6 +77,19 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                 showFullWidth: showFullWidthSearch
             })
         )
+    }
+
+    const saveExercise = async (exerciseName, targetMuscle) => {
+        try {
+            const newExercise = await exerciseService.createNew(exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
+            console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
+            dispatch(createExercise(newExercise))
+            toast.success('New exercsise created!')
+            setOpenAddModal(false)
+        } catch (err) {
+            toast.error(err.response)
+        }
+
     }
 
     const handleClear = (event) => {
@@ -169,12 +183,15 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                         <IconButton aria-label="add" sx={{ color: '#90CAF9' }} onClick={() => setOpenAddModal(true)} >
                             <AddIcon />
                         </IconButton>
-                        <CreateExerciseModal
-                            open={openAddModal}
-                            onClose={setOpenAddModal}
-                        />
-
-
+                        {openAddModal &&
+                            <FormModal
+                                open={openAddModal}
+                                onClose={() => setOpenAddModal(false)}
+                                title="Create exercise"
+                            >
+                                <ExerciseForm onSubmit={saveExercise} onCancel={() => setOpenAddModal(false)} />
+                            </FormModal>
+                        }
                     </Stack>
                 </>
             }
@@ -200,10 +217,15 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
 
 
                         }
-                        <CreateExerciseModal
-                            open={openAddModal}
-                            onClose={setOpenAddModal}
-                        />
+                        {openAddModal &&
+                            <FormModal
+                                open={openAddModal}
+                                onClose={() => setOpenAddModal(false)}
+                                title="Create exercise"
+                            >
+                                <ExerciseForm onSubmit={saveExercise} onCancel={() => setOpenAddModal(false)} />
+                            </FormModal>
+                        }
                     </Stack>
                 </>
             }

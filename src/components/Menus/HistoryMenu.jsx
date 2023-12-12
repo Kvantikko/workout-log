@@ -14,16 +14,15 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import BasicModal from '../Modals/BasicModal';
 
-import ConfirmationModal from '../Modals/ConfirmationModal';
 import { toast } from 'react-toastify';
 
 import workoutService from '../../services/workouts'
 import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer';
-import FormModal from '../Modals/FormModal';
-import ModalRoot from '../Modals/ModalRoot'
+
 import { useNavigate } from 'react-router-dom';
 
 import { removeFromHistory } from '../../redux/reducers/historyReducer';
+import CreateEditWorkoutModal from '../Modals/CreateEditWorkoutModal';
 
 const HistoryMenu = ({ workout }) => {
     const navigate = useNavigate()
@@ -41,15 +40,9 @@ const HistoryMenu = ({ workout }) => {
 
     const handleClose = () => {
         setOpenDelete(false)
+        setOpenEdit(false)
         setAnchorEl(null)
     }
-
-    const handleMenuClick = (event, modalType) => {
-        //event.stopPropagation()
-        handleClose()
-    }
-
-
 
     const deleteWorkout = async () => { // infinte request spam servulle jos deleteExercise ja removeExercise sama nimi
         try {
@@ -107,6 +100,7 @@ const HistoryMenu = ({ workout }) => {
                 cancelButtonText='Cancel'
                 onSubmit={() => deleteWorkout()}
             />
+            <CreateEditWorkoutModal open={openEdit} onClose={() => handleClose()} title="Edit workout" />
         </Box>
     )
 }

@@ -14,18 +14,19 @@ import { useDispatch } from 'react-redux';
 import { openDeleteModal, openEditModal, closeModal } from '../../redux/reducers/modalReducer';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
-import ConfirmationModal from '../Modals/ConfirmationModal';
 import { toast } from 'react-toastify';
 
 import templateService from '../../services/templates'
 import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer';
 import FormModal from '../Modals/FormModal';
-import ModalRoot from '../Modals/ModalRoot'
+
 import { useNavigate } from 'react-router-dom';
+import { addExercisesToTemplate, addSetsToTemplate, clearTemplate, setTemplateName } from '../../redux/reducers/templateReducer';
 
 import { removeFromHistory } from '../../redux/reducers/historyReducer';
 import { removeTemplate } from '../../redux/reducers/templateLibraryReducer';
 import BasicMenu from './BasicMenu';
+import CreateEditWorkoutModal from '../Modals/CreateEditWorkoutModal';
 
 const TemplateMenu = ({ workout }) => {
 
@@ -42,6 +43,7 @@ const TemplateMenu = ({ workout }) => {
     }
 
     const handleClose = () => {
+        dispatch(clearTemplate())
         setOpenDelete(false)
         setOpenEdit(false)
         setAnchorEl(null)
@@ -59,6 +61,41 @@ const TemplateMenu = ({ workout }) => {
         }
     }
 
+    const copy = () => {
+        console.log("COPY");
+
+        dispatch(setTemplateName(workout.title))
+        dispatch(addExercisesToTemplate(workout.workoutExercises))
+        let setsWithExerciseId = []
+        //let sets = []
+        workout.workoutExercises.forEach(exercise => {
+            exercise.sets.forEach(set => {
+                const setWithExerciseId = { ...set, exerciseId: exercise.id }
+                setsWithExerciseId.push(setWithExerciseId)
+                //sets.push(set)
+            })
+        })
+        dispatch(addSetsToTemplate(setsWithExerciseId))
+
+        //dispatch(copyWorkout({ title: template.title, exercises: template.workoutExercises }))
+        // dispatch(copyExercises(template.workoutExercises))
+        // this is done bc in the workout object coming from the server, sets dont have a reference field of exerciseId
+        /*  let setsWithExerciseId = []
+         template.workoutExercises.forEach(exercise => {
+             exercise.sets.forEach(set => {
+                 const setWithExerciseId = { ...set, exerciseId: exercise.id }
+                 setsWithExerciseId.push(setWithExerciseId)
+             })
+         }) */
+        // dispatch(copySets(setsWithExerciseId))
+        //setOpenEdit(false)
+    }
+
+    const handleEdit = () => {
+        copy()
+        setOpenEdit(true)
+    }
+
     return (
         <>
             <BasicMenu
@@ -67,7 +104,7 @@ const TemplateMenu = ({ workout }) => {
                 handleOpen={handleOpen}
                 handleClose={() => handleClose()}
                 openDelete={() => setOpenDelete(true)}
-                openEdit={() => setOpenEdit(true)}
+                openEdit={() => handleEdit()}
                 object={workout}
             />
             <BasicModal
@@ -78,6 +115,14 @@ const TemplateMenu = ({ workout }) => {
                 confirmButtonText='Delete'
                 cancelButtonText='Cancel'
                 onSubmit={() => deleteTemplate()}
+            />
+            <CreateEditWorkoutModal
+                open={openEdit}
+                onClose={handleClose}
+                title="Edit template"
+                disableWarning={true}
+                workout={workout}
+                editVipu={true}
             />
         </>
     );

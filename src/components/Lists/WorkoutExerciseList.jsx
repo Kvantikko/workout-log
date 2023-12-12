@@ -27,7 +27,7 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
     return (
         <Stack spacing={3} >
             {workoutExercises.map((exercise, text, index) => (
-                <div>
+                <div key={exercise.id} >
                     <Stack key={exercise.id} sx={{/* backgroundColor: "green", */ width: 1 }}>
                         {showDate &&
                             <Typography variant="h6" /* color={'text.secondary'} */ noWrap /* textAlign={'center'} */ >

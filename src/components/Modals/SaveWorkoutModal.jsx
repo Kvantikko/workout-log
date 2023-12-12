@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { createExercise, removeExercise } from '../../redux/reducers/exerciseLibraryReducer'
+import { createExercise, removeExercise, updateExercise } from '../../redux/reducers/exerciseLibraryReducer'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
@@ -22,40 +22,41 @@ import { addToHistory } from '../../redux/reducers/historyReducer'
 import { toast } from 'react-toastify'
 import workoutService from '../../services/workouts'
 import templateService from '../../services/templates'
-import { createTemplate, } from '../../redux/reducers/templateLibraryReducer'
+import { createTemplate, updateTemplate, } from '../../redux/reducers/templateLibraryReducer'
 import { clearTemplate, } from '../../redux/reducers/templateReducer'
 import { resetWorkoutPath } from '../../redux/reducers/navReducer'
 //import { useNavigate } from 'react-router-dom'
 
 
-const SaveWorkoutModal = ({ open, onClose, type }) => {
+const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, workout }) => {
     console.log("Rendering FinishWorkoutModal");
     //const [open, setOpen] = useState(false)
     //const workout = useSelector(state => state.workout)
-    const workoutName = useSelector(state => state.workout.workoutTitle)
 
     const email = useSelector(state => state.user.email)
-
+    let workoutName
     let exercises
     let sets
+    let modalTitle
     switch (type) {
         case "active":
+            workoutName = useSelector(state => state.workout.workoutTitle ? state.workout.workoutTitle : "")
             exercises = useSelector(state => state.exercises)
             sets = useSelector(state => state.sets)
+            modalTitle = "Finish workout?"
             break;
         case "template":
+            workoutName = useSelector(state => state.template.templateName)
             exercises = useSelector(state => state.template.exercises)
             sets = useSelector(state => state.template.sets)
+            modalTitle = "Save template?"
             break;
         default:
             throw new Error('Component must have a type prop specified!');
     }
 
-
-
     const [input, setInput] = useState(workoutName)
     const [inputError, setInputError] = useState('')
-
 
     const dispatch = useDispatch()
     // const navigate = useNavigate()
@@ -82,30 +83,6 @@ const SaveWorkoutModal = ({ open, onClose, type }) => {
             workoutExercises: newExercises
         }
 
-        /* let newWorkoutObject
-        switch (type) {
-            case "active":
-                newWorkoutObject = {
-                    userEmail: email,
-                    title: input,
-                    createdAt: new Date().toJSON(),
-                    note: "",
-                    workoutExercises: newExercises
-                }
-                break;
-            case "template":
-                newWorkoutObject = {
-                    userEmail: email,
-                    title: input,
-                    createdAt: new Date().toJSON(),
-                    note: "",
-                    templateExercises: newExercises
-                }
-                break;
-            default:
-                throw new Error('Component must have a type prop specified!');
-        } */
-        //console.log(newWorkoutObject);
 
         try {
             let response
@@ -124,18 +101,27 @@ const SaveWorkoutModal = ({ open, onClose, type }) => {
                     //navigate('/')
                     toast.success('Workout saved!')
                     onClose()
+                    onSubmit()
                     break;
                 case "template":
-                    response = await templateService.createNew(newWorkoutObject)
+                    if (editVipu) {
+                        response = await templateService.update(workout?.id, newWorkoutObject)
+                        dispatch(updateTemplate(response))
+                    } else {
+                        response = await templateService.createNew(newWorkoutObject)
+                        dispatch(createTemplate(response.data))
+                    }
+                   
                     //console.log('servu palautti: ', response.data, ' dispatchataan storeen')
 
-                    dispatch(createTemplate(response.data))
+                    
                     dispatch(clearTemplate())
 
 
                     //navigate('/')
                     toast.success('Template saved!')
                     onClose()
+                    onSubmit()
                     break;
                 default:
                     throw new Error('Component must have a type prop specified!');
@@ -150,7 +136,7 @@ const SaveWorkoutModal = ({ open, onClose, type }) => {
         <BasicModal
             open={open}
             onClose={onClose}
-            title="Finish workout?"
+            title={modalTitle}
             //subTitle="Discard ongoing workout?"
             confirmButtonText={'Save'}
             cancelButtonText={'Cancel'}

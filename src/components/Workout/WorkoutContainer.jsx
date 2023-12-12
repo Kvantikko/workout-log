@@ -8,9 +8,7 @@ import generateId from "../../utils/generateId"
 import { addExercises, deleteExercise } from "../../redux/reducers/exerciseReducer"
 import HideAppBar from "../AppBar/HideAppBar"
 import WorkoutToolbar from "./WorkoutToolbar"
-import FormModal from "../Modals/FormModal"
 import AddIcon from '@mui/icons-material/Add';
-import ConfirmationModal from "../Modals/ConfirmationModal"
 import ActiveWorkout from "./Workout"
 
 

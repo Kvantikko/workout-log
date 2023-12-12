@@ -46,6 +46,8 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
 
     const dispatch = useDispatch()
 
+    console.log("SEEETS ", sets);
+
     /**
      * This hook prevents error "cannot update component while rendering a different component".
      * When use creates a new exercise, the default set of one is created and ActiveWorkout component cannot

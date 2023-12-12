@@ -6,15 +6,13 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { startWorkout } from "../../redux/reducers/workoutReducer"
 
-import ModalRoot from "../../components/Modals/ModalRoot"
+
 import WorkoutToolbar from "../../components/Toolbars/HomeToolbar"
 import HideAppBar from "../../components/AppBar/HideAppBar"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import PermanentDrawerLeft from "../../components/Navbar/PermanentDrawerLeft"
 
-
-import ConfirmationModal from "../../components/Modals/ConfirmationModal"
 import { useNavigate } from "react-router-dom"
 
 import { clearWorkout } from "../../redux/reducers/workoutReducer";
@@ -29,17 +27,16 @@ import { blink } from "../../utils/Blink"
 import { expand, unExpand } from "../../redux/reducers/drawerReducer"
 
 import { createPortal } from "react-dom"
-import SwipeableEdgeDrawer from "../../components/Drawers/SwipeableEdgeDrawer" 
+import SwipeableEdgeDrawer from "../../components/Drawers/SwipeableEdgeDrawer"
 
 import { setWorkoutPath, resetWorkoutPath } from "../../redux/reducers/navReducer"
 
 import coleman from '../../assets/coleman.gif'
 
 import schwarzenegger from '../../assets/schwarzenegger.gif'
-import CopyWorkoutModal from "../../components/Modals/CopyWorkoutModal"
 import AddIcon from "@mui/icons-material/Add"
 import WorkoutCardList from "../../components/Lists/WorkoutCardList"
-import CreateTemplateModal from "../../components/Modals/CreateTemplateModal"
+import CreateTemplateModal from "../../components/Modals/CreateEditWorkoutModal"
 
 const gifArray = [coleman, schwarzenegger]
 
@@ -52,14 +49,14 @@ const getRandomMemeGif = () => {
 
 const Home = ({ user, drawerWidth }) => {
 
-    console.log("Rendering Home");
+    console.log("Rendering Home")
 
     const templates = useSelector(state => state.templates)
 
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
 
-    const [showCopyWorkoutModal, setShowCopyWorkoutModal] = useState(false)
-    const [showTemplateModal, setShowTemplateModal] = useState(false)
+    const [openCopyModal, setOpenCopyModal] = useState(false)
+    const [openTemplateModal, setOpenTemplateModal] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -88,8 +85,8 @@ const Home = ({ user, drawerWidth }) => {
     }
 
     const handleClick = () => {
-        if (isWorkoutActive && !showCopyWorkoutModal) {
-            setShowCopyWorkoutModal(true)
+        if (isWorkoutActive && !openCopyModal) {
+            setOpenCopyModal(true)
             return
         }
 
@@ -180,7 +177,7 @@ const Home = ({ user, drawerWidth }) => {
                         <Typography variant="body1" textAlign="center">
                             You haven't created any templates yet.
                         </Typography>
-                        <Button onClick={() => setShowTemplateModal(true)} >
+                        <Button onClick={() => setOpenTemplateModal(true)} >
                             <AddIcon sx={{ marginRight: 1 }} />
                             Create a template
                         </Button>
@@ -195,29 +192,33 @@ const Home = ({ user, drawerWidth }) => {
                                     My templates
                                 </Typography>
                             </Box>
-                            <IconButton sx={{ color: '#90CAF9', padding: 0 }} onClick={() => setShowTemplateModal(true)}>
+                            <IconButton sx={{ color: '#90CAF9', padding: 0 }} onClick={() => setOpenTemplateModal(true)}>
                                 <AddIcon />
                             </IconButton>
                         </Stack>
-                        <WorkoutCardList workouts={templates} path="templates" onItemClick={handleCardClick}/>
+                        <WorkoutCardList workouts={templates} path="templates" onItemClick={handleCardClick} />
                     </Box>
                 }
 
 
             </Stack >
 
-            {showCopyWorkoutModal &&
-                <CopyWorkoutModal
-                    open={showCopyWorkoutModal}
-                    onClose={setShowCopyWorkoutModal}
-                    copyFunction={handleClick}
+            {openCopyModal &&
+                <BasicModal
+                    open={openCopyModal}
+                    onClose={() => setOpenCopyModal(false)}
+                    title="Workout in progress!"
+                    subTitle="You have a workout in progress.
+                    Are you sure you want to override the current workout?"
+                    onSubmit={() => copy()}
                 />
             }
 
-            {showTemplateModal &&
+            {openTemplateModal &&
                 <CreateTemplateModal
-                    open={showTemplateModal}
-                    onClose={setShowTemplateModal}
+                    open={openTemplateModal}
+                    onClose={setOpenTemplateModal}
+                    title="Create template"
                 />
             }
 

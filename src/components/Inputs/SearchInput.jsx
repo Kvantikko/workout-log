@@ -5,7 +5,6 @@ import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import ModalRoot from '../Modals/ModalRoot';
 import { useState, useRef, useEffect } from 'react';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';

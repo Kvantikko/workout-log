@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 
 import { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ExercisesMenu from '../Menus/ExercisesMenu';
+import ExercisesMenu from '../Menus/ExerciseMenu';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -21,6 +21,8 @@ import { setExercisesPath, resetExercisePath} from '../../redux/reducers/navRedu
 
 
 const ExerciseToolbar = ({ exercise }) => {
+
+    const [openEdit, setOpenEdit] = useState(false)
 
     const dispatch = useDispatch()
 

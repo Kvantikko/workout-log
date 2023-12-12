@@ -7,8 +7,6 @@ import FilteredExercises from '../../components/Lists/FilteredExercises'
 import HideAppBar from '../../components/AppBar/HideAppBar';
 
 
-import ModalRoot from '../../components/Modals/ModalRoot';
-
 import ExercisesToolbar from '../../components/Toolbars/ExercisesToolbar';
 
 import { useMatch, useNavigate } from 'react-router-dom';
@@ -67,7 +65,6 @@ const Exercises = ({ drawerWidth }) => {
 
     return (
         <div>
-            <ModalRoot open={open} setOpen={setOpen} modalType={"createExercise"} />
             <HideAppBar drawerWidth={drawerWidth} >
                 <ExercisesToolbar input={input} setInput={setInput} setOpen={setOpen} />
             </HideAppBar>

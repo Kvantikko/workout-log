@@ -30,26 +30,19 @@ import WorkoutExerciseList from "../../components/Lists/WorkoutExerciseList";
 import HistoryModalMenu from "../../components/Menus/HistoryMenu";
 
 
-import ModalRoot from "../../components/Modals/ModalRoot";
-
 import { useEffect, useState } from "react";
-import ConfirmationModal from "../../components/Modals/ConfirmationModal";
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import TemplateToolbar from '../../components/Toolbars/TemplateToolbar';
 
 
-
+import BasicModal from '../../components/Modals/BasicModal';
 
 
 
 const Template = ({ template, drawerWidth }) => {
     console.log("Rendering Template");
-    console.log( template);
-
-    const isSmallScreen = useMediaQuery('(min-width:900px)');
-
-
+    //console.log(template);
 
     /**
      * ekalla componentin mountilla fetchataan data ja pistetään storeen, ja aina kun komponentti
@@ -67,12 +60,11 @@ const Template = ({ template, drawerWidth }) => {
 
     //history.push(`/history/${workout?.id}`);
 
-
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
-    const [showModal, setShowModal] = useState(false)
-
+    const isSmallScreen = useMediaQuery('(min-width:900px)')
+    const [openCopyModal, setOpenCopyModal] = useState(false)
+    
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const clear = () => {
         dispatch(clearWorkout())
@@ -81,14 +73,7 @@ const Template = ({ template, drawerWidth }) => {
         dispatch(stopWatch())
     }
 
-    const handleCopy = (event) => {
-        if (workoutStarted && (!showModal)) {
-            event.stopPropagation()
-            setShowModal(true)
-            return
-        }
-
-        //navigate('/workout')
+    const copy = () => {
         clear()
         dispatch(copyWorkout({ title: template.title, exercises: template.workoutExercises }))
         dispatch(copyExercises(template.workoutExercises))
@@ -101,23 +86,24 @@ const Template = ({ template, drawerWidth }) => {
             })
         })
         dispatch(copySets(setsWithExerciseId))
+        setOpenCopyModal(false)
     }
 
-    const format = (date) => {
-        const dateString = date.toUTCString()
-        const dateStringWithoutTime = dateString.slice(0, dateString.length - 13)
-        const timeString = dateString.slice(dateString.length - 12, dateString.length - 7)
-        return dateStringWithoutTime + ",  @ " + timeString
+    const handleCopy = () => {
+        if (workoutStarted) {
+            setOpenCopyModal(true)
+            return
+        }
+        copy()
     }
-
 
     return (
         <>
             <HideAppBar drawerWidth={drawerWidth}>
                 <TemplateToolbar
                     workout={template}
-                    setShowModal={setShowModal}
-                    showModal={showModal}
+                    setShowModal={setOpenCopyModal}
+                    showModal={openCopyModal}
                     handleCopy={handleCopy}
                 />
             </HideAppBar>
@@ -150,29 +136,17 @@ const Template = ({ template, drawerWidth }) => {
                         display: { xs: 'flex', md: 'none' },
                     }}
                 >
-
-                    <Button
-                        // component={Link}
-                        //to='/workout'
-                        //color="info"
-                        variant="contained" onClick={(event) => handleCopy(event)} >
+                    <Button variant="contained" onClick={(event) => handleCopy(event)} >
                         Start workout
                     </Button>
-                    <ConfirmationModal
-                        showModal={showModal}
-                        closeFromParent={setShowModal}
-                        hideOpenButton='true'
-                        // menuItem={true}
-                        modalType='confirmCopyModal'
-                        //color='info'
-                        openButton={
-                            'Start workout'
-                        }
-                        //confirmButton='Delete'
-                        confirmFunction={handleCopy}
-                    //handleMenuClose={handleClose}
+                    <BasicModal
+                        open={openCopyModal}
+                        onClose={() => setOpenCopyModal(false)}
+                        title="Workout in progress!"
+                        subTitle="You have a workout in progress.
+                        Are you sure you want to override the current workout?"
+                        onSubmit={() => copy()}
                     />
-
                 </AppBar>
             </Box>
 

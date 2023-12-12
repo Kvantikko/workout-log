@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import exerciseService from '../../services/exercises'
 
-
+import BasicModal from '../../components/Modals/BasicModal';
 import { Link } from "react-router-dom";
 
 import { Button, AppBar, Divider, Stack, Typography, List, ListItem, ListItemButton, ListItemText, Container, Box, Grid, Paper } from "@mui/material";
@@ -30,7 +30,6 @@ import WorkoutExerciseList from "../../components/Lists/WorkoutExerciseList";
 
 
 import { useEffect, useState } from "react";
-import ConfirmationModal from "../../components/Modals/ConfirmationModal";
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -65,7 +64,6 @@ const HistoryId = ({ workout, drawerWidth }) => {
 
 
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
-    const darkMode = useSelector(state => state.darkMode)
     const [showModal, setShowModal] = useState(false)
 
     const dispatch = useDispatch()
@@ -78,14 +76,8 @@ const HistoryId = ({ workout, drawerWidth }) => {
         dispatch(stopWatch())
     }
 
-    const handleCopy = (event) => {
-        if (workoutStarted && (!showModal)) {
-            event.stopPropagation()
-            setShowModal(true)
-            return
-        }
-
-        //navigate('/workout')
+    const copy = () => {
+        console.log("COPYYYYYYYYYYYYYYY");
         clear()
         dispatch(copyWorkout({ title: workout.title, exercises: workout.workoutExercises }))
         dispatch(copyExercises(workout.workoutExercises))
@@ -98,6 +90,16 @@ const HistoryId = ({ workout, drawerWidth }) => {
             })
         })
         dispatch(copySets(setsWithExerciseId))
+        setShowModal(false)
+    }
+
+    const handleCopy = (event) => {
+        if (workoutStarted) {
+            //event.stopPropagation()
+            setShowModal(true)
+            return
+        }
+        copy()
     }
 
     const format = (date) => {
@@ -170,23 +172,18 @@ const HistoryId = ({ workout, drawerWidth }) => {
                         // component={Link}
                         //to='/workout'
                         //color="info"
-                        variant="contained" onClick={(event) => handleCopy(event)} >
+                        variant="contained" onClick={() => handleCopy()} >
                         Perform again
                     </Button>
-                    <ConfirmationModal
-                        showModal={showModal}
-                        closeFromParent={setShowModal}
-                        hideOpenButton='true'
-                        // menuItem={true}
-                        modalType='confirmCopyModal'
-                        //color='info'
-                        openButton={
-                            'Perform again'
-                        }
-                        //confirmButton='Delete'
-                        confirmFunction={handleCopy}
-                    //handleMenuClose={handleClose}
+                    <BasicModal
+                        open={showModal}
+                        onClose={() => setShowModal(false)}
+                        title="Workout in progress!"
+                        subTitle="You have a workout in progress.
+                        Are you sure you want to override the current workout?"
+                        onSubmit={() => copy()}
                     />
+              
 
                 </AppBar>
             </Box>

@@ -5,13 +5,31 @@ import { useDispatch } from 'react-redux'
 import { setExercisesPath } from '../../redux/reducers/navReducer'
 import ExerciseListButton from '../Buttons/ExerciseListButton'
 import Defer from '../Defer/Defer'
-import CreateExerciseModal from '../Modals/CreateExerciseModal'
 import { useState } from 'react'
+import FormModal from '../Modals/FormModal'
+import ExerciseForm from '../Forms/ExerciseForm'
+import { createExercise } from '../../redux/reducers/exerciseLibraryReducer'
+import { toast } from 'react-toastify'
+import exerciseService from "../../services/exercises"
 
 const FilteredExercises = ({ exercises, handleListClick }) => {
-    const dispatch = useDispatch()
 
     const [openCreateModal, setOpenCreateModal] = useState(false)
+
+    const dispatch = useDispatch()
+
+    const saveExercise = async (exerciseName, targetMuscle) => {
+        try {
+            const newExercise = await exerciseService.createNew(exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
+            console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
+            dispatch(createExercise(newExercise))
+            toast.success('New exercsise created!')
+            setOpenCreateModal(false)
+        } catch (err) {
+            toast.error(err.response)
+        }
+
+    }
 
     // use List instead of Stack?
     return (
@@ -38,12 +56,14 @@ const FilteredExercises = ({ exercises, handleListClick }) => {
                 </Defer>
             )}
             {openCreateModal &&
-                <CreateExerciseModal
+                <FormModal
                     open={openCreateModal}
-                    onClose={setOpenCreateModal}
-                />
+                    onClose={() => setOpenCreateModal(false)}
+                    title="Create exercise"
+                >
+                    <ExerciseForm onSubmit={saveExercise} onCancel={() => setOpenCreateModal(false)} />
+                </FormModal>
             }
-
         </Stack>
     )
 }

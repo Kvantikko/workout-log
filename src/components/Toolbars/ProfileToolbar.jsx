@@ -7,8 +7,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import BasicModal from "../Modals/BasicModal"
-
-import ConfirmationModal from "../Modals/ConfirmationModal"
 import { useState } from "react"
 
 import { darkModeOn, darkModeOff } from "../../redux/reducers/darkModeReducer"
@@ -25,7 +23,7 @@ const ProfileToolbar = () => {
     const handleLogout = () => {
         dispatch(logout())
         navigate('/')
-        toast.info('Logged out! See you again soon :)')
+        toast.info('Logged out!')
     }
 
     const handleDarkmode = () => {

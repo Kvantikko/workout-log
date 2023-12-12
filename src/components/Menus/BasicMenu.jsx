@@ -14,13 +14,12 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import BasicModal from '../Modals/BasicModal';
 
-import ConfirmationModal from '../Modals/ConfirmationModal';
 import { toast } from 'react-toastify';
 
 import workoutService from '../../services/workouts'
 import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer';
 import FormModal from '../Modals/FormModal';
-import ModalRoot from '../Modals/ModalRoot'
+
 import { useNavigate } from 'react-router-dom';
 
 import { removeFromHistory } from '../../redux/reducers/historyReducer';

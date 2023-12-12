@@ -17,13 +17,19 @@ import { createExercise } from "../../redux/reducers/exerciseLibraryReducer";
 
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import FormButtons from "./FormButtons";
 
-const ExerciseForm = ({ exercise, handleSave, confirmButton }) => {
+
+const ExerciseForm = ({ exercise, onSubmit, onCancel }) => {
     console.log("Rendering ExerciseForm ");
     const [exerciseName, setExerciseName] = useState(exercise?.name ? exercise.name : '')
     const [targetMuscle, setTargetMuscle] = useState(exercise?.muscle ? exercise.muscle : '')
     const [exerciseNameError, setExerciseNameError] = useState('')
     const [targetMuscleError, setTargetMuscleError] = useState('')
+
+    const dispatch = useDispatch()
+
+    
 
     const handleChange = (event) => {
         event.preventDefault()
@@ -42,7 +48,7 @@ const ExerciseForm = ({ exercise, handleSave, confirmButton }) => {
         if (targetMuscle === '' || exerciseName === '') {
             return
         }
-        handleSave(exerciseName, targetMuscle)
+        onSubmit(exerciseName, targetMuscle)
     }
 
     return (
@@ -83,14 +89,9 @@ const ExerciseForm = ({ exercise, handleSave, confirmButton }) => {
 
                 </FormControl>
             </Stack>
-            <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                sx={{ marginTop: 4 }}
-            >
-                {confirmButton ? confirmButton : <div>Submit</div>}
-            </Button>
+
+            <FormButtons onCancel={onCancel} />
+
         </form>
     )
 }

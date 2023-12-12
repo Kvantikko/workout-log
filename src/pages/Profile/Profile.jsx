@@ -63,9 +63,12 @@ const Profile = ({ user, drawerWidth }) => {
             <Box
                 display="flex"
                 flexDirection="column"
-                minHeight="75vh"
-                padding={3}
+                minHeight="70vh"
+                //maxWidth={{ xs: '100%', sm: '100%', md: '60%', lg: '40%' }}
+                paddingTop={{ xs: 5, sm: 6, md: 7, lg: 8 }}
+                paddingX={{ xs: 3, sm: 6, md: 6, lg: 12 }}
                 justifyContent={'space-between'}
+               
             //alignItems="center"
             //maxWidth="75vw" for biggger screen?
             >
@@ -78,19 +81,19 @@ const Profile = ({ user, drawerWidth }) => {
                     <Box>{formatDateTime(user.createdAt)}</Box>
                 </Stack>
                 <Stack spacing={2}>
-                    <Button onClick={() => setOpenEditModal(true)} variant="contained">
+                    <Button onClick={() => setOpenEditModal(true)} variant="text">
                         <Stack direction={'row'} spacing={1}>
                             <EditIcon />
                             <div>Edit account</div>
                         </Stack>
                     </Button>
-                    <Button onClick={() => setOpenPasswordModal(true)} variant="contained">
+                    <Button onClick={() => setOpenPasswordModal(true)} variant="text">
                         <Stack direction={'row'} spacing={1}>
                             <PasswordIcon/>
                             <div>Change password</div>
                         </Stack>
                     </Button>
-                    <Button onClick={() => setOpenDeleteModal(true)} color="error" variant="contained">
+                    <Button onClick={() => setOpenDeleteModal(true)} color="error" variant="text">
                         <Stack direction={'row'} spacing={1}>
                             <DeleteForeverIcon />
                             <div>Delete account</div>
@@ -103,7 +106,7 @@ const Profile = ({ user, drawerWidth }) => {
                         onClose={() => setOpenEditModal(false)}
                         title="Edit user details"
                     >
-                        <UserForm user={user}  />
+                        <UserForm user={user} onCancel={() => setOpenEditModal(false)} />
                     </FormModal>
                 }
                 {openPasswordModal &&

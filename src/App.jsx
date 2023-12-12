@@ -312,7 +312,7 @@ const App = () => {
 
                     sx={{
                         flexGrow: 1,
-                        height: "100vh",
+                        height: `calc(100vh - ${64}px)`, //'100vh',
                         overflow: 'auto'
                         // width:   `calc(100% - ${+600}px)` ,
                         //marginLeft: 10
@@ -321,7 +321,7 @@ const App = () => {
                         //maxWidth: !isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' 
                     }}
                 >
-                    <Toolbar />  {/* // for margin */}
+                   {/* <Toolbar />   // for margin */}
 
 
                     <Routes>

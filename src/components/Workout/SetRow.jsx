@@ -12,7 +12,7 @@ import BasicModal from "../Modals/BasicModal"
 import { deleteSetFromTemplate, editSetFromTemplate } from "../../redux/reducers/templateReducer";
 
 const SetRow = ({ set, number, index, type }) => {
-    console.log("-------------------- A set ROW is rendering ----------------------------- ", index, number)
+    console.log("-------------------- A set ROW is rendering ----------------------------- ", set)
 
     const [color, setColor] = useState(set.done ? "rgba(25, 255, 255, 0.12)" : "")
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
@@ -35,6 +35,7 @@ const SetRow = ({ set, number, index, type }) => {
                 dispatch(deleteSet(set.id))
                 break
             case "template":
+                console.log("removeSet() ", set);
                 dispatch(deleteSetFromTemplate(set.id))
                 break
             default:

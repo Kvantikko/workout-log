@@ -27,6 +27,7 @@ const FormModal = ({
     children,
     hideConfirmButton,
     title,
+    
     confirmButtonText,
     cancelButtonText,
     confirmButtonColor,
@@ -46,7 +47,7 @@ const FormModal = ({
                 BackdropProps={{
                     timeout: 500,
                     sx: {
-                        backdropFilter: 'blur(4px)', // Adjust the blur value as needed
+                        backdropFilter: 'blur(3px)', // Adjust the blur value as needed
                     },
                 }}
             >
@@ -55,7 +56,7 @@ const FormModal = ({
                         variant="h5"
                         component="h2"
                         sx={{ mb: 4 }}
-                        textAlign={'center'}
+                        textAlign='center'
                     >
                         {title}
                     </Typography>

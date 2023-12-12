@@ -7,18 +7,15 @@ import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import ModalRoot from '../Modals/ModalRoot';
 import { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import OpenModalMenu from '../Menus/ExercisesMenu';
+import OpenModalMenu from '../Menus/ExerciseMenu';
 import HistoryModalMenu from '../Menus/HistoryMenu';
 import { useDispatch } from 'react-redux';
 import { resetHistory } from '../../redux/reducers/navReducer';
 
 import { setWorkoutPath, resetWorkoutPath } from "../../redux/reducers/navReducer"
 
-
-import ConfirmationModal from '../Modals/ConfirmationModal';
 
 //import ArrowBackIcon from '@mui/icons-material/ArrowBac';
 

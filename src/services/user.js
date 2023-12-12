@@ -6,7 +6,7 @@ let token = null
 
 const setToken = newToken => token = `Bearer ${newToken}`
 
-const editUser = async (currentEmail, email, firstname, lastname, password) => {
+const editUser = async (currentEmail, email, firstname, lastname) => {
     const config = {
         headers: {
             Authorization: token
@@ -16,15 +16,34 @@ const editUser = async (currentEmail, email, firstname, lastname, password) => {
     const obj = {
         email,
         firstname,
-        lastname,
-        password
+        lastname
     }
 
     console.log("SENDING THIS LOGIN OBJ TO SERVER: ", obj);
-    const response = await axios.put(`${baseUrl}/${currentEmail}`, obj, config)
+    const response = await axios.put(`${baseUrl}/${currentEmail}/details`, obj, config)
     console.log("LOG RESPONSE ", response)
     return response.data
 }
+
+const editPassword = async (email, newPassword, newPasswordAgain) => {
+    const config = {
+        headers: {
+            Authorization: token
+        }
+    }
+
+    const obj = {
+        newPassword,
+        newPasswordAgain
+    }
+
+    console.log("SENDING THIS LOGIN OBJ TO SERVER: ", obj);
+    const response = await axios.put(`${baseUrl}/${email}/password`, obj, config)
+    console.log("LOG RESPONSE ", response)
+    return response.data
+}
+
+
 
 const removeUser = async (userEmail) => {
     const config = {
@@ -40,6 +59,7 @@ const removeUser = async (userEmail) => {
 
 export default {
     editUser,
+    editPassword,
     removeUser,
     setToken
 }

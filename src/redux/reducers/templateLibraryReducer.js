@@ -25,16 +25,17 @@ const templateLibrarySlice = createSlice({
             console.log("SORTED");
             return state
         },
-        updateTemplate(state, action) {
+       updateTemplate(state, action) {
+            console.log("REDUCER ", action.payload);
+
             const id = action.payload.id
-            const exerciseToChange = state.find(e => e.id === id)
-            const changedExercise = {
-                ...exerciseToChange,
-                name: action.payload.name,
-                muscle: action.payload.muscle
-            }
-            state = state.map(exercise => exercise.id !== id ? exercise : changedExercise)
-            sortAlphabetically(state)
+            
+            const index = state.findIndex(t => t.id === id)
+
+            state[index] = action.payload
+
+            //state = state.map(exercise => exercise.id !== id ? exercise : changedExercise)
+            //sortAlphabetically(state)
             return state
         },
         setTemplates(state, action ) {

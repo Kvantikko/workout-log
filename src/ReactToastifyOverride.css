@@ -1,3 +1,18 @@
 .toast-position {
     bottom: 3.6rem; /* !important; */
   }
+
+  :root {
+    --toastify-color-light: #fff;
+    --toastify-color-dark: #121212;
+    --toastify-color-info: #29b6f6;
+    --toastify-color-success: #66bb6a;
+    --toastify-color-warning: #ffa726;
+    --toastify-color-error: #f44336;
+    --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+  
+    --toastify-icon-color-info: var(--toastify-color-info);
+    --toastify-icon-color-success: var(--toastify-color-success);
+    --toastify-icon-color-warning: var(--toastify-color-warning);
+    --toastify-icon-color-error: var(--toastify-color-error);
+  }

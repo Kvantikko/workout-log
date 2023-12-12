@@ -9,7 +9,8 @@ import loginService from "../../services/login"
 import workoutService from "../../services/workouts"
 import exerciseService from "../../services/exercises"
 import userService from "../../services/user"
-
+import templateService from "../../services/templates"
+import FormButtons from "./FormButtons"
 import { useMediaQuery } from '@mui/material'
 
 import {
@@ -32,7 +33,6 @@ import { toast } from "react-toastify"
 
 const PasswordForm = ({ user, submitButton, onCancel }) => {
 
-
     const [password, setPassword] = useState("")
     const [passwordAgain, setPasswordAgain] = useState("")
 
@@ -42,20 +42,22 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
     const [showPassword, setShowPassword] = useState(false)
     const [showPasswordAgain, setShowPasswordAgain] = useState(false)
 
-
     const isSmallScreen = useMediaQuery('(max-width:900px)')
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const inputFieldsValid = () => {
         let valid = true
+        if (passwordAgain !== password) {
+            setErrorPasswordAgain(`Retyped password doesn't match the new password`)
+            valid = false
+        }
         if (password.length < 8) {
             setErrorPassword('Minimum of 8 characters')
             valid = false
         }
         if (passwordAgain.length < 8) {
-            setErrorPassword('Minimum of 8 characters')
+            setErrorPasswordAgain('Minimum of 8 characters')
             valid = false
         }
         if (password === '') {
@@ -63,7 +65,7 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
             valid = false
         }
         if (passwordAgain === '') {
-            setErrorPassword('Required')
+            setErrorPasswordAgain('Required')
             valid = false
         }
         return valid
@@ -75,21 +77,22 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
         if (!inputFieldsValid()) return
 
         try {
-            //const response = await loginService.register(email, firstname, lastname, password)
-            const response = await userService.editUser(user.email, email, firstname, lastname, password)
-            window.localStorage.setItem('loggedUser', JSON.stringify(response.user))
-            window.localStorage.setItem('userToken', response.token) //JSON.stringify adds quotation marks, why enven use it?
-
-            exerciseService.setToken(response.token)
-            workoutService.setToken(response.token)
-            userService.setToken(response.token)
-
-            dispatch(setUser(response.user))
-            //navigate('/')
-            toast.success("Account updated")
-        } catch (err) {
-            console.log(err);
-        }
+            const response = await userService.editPassword(user.email, password, passwordAgain)
+              window.localStorage.setItem('loggedUser', JSON.stringify(response.user))
+              window.localStorage.setItem('userToken', response.token) //JSON.stringify adds quotation marks, why enven use it?
+  
+              exerciseService.setToken(response.token)
+              workoutService.setToken(response.token)
+              userService.setToken(response.token)
+              templateService.setToken(response.token)
+  
+              dispatch(setUser(response.user))
+              //navigate('/')
+              toast.success("Password updated")
+              onCancel()
+          } catch (err) {
+              console.log(err);
+          }
 
 
     }
@@ -109,7 +112,7 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
     }
 
     const handleClickShowPasswordAgain = () => {
-        if (showPasswordAgain) {
+        if (showPasswordAgain === true) {
             setShowPasswordAgain(false)
         } else {
             setShowPasswordAgain(true)
@@ -128,7 +131,7 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
                 <TextField
                     id='password'
                     type={showPassword ? "text" : "password"}
-                    label={"Password"}
+                    label={"New password"}
                     size="small"
                     onChange={(event) => setPassword(event.target.value)}
                     onClick={(event) => handlePassClick(event.target.id)}
@@ -150,8 +153,8 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
                 />
                 <TextField
                     id='passwordAgain'
-                    type={showPassword ? "text" : "password"}
-                    label={user ? 'New password' : 'Password *'}
+                    type={showPasswordAgain ? "text" : "password"}
+                    label={"Retype password"}
                     size="small"
                     onChange={(event) => setPasswordAgain(event.target.value)}
                     onClick={(event) => handlePassClick(event.target.id)}
@@ -174,33 +177,8 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
 
             </Stack>
 
-            {isSmallScreen &&
-                <Box >
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        sx={{ marginTop: 4 }}
-                    >
-                        Submit
-                    </Button>
-                    <Button variant="outlined" fullWidth onClick={onCancel}> Cancel </Button>
-                </Box>
-            }
-            {!isSmallScreen &&
-                <Box display={'flex'} flexDirection={'row'} gap={2} justifyContent={'right'} >
-                    <Box width={300} />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                       // sx={{ marginTop: 4 }}
-                    >
-                        Submit
-                    </Button>
-                    <Button variant="outlined" fullWidth onClick={onCancel}> Cancel </Button>
-                </Box>
-            }
+            <FormButtons onCancel={onCancel}/>
+
         </form>
     )
 }
