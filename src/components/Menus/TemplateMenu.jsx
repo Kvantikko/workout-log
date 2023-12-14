@@ -21,7 +21,7 @@ import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer';
 import FormModal from '../Modals/FormModal';
 
 import { useNavigate } from 'react-router-dom';
-import { addExercisesToTemplate, addSetsToTemplate, clearTemplate, setTemplateName } from '../../redux/reducers/templateReducer';
+import { addExercisesToTemplate, addSetsToTemplate, clearTemplate, setTemplate, setTemplateName } from '../../redux/reducers/templateReducer';
 
 import { removeFromHistory } from '../../redux/reducers/historyReducer';
 import { removeTemplate } from '../../redux/reducers/templateLibraryReducer';
@@ -64,7 +64,9 @@ const TemplateMenu = ({ workout }) => {
     const copy = () => {
         console.log("COPY");
 
-        dispatch(setTemplateName(workout.title))
+        dispatch(setTemplate(workout))
+
+        /* dispatch(setTemplateName(workout.title))
         dispatch(addExercisesToTemplate(workout.workoutExercises))
         let setsWithExerciseId = []
         //let sets = []
@@ -75,20 +77,7 @@ const TemplateMenu = ({ workout }) => {
                 //sets.push(set)
             })
         })
-        dispatch(addSetsToTemplate(setsWithExerciseId))
-
-        //dispatch(copyWorkout({ title: template.title, exercises: template.workoutExercises }))
-        // dispatch(copyExercises(template.workoutExercises))
-        // this is done bc in the workout object coming from the server, sets dont have a reference field of exerciseId
-        /*  let setsWithExerciseId = []
-         template.workoutExercises.forEach(exercise => {
-             exercise.sets.forEach(set => {
-                 const setWithExerciseId = { ...set, exerciseId: exercise.id }
-                 setsWithExerciseId.push(setWithExerciseId)
-             })
-         }) */
-        // dispatch(copySets(setsWithExerciseId))
-        //setOpenEdit(false)
+        dispatch(addSetsToTemplate(setsWithExerciseId)) */
     }
 
     const handleEdit = () => {

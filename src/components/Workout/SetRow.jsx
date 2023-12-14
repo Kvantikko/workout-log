@@ -7,7 +7,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { editSet, deleteSet } from "../../redux/reducers/setReducer"
-import SetTextField from "./SetTextfield"
+import SetTextField from "../Inputs/SetTextfield"
 import BasicModal from "../Modals/BasicModal"
 import { deleteSetFromTemplate, editSetFromTemplate } from "../../redux/reducers/templateReducer";
 

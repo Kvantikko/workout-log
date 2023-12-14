@@ -47,17 +47,18 @@ const setSlice = createSlice({
     reducers: {
         clearSets(state) {
             state = []
-            return state
+            //return state
         },
         addSet: (state, action) => {
             const setToAdd = action.payload
+            console.log("addSet" ,setToAdd);
             //console.log("STATE ", JSON.parse(JSON.stringify(state)));
             const setWithDoneField = {
                 ...setToAdd,
                 done: false
             }
             state.push(setWithDoneField);
-            return state
+            //return state
         },
         deleteSet: (state, action) => {
             const id = action.payload
@@ -72,7 +73,7 @@ const setSlice = createSlice({
             console.log("REDUCER ", action.payload.changedSet)
             state[state.findIndex(set => set.id === setId)] = action.payload.changedSet
             //console.log("editSet end, state:", JSON.parse(JSON.stringify(state.exercises)))
-            return state
+            //return state
         },
         copySets(state, action) {
             console.log("COPY SETS REDUCER ", action.payload);

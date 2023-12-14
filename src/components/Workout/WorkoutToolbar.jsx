@@ -142,26 +142,30 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
                 <IconButton aria-label="finish" color="success" onClick={handleOpenFinishModal}>
                     <CheckCircleOutlineIcon />
                 </IconButton>
-                <SaveWorkoutModal
-                    open={openFinishModal}
-                    onClose={setOpenFinishModal}
-                    type={"active"}
-                //confirmFunction={handleClear}
-                />
+                {openFinishModal &&
+                    <SaveWorkoutModal
+                        open={openFinishModal}
+                        onClose={setOpenFinishModal}
+                        type={"active"}
+                    //confirmFunction={handleClear}
+                    />
+                }
 
                 <IconButton aria-label="cancel" color="error" onClick={() => setOpenCancelModal(true)}>
                     {!isSmallScreen ? <NotInterestedIcon /> : <Close></Close>}
                 </IconButton>
 
-                <BasicModal
-                    open={openCancelModal}
-                    onClose={() => setOpenCancelModal(false)}
-                    title="Discard workout?"
-                    subTitle="Are you sure you want to discard ongoing workout?"
-                    confirmButtonText={'Discard'}
-                    cancelButtonText={'Keep logging'}
-                    onSubmit={() => handleClear()}
-                />
+                {openCancelModal &&
+                    <BasicModal
+                        open={openCancelModal}
+                        onClose={() => setOpenCancelModal(false)}
+                        title="Discard workout?"
+                        subTitle="Are you sure you want to discard ongoing workout?"
+                        confirmButtonText={'Discard'}
+                        cancelButtonText={'Keep logging'}
+                        onSubmit={() => handleClear()}
+                    />
+                }
 
             </Stack>
 

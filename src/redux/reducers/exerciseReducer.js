@@ -38,6 +38,7 @@ const workoutSlice = createSlice({
         },
         moveExerciseUpp(state, action) {
             console.log("REDUUUUUUUUUUUUCER UP");
+            console.log(action.payload);
             const exerciseId = action.payload
             //console.log(action.payload)
 
@@ -53,6 +54,7 @@ const workoutSlice = createSlice({
         },
         moveExerciseDown(state, action) {
             console.log("REDUUUUUUUUUUUUCER DOWN");
+            console.log(action.payload);
             const exerciseId = action.payload
             //console.log(action.payload)
 

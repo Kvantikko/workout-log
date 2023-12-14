@@ -15,26 +15,34 @@ import AddIcon from '@mui/icons-material/Add';
 import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
 import FlipMove from "react-flip-move";
 import Defer from "../Defer/Defer"
-
+import WorkoutNameField from "../Inputs/WorkoutNameField";
+import { selectAllExercises } from "../../redux/selectors";
 
 
 const Workout = ({ type }) => {
-    console.log("Rendering ActiveWorkout");
+    console.log("Rendering Workout");
 
-    let exercises = []
+    let workoutName
+    let exercises
     switch (type) {
         case "active":
+            workoutName = useSelector(state => state.workout.workoutTitle ? state.workout.workoutTitle : "")
             exercises = useSelector(state => state.exercises)
             break;
         case "template":
-            exercises = useSelector(state => state.template.exercises)
+            workoutName = useSelector(state => state.template.name)
+            //exercises = useSelector(state => state.template.exercises.allIds)
+            exercises = useSelector(selectAllExercises);//useSelector(state => state.template.exercises.allIds.map(id => state.template.exercises.byId[id]))
             break;
         default:
             throw new Error('Component Workout must have a type prop specified!');
     }
     const [openAddModal, setOpenAddModal] = useState(false)
+    const [openFinishModal, setOpenFinishModal] = useState(false)
 
     const dispatch = useDispatch()
+
+    //console.log(exercises);
 
     // ei mee pohjaan koska yksi automaattinen setti luodaan
     // useEffect(() => {
@@ -80,6 +88,10 @@ const Workout = ({ type }) => {
 
     return (
         <>
+            <Box padding={2}>
+                <WorkoutNameField workoutName={workoutName} />
+            </Box>
+
             {exercises.length === 0 &&
                 <Container>
                     <Typography
@@ -98,15 +110,11 @@ const Workout = ({ type }) => {
 
                         <FlipMove>
                             {exercises.map((exercise, index) => {
-                                console.log("MAPPING!!!!!!");
+                                //console.log("MAPPING!!!!!!");
                                 let arrayStart = false
                                 let arrayEnd = false
-                                if (index === 0) {
-                                    arrayStart = true
-                                }
-                                if (index === exercises.length - 1) {
-                                    arrayEnd = true
-                                }
+                                if (index === 0) { arrayStart = true }
+                                if (index === exercises.length - 1) { arrayEnd = true }
                                 return (
                                     <WorkoutExercise
                                         key={exercise.id}
@@ -123,11 +131,31 @@ const Workout = ({ type }) => {
                 </Stack>
             }
 
-            <Button variant="text" fullWidth sx={{ marginBottom: 25 }} onClick={() => setOpenAddModal(true)}>
-                Add exercise
-            </Button>
+            <Stack sx={{ marginBottom: 8 }} >
+                <Button variant="text" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenAddModal(true)}>
+                    Add exercise
+                </Button>
+                {type === "active" &&
+                    <>
+                        <Button variant="text" color="success" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenAddModal(true)}>
+                            Finish workout
+                        </Button>
+                        <Button variant="text" color="error" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenAddModal(true)}>
+                            Cancel workout
+                        </Button>
+                    </>
+                }
+
+            </Stack>
 
             {openAddModal &&
+                <AddExerciseToWorkoutModal
+                    open={openAddModal}
+                    onClose={setOpenAddModal}
+                    confirmFunction={addExercisesToStore}
+                />
+            }
+            {openFinishModal &&
                 <AddExerciseToWorkoutModal
                     open={openAddModal}
                     onClose={setOpenAddModal}

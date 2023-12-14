@@ -34,19 +34,16 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
     //const workout = useSelector(state => state.workout)
 
     const email = useSelector(state => state.user.email)
-    let workoutName
     let exercises
     let sets
     let modalTitle
     switch (type) {
         case "active":
-            workoutName = useSelector(state => state.workout.workoutTitle ? state.workout.workoutTitle : "")
             exercises = useSelector(state => state.exercises)
             sets = useSelector(state => state.sets)
             modalTitle = "Finish workout?"
             break;
         case "template":
-            workoutName = useSelector(state => state.template.templateName)
             exercises = useSelector(state => state.template.exercises)
             sets = useSelector(state => state.template.sets)
             modalTitle = "Save template?"
@@ -55,17 +52,12 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
             throw new Error('Component must have a type prop specified!');
     }
 
-    const [input, setInput] = useState(workoutName)
-    const [inputError, setInputError] = useState('')
+    
 
     const dispatch = useDispatch()
     // const navigate = useNavigate()
 
     const saveWorkoutToDb = async () => {
-        if (input === '') {
-            setInputError('required')
-            return
-        }
 
         const newExercises = exercises.map(exercise => {
             const exerciseWithSets = {
@@ -141,31 +133,7 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
             confirmButtonText={'Save'}
             cancelButtonText={'Cancel'}
             onSubmit={saveWorkoutToDb}
-        >
-            <TextField
-                fullWidth
-                id='workout title'
-                variant="outlined"
-                size='medium'
-                label="Workout name"
-                value={input}
-                onChange={(event) => {
-                    //console.log(event.target.value)
-                    setInput(event.target.value)
-                }}
-                onKeyDown={e => {
-                    if (e.code === 'enter' && e.target.value) {
-                        setSelected(e.target.value)
-                        //setAutoCompleteValue(autoCompleteValue.concat(e.target.value));
-                    }
-                }}
-                onClick={() => setInputError('')}
-                error={!(inputError === '')}
-                helperText={inputError}
-                sx={{ paddingBottom: 2 }}
-            />
-        </BasicModal>
-
+        />
     )
 }
 

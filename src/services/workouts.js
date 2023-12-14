@@ -22,7 +22,7 @@ const getAllUserWorkouts = async (userEmail) => {
     const request = axios.get(`${baseUrl}?email=${userEmail}`, config) // request on promise olio
     console.log("request ", request);
     const response = await request
-    console.log("response ", response)
+    console.log("response ALL WORKOUTS ", response)
     return response.data // metodi then.palauttaa myös promisen.
 }
 

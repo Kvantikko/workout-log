@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react"
-import SetRow from "./SetRow"
+import Sets from "./Sets";
 import { Button, Divider, Box, TextField, Stack, Grid, Paper, Slide, Typography, Collapse, IconButton } from "@mui/material"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -7,6 +7,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { TransitionGroup } from 'react-transition-group';
 import { useDispatch, useSelector } from "react-redux"
 import { addSet, deleteSet } from "../../redux/reducers/setReducer"
+import { moveExerciseDownTemplate, moveExerciseUppTemplate } from "../../redux/reducers/templateReducer";
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import generateId from "../../utils/generateId"
@@ -20,60 +21,16 @@ import { forwardRef } from 'react';
 import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer";
 
 const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, ref) => {
-    console.log("Rendering WorkoutExercise", exercise.name, arrayEnd)
+    console.log("Rendering WorkoutExercise ", exercise.name)
     /**
      * VOISKO NOPEUTTAA JO ID ON INDEKSI NIIN EI TARVI ETSIÄ?
      */
     const noteFromState = type === "active" ? useSelector(state => state.exercises.find(e => e.id === exercise.id).note) : ''
     const [note, setNote] = (noteFromState ? noteFromState : '')       //!!!!!!!
     const [focused, setFocused] = useState(false)
-    let allSetsFromState = []
-    switch (type) {
-        case "active":
-            allSetsFromState = useSelector(state => state.sets)
-            break;
-        case "template":
-            allSetsFromState = useSelector(state => state.template.sets)
-            break;
-        default:
-            throw new Error('Component Workout must have a type prop specified!');
-    }
-
-    const sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)     // !!!!!!!!!!!!!!!!!
-
-    //const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
     const dispatch = useDispatch()
-
-    console.log("SEEETS ", sets);
-
-    /**
-     * This hook prevents error "cannot update component while rendering a different component".
-     * When use creates a new exercise, the default set of one is created and ActiveWorkout component cannot
-     * update bc WorkoutExercise component is rendering the default set of one.
-     */
-    // REMEMEER: useEffect is executed after a render
-    useEffect(() => {
-        console.log('EFFECT WorkoutExercise');
-        if (sets.length === 0) {
-            console.log('WorkoutExercise: useEffect(): creating a set because sets.length is 0');
-            createSet(true) // tää aiheuttaa sen että ei scrollaa pohjaan
-            //window.scrollTo(0, document.body.scrollHeight)
-            // window.scrollTo(0, document.body.scrollHeight, "smooth")
-
-
-            /* setTimeout(() => {
-              
-                window.scrollTo({
-                    top: document.body.scrollHeight,
-                    left: 0,
-                    behavior: "smooth",
-                });
-            }, "100"); */
-
-        }
-    }, [])
 
     const removeExercise = () => {
         switch (type) {
@@ -90,77 +47,6 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
 
     }
 
-    const createSet = (warmup) => {
-
-        let weight = 20
-        let reps = 15
-
-        if (!(sets.length === 0)) {
-            let lastSet = sets[sets.length - 1]
-            weight = lastSet.weight
-            reps = lastSet.reps
-        }
-
-        const newSet = {
-            id: generateId(),
-            exerciseId: exercise.id,
-            createdAt: new Date().toJSON(), // tää servulla?
-            warmup: warmup,
-            weight: weight,
-            reps: reps
-        }
-
-        switch (type) {
-            case "active":
-                dispatch(addSet(newSet))
-                break
-            case "template":
-                dispatch(addSetToTemplate(newSet))
-                break
-            default:
-                throw new Error('Component Workout must have a type prop specified!')
-        }
-
-
-
-        /* if (sets.length === 0) {
-            console.log('WorkoutExercise: createSet(): sets length === 0...scrolling...');
-            window.scrollTo(0, document.body.scrollHeight)
-        } */
-    }
-
-    let setNumber = 0
-
-    const renderSets = () => {
-        //console.log('WorkoutExercise: renderSets() start');
-
-        return (
-            <Stack spacing={0}  >
-
-
-                <TransitionGroup>
-                    {sets.map((set, index) => {
-
-                        if (!set.warmup) {
-                            //console.log('this is NOT a warmup set');
-                            setNumber = setNumber + 1
-                        }
-                        return (
-                            <Collapse key={set.id}>
-                                <SetRow key={set.id}
-                                    set={set}
-                                    number={set.warmup === true ? 0 : setNumber}
-                                    index={index}
-                                    type={type}
-                                />
-                            </Collapse>
-                        )
-                    })}
-                </TransitionGroup>
-            </Stack>
-        )
-    }
-
     const handleBlur = () => {
         setFocused(false)
         const changedExercise = { ...exercise, note: note }
@@ -168,17 +54,31 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
     }
 
     const handleSwapDown = () => {
-        //setSlide((prev) => !prev)
-        dispatch(moveExerciseDown(exercise.id))
-        //setSlide((prev) => !prev)
-
+        switch (type) {
+            case "active":
+                dispatch(moveExerciseDown(exercise.id))
+                break
+            case "template":
+                dispatch(moveExerciseDownTemplate(exercise.id))
+                break
+            default:
+                throw new Error('Component Workout must have a type prop specified!')
+        }
+        
     }
 
     const handleSwapUpp = () => {
-        // setSlide((prev) => !prev)
-        dispatch(moveExerciseUpp(exercise.id))
-        //setSlide((prev) => !prev)
-
+        switch (type) {
+            case "active":
+                dispatch(moveExerciseUpp(exercise.id))
+                break
+            case "template":
+                dispatch(moveExerciseUppTemplate(exercise.id))
+                break
+            default:
+                throw new Error('Component Workout must have a type prop specified!')
+        }
+        
     }
 
     return (
@@ -262,23 +162,11 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
                 </Stack>
             </Box>
 
-            {renderSets()}
-
-            <Box textAlign='center' sx={{ mt: 2 }} > {/* box is for centering the button */}
-                <Button
-                    variant="text"
-                    onClick={() => createSet(false)}
-                    fullWidth
-                >
-                    Add set
-                </Button>
-            </Box>
+            <Sets type={type} exercise={exercise} />
 
             <Divider sx={{ my: 3 }} />
 
         </Box>
-
-
     )
 })
 
