@@ -16,7 +16,9 @@ import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
 import FlipMove from "react-flip-move";
 import Defer from "../Defer/Defer"
 import WorkoutNameField from "../Inputs/WorkoutNameField";
-import { selectAllExercises } from "../../redux/selectors";
+import { selectAllTemplateExercises } from "../../redux/selectors";
+import { selectAllWorkoutExercises } from "../../redux/selectors";
+import { addExercisesToWorkout } from "../../redux/reducers/workoutReducer";
 
 
 const Workout = ({ type }) => {
@@ -26,16 +28,15 @@ const Workout = ({ type }) => {
     let exercises
     switch (type) {
         case "active":
-            workoutName = useSelector(state => state.workout.workoutTitle ? state.workout.workoutTitle : "")
-            exercises = useSelector(state => state.exercises)
+            workoutName = useSelector(state => state.workout.name)
+            exercises = useSelector(selectAllWorkoutExercises)
             break;
         case "template":
             workoutName = useSelector(state => state.template.name)
-            //exercises = useSelector(state => state.template.exercises.allIds)
-            exercises = useSelector(selectAllExercises);//useSelector(state => state.template.exercises.allIds.map(id => state.template.exercises.byId[id]))
+            exercises = useSelector(selectAllTemplateExercises)
             break;
         default:
-            throw new Error('Component Workout must have a type prop specified!');
+            throw new Error('Component Workout must have a type prop specified!')
     }
     const [openAddModal, setOpenAddModal] = useState(false)
     const [openFinishModal, setOpenFinishModal] = useState(false)
@@ -73,7 +74,7 @@ const Workout = ({ type }) => {
 
         switch (type) {
             case "active":
-                dispatch(addExercises(exercisesToBeAdded))
+                dispatch(addExercisesToWorkout(exercisesToBeAdded))
                 break
             case "template":
                 dispatch(addExercisesToTemplate(exercisesToBeAdded))
@@ -89,7 +90,7 @@ const Workout = ({ type }) => {
     return (
         <>
             <Box padding={2}>
-                <WorkoutNameField workoutName={workoutName} />
+                <WorkoutNameField workoutName={workoutName} type={type} />
             </Box>
 
             {exercises.length === 0 &&

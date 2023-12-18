@@ -9,15 +9,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { useDispatch } from 'react-redux';
-import { openDeleteModal, openEditModal, closeModal } from '../../redux/reducers/modalReducer';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import BasicModal from '../Modals/BasicModal';
 
 import { toast } from 'react-toastify';
 
 import workoutService from '../../services/workouts'
-import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer';
 
 import { useNavigate } from 'react-router-dom';
 

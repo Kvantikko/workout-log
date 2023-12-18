@@ -1,5 +1,4 @@
 
-import ExerciseToolbar from '../../components/Toolbars/ExerciseToolbar';
 import HideAppBar from '../../components/AppBar/HideAppBar';
 import axios from 'axios';
 
@@ -7,8 +6,11 @@ import { useEffect, useState } from 'react';
 
 import exerciseService from '../../services/exercises'
 import WorkoutExerciseList from '../../components/Lists/WorkoutExerciseList';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Typography, Box, CircularProgress } from '@mui/material';
+import BasicToolbar from '../../components/Toolbars/BasicToolbar';
+import ExerciseMenu from '../../components/Menus/ExerciseMenu';
+import { resetExercisePath } from '../../redux/reducers/navReducer';
 
 
 const Exercise = ({ exercise, drawerWidth }) => {
@@ -17,6 +19,8 @@ const Exercise = ({ exercise, drawerWidth }) => {
     const user = useSelector(state => state.user)
     const [workoutExercises, setworkoutExercises] = useState([])
     const [loading, setLoading] = useState(true)
+
+    const dispatch = useDispatch()
 
     /**
      * ekalla componentin mountilla fetchataan data ja pistetään storeen, ja aina kun komponentti
@@ -40,7 +44,14 @@ const Exercise = ({ exercise, drawerWidth }) => {
     return (
         <>
             <HideAppBar drawerWidth={drawerWidth} >
-                <ExerciseToolbar exercise={exercise} />
+                <BasicToolbar
+                    title={exercise.name}
+                    showBack={true}
+                    link={"/exercises"}
+                    backFunction={() => dispatch(resetExercisePath())}
+                >
+                    <ExerciseMenu exercise={exercise}/*  exercise={exercise} showDateRange={true} */  />
+                </BasicToolbar>
             </HideAppBar>
 
             <div>
@@ -63,7 +74,6 @@ const Exercise = ({ exercise, drawerWidth }) => {
                     :
 
                     < div >
-
                         {(workoutExercises.length === 0) &&
                             <Box
                                 display="flex"
@@ -87,7 +97,7 @@ const Exercise = ({ exercise, drawerWidth }) => {
                         }
 
 
-                        <Box paddingY={ {xs: 2, md: 5} } paddingX={ {xs: 2, sm: 4, md: 6} }  >
+                        <Box paddingY={{ xs: 2, md: 5 }} paddingX={{ xs: 2, sm: 4, md: 6 }}  >
                             <WorkoutExerciseList workoutExercises={workoutExercises} showDate={true} />
                         </Box>
                     </div>

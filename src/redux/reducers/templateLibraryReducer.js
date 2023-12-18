@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
+import templateService from "../../services/templates"
 
 // this will sort the exercises in alphabetical order after a new template is added or edited
 const sortAlphabetically = (array) => {
     array.sort((a, b) => {
-        if (a.title.toLowerCase() < b.title.toLowerCase()) {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
           return -1;
         }
-        if (a.title.toLowerCase() > b.title.toLowerCase()) {
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
           return 1;
         }
         return 0;
@@ -17,7 +18,7 @@ const templateLibrarySlice = createSlice({
     name: 'templates',
     initialState: [],
     reducers: {
-        createTemplate(state, action) {
+        addTemplate(state, action) {
             console.log("REDUCER ", action.payload);
             state.push(action.payload) // action.payload is exercise object
             console.log("PUSHED");
@@ -52,9 +53,12 @@ const templateLibrarySlice = createSlice({
 })
 
 export const {
-    createTemplate,
+    addTemplate,
     updateTemplate,
     setTemplates,
     removeTemplate
 } = templateLibrarySlice.actions
+
+
+
 export default templateLibrarySlice.reducer

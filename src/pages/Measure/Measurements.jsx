@@ -1,10 +1,6 @@
 import { Button, Container, Stack, Box, Typography } from "@mui/material"
 import HideAppBar from "../../components/AppBar/HideAppBar"
-import ProfileToolbar from "../../components/Toolbars/MeasurementsToolbar"
-import { useDispatch } from "react-redux"
-import { logout } from "../../redux/reducers/userReducer"
-import { useNavigate } from "react-router-dom"
-import MeasurementsToolbar from "../../components/Toolbars/MeasurementsToolbar"
+import BasicToolbar from "../../components/Toolbars/BasicToolbar"
 
 const Measurements = ({ user, drawerWidth }) => {
 
@@ -12,7 +8,7 @@ const Measurements = ({ user, drawerWidth }) => {
     return (
         <>
             <HideAppBar drawerWidth={drawerWidth} >
-                <MeasurementsToolbar />
+                <BasicToolbar title={"Measure"}/>
             </HideAppBar>
 
             <Box

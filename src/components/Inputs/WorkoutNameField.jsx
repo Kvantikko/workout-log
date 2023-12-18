@@ -1,27 +1,30 @@
 import { useState } from "react"
 
 import { TextField } from "@mui/material"
+import { useDispatch } from "react-redux"
+import { setTemplateName } from "../../redux/reducers/templateReducer"
 
 
-const WorkoutNameField = ({ workoutName }) => {
+const WorkoutNameField = ({ workoutName, type }) => {
 
     const [input, setInput] = useState(workoutName)
     const [helperText, setHelperText] = useState('')
     const [error, setError] = useState(!(helperText === ''))
 
+    const dispatch = useDispatch()
+
     const handleBlur = (event) => {
         setInput(event.target.value)
-       /*  switch (type) {
+        switch (type) {
             case "active":
-                dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+                //dispatch()
                 break
             case "template":
-                dispatch(editSetFromTemplate({ setId: set.id, changedSet: changedSet }))
+                dispatch(setTemplateName(input))
                 break
             default:
                 throw new Error('Component must have a type prop specified!')
-        } */
-
+        }
     }
 
     return (
@@ -31,12 +34,13 @@ const WorkoutNameField = ({ workoutName }) => {
             variant="standard"
             size='normal'
             //label="Workout name"
-            placeholder="Workut name"
-            //value={input}
-            /* onChange={(event) => {
+            //placeholder={workoutName}
+            placeholder="Workout name"
+            value={input}
+            onChange={(event) => {
                 //console.log(event.target.value)
                 setInput(event.target.value)
-            }} */
+            }}
             onKeyDown={e => {
                 if (e.code === 'enter' && e.target.value) {
                     setSelected(e.target.value)

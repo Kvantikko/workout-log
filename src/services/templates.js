@@ -36,7 +36,7 @@ const createNew = async (workoutTemplate) => {
     console.log('sending this to the server: ', workoutTemplate);
     const response = await axios.post(baseUrl, workoutTemplate, config) 
     console.log("response ", response)
-    return response
+    return response.data
 }
 
 const update = async (id, template) => {

@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
-import { startWorkout } from "../../redux/reducers/workoutReducer";
+import BasicToolbar from "../../components/Toolbars/BasicToolbar";
 
 import { ListItemButton, Box, Stack } from "@mui/material";
 
 import HideAppBar from "../../components/AppBar/HideAppBar";
-import HistoryToolbar from "../../components/Toolbars/HistoryToolbar";
 import { Link, Navigate, useLocation, useNavigate, useNavigation } from "react-router-dom";
 
 import { Typography } from "@mui/material";
@@ -90,12 +89,7 @@ const History = ({ drawerWidth }) => {
             {/*  {historyId && <Navigate to={`/history/${historyId}`} />} */}
 
             <HideAppBar drawerWidth={drawerWidth} >
-                <HistoryToolbar
-                    filter={filterByDate}
-                    removeFilter={removeDateFilter}
-                    showRemoveFilterButton={showRemoveFilterButton}
-                    setShowRemoveFilterButton={setShowRemoveFilterButton}
-                />
+                <BasicToolbar title="History" />
             </HideAppBar>
 
             {workouts.length === 0 &&
@@ -113,8 +107,8 @@ const History = ({ drawerWidth }) => {
                 </Box>
             }
 
-            <Box paddingY={2} paddingX={ {xs: 2, sm: 6, md: 10 } }>
-                <WorkoutCardList workouts={filteredWorkouts} showDate={true} onItemClick={handleCardClick} path="history"/>
+            <Box paddingY={2} paddingX={{ xs: 2, sm: 6, md: 10 }}>
+                <WorkoutCardList workouts={filteredWorkouts} showDate={true} onItemClick={handleCardClick} path="history" />
             </Box>
 
 

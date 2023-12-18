@@ -1,30 +1,18 @@
 
-import HistoryIdToolbar from '../../components/Toolbars/HistoryIdToolbar';
-import HideAppBar from '../../components/AppBar/HideAppBar';
-import axios from 'axios';
-
-import exerciseService from '../../services/exercises'
-
 import BasicModal from '../../components/Modals/BasicModal';
-import { Link } from "react-router-dom";
+
 
 import { Button, AppBar, Divider, Stack, Typography, List, ListItem, ListItemButton, ListItemText, Container, Box, Grid, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { copyWorkout } from "../../redux/reducers/workoutReducer";
-import { copySets } from "../../redux/reducers/setReducer";
-import { copyExercises } from "../../redux/reducers/exerciseReducer";
+import { setWorkout, startWorkout } from "../../redux/reducers/workoutReducer";
 
-import generateId from "../../utils/generateId";
-import { formatDateTime } from "../../utils/Date";
 
 import { clearWorkout } from "../../redux/reducers/workoutReducer"
 import { stopWatch } from '../../redux/reducers/stopWatchReducer'
-import { clearSets } from '../../redux/reducers/setReducer'
-import { clearExercises } from '../../redux/reducers/exerciseReducer'
+
 
 import { useNavigate } from "react-router-dom";
 
-import WorkoutExerciseSets from "../../components/Lists/WorkoutExerciseSets";
 import WorkoutExerciseList from "../../components/Lists/WorkoutExerciseList";
 
 
@@ -32,6 +20,8 @@ import WorkoutExerciseList from "../../components/Lists/WorkoutExerciseList";
 import { useEffect, useState } from "react";
 
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { resetHistory } from '../../redux/reducers/navReducer';
+import HistoryMenu from '../../components/Menus/HistoryMenu';
 
 
 
@@ -71,25 +61,24 @@ const HistoryId = ({ workout, drawerWidth }) => {
 
     const clear = () => {
         dispatch(clearWorkout())
-        dispatch(clearExercises())
-        dispatch(clearSets())
+        /*     dispatch(clearExercises())
+            dispatch(clearSets()) */
         dispatch(stopWatch())
     }
 
     const copy = () => {
-        console.log("COPYYYYYYYYYYYYYYY");
         clear()
-        dispatch(copyWorkout({ title: workout.title, exercises: workout.workoutExercises }))
-        dispatch(copyExercises(workout.workoutExercises))
+        dispatch(setWorkout(workout))
+        dispatch(startWorkout())
         // this is done bc in the workout object coming from the server, sets dont have a reference field of exerciseId
-        let setsWithExerciseId = []
+        /* let setsWithExerciseId = []
         workout.workoutExercises.forEach(exercise => {
             exercise.sets.forEach(set => {
                 const setWithExerciseId = { ...set, exerciseId: exercise.id }
                 setsWithExerciseId.push(setWithExerciseId)
             })
         })
-        dispatch(copySets(setsWithExerciseId))
+        dispatch(copySets(setsWithExerciseId)) */
         setShowModal(false)
     }
 
@@ -112,14 +101,26 @@ const HistoryId = ({ workout, drawerWidth }) => {
 
     return (
         <>
-            <HideAppBar drawerWidth={drawerWidth}>
-                <HistoryIdToolbar
-                    workout={workout}
-                    setShowModal={setShowModal}
-                    showModal={showModal}
-                    handleCopy={handleCopy}
-                />
-            </HideAppBar>
+            <BasicToolbar
+                title={workout.title}
+                showBack={true}
+                backFunction={() => dispatch(resetHistory())}
+                link={"/history"}
+            >
+                {isSmallScreen ?
+                    <Button
+                        sx={{
+                            height: 1, margin: 'auto', whiteSpace: 'nowrap',
+                            textAlign: 'center', paddingY: 0.6, paddingX: 2, alignSelf: "center"
+                        }}
+                        variant="contained" onClick={(event) => handleCopy(event)} >
+                        Perform again
+                    </Button>
+                    :
+                    null
+                }
+                <HistoryMenu workout={workout} />
+            </BasicToolbar>
 
             {/* DATE */}
             <Typography
@@ -183,7 +184,7 @@ const HistoryId = ({ workout, drawerWidth }) => {
                         Are you sure you want to override the current workout?"
                         onSubmit={() => copy()}
                     />
-              
+
 
                 </AppBar>
             </Box>

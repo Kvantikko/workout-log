@@ -9,8 +9,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { useDispatch } from 'react-redux';
-import { openDeleteModal, openEditModal, closeModal } from '../../redux/reducers/modalReducer';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ExerciseForm from '../Forms/ExerciseForm';
 import { toast } from 'react-toastify';
 

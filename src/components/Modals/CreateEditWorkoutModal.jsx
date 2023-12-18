@@ -16,37 +16,37 @@ import { toast } from "react-toastify"
 
 const CreateEditWorkoutModal = ({ open, onClose, workout, title, disableWarning, editVipu }) => {
 
-    const isExercises = useSelector(state => state.template.exercises).length !== 0
+    const isExercises = useSelector(state => state.template.exercises.allIds).length !== 0
+    const isName = useSelector(state => state.template.name) !== ""
     const [openWarningModal, setOpenWarningModal] = useState(false)
     const [openSaveModal, setOpenSaveModal] = useState(false)
     const isSmallScreen = useMediaQuery('(max-width:600px)')
 
     const dispatch = useDispatch()
 
-    const handleSave = () => {
+    const handleSaveButtonClick = () => {
         if (!isExercises) {
             toast.warning("Add atleast one exercise before saving!")
-        } else {
+        } else if (!isName) {
+            toast.warning("Give your workout a name!")
+        }else {
             setOpenSaveModal(true)
         }
-
-
     }
 
-    const handleClose = () => {
-        if (isExercises && !disableWarning) {
+    const handleModalClose = () => {
+        if (isExercises /* && disableWarning */) {
             setOpenWarningModal(true)
         } else {
             onClose(false)
         }
     }
 
-    const handle = () => {
+    const handleSubmit = () => {
         onClose(false)
         setOpenSaveModal(false)
         setOpenWarningModal(false)
         dispatch(clearTemplate())
-        console.log("handle end ",)
     }
 
     const handleCancelFinish = () => {
@@ -61,7 +61,7 @@ const CreateEditWorkoutModal = ({ open, onClose, workout, title, disableWarning,
             {isSmallScreen &&
                 <FullScreenMobileModal
                     open={open}
-                    onClose={handleClose}
+                    onClose={handleModalClose}
                 >
                     <Toolbar sx={{ justifyContent: 'space-between' }}>
                         <Stack direction={'row'} justifyItems={'center'} gap={2} >
@@ -85,8 +85,8 @@ const CreateEditWorkoutModal = ({ open, onClose, workout, title, disableWarning,
             {!isSmallScreen &&
                 <BasicModal
                     open={open}
-                    onClose={handleClose}
-                    onSubmit={handleSave}
+                    onClose={handleModalClose}
+                    onSubmit={handleSaveButtonClick}
                     title={title}
                     confirmButtonText={"Save"}
                 >
@@ -102,14 +102,14 @@ const CreateEditWorkoutModal = ({ open, onClose, workout, title, disableWarning,
                     title={"Discard template?"}
                     subTitle={"Are you sure you want to discard the template without saving it?"}
                     confirmButtonText={"Discard"}
-                    onSubmit={() => handle()}
+                    onSubmit={() => handleSubmit()}
                 />
             }
             {openSaveModal &&
                 <SaveWorkoutModal
                     open={openSaveModal}
                     onClose={() => handleCancelFinish()}
-                    onSubmit={() => handle()}
+                    onSubmit={() => handleSubmit()}
                     type={"template"}
                     editVipu={editVipu}
                     workout={workout}

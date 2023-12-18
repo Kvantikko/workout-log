@@ -1,42 +1,35 @@
 
-import HistoryIdToolbar from '../../components/Toolbars/HistoryIdToolbar';
 import HideAppBar from '../../components/AppBar/HideAppBar';
-import axios from 'axios';
-
-import exerciseService from '../../services/exercises'
-
-
-import { Link } from "react-router-dom";
 
 import { Button, AppBar, Divider, Stack, Typography, List, ListItem, ListItemButton, ListItemText, Container, Box, Grid, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { copyWorkout } from "../../redux/reducers/workoutReducer";
-import { copySets } from "../../redux/reducers/setReducer";
+import { setWorkout, startWorkout } from "../../redux/reducers/workoutReducer";
+/* import { copySets } from "../../redux/reducers/setReducer";
 import { copyExercises } from "../../redux/reducers/exerciseReducer";
 
 import generateId from "../../utils/generateId";
 import { formatDateTime } from "../../utils/Date";
-
+ */
 import { clearWorkout } from "../../redux/reducers/workoutReducer"
 import { stopWatch } from '../../redux/reducers/stopWatchReducer'
-import { clearSets } from '../../redux/reducers/setReducer'
-import { clearExercises } from '../../redux/reducers/exerciseReducer'
+/* import { clearSets } from '../../redux/reducers/setReducer'
+import { clearExercises } from '../../redux/reducers/exerciseReducer' */
 
-import { useNavigate } from "react-router-dom";
 
-import WorkoutExerciseSets from "../../components/Lists/WorkoutExerciseSets";
+/* import WorkoutExerciseSets from "../../components/Lists/WorkoutExerciseSets"; */
 import WorkoutExerciseList from "../../components/Lists/WorkoutExerciseList";
 
-import HistoryModalMenu from "../../components/Menus/HistoryMenu";
-
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import TemplateToolbar from '../../components/Toolbars/TemplateToolbar';
 
 
 import BasicModal from '../../components/Modals/BasicModal';
+import BasicToolbar from '../../components/Toolbars/BasicToolbar';
+import HistoryMenu from '../../components/Menus/HistoryMenu';
+import TemplateMenu from '../../components/Menus/TemplateMenu';
+import { resetWorkoutPath } from '../../redux/reducers/navReducer';
+
 
 
 
@@ -63,29 +56,20 @@ const Template = ({ template, drawerWidth }) => {
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const isSmallScreen = useMediaQuery('(min-width:900px)')
     const [openCopyModal, setOpenCopyModal] = useState(false)
-    
+
     const dispatch = useDispatch()
 
     const clear = () => {
         dispatch(clearWorkout())
-        dispatch(clearExercises())
-        dispatch(clearSets())
+        /*      dispatch(clearExercises())
+             dispatch(clearSets()) */
         dispatch(stopWatch())
     }
 
     const copy = () => {
         clear()
-        dispatch(copyWorkout({ title: template.title, exercises: template.workoutExercises }))
-        dispatch(copyExercises(template.workoutExercises))
-        // this is done bc in the workout object coming from the server, sets dont have a reference field of exerciseId
-        let setsWithExerciseId = []
-        template.workoutExercises.forEach(exercise => {
-            exercise.sets.forEach(set => {
-                const setWithExerciseId = { ...set, exerciseId: exercise.id }
-                setsWithExerciseId.push(setWithExerciseId)
-            })
-        })
-        dispatch(copySets(setsWithExerciseId))
+        dispatch(setWorkout(template))
+        dispatch(startWorkout())
         setOpenCopyModal(false)
     }
 
@@ -97,15 +81,31 @@ const Template = ({ template, drawerWidth }) => {
         copy()
     }
 
+    
+
     return (
         <>
             <HideAppBar drawerWidth={drawerWidth}>
-                <TemplateToolbar
-                    workout={template}
-                    setShowModal={setOpenCopyModal}
-                    showModal={openCopyModal}
-                    handleCopy={handleCopy}
-                />
+                <BasicToolbar
+                    title={template.title}
+                    showBack={true}
+                    backFunction={() => dispatch(resetWorkoutPath())}
+                    link={"/"}
+                >
+                    {isSmallScreen ?
+                        <Button
+                            sx={{
+                                height: 1, margin: 'auto', whiteSpace: 'nowrap',
+                                textAlign: 'center', paddingY: 0.6, paddingX: 2, alignSelf: "center"
+                            }}
+                            variant="contained" onClick={(event) => handleCopy(event)} >
+                            Start workout
+                        </Button>
+                        :
+                        null
+                    }
+                    <TemplateMenu  workout={template} />
+                </BasicToolbar>
             </HideAppBar>
 
             <Box

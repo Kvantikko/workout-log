@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import { Button, Stack, Typography } from "@mui/material"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
@@ -10,9 +10,42 @@ import { editSet, deleteSet } from "../../redux/reducers/setReducer"
 import SetTextField from "../Inputs/SetTextfield"
 import BasicModal from "../Modals/BasicModal"
 import { deleteSetFromTemplate, editSetFromTemplate } from "../../redux/reducers/templateReducer";
+import { deleteSetFromWorkout, editSetFromWorkout } from "../../redux/reducers/workoutReducer";
 
-const SetRow = ({ set, number, index, type }) => {
-    console.log("-------------------- A set ROW is rendering ----------------------------- ", set)
+const SetRow = ({ setId, type }) => {
+    console.log("-------------------- A set ROW is rendering ----------------------------- ",)
+
+    /**
+     * CONFIRMED: setId prop makes all sets render on addtiton!!!!1111111111
+     */
+
+    //const setId = 965
+
+    const dummy = {
+        done: false,
+        id: 0,
+        exerciseId: 0,
+        createdAt: null,
+        warmup: false,
+        weight: 0,
+        reps: 0
+    }
+    let set = dummy
+    switch (type) {
+        case "active":
+            set = useSelector(state => state.workout.sets.byId[setId])
+            break
+        case "template":
+            //set = useSelector(state => state.template.sets.byId[setId])
+            set = useSelector(state => state.template.sets.byId[setId])
+            break
+        default:
+            throw new Error('Component must have a type prop specified!')
+    }
+
+    
+
+    console.log("--- SET: ", set);
 
     const [color, setColor] = useState(set.done ? "rgba(25, 255, 255, 0.12)" : "")
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
@@ -29,14 +62,13 @@ const SetRow = ({ set, number, index, type }) => {
     }
 
     const removeSet = () => {
-        console.log("delete set func, type: ", type);
         switch (type) {
             case "active":
-                dispatch(deleteSet(set.id))
+                dispatch(deleteSetFromWorkout(set))
                 break
             case "template":
-                console.log("removeSet() ", set);
-                dispatch(deleteSetFromTemplate(set.id))
+                //console.log("removeSet() ", set);
+                dispatch(deleteSetFromTemplate(set))
                 break
             default:
                 throw new Error('Component Workout must have a type prop specified!')
@@ -49,7 +81,7 @@ const SetRow = ({ set, number, index, type }) => {
             const changedSet = { ...set, done: true }
             switch (type) {
                 case "active":
-                    dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+                    dispatch(editSetFromWorkout({ setId: set.id, changedSet: changedSet }))
                     break
                 case "template":
                     dispatch(editSetFromTemplate({ setId: set.id, changedSet: changedSet }))
@@ -62,7 +94,7 @@ const SetRow = ({ set, number, index, type }) => {
             const changedSet = { ...set, done: false }
             switch (type) {
                 case "active":
-                    dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+                    dispatch(editSetFromWorkout({ setId: set.id, changedSet: changedSet }))
                     break
                 case "template":
                     dispatch(editSetFromTemplate({ setId: set.id, changedSet: changedSet }))
@@ -77,7 +109,7 @@ const SetRow = ({ set, number, index, type }) => {
         const changedSet = { ...set, warmup: !set.warmup }
         switch (type) {
             case "active":
-                dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+                dispatch(editSetFromWorkout({ setId: set.id, changedSet: changedSet }))
                 break
             case "template":
                 dispatch(editSetFromTemplate({ setId: set.id, changedSet: changedSet }))
@@ -100,7 +132,7 @@ const SetRow = ({ set, number, index, type }) => {
                 sx={{ maxWidth: 0.2, minWidth: 0.1 }}
                 disabled={set.done ? true : false}
             >
-                {number === 0 ? <Typography color={set.done ? theme => theme.palette.text.disabled : '#ffa726'}>W</Typography> : number}
+                {set.setNo === 0 ? <Typography color={set.done ? theme => theme.palette.text.disabled : '#ffa726'}>W</Typography> : set.setNo}
             </Button>
 
             <SetTextField id={"weight"} set={set} minWidth={80} step={2.5} type={type} />
@@ -139,9 +171,21 @@ const SetRow = ({ set, number, index, type }) => {
             }
         </Stack>
 
+
     )
 }
 
-// react memo for preventing unneccessary re-renders (not enough tho, needs useCallback)
+function arePropsEqual(oldProps, newProps) {
+    //console.log("ARE PROPS EQUAL: ", oldProps.setId === newProps.setId  && oldProps.type === newProps.type)
+    return oldProps.setId === newProps.setId  && oldProps.type === newProps.type
+    
+  }
+
+
 export default React.memo(SetRow)
+   /* , (prevProps, currentProps) => {
+        console.log("KAKKAKAKAKKAKAK   ", prevProps.setId !== currentProps.setId);
+        return prevProps.setId === currentProps.setId
+    } */
+
 //export default React.memo(Set (prevProps, currentProps) => isDeepEqual(prevProps.someObject, currentProps.someObject))

@@ -11,14 +11,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import BasicModal from '../Modals/BasicModal';
 
 import { useDispatch } from 'react-redux';
-import { openDeleteModal, openEditModal, closeModal } from '../../redux/reducers/modalReducer';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 import { toast } from 'react-toastify';
 
 import templateService from '../../services/templates'
-import { removeExercise } from '../../redux/reducers/exerciseLibraryReducer';
-import FormModal from '../Modals/FormModal';
 
 import { useNavigate } from 'react-router-dom';
 import { addExercisesToTemplate, addSetsToTemplate, clearTemplate, setTemplate, setTemplateName } from '../../redux/reducers/templateReducer';
@@ -62,7 +58,7 @@ const TemplateMenu = ({ workout }) => {
     }
 
     const copy = () => {
-        console.log("COPY");
+        //console.log("COPY");
 
         dispatch(setTemplate(workout))
 

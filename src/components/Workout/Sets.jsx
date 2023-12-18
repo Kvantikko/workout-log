@@ -7,17 +7,18 @@ import { addSet, deleteSet } from "../../redux/reducers/setReducer"
 import generateId from "../../utils/generateId"
 import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer";
 
-import { selectFilteredSets } from '../../redux/selectors';
+import { selectFilteredSetIds } from '../../redux/selectors';
+import { addSetToWorkout } from '../../redux/reducers/workoutReducer';
 
 
 
 
-const Sets = ({ type, exercise }) => {
+const Sets = ({ type, exerciseId }) => {
 
-    console.log("Rendering Sets ", exercise.name);
+    console.log("Rendering Sets " )
 
     //let allSetsFromState
-    let sets //= useSelector((state) => selectFilteredSets(state, exercise.id))
+    let setIds = [] //= useSelector((state) => selectFilteredSets(state, exercise.id))
     switch (type) {
         case "active":
             //sets = useSelector((state) => selectFilteredSets(state, exercise.id))
@@ -27,12 +28,13 @@ const Sets = ({ type, exercise }) => {
                
             )) */
             //allSetsFromState = useSelector(state => state.sets)
-            sets = useSelector(state => state.sets)
+            setIds = useSelector(state => state.workout.sets.byExerciseId[exerciseId]) || []
             //sets = useSelector(state => state.sets)//useSelector((state) => selectFilteredSets(state, exercise.id))
             //sets = selectFilteredSets(state => state.sets, exercise) //useSelector(state => state.sets.filter(set => set.exerciseId === exercise.id))
             break;
         case "template":
-            sets = useSelector(state => selectFilteredSets(state, exercise.id))
+            setIds = useSelector(state => state.template.sets.byExerciseId[exerciseId]) || []
+            //setIds = useSelector(state => selectFilteredSetIds(state, exercise.id))
             //allSetsFromState = useSelector(state => selectAllSets(state, exercise.id))//useSelector(selectAllSets)
             //allSetsFromState = useSelector(state => state.template.sets.allIds.map(id => state.template.sets.byId[id]))
             //sets = []
@@ -43,9 +45,10 @@ const Sets = ({ type, exercise }) => {
     }
     //sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)
     
-    console.log("Sets component sets: " , sets)
+    console.log("Sets component sets: " , setIds)
 
-    //const sets = React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
+    //setIds = setIds.map(id => useMemo(id))
+   // React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
 
     //const sets = useMemo(() => xsets, [xsets]);
 
@@ -59,7 +62,7 @@ const Sets = ({ type, exercise }) => {
     // REMEMEER: useEffect is executed after a render
     useEffect(() => {
         console.log('EFFECT WorkoutExercise');
-        if (sets.length === 0) {
+        if (setIds.length === 0 || setIds === undefined) {
             console.log('WorkoutExercise: useEffect(): creating a set because sets.length is 0');
             createSet(true) // tää aiheuttaa sen että ei scrollaa pohjaan
             //window.scrollTo(0, document.body.scrollHeight)
@@ -79,61 +82,36 @@ const Sets = ({ type, exercise }) => {
     }, [])
 
     const createSet = (warmup) => {
-
-        let weight = 20
-        let reps = 15
-
-        if (!(sets.length === 0)) {
-            let lastSet = sets[sets.length - 1]
-            weight = lastSet.weight
-            reps = lastSet.reps
-        }
-
-        const newSet = {
-            id: generateId(),
-            exerciseId: exercise.id,
-            createdAt: new Date().toJSON(), // tää servulla?
-            warmup: warmup,
-            weight: weight,
-            reps: reps
-        }
-
         switch (type) {
             case "active":
-                dispatch(addSet(newSet))
+                dispatch(addSetToWorkout({ warmup: warmup, exerciseId: exerciseId}))
                 break
             case "template":
-                dispatch(addSetToTemplate(newSet))
+                dispatch(addSetToTemplate({ warmup: warmup, exerciseId: exerciseId}))
                 break
             default:
                 throw new Error('Component must have a type prop specified!')
         }
     }
 
-    let setNumber = 0
-
     return (
         <>
-
-            <TransitionGroup>
-                {sets.map((set, index) => {
-                    if (!set.warmup) {
-                        setNumber = setNumber + 1
-                    }
+            {/* <TransitionGroup> */}
+                {setIds?.map((setId, index) => {
+                
                     return (
-                        <Collapse key={set.id}>
-                            <SetRow key={set.id}
-                                set={set}
-                                number={set.warmup === true ? 0 : setNumber}
-                                index={index}
+                       /*  <Collapse key={setId}> */
+                            <SetRow key={setId}
+                                setId={setId}
+                                //index={index}
                                 type={type}
                             />
-                        </Collapse>
+                      /*   </Collapse> */
                     )
                 })}
-            </TransitionGroup>
+           {/*  </TransitionGroup> */}
 
-            <Box key={exercise.id} textAlign='center' sx={{ mt: 2 }} > {/* box is for centering the button */}
+            <Box key={exerciseId} textAlign='center' sx={{ mt: 2 }} > {/* box is for centering the button */}
                 <Button
                     variant="text"
                     onClick={() => createSet(false)}
@@ -147,4 +125,4 @@ const Sets = ({ type, exercise }) => {
     )
 }
 
-export default React.memo(Sets)
+export default Sets

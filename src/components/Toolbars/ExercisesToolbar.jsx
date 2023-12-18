@@ -163,9 +163,11 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
         <>
             {!showFullWidthSearch &&
                 <>
-                    <Typography variant="h6" component="div" >
-                        Exercises
-                    </Typography>
+                    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} >
+                        <Typography variant="h6" component="div" >
+                            Exercises
+                        </Typography>
+                    </Box>
 
                     {!isSmallScreen &&
                         searchInput()
@@ -198,9 +200,12 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
 
             {showFullWidthSearch && !isSmallScreen &&
                 <>
-                    <Typography variant="h6" component="div" >
-                        Exercises
-                    </Typography>
+                    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} >
+                        <Typography variant="h6" component="div" >
+                            Exercises
+                        </Typography>
+                    </Box>
+
                     {searchInput()}
                     <Stack direction="row" spacing={2}>
                         {isSmallScreen &&

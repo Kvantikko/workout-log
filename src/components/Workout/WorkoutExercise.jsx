@@ -19,13 +19,23 @@ import BasicModal from "../Modals/BasicModal"
 
 import { forwardRef } from 'react';
 import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer";
+import { deleteExerciseFromWorkout, moveExerciseDownWorkout, moveExerciseUppWorkout } from "../../redux/reducers/workoutReducer";
 
 const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, ref) => {
     console.log("Rendering WorkoutExercise ", exercise.name)
-    /**
-     * VOISKO NOPEUTTAA JO ID ON INDEKSI NIIN EI TARVI ETSIÄ?
-     */
-    const noteFromState = type === "active" ? useSelector(state => state.exercises.find(e => e.id === exercise.id).note) : ''
+
+    let noteFromState = ""
+    switch (type) {
+        case "active":
+            noteFromState = useSelector(state => state.workout.exercises.byId[exercise.id].note) || ""
+            break
+        case "template":
+            noteFromState = useSelector(state => state.template.exercises.byId[exercise.id].note) || ""
+            break
+        default:
+            throw new Error('Component must have a type prop specified!')
+    }
+
     const [note, setNote] = (noteFromState ? noteFromState : '')       //!!!!!!!
     const [focused, setFocused] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
@@ -33,15 +43,16 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
     const dispatch = useDispatch()
 
     const removeExercise = () => {
+        setOpenDeleteModal(false)
         switch (type) {
             case "active":
-                dispatch(deleteExercise(exercise.id))
+                dispatch(deleteExerciseFromWorkout(exercise.id))
                 break
             case "template":
                 dispatch(deleteExerciseFromTemplate(exercise.id))
                 break
             default:
-                throw new Error('Component Workout must have a type prop specified!')
+                throw new Error('Component must have a type prop specified!')
         }
 
 
@@ -56,7 +67,7 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
     const handleSwapDown = () => {
         switch (type) {
             case "active":
-                dispatch(moveExerciseDown(exercise.id))
+                dispatch(moveExerciseDownWorkout(exercise.id))
                 break
             case "template":
                 dispatch(moveExerciseDownTemplate(exercise.id))
@@ -70,7 +81,7 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
     const handleSwapUpp = () => {
         switch (type) {
             case "active":
-                dispatch(moveExerciseUpp(exercise.id))
+                dispatch(moveExerciseUppWorkout(exercise.id))
                 break
             case "template":
                 dispatch(moveExerciseUppTemplate(exercise.id))
@@ -162,7 +173,7 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
                 </Stack>
             </Box>
 
-            <Sets type={type} exercise={exercise} />
+            <Sets type={type} exerciseId={exercise.id} />
 
             <Divider sx={{ my: 3 }} />
 

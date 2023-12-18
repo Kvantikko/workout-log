@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { startWorkout } from "../../redux/reducers/workoutReducer"
 
-
-import WorkoutToolbar from "../../components/Toolbars/HomeToolbar"
 import HideAppBar from "../../components/AppBar/HideAppBar"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -37,6 +35,7 @@ import schwarzenegger from '../../assets/schwarzenegger.gif'
 import AddIcon from "@mui/icons-material/Add"
 import WorkoutCardList from "../../components/Lists/WorkoutCardList"
 import CreateTemplateModal from "../../components/Modals/CreateEditWorkoutModal"
+import BasicToolbar from "../../components/Toolbars/BasicToolbar"
 
 const gifArray = [coleman, schwarzenegger]
 
@@ -107,7 +106,7 @@ const Home = ({ user, drawerWidth }) => {
     return (
         <>
             <HideAppBar drawerWidth={drawerWidth} >
-                <WorkoutToolbar />
+                <BasicToolbar title="Workout" />
             </HideAppBar>
 
             <Stack padding={2} paddingBottom={20} spacing={2} alignItems="center" >
@@ -160,11 +159,11 @@ const Home = ({ user, drawerWidth }) => {
                         </Divider>
                     </>
                 } */}
-                <Button variant="text" onClick={handleClick} sx={{ maxWidth: 0.8 }} >
+                <Button variant="text" sx={{ width: 0.5 }} onClick={handleClick}  >
                     Start a new workout
                 </Button>
                 <Divider orientation="horizontal" flexItem> or </Divider>
-                <Button variant="text" sx={{ maxWidth: 0.8 }} component={Link} to='/history' >
+                <Button variant="text" sx={{ width: 0.5 }} component={Link} to='/history' >
                     Select from history
                 </Button>
                 <Divider orientation="horizontal" flexItem> or </Divider>
@@ -192,9 +191,11 @@ const Home = ({ user, drawerWidth }) => {
                                     My templates
                                 </Typography>
                             </Box>
-                            <IconButton sx={{ color: '#90CAF9', padding: 0 }} onClick={() => setOpenTemplateModal(true)}>
-                                <AddIcon />
-                            </IconButton>
+                            <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} >
+                                <IconButton sx={{ color: '#90CAF9', padding: 1 }} onClick={() => setOpenTemplateModal(true)}>
+                                    <AddIcon />
+                                </IconButton>
+                            </Box>
                         </Stack>
                         <WorkoutCardList workouts={templates} path="templates" onItemClick={handleCardClick} />
                     </Box>
