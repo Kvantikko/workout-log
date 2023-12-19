@@ -117,7 +117,7 @@ const SearchInput = ({ exercises, setVisibleExercises, placeholder }) => {
             fullWidth
             sx={{
                 paddingY: { xs: 1, sm: 2,},
-                paddingRight: { xs: 2, sm: 5,},
+                //paddingRight: { xs: 2, sm: 5,},
             }}
             //width={1000}
 

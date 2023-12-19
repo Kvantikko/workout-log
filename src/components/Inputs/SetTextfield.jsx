@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { editSet } from "../../redux/reducers/setReducer";
+import { editSetFromWorkout } from "../../redux/reducers/workoutReducer";
 import { editSetFromTemplate } from "../../redux/reducers/templateReducer";
 
 
@@ -21,7 +21,7 @@ const SetTextField = ({ id, set, minWidth, step, type }) => {
             const changedSet = { ...set, weight: parseFloat(value), reps: set.reps, warmup: set.warmup }
             switch (type) {
                 case "active":
-                    dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+                    dispatch(editSetFromWorkout({ setId: set.id, changedSet: changedSet }))
                     break
                 case "template":
                     dispatch(editSetFromTemplate({ setId: set.id, changedSet: changedSet }))
@@ -35,7 +35,7 @@ const SetTextField = ({ id, set, minWidth, step, type }) => {
             const changedSet = { ...set, weight: set.weight, reps: parseFloat(value), warmup: set.warmup }
             switch (type) {
                 case "active":
-                    dispatch(editSet({ setId: set.id, changedSet: changedSet }))
+                    dispatch(editSetFromWorkout({ setId: set.id, changedSet: changedSet }))
                     break
                 case "template":
                     dispatch(editSetFromTemplate({ setId: set.id, changedSet: changedSet }))

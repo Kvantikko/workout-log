@@ -8,8 +8,6 @@ import workoutReducer from './reducers/workoutReducer'
 import historyReducer from './reducers/historyReducer'
 import stopWatchReducer from './reducers/stopWatchReducer'
 import timerReducer from './reducers/timerReducer'
-import setReducer from './reducers/setReducer'
-import exerciseReducer from './reducers/exerciseReducer'
 import exerciseHistoryReducer from './reducers/exerciseHistoryReducer'
 import userReducer from './reducers/userReducer'
 import darkModeReducer from './reducers/darkModeReducer'
@@ -24,8 +22,6 @@ const store = configureStore({
     reducer: {
         user: userReducer,
         workout: workoutReducer,
-        exercises: exerciseReducer,
-        sets: setReducer,
         exerciseLibrary: exerciseLibraryReducer,
         history: historyReducer,
         exerciseHistory: exerciseHistoryReducer,

@@ -2,12 +2,11 @@
 import WorkoutExercise from "./WorkoutExercise"
 import { useState, useEffect, useCallback, memo } from "react"
 import { useDispatch } from "react-redux"
-import { Autocomplete, Button, TextField, Input, Stack, Container, Box, Slide, Toolbar, Typography, Collapse, Grow } from "@mui/material"
+import { Autocomplete, Button, TextField, Input, Stack, Container, Box, Slide, Toolbar, Typography, Collapse, Grow, Divider } from "@mui/material"
 import { TransitionGroup } from 'react-transition-group';
 import { useSelector } from "react-redux"
 import generateId from "../../utils/generateId"
-import { addExercises, deleteExercise } from "../../redux/reducers/exerciseReducer"
-import { addExercisesToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer"
+import { addExercisesToTemplate, deleteExerciseFromTemplate, editTemplateNote } from "../../redux/reducers/templateReducer"
 import HideAppBar from "../AppBar/HideAppBar"
 import WorkoutToolbar from "./WorkoutToolbar"
 import FormModal from "../Modals/FormModal"
@@ -18,30 +17,48 @@ import Defer from "../Defer/Defer"
 import WorkoutNameField from "../Inputs/WorkoutNameField";
 import { selectAllTemplateExercises } from "../../redux/selectors";
 import { selectAllWorkoutExercises } from "../../redux/selectors";
-import { addExercisesToWorkout } from "../../redux/reducers/workoutReducer";
+import { addExercisesToWorkout, editWorkoutNote } from "../../redux/reducers/workoutReducer";
+import { terminateTimer } from "../../redux/reducers/timerReducer";
+import { stopWatch } from "../../redux/reducers/stopWatchReducer";
+import { clearWorkout } from "../../redux/reducers/workoutReducer";
+import BasicModal from "../Modals/BasicModal";
+import NoteField from "../Inputs/NoteField";
+import SaveWorkoutModal from "../Modals/SaveWorkoutModal";
+import Timer from "../Clock/Timer";
+
+
 
 
 const Workout = ({ type }) => {
     console.log("Rendering Workout");
 
+    let workoutStartTime
     let workoutName
     let exercises
+    let note
     switch (type) {
         case "active":
+            workoutStartTime = useSelector(state => state.workout.workoutStartTime)
             workoutName = useSelector(state => state.workout.name)
             exercises = useSelector(selectAllWorkoutExercises)
+            note = useSelector(state => state.workout.note)
             break;
         case "template":
+            workoutStartTime = null
             workoutName = useSelector(state => state.template.name)
             exercises = useSelector(selectAllTemplateExercises)
+            note = useSelector(state => state.template.note)
             break;
         default:
             throw new Error('Component Workout must have a type prop specified!')
     }
     const [openAddModal, setOpenAddModal] = useState(false)
-    const [openFinishModal, setOpenFinishModal] = useState(false)
+   /*  const [openFinishModal, setOpenFinishModal] = useState(false)
+    const [openCancelModal, setOpenCancelModal] = useState(false); */
 
     const dispatch = useDispatch()
+
+    console.log(workoutName);
 
     //console.log(exercises);
 
@@ -54,6 +71,15 @@ const Workout = ({ type }) => {
     // window.scrollTo(0, document.body.scrollHeight)
     // (document.body.scrollHeight + 1000 )
     //}, [exercises])
+
+  /*   const handleClear = () => {
+        setOpenCancelModal(false)
+        dispatch(clearWorkout())
+        dispatch(stopWatch())
+      
+        dispatch(terminateTimer())
+
+    } */
 
     const addExercisesToStore = (selectedExercises) => {
         console.log("add to store function");
@@ -86,31 +112,90 @@ const Workout = ({ type }) => {
         setOpenAddModal(false)
     }
 
+    const handleBlur = (note) => {
+        switch (type) {
+            case "active":
+                dispatch(editWorkoutNote(note))
+                break
+            case "template":
+                dispatch(editTemplateNote(note))
+                break
+            default:
+                throw new Error('Component must have a type prop specified!')
+        }
+
+    }
+
+    
 
     return (
         <>
-            <Box padding={2}>
-                <WorkoutNameField workoutName={workoutName} type={type} />
-            </Box>
+            <Box display={'flex'} flexDirection={'column'} gap={0.5} padding={2}  >
+                {type === "active" &&
+                    <Box  display={'flex'} flexDirection={'column'}  paddingLeft={2} gap={1.5}>
+                        <Typography
+                            variant="h6"
+                            color={'text.secondary'}
 
-            {exercises.length === 0 &&
+                        >
+                            Started at {workoutStartTime}
+                        </Typography>
+
+                        <Stack direction={'row'} spacing={1}>
+                            <Typography
+                                variant="h6"
+                                color={'text.secondary'}
+
+                            >
+                                Elapsed time
+                            </Typography>
+
+                            <Timer size="h6" />
+                        </Stack>
+
+                    </Box>
+                }
+                <Stack spacing={3} marginTop={3}>
+                    <WorkoutNameField /*  workoutName={workoutName}  */ type={type} />
+                    <NoteField note={note} handleBlur={handleBlur} placeholder={"Workout note"} ></NoteField>
+                </Stack>
+
+
+            {/*     {type === "active" &&
+                    <>
+                        <Button variant="text" color="success" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenFinishModal(true)}>
+                            Finish workout
+                        </Button>
+                        <Button variant="text" color="error" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenCancelModal(true)}>
+                            Cancel workout
+                        </Button>
+                    </>
+                } */}
+
+
+
+
+            </Box>
+            <Divider sx={{ marginBottom: 4, marginTop: 2 }}/>
+
+         {/*    {exercises.length === 0 &&
                 <Container>
                     <Typography
                         variant="h6"
                         color={'text.secondary'}
                         align={"center"}
-                        sx={{ marginBottom: 2, marginTop: 15 }}
+                        sx={{ marginBottom: 2, marginTop: 8 }}
                     >
                         Start adding exercises!
                     </Typography>
                 </Container>
-            }
+            } */}
             {!(exercises.length === 0) &&
                 <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
                     <Defer chunkSize={1}>
 
                         <FlipMove>
-                            {exercises.map((exercise, index) => {
+                            {exercises.map((exerciseId, index) => {
                                 //console.log("MAPPING!!!!!!");
                                 let arrayStart = false
                                 let arrayEnd = false
@@ -118,8 +203,8 @@ const Workout = ({ type }) => {
                                 if (index === exercises.length - 1) { arrayEnd = true }
                                 return (
                                     <WorkoutExercise
-                                        key={exercise.id}
-                                        exercise={exercise}
+                                        key={exerciseId}
+                                        exerciseId={exerciseId}
                                         arrayStart={arrayStart}
                                         arrayEnd={arrayEnd}
                                         type={type}
@@ -136,16 +221,6 @@ const Workout = ({ type }) => {
                 <Button variant="text" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenAddModal(true)}>
                     Add exercise
                 </Button>
-                {type === "active" &&
-                    <>
-                        <Button variant="text" color="success" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenAddModal(true)}>
-                            Finish workout
-                        </Button>
-                        <Button variant="text" color="error" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenAddModal(true)}>
-                            Cancel workout
-                        </Button>
-                    </>
-                }
 
             </Stack>
 
@@ -156,13 +231,32 @@ const Workout = ({ type }) => {
                     confirmFunction={addExercisesToStore}
                 />
             }
-            {openFinishModal &&
+          {/*   {openFinishModal &&
                 <AddExerciseToWorkoutModal
                     open={openAddModal}
                     onClose={setOpenAddModal}
                     confirmFunction={addExercisesToStore}
                 />
-            }
+            } */}
+         {/*    {openCancelModal &&
+                <BasicModal
+                    open={openCancelModal}
+                    onClose={() => setOpenCancelModal(false)}
+                    title="Discard workout?"
+                    subTitle="Are you sure you want to discard ongoing workout?"
+                    confirmButtonText={'Discard'}
+                    cancelButtonText={'Keep logging'}
+                    onSubmit={() => handleClear()}
+                />
+            } */}
+          {/*   {openFinishModal &&
+                <SaveWorkoutModal
+                    open={openFinishModal}
+                    onClose={setOpenFinishModal}
+                    type={"active"}
+               
+                />
+            } */}
         </>
     )
 }

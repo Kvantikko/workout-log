@@ -1,53 +1,25 @@
-/* import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-    workoutStarted: false,
-    workoutTitle: "",
-}
-
-const workoutSlice = createSlice({
-    name: 'workout',
-    initialState,
-    reducers: {
-        startWorkout(state) {
-            //console.log(JSON.parse(JSON.stringify(state)))
-            state.workoutStarted = true
-            //console.log(JSON.parse(JSON.stringify(state)))
-        },
-        clearWorkout(state) {
-            return initialState;
-        },
-        updateWorkoutTitle(state, action) {
-            const title = action.payload
-            state.workoutTitle = title
-        },
-        copyWorkout(state, action) {
-            state.workoutStarted = true
-            state.workoutTitle = action.payload.title
-        }
-    }
-})
-
-export const {
-    startWorkout,
-    clearWorkout,
-    updateWorkoutTitle,
-    copyWorkout
-} = workoutSlice.actions
-
-export default workoutSlice.reducer */
-
-
-
-
 import { createSlice } from "@reduxjs/toolkit"
 import generateId from "../../utils/generateId"
 import workoutService from "../../services/workouts"
 import { addTemplate, updateTemplate } from "./templateLibraryReducer"
+import { addWorkout, updateWorkout } from "./historyReducer"
+import { startWatch, stopWatch } from "./stopWatchReducer"
+import { resetTimer, startTimer, terminateTimer } from "./timerReducer"
+import { toast } from "react-toastify"
+
+const getTime = () => {
+    const date = new Date()
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    //const seconds = String(date.getSeconds()).padStart(2, '0')
+    const timeString = `${hours}:${minutes}`
+    return timeString
+}
 
 const initialState = {
     workoutStarted: false,
-    
+    workoutStartTime: null,
+
     id: null,
     name: "",
     note: "",
@@ -60,17 +32,33 @@ const workoutSlice = createSlice({
     name: 'workout',
     initialState,
     reducers: {
-        startWorkout(state) {
+        startEmptyWorkout(state, action) {
+
             //console.log(JSON.parse(JSON.stringify(state)))
             state.workoutStarted = true
+            state.workoutStartTime = getTime()
+            //window.localStorage.setItem('workoutStartTime', JSON.stringify(getTime()))
             //console.log(JSON.parse(JSON.stringify(state)))
+            //setWorkout(state, action)
+            return state
+        },
+
+
+        editWorkoutNote(state, action) {
+            state.note = action.payload
+            return state
         },
 
 
         setWorkout(state, action) {
-          
+
+
+
+
 
             const workout = action.payload
+
+            console.log(workout.title);
 
             state.id = workout.id
             state.name = workout.title
@@ -105,6 +93,7 @@ const workoutSlice = createSlice({
                 })
 
             })
+            return state
         },
         clearWorkout(state, action) {
             return initialState;
@@ -121,6 +110,10 @@ const workoutSlice = createSlice({
                 state.exercises.allIds.push(e.id)
             })
 
+            return state
+        },
+        editWorkoutExerciseNote(state, action) {
+            state.exercises.byId[action.payload.exerciseId] = action.payload.changedExercise
             return state
         },
         deleteExerciseFromWorkout(state, action) {
@@ -222,7 +215,7 @@ const workoutSlice = createSlice({
 
             return state
         },
-        deleteSetFromTWorkout(state, action) {
+        deleteSetFromWorkout(state, action) {
             const set = action.payload
             const setId = action.payload.id
             const exerciseId = action.payload.exerciseId
@@ -276,12 +269,14 @@ const workoutSlice = createSlice({
 })
 
 export const {
-    startWorkout,
+    startEmptyWorkout,
 
+    editWorkoutNote,
     setWorkout,
     clearWorkout,
     setWorkoutName,
     addExercisesToWorkout,
+    editWorkoutExerciseNote,
     deleteExerciseFromWorkout,
     addSetToWorkout,
     deleteSetFromWorkout,
@@ -311,30 +306,64 @@ export const saveWorkout = (isNew) => {
                 sets: setsFromState,
             }
             return exerciseWithSets
-        }) 
-            
+        })
+
         const newWorkoutObject = {
             userEmail: getState().user.email,
-            title:  getState().template.name,
+            title: getState().workout.name,
             createdAt: new Date().toJSON(), // servulla?
-            note: "",
-            workoutExercises: exercisesDTO 
+            note: getState().workout.note,
+            workoutExercises: exercisesDTO
+            // sets: setsDTO
         }
 
         console.log("ASYNC REDUCER ", newWorkoutObject)
         console.log("ASYNC REDUCER isNew", isNew)
 
         let workoutResponse
-        if (isNew) {
-            workoutResponse = await workoutService.createNew(newWorkoutObject)
-            dispatch(addTemplate(templateResponse))
-        } else {
-            workoutResponse = await workoutService.update(getState().template.id, newWorkoutObject)
-            console.log("ASYN REDUCER resp", workoutResponse);
-            dispatch(updateTemplate(workoutResponse))
-        }
+        try {
+            if (isNew) {
+                workoutResponse = await workoutService.createNew(newWorkoutObject)
+                console.log("ASYN REDUCER resp new", workoutResponse);
+                dispatch(addWorkout(workoutResponse))
+            } else {
+                workoutResponse = await workoutService.update(getState().template.id, newWorkoutObject)
+                console.log("ASYN REDUCER resp update", workoutResponse);
+                dispatch(updateWorkout(workoutResponse.data))
+            }
+            toast.success('Workout saved!')
+            dispatch(endWorkout())
 
-        dispatch(clearTemplate())
+        } catch (error) {
+            console.log("CATHIIING ERROOOOOOOOOOOOOR");
+            throw new Error(error)
+            toast.error(error)
+        }
+    }
+}
+
+export const startWorkout = (isOngoing, workout) => {
+    return (dispatch) => {
+        if (isOngoing) {
+            dispatch(stopWatch())
+            dispatch(resetTimer())
+            dispatch(clearWorkout())
+        }
+        dispatch(startEmptyWorkout())
+        dispatch(startTimer())
+        if (workout) {
+            dispatch(setWorkout(workout))
+        }
+        //dispatch(expand()) use or no?
+    }
+}
+
+export const endWorkout = () => {
+    return (dispatch) => {
+        dispatch(stopWatch())
+        dispatch(terminateTimer())
+        dispatch(clearWorkout())
+        //dispatch(expand()) use or no?
     }
 }
 

@@ -55,9 +55,11 @@ function StopWatch({ showButtons, size }) {
 
     return (
         <Stack direction={'row'}>
+
             <Box sx={{ margin: 'auto' }}>
                 <Timer timeFromStopwatch={time} size={size} stopwatch={true} />
             </Box>
+
 
             {showButtons &&
                 <ControlButtons
@@ -69,6 +71,8 @@ function StopWatch({ showButtons, size }) {
                     handleReset={handleReset}
                 />
             }
+
+
 
         </Stack>
     );

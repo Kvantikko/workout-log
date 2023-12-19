@@ -78,7 +78,6 @@ const ExerciseForm = ({ exercise, onSubmit, onCancel }) => {
                         onChange={(event) => handleChange(event)}
                         onClick={() => setTargetMuscleError('')}
                         error={!(targetMuscleError === '')}
-                        text
                     >
                         {BODY_PARTS.map(BODY_PART => {
                             // console.log(BODY_PART);

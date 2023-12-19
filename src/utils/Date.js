@@ -34,3 +34,10 @@ export const formatDateTime = (dateToBeFormatted, showTime) => {
 
 
 }
+
+export const formatDate = (date) => {
+    const dateString = date.toUTCString()
+    const dateStringWithoutTime = dateString.slice(0, dateString.length - 13)
+    const timeString = dateString.slice(dateString.length - 12, dateString.length - 7)
+    return dateStringWithoutTime + ",  @ " + timeString
+}

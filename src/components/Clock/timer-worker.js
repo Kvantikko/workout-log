@@ -3,7 +3,7 @@ let startTime
 let timerId
 
 onmessage = function (e) {
-    console.log("Received message in worker:", e.data)
+    //console.log("Received message in worker:", e.data)
 
     if (e.data === 'start') {
         if (!startTime) {

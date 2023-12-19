@@ -1,38 +1,52 @@
 import { Button, Container, Stack, Box, Typography } from "@mui/material"
-import HideAppBar from "../../components/AppBar/HideAppBar"
-import BasicModal from "../../components/Modals/BasicModal"
-import ProfileToolbar from "../../components/Toolbars/ProfileToolbar"
+import HideAppBar from "../components/AppBar/HideAppBar"
+import BasicModal from "../components/Modals/BasicModal"
 import { useDispatch } from "react-redux"
-import { logout } from "../../redux/reducers/userReducer"
+import { logout } from "../redux/reducers/userReducer"
 import { useNavigate } from "react-router-dom"
 
+import LogoutIcon from '@mui/icons-material/Logout';
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 import EditIcon from "@mui/icons-material/Edit"
 import PasswordIcon from '@mui/icons-material/Password';
 
-import { formatDateTime } from "../../utils/Date"
+import { formatDateTime } from "../utils/Date"
 
-import userService from '../../services/user'
+import userService from '../services/user'
 
 import { toast } from "react-toastify"
 
 
-import FormModal from "../../components/Modals/FormModal"
+import FormModal from "../components/Modals/FormModal"
 import { useState } from "react"
-import UserForm from "../../components/Forms/UserForm"
-import PasswordForm from "../../components/Forms/PasswordForm"
+import UserForm from "../components/Forms/UserForm"
+import PasswordForm from "../components/Forms/PasswordForm"
+import BasicToolbar from "../components/Toolbars/BasicToolbar"
 
 
 const Profile = ({ user, drawerWidth }) => {
+    console.log("Rendering Profile");
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openPasswordModal, setOpenPasswordModal] = useState(false)
+    const [openLogoutModal, setOpenLogoutModal] = useState(false)
 
-    const dispatch = useDispatch()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const handleLogout = () => {
+        dispatch(logout())
+        navigate('/')
+        toast.info('Logged out!')
+    }
 
     const handleDeleteAccount = async () => {
+        if (user.email === "julkinen@mail.com") {
+            toast.info(`Nice try, but you cannot delete the public account!`)
+            return
+        }
+
         try {
             const response = await userService.removeUser(user.email)
             dispatch(logout())
@@ -57,7 +71,14 @@ const Profile = ({ user, drawerWidth }) => {
     return (
         <>
             <HideAppBar drawerWidth={drawerWidth}>
-                <ProfileToolbar />
+                <BasicToolbar title="Profile">
+                    <Button variant="text" onClick={() => setOpenLogoutModal(true)} >
+                        <Stack direction={'row'} spacing={1}>
+                            <div>Logout</div>
+                            <LogoutIcon />
+                        </Stack>
+                    </Button>
+                </BasicToolbar>
             </HideAppBar>
 
             <Box
@@ -68,7 +89,7 @@ const Profile = ({ user, drawerWidth }) => {
                 paddingTop={{ xs: 5, sm: 6, md: 7, lg: 8 }}
                 paddingX={{ xs: 3, sm: 6, md: 6, lg: 12 }}
                 justifyContent={'space-between'}
-               
+
             //alignItems="center"
             //maxWidth="75vw" for biggger screen?
             >
@@ -89,7 +110,7 @@ const Profile = ({ user, drawerWidth }) => {
                     </Button>
                     <Button onClick={() => setOpenPasswordModal(true)} variant="text">
                         <Stack direction={'row'} spacing={1}>
-                            <PasswordIcon/>
+                            <PasswordIcon />
                             <div>Change password</div>
                         </Stack>
                     </Button>
@@ -115,7 +136,7 @@ const Profile = ({ user, drawerWidth }) => {
                         onClose={() => setOpenPasswordModal(false)}
                         title="Change password"
                     >
-                        <PasswordForm user={user} onCancel={() => setOpenPasswordModal(false)}/>
+                        <PasswordForm user={user} onCancel={() => setOpenPasswordModal(false)} />
                     </FormModal>
                 }
                 {openDeleteModal &&
@@ -129,6 +150,17 @@ const Profile = ({ user, drawerWidth }) => {
                         confirmButtonText="Delete forever"
                         confirmButtonColor="error"
                         onSubmit={() => handleDeleteAccount()}
+                    />
+                }
+                {openLogoutModal &&
+                    <BasicModal
+                        open={openLogoutModal}
+                        onClose={() => setOpenLogoutModal(false)}
+                        title="Logout?"
+                        subTitle="Are you sure you want to log out?"
+                        //confirmButtonText={'Yes'}
+                        //cancelButtonText={''}
+                        onSubmit={() => handleLogout()}
                     />
                 }
             </Box>

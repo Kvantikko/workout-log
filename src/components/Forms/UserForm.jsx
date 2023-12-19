@@ -67,6 +67,11 @@ const UserForm = ({ user, onCancel, submitButton }) => {
     const onSubmit = async (event) => {
         event.preventDefault()
 
+        if (user.email === "julkinen@mail.com") {
+            toast.info('The details of public account julkinen@mail.com cannot be changed!')
+            return
+        }
+
         if (!inputFieldsValid()) return
 
         try {

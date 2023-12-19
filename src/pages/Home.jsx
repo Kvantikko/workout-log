@@ -1,41 +1,28 @@
-import { Link } from "react-router-dom"
-import ActiveWorkout from "../../components/Workout/WorkoutContainer"
+
 import { useEffect, useState } from "react"
-import { Button, IconButton, Stack, Divider, Container, Box, Modal, Typography } from "@mui/material"
+
+import { Link } from "react-router-dom"
+
 import { useDispatch, useSelector } from "react-redux"
+import { setWorkoutPath, resetWorkoutPath } from "../redux/reducers/navReducer"
+import { startWorkout } from "../redux/reducers/workoutReducer"
 
-import { startWorkout } from "../../redux/reducers/workoutReducer"
+import { Button, IconButton, Stack, Divider, Box, Typography } from "@mui/material"
+import AddIcon from "@mui/icons-material/Add"
 
-import HideAppBar from "../../components/AppBar/HideAppBar"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import WorkoutCardList from "../components/Lists/WorkoutCardList"
+import CreateTemplateModal from "../components/Modals/CreateEditWorkoutModal"
+import BasicToolbar from "../components/Toolbars/BasicToolbar"
+import BasicModal from "../components/Modals/BasicModal"
+import HideAppBar from "../components/AppBar/HideAppBar"
 
-import PermanentDrawerLeft from "../../components/Navbar/PermanentDrawerLeft"
-
-import { useNavigate } from "react-router-dom"
-
-import { clearWorkout } from "../../redux/reducers/workoutReducer";
-import { clearExercises } from "../../redux/reducers/exerciseReducer";
-import { clearSets } from "../../redux/reducers/setReducer";
-import { stopWatch } from "../../redux/reducers/stopWatchReducer";
+import schwarzenegger from '../assets/schwarzenegger.gif'
+import coleman from '../assets/coleman.gif'
 
 import { keyframes } from '@mui/system';
-
-import { blink } from "../../utils/Blink"
-
-import { expand, unExpand } from "../../redux/reducers/drawerReducer"
-
+import { blink } from "../utils/Blink"
+import { expand, unExpand } from "../redux/reducers/drawerReducer"
 import { createPortal } from "react-dom"
-import SwipeableEdgeDrawer from "../../components/Drawers/SwipeableEdgeDrawer"
-
-import { setWorkoutPath, resetWorkoutPath } from "../../redux/reducers/navReducer"
-
-import coleman from '../../assets/coleman.gif'
-
-import schwarzenegger from '../../assets/schwarzenegger.gif'
-import AddIcon from "@mui/icons-material/Add"
-import WorkoutCardList from "../../components/Lists/WorkoutCardList"
-import CreateTemplateModal from "../../components/Modals/CreateEditWorkoutModal"
-import BasicToolbar from "../../components/Toolbars/BasicToolbar"
 
 const gifArray = [coleman, schwarzenegger]
 
@@ -51,9 +38,7 @@ const Home = ({ user, drawerWidth }) => {
     console.log("Rendering Home")
 
     const templates = useSelector(state => state.templates)
-
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
-
     const [openCopyModal, setOpenCopyModal] = useState(false)
     const [openTemplateModal, setOpenTemplateModal] = useState(false)
 
@@ -75,30 +60,20 @@ const Home = ({ user, drawerWidth }) => {
       }, [])
    */
 
-    const _clearWorkout = () => {
-        dispatch(clearWorkout())
-        dispatch(clearExercises())
-        dispatch(clearSets())
-        dispatch(stopWatch())
-        dispatch(resetWorkoutPath())
+    const copy = () => {
+        setOpenCopyModal(false)
+        dispatch(startWorkout(isWorkoutActive))
     }
 
     const handleClick = () => {
-        if (isWorkoutActive && !openCopyModal) {
+        if (isWorkoutActive) {
             setOpenCopyModal(true)
             return
         }
-
-        _clearWorkout()
-
-        dispatch(expand())
-        dispatch(startWorkout())
-
+        copy()
     }
 
     const handleCardClick = (event, workoutId) => {
-        //event.preventDefault()
-        //console.log("handling click");
         dispatch(setWorkoutPath(`templates/${workoutId}`))
         //navigate(`/history/${workoutId}`)  tätä ei toistaseksi tarvi ku kortti on linkki componentti
     }
@@ -119,6 +94,12 @@ const Home = ({ user, drawerWidth }) => {
                     }
                     {isWorkoutActive &&
                         <>
+                            <Typography variant="h5" textAlign={'center'}>Yeeeeaaaa buddeeee!</Typography>
+                            <Typography variant="h5" textAlign={'center'}>You have a workout in progress! &#128170;</Typography>
+                        </>
+                    }
+                   {/*  {isWorkoutActive &&
+                        <>
                             <Box
                                 sx={{
                                     borderRadius: 2,
@@ -135,7 +116,7 @@ const Home = ({ user, drawerWidth }) => {
 
 
                         </>
-                    }
+                    } */}
                 </Stack>
 
                 {/* {workoutStarted &&
@@ -159,11 +140,11 @@ const Home = ({ user, drawerWidth }) => {
                         </Divider>
                     </>
                 } */}
-                <Button variant="text" sx={{ width: 0.5 }} onClick={handleClick}  >
+                <Button variant="text" sx={{ width: 0.75 }} onClick={handleClick}  >
                     Start a new workout
                 </Button>
                 <Divider orientation="horizontal" flexItem> or </Divider>
-                <Button variant="text" sx={{ width: 0.5 }} component={Link} to='/history' >
+                <Button variant="text" sx={{ width: 0.75 }} component={Link} to='/history' >
                     Select from history
                 </Button>
                 <Divider orientation="horizontal" flexItem> or </Divider>

@@ -12,6 +12,7 @@ export default function Timer({ timeFromStopwatch, size, stopwatch }) {
 
     const { isActive, time } = useSelector(state => state.timer);
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+    
     const workerRef = useRef();
 
     const dispatch = useDispatch();

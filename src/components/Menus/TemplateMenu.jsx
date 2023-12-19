@@ -19,7 +19,6 @@ import templateService from '../../services/templates'
 import { useNavigate } from 'react-router-dom';
 import { addExercisesToTemplate, addSetsToTemplate, clearTemplate, setTemplate, setTemplateName } from '../../redux/reducers/templateReducer';
 
-import { removeFromHistory } from '../../redux/reducers/historyReducer';
 import { removeTemplate } from '../../redux/reducers/templateLibraryReducer';
 import BasicMenu from './BasicMenu';
 import CreateEditWorkoutModal from '../Modals/CreateEditWorkoutModal';
@@ -58,22 +57,7 @@ const TemplateMenu = ({ workout }) => {
     }
 
     const copy = () => {
-        //console.log("COPY");
-
         dispatch(setTemplate(workout))
-
-        /* dispatch(setTemplateName(workout.title))
-        dispatch(addExercisesToTemplate(workout.workoutExercises))
-        let setsWithExerciseId = []
-        //let sets = []
-        workout.workoutExercises.forEach(exercise => {
-            exercise.sets.forEach(set => {
-                const setWithExerciseId = { ...set, exerciseId: exercise.id }
-                setsWithExerciseId.push(setWithExerciseId)
-                //sets.push(set)
-            })
-        })
-        dispatch(addSetsToTemplate(setsWithExerciseId)) */
     }
 
     const handleEdit = () => {
@@ -108,6 +92,7 @@ const TemplateMenu = ({ workout }) => {
                 disableWarning={true}
                 workout={workout}
                 editVipu={true}
+                type="template"
             />
         </>
     );

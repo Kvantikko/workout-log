@@ -2,18 +2,18 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Box, Button, Stack, TextField } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
-import FilteredExercises from '../../components/Lists/FilteredExercises'
+import FilteredExercises from '../components/Lists/FilteredExercises'
 
-import HideAppBar from '../../components/AppBar/HideAppBar';
+import HideAppBar from '../components/AppBar/HideAppBar';
 
 
-import ExercisesToolbar from '../../components/Toolbars/ExercisesToolbar';
+import ExercisesToolbar from '../components/Toolbars/ExercisesToolbar';
 
 import { useMatch, useNavigate } from 'react-router-dom';
 
-import { setExercisesPath } from '../../redux/reducers/navReducer';
+import { setExercisesPath } from '../redux/reducers/navReducer';
 
-import { setSearchExercises } from '../../redux/reducers/searchReducer';
+import { setSearchExercises } from '../redux/reducers/searchReducer';
 
 
 

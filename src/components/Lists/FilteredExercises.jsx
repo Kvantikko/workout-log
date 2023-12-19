@@ -1,5 +1,5 @@
 import { Stack, Button, TextField, Divider, Box, Typography } from '@mui/material'
-import { ListItem, ListItemButton } from '@mui/material'
+import { ListItem, ListItemButton, List, ListItemAvatar, IconButton, ListItemIcon, Checkbox, ListItemText } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setExercisesPath } from '../../redux/reducers/navReducer'
@@ -12,9 +12,25 @@ import { createExercise } from '../../redux/reducers/exerciseLibraryReducer'
 import { toast } from 'react-toastify'
 import exerciseService from "../../services/exercises"
 
-const FilteredExercises = ({ exercises, handleListClick }) => {
+const FilteredExercises = ({ exercises, handleListClick, showChecked }) => {
 
+    const [checked, setChecked] = useState([0])
     const [openCreateModal, setOpenCreateModal] = useState(false)
+
+    const handleToggle = (exercise) => () => {
+        const currentIndex = checked.indexOf(exercise);
+        const newChecked = [...checked];
+
+        if (currentIndex === -1) {
+            newChecked.push(exercise);
+        } else {
+            newChecked.splice(currentIndex, 1);
+        }
+
+        setChecked(newChecked);
+
+        handleListClick(exercise)
+    }
 
     const dispatch = useDispatch()
 
@@ -34,7 +50,7 @@ const FilteredExercises = ({ exercises, handleListClick }) => {
     // use List instead of Stack?
     return (
 
-        <Stack
+        <List
             spacing={0}
             sx={{
                 //marginTop: 2,
@@ -50,9 +66,26 @@ const FilteredExercises = ({ exercises, handleListClick }) => {
                     <Button onClick={() => setOpenCreateModal(true)}>Create exercise</Button>
                 </Stack>
             }
-            {exercises.map(exercise =>
+            {exercises.map((exercise, index) =>
                 <Defer key={exercise.id} chunkSize={10}>
-                    <ExerciseListButton exercise={exercise} handleListClick={handleListClick} />
+                    <ListItem key={exercise.id} disableGutters disablePadding >
+                        <ListItemButton onClick={handleToggle(exercise)} sx={{ paddingLeft: 3 }}  >
+                            <ListItemText primary={exercise.name} /* id={labelId}  */ />
+                            {showChecked &&
+                                <ListItemIcon>
+                                    <Checkbox
+                                        edge="end"
+                                        checked={checked.indexOf(exercise) !== -1}
+                                        tabIndex={-1}
+                                        disableRipple
+                                    //inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                </ListItemIcon>
+                            }
+                            {/*  <ExerciseListButton exercise={exercise} handleListClick={handleListClick} /> */}
+
+                        </ListItemButton>
+                    </ListItem>
                 </Defer>
             )}
             {openCreateModal &&
@@ -64,7 +97,7 @@ const FilteredExercises = ({ exercises, handleListClick }) => {
                     <ExerciseForm onSubmit={saveExercise} onCancel={() => setOpenCreateModal(false)} />
                 </FormModal>
             }
-        </Stack>
+        </List>
     )
 }
 

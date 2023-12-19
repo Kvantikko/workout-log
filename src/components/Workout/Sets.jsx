@@ -3,7 +3,6 @@ import SetRow from "./SetRow"
 import { Stack, Box, Button, Collapse } from "@mui/material"
 import React, { useEffect, useState, useMemo } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { addSet, deleteSet } from "../../redux/reducers/setReducer"
 import generateId from "../../utils/generateId"
 import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer";
 

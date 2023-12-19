@@ -1,16 +1,16 @@
 
-import HideAppBar from '../../components/AppBar/HideAppBar';
+import HideAppBar from '../components/AppBar/HideAppBar';
 import axios from 'axios';
 
 import { useEffect, useState } from 'react';
 
-import exerciseService from '../../services/exercises'
-import WorkoutExerciseList from '../../components/Lists/WorkoutExerciseList';
+import exerciseService from '../services/exercises'
+import WorkoutExerciseList from '../components/Lists/WorkoutExerciseList';
 import { useDispatch, useSelector } from 'react-redux';
 import { Typography, Box, CircularProgress } from '@mui/material';
-import BasicToolbar from '../../components/Toolbars/BasicToolbar';
-import ExerciseMenu from '../../components/Menus/ExerciseMenu';
-import { resetExercisePath } from '../../redux/reducers/navReducer';
+import BasicToolbar from '../components/Toolbars/BasicToolbar';
+import ExerciseMenu from '../components/Menus/ExerciseMenu';
+import { resetExercisePath } from '../redux/reducers/navReducer';
 
 
 const Exercise = ({ exercise, drawerWidth }) => {

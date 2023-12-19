@@ -11,10 +11,11 @@ import { toast } from 'react-toastify'
 import { addTemplate, updateTemplate, } from '../../redux/reducers/templateLibraryReducer'
 import { clearTemplate, saveTemplate, } from '../../redux/reducers/templateReducer'
 import { resetWorkoutPath } from '../../redux/reducers/navReducer'
+import { saveWorkout } from '../../redux/reducers/workoutReducer'
 
 
 const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, workout }) => {
-    console.log("Rendering FinishWorkoutModal");
+    console.log("Rendering SaveWorkoutModal ", type);
 
     let modalTitle
     switch (type) {
@@ -22,7 +23,10 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
             modalTitle = "Finish workout?"
             break;
         case "template":
-            modalTitle = "Save template?"
+            modalTitle = "Save workout?"
+            break;
+        case "history":
+            modalTitle = "Save workout?"
             break;
         default:
             throw new Error('Component must have a type prop specified!');
@@ -31,37 +35,29 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
     const dispatch = useDispatch()
 
     const saveWorkoutToDb = async () => {
-
+        console.log("SAVE FUNC ", type);
         try {
             switch (type) {
                 case "active":
-                    //dispatch(saveWorkout())
-
-                    /*    response = await workoutService.createNew(newWorkoutObject)
-                       dispatch(addToHistory(response.data))
-                       dispatch(clearWorkout())
-                       dispatch(clearExercises())
-                       dispatch(clearSets())
-                       dispatch(stopWatch())
-                      */
-
-                    toast.success('Workout saved!')
+                    dispatch(saveWorkout(!editVipu))
                     onClose()
                     onSubmit()
                     break;
                 case "template":
-                    if (editVipu) {
-                        dispatch(saveTemplate(!editVipu))
-                    } else {
-                        dispatch(saveTemplate(!editVipu))
-                    }
-                    toast.success('Template saved!')
+                    dispatch(saveTemplate(!editVipu))
+                    onClose()
+                    onSubmit()
+                    break;
+                case "history":
+                    console.log("case history");
+                    dispatch(saveTemplate(!editVipu, true))
                     onClose()
                     onSubmit()
                     break;
                 default:
                     throw new Error('Component must have a type prop specified!');
             }
+            toast.success('Workout saved!')
         } catch (err) {
             toast.error(err.response)
         }
@@ -72,8 +68,8 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
             open={open}
             onClose={onClose}
             title={modalTitle}
-            subTitle="Save workout"
-            confirmButtonText={'Save'}
+            subTitle=" "
+            confirmButtonText={'Yes'}
             cancelButtonText={'Cancel'}
             onSubmit={saveWorkoutToDb}
         />

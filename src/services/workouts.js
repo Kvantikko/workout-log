@@ -48,7 +48,7 @@ const createNew = async (workout) => {
     // we send IDs to the server too, but it ignores it and creates its own 
     console.log('sending this to the server: ', workout);
     const response = await axios.post(baseUrl, workout, config) 
-    return response
+    return response.data
 }
 
 const update = async (id, name, muscle ) => {

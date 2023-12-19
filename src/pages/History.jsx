@@ -1,19 +1,19 @@
 import { useDispatch, useSelector } from "react-redux"
-import BasicToolbar from "../../components/Toolbars/BasicToolbar";
+import BasicToolbar from "../components/Toolbars/BasicToolbar";
 
 import { ListItemButton, Box, Stack } from "@mui/material";
 
-import HideAppBar from "../../components/AppBar/HideAppBar";
+import HideAppBar from "../components/AppBar/HideAppBar";
 import { Link, Navigate, useLocation, useNavigate, useNavigation } from "react-router-dom";
 
 import { Typography } from "@mui/material";
 import { useState } from "react";
 
-import workoutService from '../../services/workouts'
-import { addToHistory, setWorkouts } from "../../redux/reducers/historyReducer";
-import WorkoutCardList from "../../components/Lists/WorkoutCardList";
+import workoutService from '../services/workouts'
+import { addWorkout, setWorkouts } from "../redux/reducers/historyReducer";
+import WorkoutCardList from "../components/Lists/WorkoutCardList";
 
-import { pushHistory } from "../../redux/reducers/navReducer";
+import { pushHistory } from "../redux/reducers/navReducer";
 
 
 
@@ -49,7 +49,7 @@ const History = ({ drawerWidth }) => {
             try {
                 const response = await workoutService.getByDateRange(user.email, startDate, furthestWorkoutDateInStore)
                 console.log("nyt haettiin daterangella servulta ", response);
-                dispatch(addToHistory(response))
+                dispatch(addWorkout(response))
             } catch (err) {
                 console.log(err);
             }

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+/* import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 export const useLocationState = (newState) => {
@@ -27,4 +27,4 @@ export const useLocationState = (newState) => {
     }, []);
 
     return [locationState, setLocationState];
-};
+}; */

@@ -1,41 +1,25 @@
+import { useState } from "react"
 
-import HideAppBar from '../../components/AppBar/HideAppBar';
+import { useDispatch, useSelector } from "react-redux"
+import { startWorkout } from "../redux/reducers/workoutReducer"
+import { resetWorkoutPath } from '../redux/reducers/navReducer'
 
-import { Button, AppBar, Divider, Stack, Typography, List, ListItem, ListItemButton, ListItemText, Container, Box, Grid, Paper } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setWorkout, startWorkout } from "../../redux/reducers/workoutReducer";
-/* import { copySets } from "../../redux/reducers/setReducer";
-import { copyExercises } from "../../redux/reducers/exerciseReducer";
+import { Button, AppBar, Box } from "@mui/material";
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-import generateId from "../../utils/generateId";
-import { formatDateTime } from "../../utils/Date";
- */
-import { clearWorkout } from "../../redux/reducers/workoutReducer"
-import { stopWatch } from '../../redux/reducers/stopWatchReducer'
-/* import { clearSets } from '../../redux/reducers/setReducer'
-import { clearExercises } from '../../redux/reducers/exerciseReducer' */
-
-
-/* import WorkoutExerciseSets from "../../components/Lists/WorkoutExerciseSets"; */
-import WorkoutExerciseList from "../../components/Lists/WorkoutExerciseList";
-
-import { useState } from "react";
-
-import useMediaQuery from '@mui/material/useMediaQuery';
-
-
-import BasicModal from '../../components/Modals/BasicModal';
-import BasicToolbar from '../../components/Toolbars/BasicToolbar';
-import HistoryMenu from '../../components/Menus/HistoryMenu';
-import TemplateMenu from '../../components/Menus/TemplateMenu';
-import { resetWorkoutPath } from '../../redux/reducers/navReducer';
-
-
-
+import BasicModal from '../components/Modals/BasicModal'
+import BasicToolbar from '../components/Toolbars/BasicToolbar'
+import HideAppBar from '../components/AppBar/HideAppBar'
+import TemplateMenu from '../components/Menus/TemplateMenu'
+import WorkoutExerciseList from "../components/Lists/WorkoutExerciseList"
 
 const Template = ({ template, drawerWidth }) => {
+    
     console.log("Rendering Template");
-    //console.log(template);
+
+    const workoutStarted = useSelector(state => state.workout.workoutStarted)
+    const isSmallScreen = useMediaQuery('(min-width:900px)')
+    const [openCopyModal, setOpenCopyModal] = useState(false)
 
     /**
      * ekalla componentin mountilla fetchataan data ja pistetään storeen, ja aina kun komponentti
@@ -51,26 +35,11 @@ const Template = ({ template, drawerWidth }) => {
             })
     }, [history]) */
 
-    //history.push(`/history/${workout?.id}`);
-
-    const workoutStarted = useSelector(state => state.workout.workoutStarted)
-    const isSmallScreen = useMediaQuery('(min-width:900px)')
-    const [openCopyModal, setOpenCopyModal] = useState(false)
-
     const dispatch = useDispatch()
 
-    const clear = () => {
-        dispatch(clearWorkout())
-        /*      dispatch(clearExercises())
-             dispatch(clearSets()) */
-        dispatch(stopWatch())
-    }
-
     const copy = () => {
-        clear()
-        dispatch(setWorkout(template))
-        dispatch(startWorkout())
         setOpenCopyModal(false)
+        dispatch(startWorkout(workoutStarted, template))
     }
 
     const handleCopy = () => {
@@ -80,8 +49,6 @@ const Template = ({ template, drawerWidth }) => {
         }
         copy()
     }
-
-    
 
     return (
         <>
@@ -94,17 +61,16 @@ const Template = ({ template, drawerWidth }) => {
                 >
                     {isSmallScreen ?
                         <Button
-                            sx={{
-                                height: 1, margin: 'auto', whiteSpace: 'nowrap',
-                                textAlign: 'center', paddingY: 0.6, paddingX: 2, alignSelf: "center"
-                            }}
-                            variant="contained" onClick={(event) => handleCopy(event)} >
+                            sx={{ height: 0.1, alignSelf: "center" }}
+                            variant="contained"
+                            onClick={(event) => handleCopy(event)}
+                        >
                             Start workout
                         </Button>
                         :
                         null
                     }
-                    <TemplateMenu  workout={template} />
+                    <TemplateMenu workout={template} />
                 </BasicToolbar>
             </HideAppBar>
 
@@ -136,7 +102,7 @@ const Template = ({ template, drawerWidth }) => {
                         display: { xs: 'flex', md: 'none' },
                     }}
                 >
-                    <Button variant="contained" onClick={(event) => handleCopy(event)} >
+                    <Button variant="contained" onClick={handleCopy} >
                         Start workout
                     </Button>
                     <BasicModal

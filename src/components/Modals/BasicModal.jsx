@@ -51,14 +51,15 @@ const BasicModal = ({
                 <Typography
                     variant="h5"
                     component="h2"
-                    sx={{ mb: 4 }}
                     textAlign={'center'}
                 >
                     {title}
                 </Typography>
-                <Typography sx={{ mb: 4 }}>
-                    {subTitle}
-                </Typography>
+                {subTitle &&
+                    <Typography sx={{ marginY: 4 }}>
+                        {subTitle}
+                    </Typography>
+                }
                 {children}
                 {isSmallScreen &&
                     <Box >

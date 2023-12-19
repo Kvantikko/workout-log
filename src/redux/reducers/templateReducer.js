@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
 import generateId from "../../utils/generateId"
 import templateService from "../../services/templates"
+import workoutService from "../../services/workouts"
 import { addTemplate, updateTemplate } from "./templateLibraryReducer"
+import { updateWorkout } from "./historyReducer"
 
 const initialState = {
     id: null,
@@ -76,6 +78,17 @@ const templateSlice = createSlice({
             })
 
             console.log("add ", JSON.parse(JSON.stringify(state)))
+
+            return state
+        },
+        editTemplateNote(state, action) {
+            state.note = action.payload
+        },
+        editTemplateExerciseNote(state, action) {
+            const exerciseId = action.payload.exerciseId
+            const changedExercise = action.payload.changedExercise
+
+            state.exercises.byId[exerciseId] = changedExercise
 
             return state
         },
@@ -232,9 +245,11 @@ const templateSlice = createSlice({
 })
 
 export const {
+    editTemplateNote,
     setTemplate,
     clearTemplate,
     setTemplateName,
+    editTemplateExerciseNote,
     addExercisesToTemplate,
     deleteExerciseFromTemplate,
     addSetToTemplate,
@@ -246,7 +261,8 @@ export const {
     moveExerciseUppTemplate
 } = templateSlice.actions
 
-export const saveTemplate = (isNew) => {
+export const saveTemplate = (isNew, isHistory) => {
+    console.log("hehooooo");
     return async (dispatch, getState) => {
 
         const exercisesFromState = getState().template.exercises.allIds.map(exerciseId => {
@@ -271,7 +287,7 @@ export const saveTemplate = (isNew) => {
             userEmail: getState().user.email,
             title:  getState().template.name,
             createdAt: new Date().toJSON(), // servulla?
-            note: "",
+            note: getState().template.note,
             workoutExercises: exercisesDTO 
         }
 
@@ -282,6 +298,10 @@ export const saveTemplate = (isNew) => {
         if (isNew) {
             templateResponse = await templateService.createNew(newWorkoutObject)
             dispatch(addTemplate(templateResponse))
+        } else if (isHistory) {
+            templateResponse = await workoutService.update(getState().template.id, newWorkoutObject)
+            console.log("ASYN REDUCER resp", templateResponse);
+            dispatch(updateWorkout(templateResponse))
         } else {
             templateResponse = await templateService.update(getState().template.id, newWorkoutObject)
             console.log("ASYN REDUCER resp", templateResponse);

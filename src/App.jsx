@@ -14,15 +14,16 @@ import { createPortal } from 'react-dom';
 
 import { useSelector, useDispatch } from 'react-redux'
 
-import Workout from './pages/Workout/Home';
-import Exercises from './pages/Exercises/Exercises'
-import Exercise from './pages/Exercise/Exercise'
-import History from './pages/History/History'
-import Profile from './pages/Profile/Profile'
-import Login from './pages/Login/Login';
-import HistoryId from './pages/HistoryWorkout/HistoryId'
+import Workout from './pages/Home'
+import Exercises from './pages/Exercises'
+import Exercise from './pages/Exercise'
+import History from './pages/History'
+import Profile from './pages/Profile'
+import Login from './pages/Login'
+import Measurements from './pages/Measurements'
+import WorkoutDetails from './pages/WorkoutDetails'
 
-import ProtectedRoute from './components/Router/ProtectedRoute';
+import ProtectedRoute from './components/Router/ProtectedRoute'
 
 
 
@@ -46,7 +47,7 @@ import BottomNavBar from './components/Navbar/BottomNavBar'
 import HideAppBar from './components/AppBar/HideAppBar'
 
 import { setUser } from "./redux/reducers/userReducer"
-import Measurements from './pages/Measure/Measurements';
+
 
 import { logout } from './redux/reducers/userReducer';
 
@@ -62,14 +63,19 @@ import { CssBaseline } from '@mui/material';
 
 import ActiveWorkout from './components/Workout/WorkoutContainer';
 
+import { resetWorkoutPath, resetHistory } from './redux/reducers/navReducer';
+
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer';
 import WorkoutToolbar from './components/Workout/WorkoutToolbar';
 import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentDrawer';
 import LoginProtect from './components/Router/LoginProtect';
 import { setTemplates } from './redux/reducers/templateLibraryReducer';
+import TemplateMenu from './components/Menus/TemplateMenu';
+import HistoryMenu from './components/Menus/HistoryMenu';
 
-import Template from './pages/Template/Template';
+
 
 /* const theme = createTheme({
     palette: {
@@ -305,7 +311,7 @@ const App = () => {
                 </Drawer>  */}
 
 
-               
+
 
                 <Box
                     component="main" id='main'
@@ -321,7 +327,7 @@ const App = () => {
                         //maxWidth: !isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' 
                     }}
                 >
-                   {/* <Toolbar />   // for margin */}
+                    {/* <Toolbar />   // for margin */}
 
 
                     <Routes>
@@ -338,13 +344,35 @@ const App = () => {
                         <Route
                             path="/templates/:id"
                             element={<ProtectedRoute>
-                                <Template template={template} drawerWidth={drawerWidth} />
+                                {/*  <Template template={template} drawerWidth={drawerWidth} /> */}
+                                <WorkoutDetails
+                                    drawerWidth={drawerWidth}
+                                    workout={template}
+                                    backFunction={() => dispatch(resetHistory())}
+                                    link="/"
+                                    startButtonText="Start workout"
+                                    menu={
+                                        <TemplateMenu workout={template} />
+                                    }
+                                />
                             </ProtectedRoute>}
                         />
                         <Route
                             path="/history/:id"
                             element={<ProtectedRoute>
-                                <HistoryId workout={workout} drawerWidth={drawerWidth} />
+                                {/* <HistoryId workout={workout} drawerWidth={drawerWidth} /> */}
+                                <WorkoutDetails
+                                    drawerWidth={drawerWidth}
+                                    workout={workout}
+                                    showDate
+                                    backFunction={() => dispatch(resetWorkoutPath())}
+                                    link="/history"
+                                    startButtonText="Perform again"
+                                    menu={
+                                        <HistoryMenu workout={workout} />
+                             
+                                    }
+                                />
                             </ProtectedRoute>}
                         />
                         <Route

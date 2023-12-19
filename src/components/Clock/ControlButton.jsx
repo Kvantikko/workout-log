@@ -6,6 +6,8 @@ import { Button, Stack, Box } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import TimerOffIcon from "@mui/icons-material/TimerOff";
+import { IconButton } from "@mui/material";
 
 export default function ControlButtons(props) {
     const StartButton = (
@@ -27,13 +29,29 @@ export default function ControlButtons(props) {
             margin: 'auto'
         }} */
         >
-            <Button variant="contained" sx={{ marginLeft: 1.5 }} onClick={props.handlePauseResume}>
+            {/* <Button variant="contained" sx={{ marginLeft: 1.5 }} onClick={props.handlePauseResume}>
                 {props.isPaused ? <PlayArrowIcon /> : <PauseIcon />}
-            </Button>
-            <Button variant="secondary" sx={{ margin: 0 }} onClick={props.handleReset}>
+            </Button> */}
+            
+            <IconButton
+                aria-label="stopwatch"
+                sx={{ color: '#90CAF9', marginX: 0.5 }}
+                onClick={props.handlePauseResume}
+            >
+                {props.isPaused ? <PlayArrowIcon /> : <PauseIcon />}
+            </IconButton>
+            <IconButton
+                aria-label="stopwatch"
+                sx={{ color: '#90CAF9' }}
+                onClick={props.handleReset}
+            >
+                <TimerOffIcon />
+            </IconButton>
+
+            {/*   <Button variant="secondary" sx={{ margin: 0 }} >
                 <CloseIcon></CloseIcon>
             </Button>
-
+ */}
         </Box>
     );
 

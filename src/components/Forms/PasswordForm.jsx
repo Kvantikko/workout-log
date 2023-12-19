@@ -30,6 +30,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { toast } from "react-toastify"
+import PasswordField from "../Inputs/PasswordField"
 
 const PasswordForm = ({ user, submitButton, onCancel }) => {
 
@@ -38,6 +39,7 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
 
     const [errorPassword, setErrorPassword] = useState('')
     const [errorPasswordAgain, setErrorPasswordAgain] = useState('')
+    console.log(errorPassword);
 
     const [showPassword, setShowPassword] = useState(false)
     const [showPasswordAgain, setShowPasswordAgain] = useState(false)
@@ -47,6 +49,9 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
     const dispatch = useDispatch()
 
     const inputFieldsValid = () => {
+        setErrorPasswordAgain('')
+        setErrorPassword('')
+
         let valid = true
         if (passwordAgain !== password) {
             setErrorPasswordAgain(`Retyped password doesn't match the new password`)
@@ -61,6 +66,7 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
             valid = false
         }
         if (password === '') {
+            console.log("totta");
             setErrorPassword('Required')
             valid = false
         }
@@ -73,6 +79,11 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
 
     const onSubmit = async (event) => {
         event.preventDefault()
+
+        if (user.email === "julkinen@mail.com") {
+            toast.info('The password of public account julkinen@mail.com cannot be changed!')
+            return
+        }
 
         if (!inputFieldsValid()) return
 
@@ -95,12 +106,6 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
           }
 
 
-    }
-
-
-    const handlePassClick = (inputFieldId) => {
-        if (inputFieldId === 'passwordAgain') setErrorPasswordAgain('')
-        if (inputFieldId === 'password') setErrorPassword('')
     }
 
     const handleClickShowPassword = () => {
@@ -128,7 +133,25 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
                 //minWidth="100vw"
                 sx={{}}
             >
-                <TextField
+                <PasswordField
+                    id='newPassword'
+                    label="New password"
+                    showPassword={showPassword}
+                    onChange={setPassword}
+                    onVisibilityClick={handleClickShowPassword}
+                    error={!(errorPassword === '')}
+                    helperText={errorPassword}
+                />
+                <PasswordField
+                    id='newPasswordAgain'
+                    label="Retype new password"
+                    showPassword={showPasswordAgain}
+                    onChange={setPasswordAgain}
+                    onVisibilityClick={handleClickShowPasswordAgain}
+                    error={!(errorPasswordAgain === '')}
+                    helperText={errorPasswordAgain}
+                />
+                {/* <TextField
                     id='password'
                     type={showPassword ? "text" : "password"}
                     label={"New password"}
@@ -150,11 +173,11 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
                             </InputAdornment>
                         )
                     }}
-                />
-                <TextField
+                /> */}
+              {/*   <TextField
                     id='passwordAgain'
                     type={showPasswordAgain ? "text" : "password"}
-                    label={"Retype password"}
+                    label={"Retype new password"}
                     size="small"
                     onChange={(event) => setPasswordAgain(event.target.value)}
                     onClick={(event) => handlePassClick(event.target.id)}
@@ -173,7 +196,8 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
                             </InputAdornment>
                         )
                     }}
-                />
+                /> */}
+                
 
             </Stack>
 

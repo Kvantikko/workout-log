@@ -16,9 +16,7 @@ const stopWatchSlice = createSlice({
             state.isPaused = false
         },
         stopWatch: (state, action) => {
-            state.isActive = false
-            state.isPaused = true
-            state.time = 0;
+            return initialState
         },
         pauseWatch: (state, action) => {
             state.isPaused = !state.isPaused
@@ -31,22 +29,6 @@ const stopWatchSlice = createSlice({
             state.worker = action.payload
         }
 
-        
-        /* start: (state) => {
-            state.isActive = true;
-            state.isPaused = false;
-        },
-        pause: (state) => {
-            state.isPaused = true;
-        },
-        reset: (state) => {
-            state.isActive = false;
-            state.isPaused = false;
-            state.time = 0;
-        },
-        updateTime: (state, action) => {
-            state.time = action.payload;
-        }, */
     }
 });
 

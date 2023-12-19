@@ -1,19 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-
-
-
-
 import { Box, Button, TextField, Stack, Modal, Typography, FormControl, InputLabel, Select, MenuItem, Fab } from '@mui/material'
 import FilteredExercises from '../Lists/FilteredExercises'
-import Exercises from '../../pages/Exercises/Exercises'
-
-import { addExercises } from '../../redux/reducers/exerciseReducer'
-import generateId from '../../utils/generateId'
-
-
-
 
 import WarningIcon from '@mui/icons-material/Warning'
 import BasicModal from './BasicModal'
@@ -30,7 +19,7 @@ export const addExerciseToWorkoutStyle = {
     width: { xs: '100vw', sm: '70vw' },
     height: { xs: '100vh', sm: '90%' },
     //maxHeight: '100%',
-   // maxWidth: 550,
+    // maxWidth: 550,
     bgcolor: 'background.paper',
     //border: '2px solid #000',
     boxShadow: 24,
@@ -85,18 +74,24 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
     const getContent = () => {
         return (
             <>
-                <Stack direction={'row'}>
-                    <Button
-                        onClick={() => onClose()}
-                        sx={{ minWidth: 0.1, minHeight: 0 }}
-                    >
-                        <Close></Close>
-                    </Button>
+
+                <Stack direction={'row'} paddingLeft={3}>
                     <SearchInput
                         exercises={exercisesFromStore}
                         setVisibleExercises={setVisibleExercises}
                         placeholder={'Search exercises'}
                     />
+                    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'}>
+                        <Button
+                            onClick={() => onClose()}
+                            sx={{ minWidth: 0, maxHeight: 1, marginRight: 1, marginLeft: 2 }}
+                        >
+                            <Close></Close>
+                        </Button>
+                    </Box>
+
+
+
                 </Stack>
 
                 <Box
@@ -109,7 +104,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
                         overflowX: 'auto'
                     }}
                 >
-                    <Stack direction={'row'} flexWrap={'nowrap'} sx={{}}  >
+                    {/*  <Stack direction={'row'} flexWrap={'nowrap'} sx={{}}  >
                         {selectedExercises.map(e => {
                             return (
                                 <Box
@@ -141,7 +136,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
                             )
 
                         })}
-                    </Stack>
+                    </Stack> */}
                 </Box>
 
                 {selectedExercises.length !== 0 &&
@@ -152,7 +147,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
                         sx={{
                             position: 'absolute',
                             bottom: 30,
-                            right: 30,
+                            right: 100,
                             //backgroundColor: theme => theme.palette.primary.light
                         }} >
                         <Done />
@@ -164,11 +159,11 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
 
 
 
-                <Box sx={{ overflowY: 'scroll', height: '80vh', paddingBottom: 4 }}  >
+                <Box sx={{ overflowY: 'scroll', height: '78vh', paddingBottom: 4 }}  >
                     {/*   <Exercises handleListClick={newExercise} /> */}
 
 
-                    <FilteredExercises exercises={visibleExercises} handleListClick={newExercise} />
+                    <FilteredExercises exercises={visibleExercises} handleListClick={newExercise} showChecked={true} />
 
                 </Box>
 

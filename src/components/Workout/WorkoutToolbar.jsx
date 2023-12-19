@@ -10,16 +10,8 @@ import { toast } from "react-toastify";
 
 import { useState } from "react";
 
-import { clearWorkout } from "../../redux/reducers/workoutReducer";
-import { clearExercises } from "../../redux/reducers/exerciseReducer";
-import { clearSets } from "../../redux/reducers/setReducer";
-import { stopWatch } from "../../redux/reducers/stopWatchReducer";
-import { resetWorkoutPath } from "../../redux/reducers/navReducer"
+import { endWorkout } from "../../redux/reducers/workoutReducer";
 
-
-import Timer from "../Clock/Timer";
-
-import { terminateTimer } from "../../redux/reducers/timerReducer";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import BasicModal from "../Modals/BasicModal";
 
@@ -30,29 +22,31 @@ import { ArrowDownward, Cancel, Close } from "@mui/icons-material";
 import HideAppBar from "../AppBar/HideAppBar";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import TimerOffIcon from '@mui/icons-material/TimerOff';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 
 
 
 
-const WorkoutToolbar = ({ handleDrawerOpen }) => {
+const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
     console.log("Rendering WorkoutToolbar");
+
+    const workoutName = useSelector(state => state.workout.name)
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
-    const exercises = useSelector(state => state.exercises)
+    const exercises = useSelector(state => state.workout.exercises.allIds)
     const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
-    const [showModal, setShowModal] = useState(false)
-    const isSmallScreen = useMediaQuery('(min-width:900px)');
-    const isExpanded = useSelector(state => state.drawer)
-
-    const [openCancelModal, setOpenCancelModal] = useState(false);
-    const [openFinishModal, setOpenFinishModal] = useState(false);
-
+    const isSmallScreen = useMediaQuery('(min-width:900px)')
+    const [openCancelModal, setOpenCancelModal] = useState(false)
+    const [openFinishModal, setOpenFinishModal] = useState(false)
+        //const isExpanded = useSelector(state => state.drawer)
 
     const dispatch = useDispatch()
-    //const navigate = useNavigate()
 
-
-    const handleModalOpen = () => {
-        setShowModal(true)
+    const handleClear = () => {
+        setOpenCancelModal(false)
+        dispatch(endWorkout())
     }
 
     const handleFinishClick = () => {
@@ -60,38 +54,22 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
             toast.warning('Add at least one exercise before finishing!')
             return
         }
-        handleModalOpen()
-    }
-
-    const handleClear = () => {
-        dispatch(clearWorkout())
-        dispatch(clearExercises())
-        dispatch(clearSets())
-        dispatch(stopWatch())
-        dispatch(resetWorkoutPath())
-        dispatch(terminateTimer())
-        setOpenCancelModal(false)
-    }
-
-    const handleOpenFinishModal = () => {
-        if (exercises.length === 0) {
-            toast.warning('Add at least one exercise before finishing!')
+        if (workoutName === "" || workoutName === undefined || workoutName === null) {
+            toast.warning('Give a name to your workout')
             return
         }
         setOpenFinishModal(true)
     }
 
     const renderChevron = () => {
-        if (!isSmallScreen) return <ArrowDownward></ArrowDownward>
+        if (!isSmallScreen) return <KeyboardArrowDownIcon />
 
-        if (isExpanded) {
+        if (open) {
             return <ChevronRight />
         } else {
-            return <ChevronLeft />
+            return <ChevronLeft></ChevronLeft>// <OpenInFullIcon />
         }
     }
-
-
 
     return (
         /*   <AppBar sx={{ width: { md: 400, lg: 500 } }}> */
@@ -104,24 +82,27 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
             paddingY={1.5}
         >
 
+
+
             <Stack
                 direction={"row"}
                 spacing={{ xs: 1, sm: 2 }}
                 //paddingY={1.5}
                 overflow={'hidden'}
             >
+
                 <IconButton onClick={handleDrawerOpen} >
                     {renderChevron()}
                 </IconButton>
 
-                <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} >
-                    <Timer size="h5" />
-                </Box>
+
             </Stack>
+
+
 
             <Stack
                 direction={"row"}
-                spacing={{ xs: 1, sm: 2 }}
+                spacing={{ xs: 1, sm: 1 }}
                 //paddingY={1.5}
                 alignSelf={'flex-start'}
             >
@@ -129,46 +110,59 @@ const WorkoutToolbar = ({ handleDrawerOpen }) => {
                     <IconButton
                         aria-label="stopwatch"
                         sx={{ color: '#90CAF9' }}
+                        
                         onClick={() => dispatch(startWatch())}
+                        
                     >
-                        <TimerOutlinedIcon />
+                        <TimerOutlinedIcon
+                          
+                        />
                     </IconButton>
+                    /*        :
+                           <IconButton
+                               aria-label="stopwatch"
+                               sx={{ color: '#90CAF9' }}
+                               onClick={() => dispatch(stopWatch())}
+                           >
+                               <TimerOffIcon />
+                           </IconButton> */
                 }
                 {workoutStarted && stopWatchIsActive &&
                     <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} >
                         <StopWatch showButtons={true} size='h5' />
                     </Box>
                 }
-                <IconButton aria-label="finish" color="success" onClick={handleOpenFinishModal}>
+
+                <IconButton aria-label="finish" color="success" onClick={handleFinishClick}>
                     <CheckCircleOutlineIcon />
                 </IconButton>
                 {openFinishModal &&
                     <SaveWorkoutModal
                         open={openFinishModal}
-                        onClose={setOpenFinishModal}
+                        onClose={() => setOpenFinishModal(false)}
                         type={"active"}
                     //confirmFunction={handleClear}
                     />
                 }
 
-                <IconButton aria-label="cancel" color="error" onClick={() => setOpenCancelModal(true)}>
-                    {!isSmallScreen ? <NotInterestedIcon /> : <Close></Close>}
-                </IconButton>
 
-                {openCancelModal &&
-                    <BasicModal
-                        open={openCancelModal}
-                        onClose={() => setOpenCancelModal(false)}
-                        title="Discard workout?"
-                        subTitle="Are you sure you want to discard ongoing workout?"
-                        confirmButtonText={'Discard'}
-                        cancelButtonText={'Keep logging'}
-                        onSubmit={() => handleClear()}
-                    />
-                }
+                <IconButton aria-label="cancel" color="error" onClick={() => setOpenCancelModal(true)}>
+                    <Close></Close>
+                </IconButton>
 
             </Stack>
 
+            {openCancelModal &&
+                <BasicModal
+                    open={openCancelModal}
+                    onClose={() => setOpenCancelModal(false)}
+                    title="Discard workout?"
+                    subTitle="Are you sure you want to discard ongoing workout?"
+                    confirmButtonText={'Discard'}
+                    cancelButtonText={'Keep logging'}
+                    onSubmit={() => handleClear()}
+                />
+            }
         </Stack>
 
         /*  </AppBar> */

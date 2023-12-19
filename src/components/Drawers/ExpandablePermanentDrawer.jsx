@@ -129,10 +129,10 @@ export default function ExpandablePermanentDrawer() {
 
     const theme = useTheme();
   
-    const [open, setOpen] = React.useState(true)
+    const [open, setOpen] = React.useState(false)
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
-    const isExpanded = useSelector(state => state.drawer)
+    //const isExpanded = useSelector(state => state.drawer)
     const isSmallScreen = useMediaQuery('(max-width:900px)')
 
     const dispatch = useDispatch()
@@ -181,7 +181,7 @@ export default function ExpandablePermanentDrawer() {
                             {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton> */}
                             <AppBar open={open} >
-                                <WorkoutToolbar handleDrawerOpen={handleDrawerOpen} />
+                                <WorkoutToolbar open={open} setOpen={setOpen} handleDrawerOpen={handleDrawerOpen} />
                             </AppBar>
 
                         </DrawerHeader>
@@ -189,8 +189,8 @@ export default function ExpandablePermanentDrawer() {
 
 
                         <Box sx={{
-                            paddingTop: 4,
-                            paddingX: { md: isExpanded ? 10 : 0, lg: isExpanded ? 10 : 0, xl: isExpanded ? 20 : 0 },
+                            paddingTop: 2,
+                            paddingX: { md: open ? 10 : 0, lg: open ? 10 : 0, xl: open ? 20 : 0 },
                             overflow: 'auto'
                         }}>
 

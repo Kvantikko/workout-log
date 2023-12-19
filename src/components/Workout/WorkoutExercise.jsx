@@ -6,38 +6,33 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 import { TransitionGroup } from 'react-transition-group';
 import { useDispatch, useSelector } from "react-redux"
-import { addSet, deleteSet } from "../../redux/reducers/setReducer"
-import { moveExerciseDownTemplate, moveExerciseUppTemplate } from "../../redux/reducers/templateReducer";
+import { editTemplateExerciseNote, moveExerciseDownTemplate, moveExerciseUppTemplate } from "../../redux/reducers/templateReducer";
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import generateId from "../../utils/generateId"
 
-
-
-import { deleteExercise, editExerciseNote, moveExerciseDown, moveExerciseUpp } from "../../redux/reducers/exerciseReducer"
 import BasicModal from "../Modals/BasicModal"
+import NoteField from "../Inputs/NoteField"
 
 import { forwardRef } from 'react';
 import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer";
-import { deleteExerciseFromWorkout, moveExerciseDownWorkout, moveExerciseUppWorkout } from "../../redux/reducers/workoutReducer";
+import { deleteExerciseFromWorkout, editWorkoutExerciseNote, moveExerciseDownWorkout, moveExerciseUppWorkout } from "../../redux/reducers/workoutReducer";
 
-const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, ref) => {
-    console.log("Rendering WorkoutExercise ", exercise.name)
+const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, ref) => {
+    console.log("Rendering WorkoutExercise ")
 
-    let noteFromState = ""
+    let exercise = {}
     switch (type) {
         case "active":
-            noteFromState = useSelector(state => state.workout.exercises.byId[exercise.id].note) || ""
+            exercise = useSelector(state => state.workout.exercises.byId[exerciseId])
             break
         case "template":
-            noteFromState = useSelector(state => state.template.exercises.byId[exercise.id].note) || ""
+            exercise = useSelector(state => state.template.exercises.byId[exerciseId])
             break
         default:
             throw new Error('Component must have a type prop specified!')
     }
 
-    const [note, setNote] = (noteFromState ? noteFromState : '')       //!!!!!!!
-    const [focused, setFocused] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
     const dispatch = useDispatch()
@@ -46,22 +41,14 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
         setOpenDeleteModal(false)
         switch (type) {
             case "active":
-                dispatch(deleteExerciseFromWorkout(exercise.id))
+                dispatch(deleteExerciseFromWorkout(exerciseId))
                 break
             case "template":
-                dispatch(deleteExerciseFromTemplate(exercise.id))
+                dispatch(deleteExerciseFromTemplate(exerciseId))
                 break
             default:
                 throw new Error('Component must have a type prop specified!')
         }
-
-
-    }
-
-    const handleBlur = () => {
-        setFocused(false)
-        const changedExercise = { ...exercise, note: note }
-        dispatch(editExerciseNote({ exerciseId: exercise.id, changedExercise: changedExercise }))
     }
 
     const handleSwapDown = () => {
@@ -73,9 +60,8 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
                 dispatch(moveExerciseDownTemplate(exercise.id))
                 break
             default:
-                throw new Error('Component Workout must have a type prop specified!')
+                throw new Error('Component must have a type prop specified!')
         }
-        
     }
 
     const handleSwapUpp = () => {
@@ -87,9 +73,24 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
                 dispatch(moveExerciseUppTemplate(exercise.id))
                 break
             default:
-                throw new Error('Component Workout must have a type prop specified!')
+                throw new Error('Component must have a type prop specified!')
         }
-        
+    }
+
+    
+    const handleBlur = (note) => {
+        const changedExercise = { ...exercise, note: note }
+        switch (type) {
+            case "active":
+                dispatch(editWorkoutExerciseNote({ exerciseId: exercise.id, changedExercise: changedExercise }))
+                break
+            case "template":
+                dispatch(editTemplateExerciseNote({ exerciseId: exercise.id, changedExercise: changedExercise }))
+                break
+            default:
+                throw new Error('Component must have a type prop specified!')
+        }
+      
     }
 
     return (
@@ -97,7 +98,7 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
         <Box ref={ref} sx={{ alignItems: 'center' }}>
             <Box paddingX={2}>
                 <Stack direction={"row"} sx={{ justifyContent: "space-between" }} alignItems={'center'}>
-                    <Typography variant="h6">{exercise.name}</Typography>
+                    <Typography variant="h6">{exercise?.name}</Typography>
                     <Stack direction={'row'} alignItems={'center'} spacing={1}>
                         <Stack paddingX={1}>
                             <IconButton
@@ -136,33 +137,9 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
                     }
                 </Stack>
 
-                <TextField
-                    variant="outlined" size="small"
-                    fullWidth
-                    placeholder="Exercise note"
-                    //style={{ width: 100, minWidth: 80 }}
-                    id="note"
-                    type="text"
-                    value={note}
-                    autoComplete="off"
-                    inputProps={{
-                        sx: {
-                            color: focused ?
-                                theme => theme.palette.action.active :
-                                theme => theme.palette.text.disabled
-                        },
-                    }}
+                <NoteField note={exercise?.note} handleBlur={handleBlur} placeholder={"Exercise note"}></NoteField>
 
-                    onFocus={() => setFocused(true)}
-                    onBlur={handleBlur}
-                    onChange={(event) => setNote(event.target.value)}
-                    sx={{
-                        borderRadius: 2,
-                        backgroundColor: theme => theme.palette.action.disabledBackground,
-                        marginY: 1,
-                        "& fieldset": { border: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: 2 },
-                    }}
-                />
+
 
                 <Stack direction={"row"} spacing={1} sx={{ justifyContent: "space-between", my: 1 }}>
                     <Box sx={{ maxWidth: 0.2, minWidth: 0.1 }} textAlign={'center'} >Set</Box>
@@ -173,7 +150,7 @@ const WorkoutExercise = forwardRef(({ exercise, arrayEnd, arrayStart, type }, re
                 </Stack>
             </Box>
 
-            <Sets type={type} exerciseId={exercise.id} />
+            <Sets type={type} exerciseId={exerciseId} />
 
             <Divider sx={{ my: 3 }} />
 

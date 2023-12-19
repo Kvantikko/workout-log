@@ -3,9 +3,6 @@ import WorkoutExercise from "./WorkoutExercise"
 import { useState, useEffect, useCallback, memo } from "react"
 import { useDispatch } from "react-redux"
 import { Autocomplete, Button, TextField, Input, Stack, Container, Box, Typography } from "@mui/material"
-import { useSelector } from "react-redux"
-import generateId from "../../utils/generateId"
-import { addExercises, deleteExercise } from "../../redux/reducers/exerciseReducer"
 import HideAppBar from "../AppBar/HideAppBar"
 import WorkoutToolbar from "./WorkoutToolbar"
 import AddIcon from '@mui/icons-material/Add';
@@ -20,9 +17,9 @@ const WorkoutContainer = ({ drawerWidth }) => {
 
     return (
         <>
-            <HideAppBar drawerWidth={drawerWidth} >
+            {/* <HideAppBar drawerWidth={drawerWidth} >
                 <WorkoutToolbar />
-            </HideAppBar>
+            </HideAppBar> */}
 
             <Container disableGutters sx={{
                 marginTop: { xs: 3, sm: 4, md: 6 },

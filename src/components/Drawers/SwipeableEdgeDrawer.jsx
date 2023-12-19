@@ -57,8 +57,6 @@ function SwipeableEdgeDrawer(props) {
             console.log('paskaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         }
 
-        console.log("häh");
-
         if (open) {
             setOpen(false);
             dispatch(unExpand())

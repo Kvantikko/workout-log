@@ -1,6 +1,6 @@
 import { Button, Container, Stack, Box, Typography } from "@mui/material"
-import HideAppBar from "../../components/AppBar/HideAppBar"
-import BasicToolbar from "../../components/Toolbars/BasicToolbar"
+import HideAppBar from "../components/AppBar/HideAppBar"
+import BasicToolbar from "../components/Toolbars/BasicToolbar"
 
 const Measurements = ({ user, drawerWidth }) => {
 

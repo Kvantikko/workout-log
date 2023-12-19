@@ -14,7 +14,9 @@ import SaveWorkoutModal from "./SaveWorkoutModal"
 import { toast } from "react-toastify"
 
 
-const CreateEditWorkoutModal = ({ open, onClose, workout, title, disableWarning, editVipu }) => {
+const CreateEditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning, editVipu }) => {
+
+    console.log("Rendering CrateEditMOdal ", workout);
 
     const isExercises = useSelector(state => state.template.exercises.allIds).length !== 0
     const isName = useSelector(state => state.template.name) !== ""
@@ -90,7 +92,7 @@ const CreateEditWorkoutModal = ({ open, onClose, workout, title, disableWarning,
                     title={title}
                     confirmButtonText={"Save"}
                 >
-                    <Box sx={{ overflow: 'auto', height: '70vh', /* width: '60vw' */ }} >
+                    <Box sx={{ overflow: 'auto', height: '80vh', marginY: 2 }} >
                         <Workout type={'template'} />
                     </Box>
                 </BasicModal>
@@ -99,9 +101,9 @@ const CreateEditWorkoutModal = ({ open, onClose, workout, title, disableWarning,
                 <BasicModal
                     open={openWarningModal}
                     onClose={() => setOpenWarningModal(false)}
-                    title={"Discard template?"}
-                    subTitle={"Are you sure you want to discard the template without saving it?"}
-                    confirmButtonText={"Discard"}
+                    title={"Discard changes?"}
+                    subTitle={"Do you want to discard any changes you have made without saving them?"}
+                    confirmButtonText={"Yes"}
                     onSubmit={() => handleSubmit()}
                 />
             }
@@ -110,7 +112,7 @@ const CreateEditWorkoutModal = ({ open, onClose, workout, title, disableWarning,
                     open={openSaveModal}
                     onClose={() => handleCancelFinish()}
                     onSubmit={() => handleSubmit()}
-                    type={"template"}
+                    type={type}
                     editVipu={editVipu}
                     workout={workout}
                 />

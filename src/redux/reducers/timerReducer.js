@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { stopWorker } from '../../components/Clock/timerWorkerManager';
+import { postMessageToWorker, stopWorker } from '../../components/Clock/timerWorkerManager';
 
 const initialState = {
     isActive: false,
@@ -14,6 +14,11 @@ const timerSlice = createSlice({
         startTimer: (state, action) => {
             state.isActive = true
         },
+        resetTimer: (state, action) => {
+            state.time = 0
+            postMessageToWorker("reset")
+            postMessageToWorker("start")
+        },
         terminateTimer: (state, action) => {
             stopWorker()
             state.time = 0
@@ -26,6 +31,6 @@ const timerSlice = createSlice({
     }
 });
 
-export const { startTimer, terminateTimer, updateTimer } = timerSlice.actions;
+export const { startTimer, terminateTimer, resetTimer, updateTimer } = timerSlice.actions;
 
 export default timerSlice.reducer

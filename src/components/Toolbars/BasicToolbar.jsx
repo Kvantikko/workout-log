@@ -26,7 +26,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const BasicToolbar = ({ children, title, showBack, backFunction, link, handleCopy, menu, showModal, setShowModal }) => {
-    console.log("rendering HistoryIdToolbar.jsx");
+    console.log("Rendering BasicToolbar.jsx");
 
     const isSmallScreen = useMediaQuery('(min-width:900px)');
 

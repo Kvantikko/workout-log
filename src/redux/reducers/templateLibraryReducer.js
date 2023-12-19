@@ -4,10 +4,10 @@ import templateService from "../../services/templates"
 // this will sort the exercises in alphabetical order after a new template is added or edited
 const sortAlphabetically = (array) => {
     array.sort((a, b) => {
-        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+        if (a.title.toLowerCase() < b.title.toLowerCase()) {
           return -1;
         }
-        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+        if (a.title.toLowerCase() > b.title.toLowerCase()) {
           return 1;
         }
         return 0;

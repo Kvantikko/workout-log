@@ -13,7 +13,6 @@ export const stopWorker = () => {
 };
 
 export const postMessageToWorker = (message) => {
-    console.log("TIMER");
     if (timerWorker) timerWorker.postMessage(message)
 }
 
