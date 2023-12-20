@@ -201,6 +201,7 @@ const Home = ({ user, drawerWidth }) => {
                     open={openTemplateModal}
                     onClose={setOpenTemplateModal}
                     title="Create template"
+                    type="template"
                 />
             }
 

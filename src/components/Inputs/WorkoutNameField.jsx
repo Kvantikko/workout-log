@@ -27,11 +27,13 @@ const WorkoutNameField = ({ /* workoutName, */ type }) => {
     const [helperText, setHelperText] = useState('')
     const [error, setError] = useState(!(helperText === ''))
 
-   // console.log("kak ", input)
+    console.log("workoutName ", workoutName);
 
-    /* useEffect(() => {
+    console.log("input ", input)
+
+    useEffect(() => {
         setInput(workoutName)
-    }, [])    */    
+    }, [workoutName])    
  
     const dispatch = useDispatch()
 

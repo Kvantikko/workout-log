@@ -33,16 +33,16 @@ export default function ControlButtons(props) {
                 {props.isPaused ? <PlayArrowIcon /> : <PauseIcon />}
             </Button> */}
             
-            <IconButton
+         {/*    <IconButton
                 aria-label="stopwatch"
                 sx={{ color: '#90CAF9', marginX: 0.5 }}
                 onClick={props.handlePauseResume}
             >
                 {props.isPaused ? <PlayArrowIcon /> : <PauseIcon />}
-            </IconButton>
+            </IconButton> */}
             <IconButton
                 aria-label="stopwatch"
-                sx={{ color: '#90CAF9' }}
+                sx={{ color: '#90CAF9', marginX: 0.5 }}
                 onClick={props.handleReset}
             >
                 <TimerOffIcon />

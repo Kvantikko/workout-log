@@ -153,7 +153,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
                                     }
                                 }}
                         >
-                            {['Home', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
+                            {['Workout', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
                                 <BottomNavigationAction
                                     key={text}
                                     component={Link}

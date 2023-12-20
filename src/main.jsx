@@ -41,12 +41,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <CssBaseline />
             <div id='outsideRouter'>
 
-                {/*USE A PORTAL HERE?......*/}
                 <ExpandablePermanentDrawer />
                 <SwipeableEdgeDrawer />
             </div>
-            {/* <Box sx={{ height: 100 }} /> */}
-            <Toolbar /> {/* Toolbar is for margin */}
+       
+       
             <Router>
                 <App />
             </Router>

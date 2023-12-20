@@ -35,6 +35,7 @@ import {
     Navigate,
     useMatch,
     useNavigate,
+    useLocation,
 } from "react-router-dom"
 
 import axios from 'axios'
@@ -162,6 +163,7 @@ const App = () => {
     const theme = useTheme();
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
     //const isSmallScreen = useMediaQuery('(min-width:900px)');
 
     // CONSTANTS
@@ -267,206 +269,156 @@ const App = () => {
     return (
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
+            {isAuthenticated && <Toolbar /> }
+                <Box id='mainContainer' className='mainContainer' sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
 
-            {/*  {workoutStarted && isAuthenticated && (!isSmallScreen) && createPortal(
-                <PermanentDrawerRight />,
-                document.getElementById('outsideRouter')
-            )} */}
-
-            {/*   {workoutStarted && isAuthenticated && (isSmallScreen === true) && createPortal(
-                <SwipeableEdgeDrawer />,
-                document.body
-            )}
- */}
+                    {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
 
 
+                    <Box
+                        component="main" id='main'
 
-            <Box id='mainContainer' className='mainContainer' sx={{ display: 'flex', marginTop: 0 /* margin() */ }}  >
-
-
-
-                {isAuthenticated && <PermanentDrawerLeft drawerWidth={drawerWidth} />}
-
-
-
-
-                {/* <Drawer
-                    sx={{
-                        width: 200,
-                        flexShrink: 0,
-                        '& .MuiDrawer-paper': {
-                            width: 200,
-                        },
-                    }}
-                    //variant="persistent"
-                    variant='permanent'
-                    anchor="right"
-                    open={open}
-                >
-                    <div>dadwadawdwd</div>
-
-                    <ActiveWorkout></ActiveWorkout>
-
-
-                </Drawer>  */}
-
-
-
-
-                <Box
-                    component="main" id='main'
-
-                    sx={{
-                        flexGrow: 1,
-                        height: `calc(100vh - ${64}px)`, //'100vh',
-                        overflow: 'auto'
-                        // width:   `calc(100% - ${+600}px)` ,
-                        //marginLeft: 10
-                        //width: 33,!isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' ,
-                        //minWidth: 400,
-                        //maxWidth: !isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' 
-                    }}
-                >
-                    {/* <Toolbar />   // for margin */}
-
-
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={<ProtectedRoute  >
-                                <Workout
-                                    user={user}
-                                    //style={{ margin: '110' }}
-                                    drawerWidth={drawerWidth}
-                                />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/templates/:id"
-                            element={<ProtectedRoute>
-                                {/*  <Template template={template} drawerWidth={drawerWidth} /> */}
-                                <WorkoutDetails
-                                    drawerWidth={drawerWidth}
-                                    workout={template}
-                                    backFunction={() => dispatch(resetHistory())}
-                                    link="/"
-                                    startButtonText="Start workout"
-                                    menu={
-                                        <TemplateMenu workout={template} />
-                                    }
-                                />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/history/:id"
-                            element={<ProtectedRoute>
-                                {/* <HistoryId workout={workout} drawerWidth={drawerWidth} /> */}
-                                <WorkoutDetails
-                                    drawerWidth={drawerWidth}
-                                    workout={workout}
-                                    showDate
-                                    backFunction={() => dispatch(resetWorkoutPath())}
-                                    link="/history"
-                                    startButtonText="Perform again"
-                                    menu={
-                                        <HistoryMenu workout={workout} />
-                             
-                                    }
-                                />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/history"
-                            element={<ProtectedRoute>
-                                <History drawerWidth={drawerWidth} />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/exercises/:id"
-                            element={<ProtectedRoute>
-                                <Exercise exercise={exercise} drawerWidth={drawerWidth} />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/exercises"
-                            element={<ProtectedRoute>
-                                <Exercises drawerWidth={drawerWidth} />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/measure"
-                            element={<ProtectedRoute>
-                                <Measurements drawerWidth={drawerWidth} />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/profile"
-                            element={<ProtectedRoute>
-                                <Profile user={user} drawerWidth={drawerWidth} />
-                            </ProtectedRoute>}
-                        />
-                        <Route
-                            path="/login"
-                            element={<LoginProtect>
-                                <Login />
-                            </LoginProtect>}
-                        />
-                    </Routes>
-
-                    <ToastContainer
-                        className="toast-position"
-                        position="bottom-right"
-                        autoClose={4000}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme={'dark'}
-                        toastStyle={{ backgroundColor: "#474747" }}
-                    />
-                </Box>
-                {/* 
-                {isAuthenticated && workoutStarted && !isSmallScreen &&
-                    <ExpandablePermanentDrawer />
-                }
-
-                 */}
-
-
-
-
-                {isAuthenticated && workoutStarted &&
-
-
-                    <Drawer
                         sx={{
-                            zIndex: 0,
-                            width: { xs: 'none', md: 400, lg: 500 },
-                            flexShrink: 0,
-                            display: { xs: 'none', md: 'block' },
-                            '& .MuiDrawer-paper': {
-                                width: { xs: 'none', md: 400, lg: 500 },
-                                boxSizing: 'border-box',
-                                bgcolor: 'transparent', //theme => theme.palette.action.hover,
-                                pointerEvents: 'none'
-                            },
+                            flexGrow: 1,
+                            height: isAuthenticated ? `calc(100vh - ${64}px)` : "100%" ,
+                            overflow: 'auto'
+                            // width:   `calc(100% - ${+600}px)` ,
+                            //marginLeft: 10
+                            //width: 33,!isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' ,
+                            //minWidth: 400,
+                            //maxWidth: !isSmallScreen ? `calc(100% - ${drawerWidth+500}px)` : '100%' 
                         }}
-                        variant="permanent"
-                        anchor="right"
                     >
-                    </Drawer>
-
-                }
-
-                {isAuthenticated && <BottomNavBar />}
 
 
-            </Box>
+                        {/*  <Typography color="text.secondary" paddingTop={2} paddingLeft={2} >
+                        {location.pathname}
+                    </Typography> */}
 
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={<ProtectedRoute  >
+                                    <Workout
+                                        user={user}
+                                        //style={{ margin: '110' }}
+                                        drawerWidth={drawerWidth}
+                                    />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/templates/:id"
+                                element={<ProtectedRoute>
+                                    {/*  <Template template={template} drawerWidth={drawerWidth} /> */}
+                                    <WorkoutDetails
+                                        drawerWidth={drawerWidth}
+                                        workout={template}
+                                        backFunction={() => dispatch(resetWorkoutPath())}
+                                        link="/"
+                                        startButtonText="Start workout"
+                                        menu={
+                                            <TemplateMenu workout={template} />
+                                        }
+                                    />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/history/:id"
+                                element={<ProtectedRoute>
+                                    {/* <HistoryId workout={workout} drawerWidth={drawerWidth} /> */}
+                                    <WorkoutDetails
+                                        drawerWidth={drawerWidth}
+                                        workout={workout}
+                                        showDate
+                                        backFunction={() => dispatch(resetHistory())}
+                                        link="/history"
+                                        startButtonText="Perform again"
+                                        menu={
+                                            <HistoryMenu workout={workout} />
+
+                                        }
+                                    />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/history"
+                                element={<ProtectedRoute>
+                                    <History drawerWidth={drawerWidth} />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/exercises/:id"
+                                element={<ProtectedRoute>
+                                    <Exercise exercise={exercise} drawerWidth={drawerWidth} />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/exercises"
+                                element={<ProtectedRoute>
+                                    <Exercises drawerWidth={drawerWidth} />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/measure"
+                                element={<ProtectedRoute>
+                                    <Measurements drawerWidth={drawerWidth} />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/profile"
+                                element={<ProtectedRoute>
+                                    <Profile user={user} drawerWidth={drawerWidth} />
+                                </ProtectedRoute>}
+                            />
+                            <Route
+                                path="/login"
+                                element={<LoginProtect>
+                                    <Login />
+                                </LoginProtect>}
+                            />
+                        </Routes>
+
+                        <ToastContainer
+                            className="toast-position"
+                            position="bottom-right"
+                            autoClose={4000}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme={'dark'}
+                            toastStyle={{ backgroundColor: "#474747" }}
+                        />
+                    </Box>
+
+                    {isAuthenticated && workoutStarted &&
+
+                        <Drawer
+                            sx={{
+                                zIndex: 0,
+                                width: { xs: 'none', md: 400, lg: 500 },
+                                flexShrink: 0,
+                                display: { xs: 'none', md: 'block' },
+                                '& .MuiDrawer-paper': {
+                                    width: { xs: 'none', md: 400, lg: 500 },
+                                    boxSizing: 'border-box',
+                                    bgcolor: 'transparent', //theme => theme.palette.action.hover,
+                                    pointerEvents: 'none'
+                                },
+                            }}
+                            variant="permanent"
+                            anchor="right"
+                        >
+                        </Drawer>
+
+                    }
+
+                    {isAuthenticated && <BottomNavBar />}
+
+                </Box>
 
         </LocalizationProvider>
-
     )
 }
 

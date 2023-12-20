@@ -117,11 +117,11 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                                     {index === 4 && <PersonIcon />}
                                 </ListItemIcon>
                                 <ListItemText primary={text} sx={{ paddingLeft: 1 }} />
-                                {index === 0 && isWorkoutActive && (pageIndex() !== index) && <Box sx={{
+                               {/*  {index === 0 && isWorkoutActive && (pageIndex() !== index) && <Box sx={{
                                     borderRadius: 2,
                                     paddingX: 1.5,
                                     animation: `${blink} 1s linear infinite alternate`,
-                                }} > ! </Box>}
+                                }} > ! </Box>} */}
                             </ListItemButton>
 
                         </ListItem>

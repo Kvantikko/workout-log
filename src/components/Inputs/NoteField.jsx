@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
 
@@ -10,6 +10,10 @@ const NoteField = ({ note, handleBlur, placeholder }) => {
 
     const [input, setInput] = useState(null)       
     const [focused, setFocused] = useState(false)
+
+    useEffect(() => {
+        setInput(note)
+    }, [note])    
 
     const dispatch = useDispatch()
 

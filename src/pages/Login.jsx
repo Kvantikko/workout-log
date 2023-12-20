@@ -11,6 +11,8 @@ import exerciseService from "../services/exercises"
 import userService from "../services/user"
 import templateService from "../services/templates"
 
+import LoginImage from "../assets/gym.webp"
+
 
 import {
     Typography,
@@ -58,49 +60,62 @@ const Login = () => {
         } else {
             setShowRegister(true)
         }
-        // setTypography(showRegister)
-        /*   setErrorEmail('')
-          setErrorFirstname('')
-          setErrorLastname('')
-          setErrorPassword('') */
     }
 
     return (
         <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            textAlign={'center'}
-            justifyContent="center"
-            //minHeight="80vh"
-            //minWidth="75vh"
-            paddingX={3}
-            gap={3}
+            display='flex'
+            flexDirection='row'
         >
-            <Typography variant="h4" textAlign="center">WORKOUT LOG</Typography>
-            <Typography variant="h5">{typography[0]}</Typography>
-            <LoginRegisterForm
-                buttonText={typography[0]}
-                showRegister={showRegister}
+            <Box
+                minWidth="50%"
+                sx={{
+                    display: { xs: "none", md: "block", },
+                    height: "100vh",
+                    backgroundImage: `url(${LoginImage})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center' 
+                }}
             />
-            <Typography>
-                {typography[1]}
-                <Button onClick={toggleLayout}><Link >{typography[2]}</Link></Button>
-            </Typography>
-            {!showRegister &&
-                <Stack alignItems='left' justifyContent={'left'} textAlign={'left'} width={265} spacing={0.5}>
-                    <Typography variant="h6" paddingBottom={1} paddingTop={5}>
-                        Public account for visitors:
-                    </Typography>
-                    <Typography  variant="body1" color="text.secondary" >
-                        email: julkinen@mail.com
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary" >
-                        password: salainen
-                    </Typography>
-                </Stack>
-            }
+            <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                textAlign={'center'}
+                justifyContent="center"
+                paddingX={3}
+                paddingY={10}
+                gap={3}
+                width={"100%"}
+                direction={'row'}
+                flexWrap={'wrap'}
+                flexGrow={2}
+            >
+                <Typography variant="h4" textAlign="center">WORKOUT LOG</Typography>
+                <Typography variant="h5">{typography[0]}</Typography>
+                <LoginRegisterForm
+                    buttonText={typography[0]}
+                    showRegister={showRegister}
+                />
+                <Typography>
+                    {typography[1]}
+                    <Button onClick={toggleLayout}><Link >{typography[2]}</Link></Button>
+                </Typography>
+                {!showRegister &&
+                    <Stack alignItems='left' justifyContent={'left'} textAlign={'left'} width={265} spacing={0.5}>
+                        <Typography variant="h6" paddingBottom={1} paddingTop={5}>
+                            Public account for visitors
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary" >
+                            email: julkinen@mail.com
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary" >
+                            password: salainen
+                        </Typography>
+                    </Stack>
+                }
 
+            </Box>
         </Box>
     )
 }

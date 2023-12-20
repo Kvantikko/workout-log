@@ -62,6 +62,7 @@ const ExerciseMenu = ({ exercise, showDateRange }) => {
             toast.success("Exercise deleted succesfully!");
             navigate('/exercises')
         } catch (error) {
+            console.log(error);
             toast.error(error.message)
         }
     }

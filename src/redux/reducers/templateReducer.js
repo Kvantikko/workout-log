@@ -311,7 +311,7 @@ export const saveTemplate = (isNew, isHistory, handleClose) => {
                 console.log("ASYN REDUCER resp", templateResponse);
                 dispatch(updateTemplate(templateResponse))
             }
-            handleClose()
+            //handleClose()
             toast.success("Workout saved!")
             dispatch(clearTemplate())
         } catch (error) {
