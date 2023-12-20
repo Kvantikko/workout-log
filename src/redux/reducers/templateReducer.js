@@ -4,6 +4,7 @@ import templateService from "../../services/templates"
 import workoutService from "../../services/workouts"
 import { addTemplate, updateTemplate } from "./templateLibraryReducer"
 import { updateWorkout } from "./historyReducer"
+import { toast } from "react-toastify"
 
 const initialState = {
     id: null,
@@ -261,7 +262,7 @@ export const {
     moveExerciseUppTemplate
 } = templateSlice.actions
 
-export const saveTemplate = (isNew, isHistory) => {
+export const saveTemplate = (isNew, isHistory, handleClose) => {
     console.log("hehooooo");
     return async (dispatch, getState) => {
 
@@ -291,24 +292,39 @@ export const saveTemplate = (isNew, isHistory) => {
             workoutExercises: exercisesDTO 
         }
 
+      
+
         console.log("ASYNC REDUCER ", newWorkoutObject)
         console.log("ASYNC REDUCER isNew", isNew)
 
         let templateResponse
-        if (isNew) {
-            templateResponse = await templateService.createNew(newWorkoutObject)
-            dispatch(addTemplate(templateResponse))
-        } else if (isHistory) {
-            templateResponse = await workoutService.update(getState().template.id, newWorkoutObject)
-            console.log("ASYN REDUCER resp", templateResponse);
-            dispatch(updateWorkout(templateResponse))
-        } else {
-            templateResponse = await templateService.update(getState().template.id, newWorkoutObject)
-            console.log("ASYN REDUCER resp", templateResponse);
-            dispatch(updateTemplate(templateResponse))
+        try {
+            if (isNew) {
+                templateResponse = await templateService.createNew(newWorkoutObject)
+                dispatch(addTemplate(templateResponse))
+            } else if (isHistory) {
+                templateResponse = await workoutService.update(getState().template.id, newWorkoutObject)
+                console.log("ASYN REDUCER resp", templateResponse);
+                dispatch(updateWorkout(templateResponse))
+            } else {
+                templateResponse = await templateService.update(getState().template.id, newWorkoutObject)
+                console.log("ASYN REDUCER resp", templateResponse);
+                dispatch(updateTemplate(templateResponse))
+            }
+            handleClose()
+            toast.success("Workout saved!")
+            dispatch(clearTemplate())
+        } catch (error) {
+            toast.error(error.message)
+           // throw error
+            console.log("EEEEEEEEEERRRRRRRRROOOOOOOOOOOOOOOOOOOOOOORRR", error);
+    
         }
 
-        dispatch(clearTemplate())
+        
+       
+
+        
     }
 }
 

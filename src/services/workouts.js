@@ -51,13 +51,12 @@ const createNew = async (workout) => {
     return response.data
 }
 
-const update = async (id, name, muscle ) => {
+const update = async (id, obj ) => {
     const config = {
         headers: {
             Authorization: token
         }
     }
-    const obj = { name: name, muscle: muscle } // { name, muscle } ?
     console.log('sending this to the server: ', obj);
     const response = await axios.put(`${baseUrl}/${id}`, obj, config)
     return response.data

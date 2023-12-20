@@ -34,33 +34,32 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
 
     const dispatch = useDispatch()
 
+    const handleClose = () => {
+        onClose()
+        onSubmit()
+    }
+
     const saveWorkoutToDb = async () => {
         console.log("SAVE FUNC ", type);
-        try {
-            switch (type) {
-                case "active":
-                    dispatch(saveWorkout(!editVipu))
-                    onClose()
-                    onSubmit()
-                    break;
-                case "template":
-                    dispatch(saveTemplate(!editVipu))
-                    onClose()
-                    onSubmit()
-                    break;
-                case "history":
-                    console.log("case history");
-                    dispatch(saveTemplate(!editVipu, true))
-                    onClose()
-                    onSubmit()
-                    break;
-                default:
-                    throw new Error('Component must have a type prop specified!');
-            }
-            toast.success('Workout saved!')
-        } catch (err) {
-            toast.error(err.response)
+
+        switch (type) {
+            case "active":
+                dispatch(saveWorkout(!editVipu, false, handleClose))
+                break;
+            case "template":
+                dispatch(saveTemplate(!editVipu, false, handleClose))
+                break;
+            case "history":
+                console.log("case history");
+                dispatch(saveTemplate(!editVipu, true, handleClose))
+                break;
+            default:
+                throw new Error('Component must have a type prop specified!');
         }
+
+        //onClose()
+        handleClose()
+
     }
 
     return (

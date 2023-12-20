@@ -85,11 +85,11 @@ const Login = () => {
             />
             <Typography>
                 {typography[1]}
-                <Button><Link onClick={toggleLayout}>{typography[2]}</Link></Button>
+                <Button onClick={toggleLayout}><Link >{typography[2]}</Link></Button>
             </Typography>
             {!showRegister &&
                 <Stack alignItems='left' justifyContent={'left'} textAlign={'left'} width={265} spacing={0.5}>
-                    <Typography variant="h6" paddingBottom={1}>
+                    <Typography variant="h6" paddingBottom={1} paddingTop={5}>
                         Public account for visitors:
                     </Typography>
                     <Typography  variant="body1" color="text.secondary" >
