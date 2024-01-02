@@ -1,28 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify'
+import exerciseService from "../../services/exercises"
+import { sortAlphabetically } from '../../utils/SortAlphabetically'
 
-// this will sort the exercises in alphabetical order after a new exercise is added or edited
-const sortAlphabetically = (array) => {
-    array.sort((a, b) => {
-        if (a.name.toLowerCase() < b.name.toLowerCase()) {
-          return -1;
-        }
-        if (a.name.toLowerCase() > b.name.toLowerCase()) {
-          return 1;
-        }
-        return 0;
-    });
+const initialState = {
+   exercises: { byId: {}, allIds: [] },
+   selected: { byId: {}, allIds: [] }
 }
 
 const exerciseLibrarySlice = createSlice({
     name: 'exercises',
     initialState: [],
     reducers: {
-        createExercise(state, action) {
+        addExercise(state, action) {
             state.push(action.payload) // action.payload is exercise object
             sortAlphabetically(state)
             return state
         },
         updateExercise(state, action) {
+            console.log("UPDTING");
             const id = action.payload.id
             const exerciseToChange = state.find(e => e.id === id)
             const changedExercise = {
@@ -31,10 +27,12 @@ const exerciseLibrarySlice = createSlice({
                 muscle: action.payload.muscle
             }
             state = state.map(exercise => exercise.id !== id ? exercise : changedExercise)
+            console.log("next sort");
             sortAlphabetically(state)
+            console.log("RETURNIT");
             return state
         },
-        setExercises(state, action ) {
+        setExercises(state, action) {
             return action.payload
         },
         removeExercise(state, action) {
@@ -48,9 +46,54 @@ const exerciseLibrarySlice = createSlice({
 })
 
 export const {
-    createExercise,
+    addExercise,
     updateExercise,
     setExercises,
-    removeExercise 
+    removeExercise
 } = exerciseLibrarySlice.actions
+
 export default exerciseLibrarySlice.reducer
+
+export const saveExercise = (name, muscle) => {
+    return async (dispatch, getState) => {
+
+        let response
+        try {
+            const newExercise = await exerciseService.createNew(name, muscle)
+            //console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
+            dispatch(addExercise(newExercise))
+            toast.success('New exercsise created!')
+            //setOpenCreateModal(false)
+        } catch (err) {
+            toast.error(err.response)
+        }
+    }
+}
+
+export const editExercise = (exerciseId, exerciseName, targetMuscle) => {
+    return async (dispatch, getState) => {
+        try {
+            const updatedExercise = await exerciseService.update(exerciseId, exerciseName, targetMuscle)
+            console.log('servu palautti: ', updatedExercise, ' dispatchataan storeen')
+            dispatch(updateExercise(updatedExercise))
+            console.log("PERSE");
+            toast.success('Exersice edited!')
+            console.log("TOSTED");
+        } catch (err) {
+            toast.error(err.response)
+        }
+    }
+}
+
+export const deleteExercise = (id) => {
+    return async (dispatch, getState) => {
+        try {
+            await exerciseService.remove(id)
+            dispatch(removeExercise(id))
+            toast.success("Exercise deleted succesfully!");
+        } catch (err) {
+            toast.error(err.response)
+        }
+    }
+}
+

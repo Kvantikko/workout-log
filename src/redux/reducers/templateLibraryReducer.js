@@ -1,18 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import templateService from "../../services/templates"
-
-// this will sort the exercises in alphabetical order after a new template is added or edited
-const sortAlphabetically = (array) => {
-    array.sort((a, b) => {
-        if (a.title.toLowerCase() < b.title.toLowerCase()) {
-          return -1;
-        }
-        if (a.title.toLowerCase() > b.title.toLowerCase()) {
-          return 1;
-        }
-        return 0;
-    });
-}
+import { toast } from 'react-toastify';
+import { sortAlphabetically } from '../../utils/SortAlphabetically'
 
 const templateLibrarySlice = createSlice({
     name: 'templates',
@@ -59,6 +48,16 @@ export const {
     removeTemplate
 } = templateLibrarySlice.actions
 
-
-
 export default templateLibrarySlice.reducer
+
+export const deleteTemplate = (workoutId) => {
+    return async (dispatch) => {
+        try {
+            await templateService.remove(workoutId)
+            dispatch(removeTemplate(workoutId))
+            toast.success("Template deleted!");
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+}

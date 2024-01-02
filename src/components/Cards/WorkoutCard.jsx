@@ -16,22 +16,20 @@ import {
 } from '@mui/material';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 import { Link } from "react-router-dom"
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'
+
+import { formatDayAndMonthFinnish } from '../../utils/Date'
 
 const WorkoutCard = ({ workout, showDate, onClickFunction, path }) => {
-    console.log("Rendering HistoryListCard ", workout.id, workout)
+    //console.log("Rendering HistoryListCard ", workout.id, workout)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const formatDayAndMonthFinnish = (objDate) => {
-        const locale = "fi-fi"
-        const month = objDate.toLocaleString(locale, { month: "long" }) + "ta"
-        return objDate.getDate() + ". " + month
-    }
+    
 
     const countSets = (sets) => {
         let count = 0

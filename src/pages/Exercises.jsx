@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Box, Button, Stack, TextField } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
-import FilteredExercises from '../components/Lists/FilteredExercises'
+import ExerciseList from '../components/Lists/ExerciseList';
 
 import HideAppBar from '../components/AppBar/HideAppBar';
 
@@ -17,12 +17,12 @@ import { setSearchExercises } from '../redux/reducers/searchReducer';
 
 
 
+
 const Exercises = ({ drawerWidth }) => {
     const exercises = useSelector(state => state.exerciseLibrary)
     const exercisesFilteredSearch = useSelector(state => state.search.exercises)
     const searchState = useSelector(state => state.search)
     const [input, setInput] = useState(searchState.searchString)
-    //console.log("EXERCISES LIBRARY ", exercises);
     const [visibleExercises, setVisibleExercises] =
         useState(
             ((exercisesFilteredSearch.length !== 0) ||
@@ -31,19 +31,19 @@ const Exercises = ({ drawerWidth }) => {
                     (input.length !== 0)
                 )
             )
-            ?
-            exercisesFilteredSearch
-            :
-            exercises
+                ?
+                exercisesFilteredSearch
+                :
+                exercises
         )
     const [open, setOpen] = useState(false)
-   // const [selectedExercises, setSelectedExercises] = useState([])
 
-   const navigate = useNavigate()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
 
     useEffect(() => {
+        console.log("EFFECT ", )
         let filteredExercises = exercises?.filter(
             e => e.name.toLowerCase().includes(input.toLowerCase())
         )
@@ -59,6 +59,7 @@ const Exercises = ({ drawerWidth }) => {
     // button modaalille ja lista menu modaalille eri root?
 
     const handleListClick = (exercise) => {
+        console.log("LIST CLICK ");
         navigate(`/exercises/${exercise.id}`)
         dispatch(setExercisesPath(`exercises/${exercise.id}`))
     }
@@ -68,7 +69,7 @@ const Exercises = ({ drawerWidth }) => {
             <HideAppBar drawerWidth={drawerWidth} >
                 <ExercisesToolbar input={input} setInput={setInput} setOpen={setOpen} />
             </HideAppBar>
-            <FilteredExercises exercises={visibleExercises} handleListClick={handleListClick} />
+            <ExerciseList exercises={visibleExercises} handleListClick={handleListClick} />
         </div>
     )
 }

@@ -1,27 +1,11 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import { Box, Stack } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
-
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
 import BasicModal from '../Modals/BasicModal';
-
 import { useDispatch } from 'react-redux';
-
-import { toast } from 'react-toastify';
-
-import templateService from '../../services/templates'
-
 import { useNavigate } from 'react-router-dom';
-import { addExercisesToTemplate, addSetsToTemplate, clearTemplate, setTemplate, setTemplateName } from '../../redux/reducers/templateReducer';
-
-import { removeTemplate } from '../../redux/reducers/templateLibraryReducer';
+import { clearTemplate, setTemplate, setTemplateName } from '../../redux/reducers/templateReducer';
 import BasicMenu from './BasicMenu';
-import CreateEditWorkoutModal from '../Modals/CreateEditWorkoutModal';
+import EditWorkoutModal from '../Modals/EditWorkoutModal';
+import { deleteTemplate } from '../../redux/reducers/templateLibraryReducer';
 
 const TemplateMenu = ({ workout }) => {
 
@@ -44,16 +28,10 @@ const TemplateMenu = ({ workout }) => {
         setAnchorEl(null)
     }
 
-    const deleteTemplate = async () => { // infinte request spam servulle jos deleteExercise ja removeExercise sama nimi
-        try {
-            const response = await templateService.remove(workout?.id)
-            dispatch(removeTemplate(workout?.id))
-            handleClose()
-            toast.success("Template deleted!");
-            navigate('/')
-        } catch (error) {
-            toast.error(error.message)
-        }
+    const handleDelete = () => {
+        handleClose()
+        navigate('/')
+        dispatch(deleteTemplate(workout.id))
     }
 
     const copy = () => {
@@ -83,9 +61,9 @@ const TemplateMenu = ({ workout }) => {
                 subTitle="Are you sure you want to delete this workout template? This action cannot be undone."
                 confirmButtonText='Delete'
                 cancelButtonText='Cancel'
-                onSubmit={() => deleteTemplate()}
+                onSubmit={() => handleDelete()}
             />
-            <CreateEditWorkoutModal
+            <EditWorkoutModal
                 open={openEdit}
                 onClose={handleClose}
                 title="Edit template"

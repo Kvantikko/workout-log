@@ -8,14 +8,15 @@ import workoutReducer from './reducers/workoutReducer'
 import historyReducer from './reducers/historyReducer'
 import stopWatchReducer from './reducers/stopWatchReducer'
 import timerReducer from './reducers/timerReducer'
-import exerciseHistoryReducer from './reducers/exerciseHistoryReducer'
+//import exerciseHistoryReducer from './reducers/exerciseHistoryReducer'
 import userReducer from './reducers/userReducer'
-import darkModeReducer from './reducers/darkModeReducer'
+//import darkModeReducer from './reducers/darkModeReducer'
 import navReducer from './reducers/navReducer'
 import searchReducer from './reducers/searchReducer'
 import drawerReducer from './reducers/drawerReducer'
 import templateReducer from './reducers/templateReducer'
 import templateLibraryReducer from './reducers/templateLibraryReducer'
+import  selectedExercisesReducer from './reducers/selectedExercisesReducer'
 
 
 const store = configureStore({
@@ -24,15 +25,16 @@ const store = configureStore({
         workout: workoutReducer,
         exerciseLibrary: exerciseLibraryReducer,
         history: historyReducer,
-        exerciseHistory: exerciseHistoryReducer,
+        //exerciseHistory: exerciseHistoryReducer,
         stopWatch: stopWatchReducer,
         timer: timerReducer,
-        darkMode: darkModeReducer,
+        //darkMode: darkModeReducer,
         nav: navReducer,
         search: searchReducer,
         drawer: drawerReducer,
         template: templateReducer,
-        templates: templateLibraryReducer
+        templates: templateLibraryReducer,
+        selectedExercises: selectedExercisesReducer
     }
 })
 

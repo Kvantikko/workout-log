@@ -1,12 +1,12 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import { Box, ListItemButton, Stack, IconButton } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
+import * as React from 'react'
 
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu'
+import { Box, ListItemButton, Stack, IconButton } from '@mui/material'
+import MenuItem from '@mui/material/MenuItem'
+
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import EditIcon from '@mui/icons-material/Edit'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 const BasicMenu = ({ open, anchorEl, handleOpen, handleClose, openDelete, openEdit, object }) => {
 
@@ -35,17 +35,6 @@ const BasicMenu = ({ open, anchorEl, handleOpen, handleClose, openDelete, openEd
             >
                 <MoreVertIcon sx={{ padding: 0 }} />
             </IconButton>
-           {/*  <Button
-                id="basic-button"
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={(event) => handleOpen(event)}
-                sx={{ minWidth: 0, padding: 0 }}
-                variant='secondary'
-            >
-                <MoreVertIcon sx={{ padding: 0 }} />
-            </Button> */}
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}

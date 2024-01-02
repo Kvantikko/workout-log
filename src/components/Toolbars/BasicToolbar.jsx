@@ -13,7 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import OpenModalMenu from '../Menus/ExerciseMenu';
 import HistoryModalMenu from '../Menus/HistoryMenu';
 import { useDispatch } from 'react-redux';
-import { resetHistory } from '../../redux/reducers/navReducer';
+import { resetHistoryPath } from '../../redux/reducers/navReducer';
 
 
 //import ArrowBackIcon from '@mui/icons-material/ArrowBac';

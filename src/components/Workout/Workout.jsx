@@ -9,7 +9,6 @@ import generateId from "../../utils/generateId"
 import { addExercisesToTemplate, deleteExerciseFromTemplate, editTemplateNote } from "../../redux/reducers/templateReducer"
 import HideAppBar from "../AppBar/HideAppBar"
 import WorkoutToolbar from "./WorkoutToolbar"
-import FormModal from "../Modals/FormModal"
 import AddIcon from '@mui/icons-material/Add';
 import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
 import FlipMove from "react-flip-move";

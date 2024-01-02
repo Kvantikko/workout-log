@@ -1,6 +1,5 @@
 
-import HideAppBar from '../components/AppBar/HideAppBar';
-import axios from 'axios';
+import HideAppBar from '../components/AppBar/HideAppBar'
 
 import { useEffect, useState } from 'react';
 

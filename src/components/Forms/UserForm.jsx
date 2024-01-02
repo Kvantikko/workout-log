@@ -31,7 +31,7 @@ import { useMediaQuery } from '@mui/material'
 
 
 import { toast } from "react-toastify"
-import FormButtons from "./FormButtons"
+import FormButtons from "../Buttons/FormButtons"
 
 const UserForm = ({ user, onCancel, submitButton }) => {
 

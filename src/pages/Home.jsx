@@ -11,7 +11,7 @@ import { Button, IconButton, Stack, Divider, Box, Typography } from "@mui/materi
 import AddIcon from "@mui/icons-material/Add"
 
 import WorkoutCardList from "../components/Lists/WorkoutCardList"
-import CreateTemplateModal from "../components/Modals/CreateEditWorkoutModal"
+import CreateTemplateModal from "../components/Modals/EditWorkoutModal"
 import BasicToolbar from "../components/Toolbars/BasicToolbar"
 import BasicModal from "../components/Modals/BasicModal"
 import HideAppBar from "../components/AppBar/HideAppBar"
@@ -23,6 +23,7 @@ import { keyframes } from '@mui/system';
 import { blink } from "../utils/Blink"
 import { expand, unExpand } from "../redux/reducers/drawerReducer"
 import { createPortal } from "react-dom"
+
 
 const gifArray = [coleman, schwarzenegger]
 

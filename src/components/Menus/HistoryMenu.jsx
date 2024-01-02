@@ -1,28 +1,17 @@
 import * as React from 'react'
 
-import { toast } from 'react-toastify'
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 import { useDispatch } from 'react-redux'
+import { deleteWorkout } from '../../redux/reducers/workoutReducer'
 import { clearWorkout } from '../../redux/reducers/workoutReducer'
 import { setTemplate } from '../../redux/reducers/templateReducer'
-import { removeWorkout } from '../../redux/reducers/historyReducer'
 
-import { Box, ListItemButton, Stack, IconButton } from '@mui/material';
+import { Box } from '@mui/material'
 
-import CreateEditWorkoutModal from '../Modals/CreateEditWorkoutModal';
-import BasicModal from '../Modals/BasicModal';
-import BasicMenu from './BasicMenu';
-
-import workoutService from '../../services/workouts'
-
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import EditWorkoutModal from '../Modals/EditWorkoutModal'
+import BasicModal from '../Modals/BasicModal'
+import BasicMenu from './BasicMenu'
 
 const HistoryMenu = ({ workout }) => {
     console.log("Redndering HistoryMenu ", workout);
@@ -47,16 +36,10 @@ const HistoryMenu = ({ workout }) => {
         setAnchorEl(null)
     }
 
-    const deleteWorkout = async () => { // infinte request spam servulle jos deleteExercise ja removeExercise sama nimi
-        try {
-            const response = await workoutService.remove(workout?.id)
-            dispatch(removeWorkout(workout?.id))
-            handleClose()
-            toast.success("Workout deleted!");
-            navigate('/history')
-        } catch (error) {
-            toast.error(error.message)
-        }
+    const handleDelete = () => {
+        navigate('/')
+        handleClose()
+        dispatch(deleteWorkout(workout.id))
     }
 
     const copy = () => {
@@ -116,9 +99,9 @@ const HistoryMenu = ({ workout }) => {
                 subTitle="Are you sure you want to delete this workout from history? This action cannot be undone."
                 confirmButtonText='Delete'
                 cancelButtonText='Cancel'
-                onSubmit={() => deleteWorkout()}
+                onSubmit={() => handleDelete()}
             />
-            <CreateEditWorkoutModal
+            <EditWorkoutModal
                 open={openEdit}
                 onClose={handleClose}
                 title="Edit workout"

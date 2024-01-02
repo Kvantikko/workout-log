@@ -10,7 +10,7 @@ import workoutService from "../../services/workouts"
 import exerciseService from "../../services/exercises"
 import userService from "../../services/user"
 import templateService from "../../services/templates"
-import FormButtons from "./FormButtons"
+import FormButtons from "../Buttons/FormButtons"
 import { useMediaQuery } from '@mui/material'
 
 import {

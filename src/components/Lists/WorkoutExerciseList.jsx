@@ -21,14 +21,18 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
                 <div key={exercise.id} >
                     <Stack key={exercise.id} sx={{/* backgroundColor: "green", */ width: 1 }}>
                         {showDate &&
-                            <Typography variant="h6" /* color={'text.secondary'} */ noWrap /* textAlign={'center'} */ >
+                            <Typography variant="body1" /* color={'text.secondary'} */ noWrap textAlign={'center'} >
                                 {formatDateTime(exercise.createdAt, true)}
                             </Typography>
                         }
 
-                        <Typography variant="h6" noWrap >
+                        {/* <Button>
+                            Show whole workout
+                        </Button> */}
+
+                       {/*  <Typography variant="h6" noWrap >
                             {exercise.name}
-                        </Typography>
+                        </Typography> */}
 
                         <Typography
                             variant="body1"

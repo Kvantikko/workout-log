@@ -27,7 +27,7 @@ const searchSlice = createSlice({
         },
         
     }
-});
+})
 
 export const {
     resetSearch,

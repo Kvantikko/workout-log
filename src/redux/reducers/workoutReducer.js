@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import generateId from "../../utils/generateId"
 import workoutService from "../../services/workouts"
 import { addTemplate, updateTemplate } from "./templateLibraryReducer"
-import { addWorkout, updateWorkout } from "./historyReducer"
+import { addWorkout, removeWorkout, updateWorkout } from "./historyReducer"
 import { startWatch, stopWatch } from "./stopWatchReducer"
 import { resetTimer, startTimer, terminateTimer } from "./timerReducer"
 import { toast } from "react-toastify"
@@ -287,6 +287,8 @@ export const {
     moveExerciseUppWorkout
 } = workoutSlice.actions
 
+export default workoutSlice.reducer
+
 export const saveWorkout = (isNew) => {
     return async (dispatch, getState) => {
 
@@ -367,4 +369,17 @@ export const endWorkout = () => {
     }
 }
 
-export default workoutSlice.reducer
+export const deleteWorkout = async (workoutId) => {
+    return async (dispatch) => {
+        try {
+            await workoutService.remove(workoutId)
+            dispatch(removeWorkout(workoutId))
+            toast.success("Workout deleted!");
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+}
+
+
+

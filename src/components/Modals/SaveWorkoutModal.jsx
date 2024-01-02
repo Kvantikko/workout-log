@@ -1,14 +1,8 @@
-import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { createExercise, removeExercise, updateExercise } from '../../redux/reducers/exerciseLibraryReducer'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 
 import BasicModal from './BasicModal'
-import { Box, Typography, Button, Modal, TextField, Stack, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 
 import { toast } from 'react-toastify'
-
-import { addTemplate, updateTemplate, } from '../../redux/reducers/templateLibraryReducer'
 import { clearTemplate, saveTemplate, } from '../../redux/reducers/templateReducer'
 import { resetWorkoutPath } from '../../redux/reducers/navReducer'
 import { saveWorkout } from '../../redux/reducers/workoutReducer'

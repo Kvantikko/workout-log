@@ -54,7 +54,6 @@ const SetRow = ({ setId, type }) => {
     const dispatch = useDispatch()
 
     const handleRemoveClick = () => {
-
         if (set.done) {
             setOpenDeleteModal(true)
             return

@@ -9,9 +9,6 @@ import { useState, useRef, useEffect } from 'react';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { createExercise } from '../../redux/reducers/exerciseLibraryReducer';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded'
-import CancelIcon from '@mui/icons-material/Cancel'
 import ClearIcon from '@mui/icons-material/Clear';
 import FormModal from '../Modals/FormModal';
 import ExerciseForm from '../Forms/ExerciseForm';
@@ -23,6 +20,7 @@ import { toast } from 'react-toastify';
 import { setSearch } from '../../redux/reducers/searchReducer';
 
 import exerciseService from "../../services/exercises"
+import { saveExercise } from '../../redux/reducers/exerciseLibraryReducer';
 
 
 
@@ -79,17 +77,9 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
         )
     }
 
-    const saveExercise = async (exerciseName, targetMuscle) => {
-        try {
-            const newExercise = await exerciseService.createNew(exerciseName, targetMuscle) // miks servun pitäis lähettää takas? generoitu i?
-            console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
-            dispatch(createExercise(newExercise))
-            toast.success('New exercsise created!')
-            setOpenAddModal(false)
-        } catch (err) {
-            toast.error(err.response)
-        }
-
+    const handleSave = (exerciseName, targetMuscle) => {
+        setOpenAddModal(false)
+        dispatch(saveExercise(exerciseName, targetMuscle))
     }
 
     const handleClear = (event) => {
@@ -191,7 +181,7 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                                 onClose={() => setOpenAddModal(false)}
                                 title="Create exercise"
                             >
-                                <ExerciseForm onSubmit={saveExercise} onCancel={() => setOpenAddModal(false)} />
+                                <ExerciseForm onSubmit={handleSave} onCancel={() => setOpenAddModal(false)} />
                             </FormModal>
                         }
                     </Stack>
@@ -228,7 +218,7 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                                 onClose={() => setOpenAddModal(false)}
                                 title="Create exercise"
                             >
-                                <ExerciseForm onSubmit={saveExercise} onCancel={() => setOpenAddModal(false)} />
+                                <ExerciseForm onSubmit={handleSave} onCancel={() => setOpenAddModal(false)} />
                             </FormModal>
                         }
                     </Stack>

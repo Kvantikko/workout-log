@@ -35,9 +35,22 @@ export const formatDateTime = (dateToBeFormatted, showTime) => {
 
 }
 
-export const formatDate = (date) => {
+export const formatDate = (date) => { // formatDateString ???
     const dateString = date.toUTCString()
     const dateStringWithoutTime = dateString.slice(0, dateString.length - 13)
     const timeString = dateString.slice(dateString.length - 12, dateString.length - 7)
     return dateStringWithoutTime + ",  @ " + timeString
+}
+
+export const formatToMonthAndYear = (dateObj) => {
+    const locale = "en-en"
+    const month = dateObj.toLocaleString(locale, { month: "long" })
+    //const month = dateObj.toLocaleString({ month: "long" })
+    return month + " " + dateObj.getFullYear()
+}
+
+export const formatDayAndMonthFinnish = (objDate) => {
+    const locale = "fi-fi"
+    const month = objDate.toLocaleString(locale, { month: "long" }) + "ta"
+    return objDate.getDate() + ". " + month
 }

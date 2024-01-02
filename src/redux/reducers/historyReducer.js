@@ -5,7 +5,9 @@ const historySlice = createSlice({
     initialState: [],
     reducers: {
         setWorkouts(state, action) {
-            return action.payload
+            //state = []
+            state = action.payload
+            return state
         },
         /*    addWorkout(state, action) {
        console.log("REDUCER ", action.payload);

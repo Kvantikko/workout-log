@@ -14,7 +14,7 @@ import SaveWorkoutModal from "./SaveWorkoutModal"
 import { toast } from "react-toastify"
 
 
-const CreateEditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning, editVipu }) => {
+const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning, editVipu }) => {
 
     console.log("Rendering CrateEditMOdal ", workout);
 
@@ -123,4 +123,4 @@ const CreateEditWorkoutModal = ({ open, onClose, workout, title, type, disableWa
     )
 }
 
-export default CreateEditWorkoutModal
+export default EditWorkoutModal
