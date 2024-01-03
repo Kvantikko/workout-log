@@ -1,21 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
+import dayjs from 'dayjs'
 
-const initialState = new Date()
+const date = dayjs().toString()  //new Date() //dayjs()
+
+const initialState = date //{ month: date.$M, year: year.$y }
 
 const dateSlice = createSlice({
     name: 'date',
     initialState,
     reducers: {
-        setDate(action, payload) {
-            state = payload
+        setDate(state, action) {
+            state = action.payload
+            return state
         },
-
-        
     }
 });
 
 export const {
-
-} = navSlice.actions;
+    setDate
+} = dateSlice.actions;
 
 export default dateSlice.reducer

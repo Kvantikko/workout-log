@@ -17,6 +17,7 @@ import drawerReducer from './reducers/drawerReducer'
 import templateReducer from './reducers/templateReducer'
 import templateLibraryReducer from './reducers/templateLibraryReducer'
 import  selectedExercisesReducer from './reducers/selectedExercisesReducer'
+import dateReducer from './reducers/dateReducer'
 
 
 const store = configureStore({
@@ -34,7 +35,8 @@ const store = configureStore({
         drawer: drawerReducer,
         template: templateReducer,
         templates: templateLibraryReducer,
-        selectedExercises: selectedExercisesReducer
+        selectedExercises: selectedExercisesReducer,
+        date: dateReducer
     }
 })
 

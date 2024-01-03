@@ -1,17 +1,14 @@
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
+import { useState, useRef, useEffect } from 'react'
+
 import { useSelector, useDispatch } from 'react-redux'
+import { clearSelectedExercises, setSearch } from '../../redux/reducers/exerciseLibraryReducer'
 
-import { Box, Button, TextField, Stack, Modal, Typography, FormControl, InputLabel, Select, MenuItem, Fab, IconButton } from '@mui/material'
+import { Box, Modal, Fab } from '@mui/material'
+import { Done } from '@mui/icons-material'
+
 import ExerciseList from '../Lists/ExerciseList'
-
-import WarningIcon from '@mui/icons-material/Warning'
-import BasicModal from './BasicModal'
-import { toast } from 'react-toastify'
 import SearchInput from '../Inputs/SearchInput'
-import exercises from '../../services/exercises'
-import { Cancel, Close, Done } from '@mui/icons-material'
 import CloseModalButton from '../Buttons/CloseModalButton'
-import { clearSelectedExercises } from '../../redux/reducers/selectedExercisesReducer'
 
 export const addExerciseToWorkoutStyle = {
     position: 'absolute',
@@ -33,38 +30,14 @@ export const addExerciseToWorkoutStyle = {
 }
 
 const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
+
     console.log("Rendering AddExerciseToWorkoutModal");
 
-    const exercisesFromStore = useSelector(state => state.exerciseLibrary)
-    const [visibleExercises, setVisibleExercises] = useState(exercisesFromStore)
-    const selectedExerciseIds = useSelector(state => state.selectedExercises.allIds)
-    const selectedExercises = useSelector(state => state.selectedExercises.allIds.map(id =>
-        state.selectedExercises.byId[id]
-    ))
-    //const [selectedExercises, setSelectedExercises] = useState([])
+    const selectedExercises = useSelector(state => state.exerciseLibrary.selected.all)
 
     const dispatch = useDispatch()
 
-
-    /*  const handleToggle = useCallback((exercise) => {
-         const currentIndex = selectedExercises.indexOf(exercise)
-         const newChecked = [...selectedExercises]
- 
-         console.log("CURRENT INDEX ", currentIndex);
- 
-         if (currentIndex === -1) {
-             // add
-             newChecked.push(exercise);
-         } else {
-             // remove
-             newChecked.splice(currentIndex, 1);
-         }
- 
-         console.log("NEW SELECTED ", newChecked);
-         setSelectedExercises(newChecked);
-     }, [selectedExercises]) */
-
-    /* const dispatch = useDispatch()
+    /* 
     const ref = useRef(null); */
     /*  useEffect(() => {
          console.log("EFFECT HAPPENING");
@@ -76,9 +49,9 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
         dispatch(clearSelectedExercises())
     }
 
-   const AddExercisesToWorkout = () => {
+    const AddExercisesToWorkout = () => {
         confirmFunction(selectedExercises)
-        dispatch(clearSelectedExercises())    
+        dispatch(clearSelectedExercises())
     }
 
     return (
@@ -97,30 +70,22 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
 
                 <Box sx={addExerciseToWorkoutStyle}>
 
-                    <Box paddingX={2}>
-                        <SearchInput
-                            exercises={exercisesFromStore}
-                            setVisibleExercises={setVisibleExercises}
-                            placeholder={'Search exercises'}
-                        />
+                    <Box paddingX={2} paddingY={2}>
+                        <SearchInput />
                     </Box>
 
-                    {selectedExerciseIds.length !== 0 &&
+                    {selectedExercises.length !== 0 &&
                         <Fab
                             onClick={() => AddExercisesToWorkout()}
                             color='info'
-                            sx={{
-                                position: 'absolute',
-                                bottom: 30,
-                                right: 100,
-                                //backgroundColor: theme => theme.palette.primary.light
-                            }} >
+                            sx={{ position: 'absolute', bottom: 30, right: 100 }}
+                        >
                             <Done />
                         </Fab>
                     }
 
                     <Box sx={{ overflowY: 'scroll', height: '80vh' }}  >
-                        <ExerciseList exercises={visibleExercises} showChecked={true} />
+                        <ExerciseList showChecked={true} />
                     </Box>
 
                 </Box>

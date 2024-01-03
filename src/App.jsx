@@ -148,7 +148,7 @@ const App = () => {
         ? templates.find(template => template.id === Number(matchTemplate.params.id))
         : null
 
-    const exercises = useSelector(state => state.exerciseLibrary)
+    const exercises = useSelector(state => state.exerciseLibrary.exercises)
     const match = useMatch('/exercises/:id')
     const exercise = match
         ? exercises.find(exercise => exercise.id === Number(match.params.id))

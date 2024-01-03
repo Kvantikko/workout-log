@@ -1,18 +1,20 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import * as React from 'react'
+
+import {
+    Box,
+    Divider,
+    Drawer,
+    List,
+    Typography,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Stack,
+    Button,
+    ThemeProvider,
+    createTheme
+} from "@mui/material"
 
 import StraightenIcon from '@mui/icons-material/Straighten';
 import HistoryIcon from '@mui/icons-material/History';
@@ -21,17 +23,29 @@ import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import HomeIcon from '@mui/icons-material/Home';
 
-import { Link as ReactRouterLink, useLocation, useMatch } from 'react-router-dom';
+import { blink } from '../../utils/Blink';
 
+import { Link as ReactRouterLink, useLocation, useMatch, useNavigate } from 'react-router-dom';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useSelector } from 'react-redux';
 
 
-import { blink } from '../../utils/Blink';
 
+
+const theme = createTheme({
+    typography: {
+        fontFamily: ["Tourney", "italic"].join(","),
+        color: "red",
+    },
+});
 
 const PermanentDrawerLeft = ({ drawerWidth }) => {
 
     const navLocations = useSelector(state => state.nav)
+    const navigate = useNavigate()
+
+    const isSmallScreen = useMediaQuery('(max-width:1200px)');
+    const isSmallScreen2 = useMediaQuery('(max-width:1535px)');
 
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const isExpanded = useSelector(state => state.drawer)
@@ -60,10 +74,28 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
         }
     }
 
+    const calculateSelected = (index) => {
+
+        if (isWorkoutActive) {
+            if (pageIndex() === index && !isSmallScreen2) {
+                return true
+            }
+        } else if (pageIndex() === index && !isSmallScreen) {
+            return true
+        }
+
+
+
+
+
+        return false
+    }
+
     return (
         <>
             <Drawer
                 sx={{
+                    //overflow: "hidden",
                     zIndex: 1499,
                     width: drawerWidth,
                     flexShrink: 0,
@@ -73,51 +105,104 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                         width: drawerWidth,
                         boxSizing: 'border-box',
                         bgcolor: theme => theme.palette.action.hover,
+                        overflow: "hidden",
                     },
                     '& .Mui-selected': {
-                        //color: 'red',
+                        color: theme => theme.palette.info.light,
+                        borderRadius: 2,
                         //bgcolor: 'red',
-                        //bgcolor: theme => theme.palette.background.default,
+                        //bgcolor: theme => theme.palette.info.light,
                         //borderTop: `2px solid ${theme => theme.palette.secondary.light}`,
                         //borderTop: `3px solid #ffb74d`,
-                        //backgroundColor: 'red'
-
+                        //backgroundColor: theme => theme.palette.info.light
                     },
-
-                    //justifyContent: 'center',
-                    //flexDirection: 'column'
                 }}
                 variant="permanent"
                 anchor="left"
             >
-                {/*  <Toolbar /> */}
-                <Typography
-                    variant='h3'
-                    marginY={5}
-                    padding={2}
-                    textAlign={'center'}
-                    display={{ xs: 'none', lg: isWorkoutActive ? 'none' : 'block', xl: 'block', }}
-                >
-                    workout log
-                </Typography>
-                <List sx={{ marginY: { xs: 'auto', lg:  isWorkoutActive ? 'auto': 0, xl: 0 } }} >
+                <ThemeProvider theme={theme}>
+                    <Button
+                        onClick={() => navigate("/")}
+                        disableRipple
+                        sx={{
+                            color: "white",
+                            marginTop: 10,
+                            marginBottom: 7,
+                            display: { xs: 'none', lg: isWorkoutActive ? 'none' : 'block', xl: 'block' },
+                            '&:hover, &:focus': {
+                                background: "none"
+                            },
+                        }}
+                    >
+                        <Typography variant='h4' textAlign={'center'} sx={{ 
+                            '& .MuiTypography-root': {
+                                color: "red"
+                                //bgcolor: 'red',
+                                //bgcolor: theme => theme.palette.info.light,
+                                //borderTop: `2px solid ${theme => theme.palette.secondary.light}`,
+                                //borderTop: `3px solid #ffb74d`,
+                                //backgroundColor: theme => theme.palette.info.light
+                            },
+                        }}>
+                            WORKOUT LOG
+                        </Typography>
+                    </Button>
+                </ThemeProvider>
+
+
+
+                <List sx={{ marginY: { xs: 'auto', lg: isWorkoutActive ? 'auto' : 0, xl: 0 } }} >
                     {['Workout', 'History', 'Exercises', 'Measure', 'Profile'].map((text, index) => (
                         <ListItem key={text} disablePadding >
                             <ListItemButton
                                 component={ReactRouterLink}
                                 //to={`/${text.toLowerCase()}`}
                                 to={`/${navLocations[index]}`}
-                                selected={pageIndex() === index}
+                                selected={calculateSelected(index)}
+
+                                sx={{
+                                    margin: 0.5,
+                                    padding: 1.1,
+                                    paddingY: { xs: 2, lg: isWorkoutActive ? 2 : 1, xl: 1 },
+                                    marginX: { xs: 0, lg: isWorkoutActive ? 0 : 2, xl: 2 },
+                                    '&:hover, &:focus': {
+                                        borderRadius: 2
+                                    },
+                                    /*  '&:focus': {
+                                         borderRadius: 2
+                                     }, */
+                                }}
+                                alignItems='center'
+
                             >
-                                <ListItemIcon sx={{ paddingLeft: 1 }} >
-                                    {index === 0 && <HomeIcon />}
-                                    {index === 1 && <HistoryIcon />}
-                                    {index === 2 && <FitnessCenterIcon />}
-                                    {index === 3 && <StraightenIcon />}
-                                    {index === 4 && <PersonIcon />}
+                                <ListItemIcon sx={{
+                                    //paddingLeft: { xs: 2, lg: isWorkoutActive ? 2 : 2, xl: 2 },
+                                    color: pageIndex() === index ? theme => theme.palette.info.light : '',
+                                    //alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <Stack justifyContent="center" alignItems={'center'} >
+                                        {index === 0 && <HomeIcon /* sx={{ marginRight: 2}} */ />}
+                                        {index === 1 && <HistoryIcon />}
+                                        {index === 2 && <FitnessCenterIcon />}
+                                        {index === 3 && <StraightenIcon />}
+                                        {index === 4 && <PersonIcon />}
+                                        <Typography
+                                            variant='body1'
+                                            fontSize={12}
+                                            paddingY={0.25}
+                                            display={{ xs: 'block', lg: isWorkoutActive ? 'block' : 'none', xl: 'none', }}
+                                        /*  position="absolute"
+                                         top={36}
+                                         right={15} */
+                                        >
+                                            {text}
+                                        </Typography>
+                                    </Stack>
+
                                 </ListItemIcon>
-                                <ListItemText primary={text} sx={{ paddingLeft: 1 }} />
-                               {/*  {index === 0 && isWorkoutActive && (pageIndex() !== index) && <Box sx={{
+                                <ListItemText primary={text} sx={{ paddingLeft: 1.5 }} />
+                                {/*  {index === 0 && isWorkoutActive && (pageIndex() !== index) && <Box sx={{
                                     borderRadius: 2,
                                     paddingX: 1.5,
                                     animation: `${blink} 1s linear infinite alternate`,

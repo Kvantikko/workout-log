@@ -1,46 +1,30 @@
-import { Box, Button, Stack, TextField, IconButton, InputAdornment } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
+import { useState, useRef, useEffect } from 'react'
 
-import Typography from '@mui/material/Typography';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import { useState, useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { setSearch } from '../../redux/reducers/searchReducer'
+import { saveExercise } from '../../redux/reducers/exerciseLibraryReducer'
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Stack, IconButton, Typography } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import AddIcon from '@mui/icons-material/Add'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-import ClearIcon from '@mui/icons-material/Clear';
-import FormModal from '../Modals/FormModal';
-import ExerciseForm from '../Forms/ExerciseForm';
+import ExerciseForm from '../Forms/ExerciseForm'
+import SearchInput from '../Inputs/SearchInput'
 
-import useMediaQuery from '@mui/material/useMediaQuery';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { setSearch } from '../../redux/reducers/searchReducer';
-
-import exerciseService from "../../services/exercises"
-import { saveExercise } from '../../redux/reducers/exerciseLibraryReducer';
-
-
-
-const ExercisesToolbar = ({ input, setInput, setOpen }) => {
+const ExercisesToolbar = () => {
     console.log("Rendering ExerciseToolbar ");
 
     const searchState = useSelector(state => state.search)
-
     const [showFullWidthSearch, setShowFullWidthSearch] = useState(searchState.showFullWidth)
     const [openAddModal, setOpenAddModal] = useState(false)
 
-
     const isSmallScreen = useMediaQuery('(max-width:700px)');
-
     const inputRef = useRef(null);
-
     const dispatch = useDispatch()
 
     useEffect(() => {
-        setInput(searchState.searchString)
         setShowFullWidthSearch(searchState.showFullWidth)
     }, [])
 
@@ -49,30 +33,14 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
     }
 
     const handleClick = () => {
-        //console.log("blur happening");
         if (isSmallScreen) {
 
         }
         setShowFullWidthSearch(false)
-        setInput('')
         dispatch(
             setSearch({
                 searchString: '',
                 showFullWidth: false
-            })
-        )
-
-        //setInput('')
-        //console.log(inputRef.current);
-        //inputRef.current.focus()
-    }
-
-    const handleBlur = () => {
-        //console.log("handling blur...")
-        dispatch(
-            setSearch({
-                searchString: input,
-                showFullWidth: showFullWidthSearch
             })
         )
     }
@@ -80,73 +48,6 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
     const handleSave = (exerciseName, targetMuscle) => {
         setOpenAddModal(false)
         dispatch(saveExercise(exerciseName, targetMuscle))
-    }
-
-    const handleClear = (event) => {
-
-        inputRef.current.focus()
-        //event.stopPropagation()
-    }
-
-    const handleMouseDown = (event) => {
-        event.preventDefault()
-
-        //event.stopPropagation()
-        setInput('')
-        inputRef.current.focus()
-        //setShowSearch(true)
-    }
-
-    const searchInput = () => {
-
-        return (
-            <TextField
-                //label="Search field"
-                ref={inputRef}
-                size='small'
-                type="text"
-                variant="outlined"
-                placeholder="Search"
-                autoFocus
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                //onFocus={() => console.log("FOCUSED")}
-                onBlur={handleBlur}
-                //onClick={() => console.log("clicked textf")}
-                //onMouseDown={() => console.log("mousse down textf")}
-                fullWidth
-                sx={{ paddingX: { xs: 0, sm: 4 } }}
-                //width={1000}
-
-
-                //InputProps={{ sx: { borderRadius: 0 } }}
-                InputProps={{
-                    sx: {
-                        //backgroundColor: '#3a88d6',
-                        input: {
-                            //color: 'white',
-                            //backgroundColor: '#42a1f5'
-                        }
-                    },
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon />
-                        </InputAdornment>
-                    ),
-                    endAdornment: input && (
-                        <IconButton
-                            onClick={() => console.log("clicked clear button")}
-                            onMouseDown={handleMouseDown}
-                            color='white'
-                        >
-                            <ClearIcon sx={{ color: 'white' }} />
-                        </IconButton>
-                    )
-                }}
-            />
-
-        )
-
     }
 
     return (
@@ -160,18 +61,17 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                     </Box>
 
                     {!isSmallScreen &&
-                        searchInput()
+                        <Box sx={{ width: "100%", paddingX: 2 }}>
+                            <SearchInput />
+                        </Box>
                     }
 
                     <Stack direction="row" spacing={2}>
                         {isSmallScreen &&
-
                             <IconButton aria-label="search" sx={{ color: '#90CAF9' }} onClick={handleSearchClick}>
                                 <SearchIcon />
                             </IconButton>
-
                         }
-
                         <IconButton aria-label="add" sx={{ color: '#90CAF9' }} onClick={() => setOpenAddModal(true)} >
                             <AddIcon />
                         </IconButton>
@@ -195,22 +95,14 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                             Exercises
                         </Typography>
                     </Box>
-
-                    {searchInput()}
+                    <Box sx={{ width: "100%", paddingX: 2 }}>
+                        <SearchInput />
+                    </Box>
                     <Stack direction="row" spacing={2}>
                         {isSmallScreen &&
-
                             <IconButton aria-label="cancel" color="error" onClick={handleSearchClick}>
                                 <SearchIcon />
                             </IconButton>
-                            /*  <Button
-                                 variant="contained"
-                                 onClick={handleSearchClick}
-                             >
-                                
-                             </Button> */
-
-
                         }
                         {openAddModal &&
                             <FormModal
@@ -225,21 +117,15 @@ const ExercisesToolbar = ({ input, setInput, setOpen }) => {
                 </>
             }
 
-
             {isSmallScreen && showFullWidthSearch &&
                 <>
-                    <Button variant="secondary"
+                    <IconButton
                         onClick={handleClick}
-                        sx={{
-                            minWidth: 'auto',
-                            paddingRight: 0.5,
-                            paddingLeft: 0
-
-                        }}
+                        sx={{ marginRight: 1 }}
                     >
                         <ArrowBackIcon />
-                    </Button>
-                    {searchInput()}
+                    </IconButton>
+                    <SearchInput />
                 </>
             }
         </>

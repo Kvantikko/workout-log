@@ -37,7 +37,7 @@ const HistoryMenu = ({ workout }) => {
     }
 
     const handleDelete = () => {
-        navigate('/')
+        navigate('/history')
         handleClose()
         dispatch(deleteWorkout(workout.id))
     }

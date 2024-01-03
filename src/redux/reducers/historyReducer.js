@@ -9,14 +9,6 @@ const historySlice = createSlice({
             state = action.payload
             return state
         },
-        /*    addWorkout(state, action) {
-       console.log("REDUCER ", action.payload);
-       state.push(action.payload) // action.payload is exercise object
-       console.log("PUSHED");
-       sortAlphabetically(state)
-       console.log("SORTED");
-       return state
-   }, */
         addWorkout(state, action) {
             state.unshift(action.payload)
             return state

@@ -10,21 +10,29 @@ import CircleIcon from '@mui/icons-material/Circle';
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
 import CircleTwoToneIcon from '@mui/icons-material/CircleTwoTone';
 import { useDispatch, useSelector } from "react-redux"
-import { addSelectedExercise, removeSelectedExercise } from "../../redux/reducers/selectedExercisesReducer"
+import { addSelectedExercise, removeSelectedExercise } from "../../redux/reducers/exerciseLibraryReducer"
 
 
-const ExerciseListItem = ({ exercise, showChecked }) => {
+const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
     console.log("Rendering ExerciseListItem ", exercise.name );
 
     const dispatch = useDispatch()
 
-    const checked = useSelector(state => state.selectedExercises.byId[exercise.id]) ? true : false
+    const checked = useSelector(state => state.exerciseLibrary.selected.byId[exercise.id]) ? true : false
 
     const handleListClick = (exercise) => {
-        if (checked) {
-            dispatch(removeSelectedExercise(exercise.id))
+        console.log("click");
+        if (showChecked) {
+            console.log("1st true");
+            if (checked) {
+                console.log("checked true");
+                dispatch(removeSelectedExercise(exercise.id))
+            } else {
+                console.log("checked false");
+                dispatch(addSelectedExercise(exercise))
+            }
         } else {
-            dispatch(addSelectedExercise(exercise))
+            handleClick(exercise) 
         }
     }
 

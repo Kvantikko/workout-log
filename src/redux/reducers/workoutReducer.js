@@ -369,7 +369,7 @@ export const endWorkout = () => {
     }
 }
 
-export const deleteWorkout = async (workoutId) => {
+export const deleteWorkout = (workoutId) => {
     return async (dispatch) => {
         try {
             await workoutService.remove(workoutId)

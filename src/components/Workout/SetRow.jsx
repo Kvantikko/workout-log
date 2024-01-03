@@ -8,6 +8,8 @@ import { deleteSetFromWorkout, editSetFromWorkout } from "../../redux/reducers/w
 import { Button, Stack, Typography } from "@mui/material"
 import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
+import RemoveIcon from '@mui/icons-material/Remove';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import SetTextField from "../Inputs/SetTextfield"
 import BasicModal from "../Modals/BasicModal"
@@ -140,11 +142,11 @@ const SetRow = ({ setId, type }) => {
 
             <Button
                 variant='text'
-                color="warning"
+                color="error"
                 onClick={handleRemoveClick}
                 sx={{ minWidth: 0.1 }}
             >
-                <CloseIcon />
+                <RemoveIcon />
             </Button>
             {/* Prevents modal from rendering before it is opened     */}
             {openDeleteModal &&

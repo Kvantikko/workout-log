@@ -24,6 +24,8 @@ import {
     Stack,
     InputAdornment,
     IconButton,
+    ThemeProvider,
+    createTheme
 } from "@mui/material"
 
 import LoginIcon from '@mui/icons-material/Login';
@@ -32,6 +34,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { toast } from "react-toastify"
 import LoginRegisterForm from "../components/Forms/LoginRegisterForm"
+
+const theme = createTheme({
+    typography: {
+        fontFamily: ["Tourney", "italic"].join(","),
+    },
+});
 
 const Login = () => {
     console.log("Rendering Login ",)
@@ -74,7 +82,7 @@ const Login = () => {
                     height: "100vh",
                     backgroundImage: `url(${LoginImage})`,
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center' 
+                    backgroundPosition: 'center'
                 }}
             />
             <Box
@@ -91,7 +99,10 @@ const Login = () => {
                 flexWrap={'wrap'}
                 flexGrow={2}
             >
-                <Typography variant="h4" textAlign="center">WORKOUT LOG</Typography>
+                <ThemeProvider theme={theme}>
+                    <Typography variant="h3" textAlign="center">WORKOUT LOG</Typography>
+                </ThemeProvider>
+
                 <Typography variant="h5">{typography[0]}</Typography>
                 <LoginRegisterForm
                     buttonText={typography[0]}

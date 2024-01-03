@@ -2,7 +2,7 @@ import { memo } from "react"
 import { Stack, Button, TextField, Divider, Box, Typography } from '@mui/material'
 import { ListItem, ListItemButton, List, ListItemAvatar, IconButton, ListItemIcon, Checkbox, ListItemText } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setExercisesPath } from '../../redux/reducers/navReducer'
 import ExerciseListButton from '../Buttons/ExerciseListButton'
 import Defer from '../Defer/Defer'
@@ -23,9 +23,13 @@ import CircleTwoToneIcon from '@mui/icons-material/CircleTwoTone';
 import ExerciseListItem from "../ListItems/ExerciseListItem"
 
 
-const ExerciseList = ({ exercises, handleListClick, showChecked, checkedExercises }) => {
+const ExerciseList = ({ handleClick, showChecked }) => {
 
+    console.log("Rendering ExerciseList ")
+
+    const exercises = useSelector(state => state.exerciseLibrary.search.filteredExercises)
     const [openCreateModal, setOpenCreateModal] = useState(false)
+    const searchString = useSelector(state => state.exerciseLibrary.search.searchString)
 
     const dispatch = useDispatch()
 
@@ -46,22 +50,23 @@ const ExerciseList = ({ exercises, handleListClick, showChecked, checkedExercise
                 // width: 1,
             }}
         >
-            {exercises.length === 0 &&
+            {exercises?.length === 0 &&
                 <Stack spacing={2} paddingTop={6}>
-                    <Typography variant='h6' textAlign={'center'}>No matches found</Typography>
+                    <Typography variant='h6' textAlign={'center'}>{`No matches found for "${searchString}" `}</Typography>
                     <Button onClick={() => setOpenCreateModal(true)}>Create exercise</Button>
                 </Stack>
             }
 
-            {exercises.map((exercise, index) =>
-                <Defer key={exercise.id} chunkSize={10}>
+            <Defer chunkSize={15}>
+                {exercises?.map((exercise, index) =>
                     <ExerciseListItem
                         key={exercise.id}
                         exercise={exercise}
                         showChecked={showChecked}
+                        handleClick={handleClick}
                     />
-                </Defer>
-            )}
+                )}
+            </Defer>
 
             {openCreateModal &&
                 <FormModal
@@ -69,11 +74,15 @@ const ExerciseList = ({ exercises, handleListClick, showChecked, checkedExercise
                     onClose={() => setOpenCreateModal(false)}
                     title="Create exercise"
                 >
-                    <ExerciseForm onSubmit={handleSave} onCancel={() => setOpenCreateModal(false)} />
+                    <ExerciseForm
+                        onSubmit={handleSave}
+                        onCancel={() => setOpenCreateModal(false)}
+                        exercise={{ name: searchString }}
+                    />
                 </FormModal>
             }
         </List>
     )
 }
 
-export default memo(ExerciseList)
+export default ExerciseList
