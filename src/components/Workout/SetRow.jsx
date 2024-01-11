@@ -13,9 +13,10 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import SetTextField from "../Inputs/SetTextfield"
 import BasicModal from "../Modals/BasicModal"
+import { toast } from "react-toastify";
 
 
-const SetRow = ({ setId, type }) => {
+const SetRow = ({ setId, type, isOneSetLeft }) => {
     console.log("-------------------- A set ROW is rendering ----------------------------- ",)
 
     /**
@@ -56,6 +57,11 @@ const SetRow = ({ setId, type }) => {
     const dispatch = useDispatch()
 
     const handleRemoveClick = () => {
+        if (isOneSetLeft) {
+            toast.warning("An exercise must have at least one set!")
+            return
+        }
+
         if (set.done) {
             setOpenDeleteModal(true)
             return

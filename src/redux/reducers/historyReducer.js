@@ -1,11 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 const historySlice = createSlice({
     name: 'history',
     initialState: [],
     reducers: {
         setWorkouts(state, action) {
-            //state = []
             state = action.payload
             return state
         },
@@ -14,8 +13,6 @@ const historySlice = createSlice({
             return state
         },
         removeWorkout(state, action) {
-
-
             state = state.filter(workout => workout.id !== action.payload)
             return state
         },

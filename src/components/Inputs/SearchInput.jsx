@@ -18,7 +18,7 @@ const SearchInput = () => {
     const inputRef = useRef(null)
 
     useEffect(() => {
-        dispatch(setSearch({ searchString: input, showFillWidth: true }))
+        dispatch(setSearch({ searchString: input }))
     }, [input])
 
     const handleChange = (value) => {

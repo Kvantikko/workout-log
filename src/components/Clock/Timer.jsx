@@ -1,56 +1,75 @@
+import { useRef, useEffect, useState } from "react"
 
-import React from "react";
-import { useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux"
+import { startWorkoutWatch, startRestWatch } from "../../redux/reducers/stopWatchReducer"
 
-import { startWorker, postMessageToWorker, stopWorker, getWorker } from './timerWorkerManager';
+import { Typography } from "@mui/material"
 
-import { useSelector, useDispatch } from "react-redux";
-import { startTimer, updateTimer } from "../../redux/reducers/timerReducer";
-import { Typography } from "@mui/material";
 
-export default function Timer({ timeFromStopwatch, size, stopwatch }) {
+export default function Timer({ isRestTimer, size/* timeFromStopwatch,  stopwatch */ }) {
 
-    const { isActive, time } = useSelector(state => state.timer);
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
-    
-    const workerRef = useRef();
+    //const [time, setTime] = useState(0)
+    const time = isRestTimer ?
+        useSelector(state => state.stopWatch.restWatch.time) :
+        useSelector(state => state.stopWatch.workoutWatch.time)
 
-    const dispatch = useDispatch();
+    const isTimerActive = isRestTimer ?
+        useSelector(state => state.stopWatch.restWatch.time.isActive) :
+        useSelector(state => state.stopWatch.workoutWatch.time.isActive)
+
+    
+
+   // const workerRef = useRef()
+    const dispatch = useDispatch()
 
     useEffect(() => {
-
         if (isWorkoutActive) {
-            console.log('Creating timer worker...');
-            startWorker()
-            postMessageToWorker('start');
-            dispatch(startTimer())
 
-            console.log("EFEEEKTI")
-
-            workerRef.current = getWorker()
-
-            workerRef.current.onmessage = (e) => {
-                dispatch(updateTimer(e.data));
+            if (isRestTimer) {
+                //workerRef.current = getRestWorker()
+                if (!isTimerActive) {
+                    dispatch(startRestWatch())   
+                    //startRestWorker()
+                    //postMessageToRestWorker('start')
+        
+                }
+                /* workerRef.current = getRestWorker()
+                workerRef.current.onmessage = (e) => {
+                    //dispatch(updateRestWatch(e.data))
+                    setTime(e.data)
+                } */
+            } else {
+                //workerRef.current = getWorkoutWorker()
+                if (!isTimerActive) {
+                    console.log("EFFECT DISPATCH ");
+                    dispatch(startWorkoutWatch())
+                    //startWorkoutWorker()
+                    //postMessageToWorkoutWorker('start')
+                }
+               /*  workerRef.current = getWorkoutWorker()
+                workerRef.current.onmessage = (e) => {
+                    //dispatch(updateWorkoutWatch(e.data))
+                    setTime(e.data)
+                } */
             }
         }
 
+        /* return () => {
+            console.log('Terminating...')
+            isRestTimer ? dispatch(terminateRestWatch()) : dispatch(terminateWorkoutWatch())
+        } */
 
-
-        /*  return () => {
-             console.log('Terminating worker...');
-             stopWorker();
-             dispatch(setWorker(null));
-         }; */
     }, [isWorkoutActive])
 
     return (
-        <Typography variant={size} textAlign={'center'}>
-                <span className="digits">
-                    {("0" + Math.floor(((stopwatch ? timeFromStopwatch : time) / 60000) % 60)).slice(-2)}:
-                </span>
-                <span className="digits">
-                    {("0" + Math.floor(((stopwatch ? timeFromStopwatch : time) / 1000) % 60)).slice(-2)}
-                </span>
+        <Typography variant={size} textAlign={'center'} padding={0} margin={0}>
+            <span className="digits">
+                {("0" + Math.floor(((time) / 60000) % 60)).slice(-2)}:
+            </span>
+            <span className="digits">
+                {("0" + Math.floor(((time) / 1000) % 60)).slice(-2)}
+            </span>
             {/*  <span className="digits mili-sec">
                 {("0" + ((props.time / 10) % 100)).slice(-2)}
             </span> */}

@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+/**
+ * TARVITAANKO TÄTÄ???
+ */
+
 const drawerSlice = createSlice({
     name: 'drawer',
     initialState: false,

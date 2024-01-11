@@ -4,34 +4,22 @@ import HideAppBar from "../components/AppBar/HideAppBar"
 import BasicToolbar from "../components/Toolbars/BasicToolbar"
 import MeasurementsList from "../components/Lists/MeasurmentsList"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { setMeasurementsPath } from "../redux/reducers/navReducer"
 
-const Measurements = ({ user, drawerWidth }) => {
+const Measurements = ({ user, measurements, drawerWidth }) => {
 
-    const bodyParts = [
-        { name: "Neck", value: 12 },
-        { name: "Shoulders", value: null },
-        { name: "Chest", value: null },
-        { name: "Left arm", value: null },
-        { name: "Right arm", value: null },
-        { name: "Left forearm", value: null },
-        { name: "Rigth forearm", value: null },
-        { name: "Waist", value: null },
-        { name: "Left thigh", value: null },
-        { name: "Right thigh", value: null },
-        { name: "Left calf", value: null },
-        { name: "Right calf", value: null },
-    ]
+    console.log("Rendering Measurements ");
 
-    const coreMeasurements = [
-        { name: "Weigth", value: 12 },
-        { name: "Body fat percentage", value: null },
-        { name: "Caloric intake", value: null },
-    ]
+    const coreMeasurements = measurements.slice(0, 3)
+    const bodyParts = measurements.slice(3, measurements.length)
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const handleListClick = (measurementId) => {
         navigate(`/measure/${measurementId}`)
+        dispatch(setMeasurementsPath(`measure/${measurementId}`))
     }
 
     return (
@@ -49,12 +37,14 @@ const Measurements = ({ user, drawerWidth }) => {
                     measurements={coreMeasurements}
                     title={"Core measurements"}
                     handleListClick={handleListClick}
+                    unit={["kg", "%", "kcal"]}
                 />
                 <Divider sx={{ marginX: 2, marginTop: 1, marginBottom: 3 }} />
                 <MeasurementsList
                     measurements={bodyParts}
                     title={"Body part measurements"}
                     handleListClick={handleListClick}
+                    unit={["cm"]}
                 />
             </Box>
         </>

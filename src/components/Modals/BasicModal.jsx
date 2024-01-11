@@ -11,8 +11,9 @@ const style = {
     height: '100wh',
     maxHeight: '100%',
     maxWidth: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    bgcolor: '#222326', //'background.default',
+    borderRadius: 4,
+    //border: '2px solid #000',
     boxShadow: 24,
     p: { xs: 2, sm: 3 },
     //overflow: 'scroll'

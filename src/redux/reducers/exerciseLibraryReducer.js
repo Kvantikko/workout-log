@@ -29,28 +29,35 @@ const exerciseLibrarySlice = createSlice({
             return state
         },
         updateExercise(state, action) {
-            console.log("UPDTING");
+            console.log("UPDTING ", action.payload);
             const id = action.payload.id
-            const exerciseToChange = state.exercises.find(e => e.id === id)
+
+            const index = state.exercises.findIndex(e => e.id === id)
+
+            const exerciseToChange = state.exercises[index]//state.exercises.find(e => e.id === id)
             const changedExercise = {
                 ...exerciseToChange,
                 name: action.payload.name,
                 muscle: action.payload.muscle
             }
-            state = state.exercises.map(exercise => exercise.id !== id ? exercise : changedExercise)
+
+            
+
+            state.exercises[index] = changedExercise
+            //state = state.exercises.map(exercise => exercise.id !== id ? exercise : changedExercise)
             sortAlphabetically(state.exercises)
             return state
         },
         setExercises(state, action) {
             state.exercises = action.payload
-            state.search.exercises = action.payload
+            state.search.filteredExercises = action.payload
             return state
         },
         removeExercise(state, action) {
             const id = action.payload
             const exerciseToDelete = state.exercises.find(e => e.id === id)
             // exercise.id is not equal no id? -> true -> put it in array | is equal? dont put it in array
-            state = state.exercises.filter(exercise => exercise.id !== id)
+            state.exercises = state.exercises.filter(exercise => exercise.id !== id)
             return state
         },
 
@@ -79,7 +86,7 @@ const exerciseLibrarySlice = createSlice({
 
         setSearch: (state, action) => {
             state.search.searchString = action.payload.searchString
-            state.search.showFullWidth = action.payload.showFullWidth
+            state.search.showFullWidth = action.payload.showFullWidth !== undefined ? action.payload.showFullWidth : state.search.showFullWidth
             state.search.filteredExercises = state.exercises.filter(
                 e => e.name.toLowerCase().includes(action.payload.searchString.toLowerCase())
             )

@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
-import { Box, Fade, Stack } from '@mui/material';
+import { Box, Fade, Slide, Grow, Stack, Drawer, AppBar, Toolbar } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
@@ -20,14 +20,15 @@ import WorkoutToolbar from '../Workout/WorkoutToolbar';
 
 import { expand, unExpand } from '../../redux/reducers/drawerReducer';
 import StopWatch from '../Clock/StopWatch';
+import HideAppBar from '../AppBar/HideAppBar';
 
 const drawerBleeding = 56;
 
 const Root = React.memo(styled('div')(({ theme }) => ({
     height: '100%',
     onTouch: () => console.log("dawdwd"),
-    backgroundColor:
-        theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
+    backgroundColor: "black"
+    //theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
 
 })))
 
@@ -40,10 +41,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
 function SwipeableEdgeDrawer(props) {
     console.log('------------- Rendering SwipeableEdgeDrawer -----------');
 
-    const { window } = props;
-    const [open, setOpen] = React.useState(true);
-    const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
+    const { window } = props
 
+    const open = useSelector(state => state.drawer)
+
+    //const [open, setOpen] = React.useState(true);
+    const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
     const isSmallScreen = useMediaQuery('(max-width:900px)');
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
 
@@ -54,17 +57,16 @@ function SwipeableEdgeDrawer(props) {
     const toggleDrawer = (event) => {
         console.log("TOGGLE DRAWER ", event);
         if (event === 'click') {
-            console.log('paskaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         }
 
-        console.log("häh");
+
 
         if (open) {
-            setOpen(false);
+            //setOpen(false);
             dispatch(unExpand())
 
         } else {
-            setOpen(true);
+            //((setOpen(true);
             dispatch(expand())
 
         }
@@ -72,16 +74,75 @@ function SwipeableEdgeDrawer(props) {
     };
 
     const handleOpen = () => {
-        console.log('PILUUUUUUUUUUUUUUUU');
         if (open) return
         toggleDrawer(true)
         dispatch(expand())
     }
 
+    return (
+        <>
 
 
-    // This is used only for the example
-    /* const container = window !== undefined ? () => window().document.body : undefined; */
+
+
+            <Slide direction="up" in={true} /* mountOnEnter unmountOnExit */>
+                <div>
+                    {isSmallScreen && isWorkoutActive && isAuthenticated ?
+                        <Drawer
+                            anchor={"bottom"}
+                            variant="temporary"
+                            open={open}
+                            onClose={(event) => toggleDrawer(event)}
+                            onOpen={(event) => toggleDrawer(event)}
+                            ModalProps={{
+                                keepMounted: true,
+                            }}
+                            PaperProps={{
+                                sx: {
+                                    //width: "90%",
+                                    height: 'calc(100% - 0px)',
+                                    //top: 6,
+                                    //backgroundColor: 'red',
+                                    //zIndex: 0
+                                    backgroundColor: "black",
+                                    //color: "red",
+
+                                }
+                            }}
+                        >
+                            {/*    <DrawerHeader> */}
+
+
+                            <AppBar open={open} >
+                                <WorkoutToolbar handleDrawerOpen={toggleDrawer} />
+                            </AppBar>
+
+                            {/*     </DrawerHeader> */}
+
+                            {/* <HideAppBar>
+
+                <WorkoutToolbar handleDrawerOpen={toggleDrawer} />
+
+            </HideAppBar> */}
+                            <Box paddingTop={10}>
+                                <ActiveWorkout type={'active'} />
+                            </Box>
+
+
+
+                        </Drawer >
+                        :
+                        null
+                    }
+                </div>
+
+            </Slide>
+
+
+        </>
+
+    )
+
 
     return (
         <>
@@ -93,6 +154,7 @@ function SwipeableEdgeDrawer(props) {
                             '.MuiDrawer-root > .MuiPaper-root': {
                                 height: '90%', //`calc(90% - ${drawerBleeding}px)`,
                                 overflow: 'visible',
+                                backgroundColor: "red"
 
 
 
@@ -114,7 +176,7 @@ function SwipeableEdgeDrawer(props) {
                         //onTouchMove={() => console.log('move')}
                         //onTouchEnd={() => console.log("end")}
                         //onTouchStart={() => console.log("beign")}
-                        swipeAreaWidth={drawerBleeding * 2}
+                        //swipeAreaWidth={drawerBleeding * 2}
                         disableSwipeToOpen={false}
 
                         ModalProps={{
@@ -130,6 +192,8 @@ function SwipeableEdgeDrawer(props) {
                                 top: 6,
                                 backgroundColor: 'red',
                                 //zIndex: 0
+                                backgroundColor: "pink",
+                                color: "red",
 
                             }
                         }}
@@ -147,13 +211,13 @@ function SwipeableEdgeDrawer(props) {
                         }}
                         sx={{
                             display: { xs: 'block', md: 'none' },
-
+                            //backgroundColor: "red",
                             //zIndex: 0,
 
                             height: 2000,
                             '& .MuiSwipeableDrawer-root': {
                                 height: 1000,
-                                // zIndex: 0,
+                                //backgroundColor: "red"
                             }
                         }}
                     >
@@ -162,12 +226,12 @@ function SwipeableEdgeDrawer(props) {
                             sx={{
                                 position: 'absolute',
                                 //top:-drawerBleeding,
-                                top: -100,
+                                //top: -100,
                                 visibility: 'visible',
                                 right: 0,
                                 left: 0,
                                 //backgroundColor: theme => theme.palette.error.main,
-                                height: 100,
+                                //height: 100,
 
                             }}
 
@@ -184,9 +248,9 @@ function SwipeableEdgeDrawer(props) {
 
                             {!open &&
                                 <Fade in={true} >
-                                    <Box display={'flex'} margin='auto' > 
-                                       {/*  <Typography>Workout in progress:</Typography> */}
-                                        <StopWatch timerSize={'h6'} /> 
+                                    <Box display={'flex'} margin='auto' >
+                                        {/*  <Typography>Workout in progress:</Typography> */}
+                                        <StopWatch timerSize={'h6'} />
                                     </Box>
                                 </Fade>
                             }
@@ -211,11 +275,12 @@ function SwipeableEdgeDrawer(props) {
                         </StyledBox>
                     </SwipeableDrawer>
 
-
-
                 </Root>
 
-                : null}</>
+                :
+                null
+            }
+        </>
     )
 }
 

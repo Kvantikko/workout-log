@@ -13,7 +13,8 @@ import {
     Stack,
     Button,
     ThemeProvider,
-    createTheme
+    createTheme,
+    alpha
 } from "@mui/material"
 
 import StraightenIcon from '@mui/icons-material/Straighten';
@@ -50,11 +51,13 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const isExpanded = useSelector(state => state.drawer)
 
-    const match = useMatch('/exercises/:id')
+    const matchExercise = useMatch('/exercises/:id')
     const matchHistory = useMatch('/history/:id')
+    const matchMeasure = useMatch('/measure/:id')
 
     const pageIndex = () => {
         switch (location.pathname) {
+            
             case "/workout":
                 return 0
             case "/history":
@@ -63,32 +66,17 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                 return 1
             case "/exercises":
                 return 2
-            case `/exercises/${match?.params.id}`:
+            case `/exercises/${matchExercise?.params.id}`:
                 return 2
             case "/measure":
+                return 3
+            case `/measure/${matchMeasure?.params.id}`:
                 return 3
             case "/profile":
                 return 4
             default:
                 return 0
         }
-    }
-
-    const calculateSelected = (index) => {
-
-        if (isWorkoutActive) {
-            if (pageIndex() === index && !isSmallScreen2) {
-                return true
-            }
-        } else if (pageIndex() === index && !isSmallScreen) {
-            return true
-        }
-
-
-
-
-
-        return false
     }
 
     return (
@@ -109,7 +97,26 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                     },
                     '& .Mui-selected': {
                         color: theme => theme.palette.info.light,
-                        borderRadius: 2,
+                        borderLeft: {
+                            xs: `3px solid #03a9f4`,
+                            md: `3px solid #03a9f4`,
+                            lg: isWorkoutActive ? `3px solid #03a9f4` : `0px solid #03a9f4`,
+                            xl: `0px solid #03a9f4`
+                        },
+                        borderRadius: {
+                            xs: 0,
+                            md: 0,
+                            lg: isWorkoutActive ? 0 : 2,
+                            xl: 2
+                        },
+                        backgroundColor: {
+                            xs: alpha("#617991", 0),
+                            md: alpha("#617991", 0),
+                            lg: isWorkoutActive ? alpha("#617991", 0) : alpha("#617991", 0.2),
+                            xl: alpha("#617991", 0.2)
+                        },
+
+                        //borderLeft: `3px solid #ffb74d`,
                         //bgcolor: 'red',
                         //bgcolor: theme => theme.palette.info.light,
                         //borderTop: `2px solid ${theme => theme.palette.secondary.light}`,
@@ -134,14 +141,9 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                             },
                         }}
                     >
-                        <Typography variant='h4' textAlign={'center'} sx={{ 
+                        <Typography variant='h4' textAlign={'center'} sx={{
                             '& .MuiTypography-root': {
-                                color: "red"
-                                //bgcolor: 'red',
-                                //bgcolor: theme => theme.palette.info.light,
-                                //borderTop: `2px solid ${theme => theme.palette.secondary.light}`,
-                                //borderTop: `3px solid #ffb74d`,
-                                //backgroundColor: theme => theme.palette.info.light
+                                //color: "red"
                             },
                         }}>
                             WORKOUT LOG
@@ -158,7 +160,7 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
                                 component={ReactRouterLink}
                                 //to={`/${text.toLowerCase()}`}
                                 to={`/${navLocations[index]}`}
-                                selected={calculateSelected(index)}
+                                selected={pageIndex() === index}
 
                                 sx={{
                                     margin: 0.5,

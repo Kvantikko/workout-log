@@ -2,6 +2,7 @@ import exerciseService from './services/exercises'
 import workoutService from './services/workouts'
 import userService from "./services/user"
 import templateService from "./services/templates"
+import measurementService from "./services/measurements"
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -55,7 +56,7 @@ import { logout } from './redux/reducers/userReducer';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useTheme } from '@mui/material/styles';
-import { AppBar, Box, Container, Drawer, Typography, Divider, Toolbar, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
+import { AppBar, Box, Button, Container, Drawer, Typography, Divider, Toolbar, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from '@mui/material';
 
 import PermanentDrawerLeft from './components/Navbar/PermanentDrawerLeft';
 import { AddBoxOutlined } from '@mui/icons-material';
@@ -76,6 +77,8 @@ import { setTemplates } from './redux/reducers/templateLibraryReducer';
 import TemplateMenu from './components/Menus/TemplateMenu';
 import HistoryMenu from './components/Menus/HistoryMenu';
 import Measurement from './pages/Measurement';
+import { setMeasurementValues, setMeasurements } from './redux/reducers/measurementsReducer'
+import OngoingWorkoutBar from './components/AppBar/OngoingWorkoutBar'
 
 
 
@@ -137,6 +140,8 @@ const App = () => {
 
 
     // STATE
+    const isWorkoutExpanded = useSelector(state => state.drawer)
+
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     //const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
     const user = useSelector(state => state.user)
@@ -160,7 +165,7 @@ const App = () => {
         ? workouts.find(workout => workout.id === Number(matchHistory.params.id))
         : null
 
-    const measurements = useSelector(state => state.measurements)
+    const measurements = useSelector(state => state.measurements.names)
     const matchMeasurement = useMatch('/measure/:id')
     const measurement = matchMeasurement
         ? measurements.find(measurement => measurement.id === Number(matchMeasurement.params.id))
@@ -229,6 +234,32 @@ const App = () => {
         // console.log("EFFECT EXERCISES");
         if (isAuthenticated) {
             //console.log("EFFECT EXERCISES AUTH TRUE");
+            measurementService
+                .getAllMeasurements()
+                .then((measurements) => {
+                    dispatch(setMeasurements(measurements))
+                })
+                .catch(error => {
+                    console.log('error: ', error)
+                })
+
+            measurementService
+                .getAllMeasurementValues(user.email)
+                .then((values) => {
+                    console.log("MEASUREMENT VALUES ", values)
+                    dispatch(setMeasurementValues(values))
+                })
+                .catch(error => {
+                    console.log('error: ', error)
+                })
+        }
+
+    }, [isAuthenticated])
+
+    useEffect(() => {
+        // console.log("EFFECT EXERCISES");
+        if (isAuthenticated) {
+            //console.log("EFFECT EXERCISES AUTH TRUE");
             templateService
                 .getAllUserTemplates(user.email)
                 .then((response) => {
@@ -257,6 +288,7 @@ const App = () => {
             workoutService.setToken(token)
             userService.setToken(token)
             templateService.setToken(token)
+            measurementService.setToken(token)
             //Service.setToken(token)
             navigate('/')
         }
@@ -377,7 +409,7 @@ const App = () => {
                         <Route
                             path="/measure"
                             element={<ProtectedRoute>
-                                <Measurements drawerWidth={drawerWidth} />
+                                <Measurements measurements={measurements} drawerWidth={drawerWidth} />
                             </ProtectedRoute>}
                         />
                         <Route
@@ -427,10 +459,16 @@ const App = () => {
                         anchor="right"
                     >
                     </Drawer>
+                }
+
+                {isAuthenticated && workoutStarted && isSmallScreen &&
+                  /*   <Box justifyContent={'center'} justifyItems={"center"} width={1} >  */
+                        <OngoingWorkoutBar />
+                   /*  </Box> */
 
                 }
 
-                {isAuthenticated && <BottomNavBar />}
+                {isAuthenticated &&<BottomNavBar />}
 
             </Box>
 

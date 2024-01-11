@@ -8,7 +8,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EditIcon from '@mui/icons-material/Edit'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
-const BasicMenu = ({ open, anchorEl, handleOpen, handleClose, openDelete, openEdit, object }) => {
+const BasicMenu = ({ open, anchorEl, handleOpen, handleClose, openDelete, openEdit, object, buttons }) => {
 
     /*  const [anchorEl, setAnchorEl] = React.useState(null)
      const open = Boolean(anchorEl);
@@ -30,8 +30,9 @@ const BasicMenu = ({ open, anchorEl, handleOpen, handleClose, openDelete, openEd
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={(event) => handleOpen(event)}
-                //sx={{ minWidth: 0, padding: 0 }}
-                //variant='secondary'
+                color='info'
+            //sx={{ minWidth: 0, padding: 0 }}
+            //variant='secondary'
             >
                 <MoreVertIcon sx={{ padding: 0 }} />
             </IconButton>
@@ -43,7 +44,15 @@ const BasicMenu = ({ open, anchorEl, handleOpen, handleClose, openDelete, openEd
                 MenuListProps={{
                     'aria-labelledby': 'basic-button',
                 }}>
-                <ListItemButton onClick={openEdit}>
+                {buttons.map(button =>
+                    <ListItemButton key={button.text} onClick={button.onClick}>
+                        <Stack direction="row" spacing={1}>
+                            {button.icon}
+                            <div>{button.text}</div>
+                        </Stack>
+                    </ListItemButton>
+                )}
+              {/*   <ListItemButton onClick={openEdit}>
                     <Stack direction="row" spacing={1}>
                         <EditIcon color='info' />
                         <div>Edit</div>
@@ -54,7 +63,7 @@ const BasicMenu = ({ open, anchorEl, handleOpen, handleClose, openDelete, openEd
                         <DeleteForeverIcon color='error' />
                         <div>Delete</div>
                     </Stack>
-                </ListItemButton>
+                </ListItemButton> */}
             </Menu>
         </Box>
     )

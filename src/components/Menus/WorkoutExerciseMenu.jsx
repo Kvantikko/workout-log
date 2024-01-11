@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { editExercise, deleteExercise } from '../../redux/reducers/exerciseLibraryReducer'
 
-import { Delete, Edit, Remove } from '@mui/icons-material'
+import { Edit, Remove } from '@mui/icons-material'
 import ExerciseForm from '../Forms/ExerciseForm'
 import FormModal from '../Modals/FormModal'
 import BasicMenu from './BasicMenu'
 import BasicModal from '../Modals/BasicModal'
 
-const ExerciseMenu = ({ exercise, showDateRange }) => {
+const WorkoutExerciseMenu = ({ exercise, handleDelete }) => {
 
 
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -20,7 +20,6 @@ const ExerciseMenu = ({ exercise, showDateRange }) => {
     const [openEdit, setOpenEdit] = React.useState(false)
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const handleOpen = (event) => {
         setAnchorEl(event.currentTarget)
@@ -37,10 +36,10 @@ const ExerciseMenu = ({ exercise, showDateRange }) => {
         dispatch(editExercise(exercise.id, exerciseName, targetMuscle))
     }
 
-    const handleDelete = () => {
-        navigate('/exercises')
+    const handleDeleteClick = () => {
         handleClose()
-        dispatch(deleteExercise(exercise.id))
+        handleDelete()
+        //dispatch(deleteExercise(exercise.id))
     }
 
     return (
@@ -60,8 +59,8 @@ const ExerciseMenu = ({ exercise, showDateRange }) => {
                         onClick: () => setOpenEdit(true)
                     },
                     {
-                        text: "Delete",
-                        icon: <Delete color="error" />,
+                        text: "Remove",
+                        icon: <Remove color="error" />,
                         onClick: () =>  setOpenDelete(true)
                     },
                 ]}
@@ -83,16 +82,16 @@ const ExerciseMenu = ({ exercise, showDateRange }) => {
                 <BasicModal
                     open={openDelete}
                     onClose={() => handleClose()}
-                    title="Delete exercise?"
-                    subTitle="Are you sure you want to remove this exercise and its history from the database?
-                    This action cannot be undone"
-                    confirmButtonText='Delete'
-                    cancelButtonText='Cancel'
-                    onSubmit={() => handleDelete()}
+                    title="Remove exercise?"
+                    subTitle="Remove exercise and its sets from the workout? This action cannot be undone."
+                    confirmButtonText={'Remove'}
+                    cancelButtonText={'Cancel'}
+                    confirmButtonColor="error"
+                    onSubmit={() => handleDeleteClick()}
                 />
             }
         </div>
     );
 }
 
-export default ExerciseMenu
+export default WorkoutExerciseMenu

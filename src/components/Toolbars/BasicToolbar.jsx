@@ -20,11 +20,6 @@ import { resetHistoryPath } from '../../redux/reducers/navReducer';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-
-
-
-
-
 const BasicToolbar = ({ children, title, showBack, backFunction, link, handleCopy, menu, showModal, setShowModal }) => {
     console.log("Rendering BasicToolbar.jsx");
 

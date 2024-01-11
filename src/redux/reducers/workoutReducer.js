@@ -3,9 +3,9 @@ import generateId from "../../utils/generateId"
 import workoutService from "../../services/workouts"
 import { addTemplate, updateTemplate } from "./templateLibraryReducer"
 import { addWorkout, removeWorkout, updateWorkout } from "./historyReducer"
-import { startWatch, stopWatch } from "./stopWatchReducer"
-import { resetTimer, startTimer, terminateTimer } from "./timerReducer"
+import { resetWatches } from "./stopWatchReducer"
 import { toast } from "react-toastify"
+import { expand, unExpand } from "./drawerReducer"
 
 const getTime = () => {
     const date = new Date()
@@ -297,11 +297,13 @@ export const saveWorkout = (isNew) => {
         })
 
         const exercisesDTO = exercisesFromState.map(exercise => {
+            console.log("exerciseDTO ", exercise);
             const setsFromState = getState().workout.sets.byExerciseId[exercise.id].map(setId => {
                 return getState().workout.sets.byId[setId]
             })
 
-            //delete exercise.setIds
+            console.log("exerciseDTO sets ", setsFromState);
+
 
             const exerciseWithSets = {
                 ...exercise,
@@ -320,7 +322,7 @@ export const saveWorkout = (isNew) => {
         }
 
         console.log("ASYNC REDUCER ", newWorkoutObject)
-        console.log("ASYNC REDUCER isNew", isNew)
+       // console.log("ASYNC REDUCER isNew", isNew)
 
         let workoutResponse
         try {
@@ -347,25 +349,24 @@ export const saveWorkout = (isNew) => {
 export const startWorkout = (isOngoing, workout) => {
     return (dispatch) => {
         if (isOngoing) {
-            dispatch(stopWatch())
-            dispatch(resetTimer())
+            dispatch(resetWatches())
             dispatch(clearWorkout())
         }
         dispatch(startEmptyWorkout())
-        dispatch(startTimer())
+        //dispatch(startTimer())
         if (workout) {
             dispatch(setWorkout(workout))
         }
-        //dispatch(expand()) use or no?
+        console.log("WINDOW ", window.innerWidth);
+        if (window.innerWidth < 900)  dispatch(expand())  
     }
 }
 
 export const endWorkout = () => {
     return (dispatch) => {
-        dispatch(stopWatch())
-        dispatch(terminateTimer())
+        dispatch(resetWatches())
         dispatch(clearWorkout())
-        //dispatch(expand()) use or no?
+        dispatch(unExpand())
     }
 }
 

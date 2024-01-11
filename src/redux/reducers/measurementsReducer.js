@@ -1,0 +1,154 @@
+import { createSlice } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify'
+import measurementService from '../../services/measurements'
+import { toCamelCase } from '../../utils/ToCamelCase'
+
+const formatUnit = () => {
+    
+}
+
+
+
+const initialState = {
+    names: [],
+    entries: {
+        weight: [],
+        bodyfat: [],
+        calories: [],
+        neck: [],
+        shoulders: [],
+        chest: [],
+        leftArm: [],
+        rightArm: [],
+        leftForearm: [],
+        rightForearm: [],
+        waist: [],
+        leftThigh: [],
+        rightThigh: [],
+        leftCalf: [],
+        rightCalf: [],
+    }
+}
+
+
+
+const measurementsSlice = createSlice({
+    name: 'measurements',
+    initialState,
+    reducers: {
+        setMeasurements(state, action) {
+            state.names = action.payload //.names
+
+            /*  for (const [key, value] of Object.entries(action.payload.values)) {
+                 console.log(`${key}: ${value}`)
+                 state.values[key] = value
+             } */
+
+            return state
+        },
+        setMeasurementValues(state, action) {
+            const values = action.payload
+            console.log("REDUER ", values)
+
+            /* values.forEach(value => {
+                state.entries[toCamelCase(key)] = value.measurement.name
+            })
+ */
+            for (const [key, value] of Object.entries(state.entries)) {
+                console.log(`${key}: ${value}`)
+
+                values.forEach(value => {
+                    if (key === toCamelCase(value.measurement.name)) {
+                        //delete value.measurement
+                        const obj = {
+                            id: value.id,
+                            value: value.value,
+                            createdAt: value.createdAt,
+                            unit: value.measurement.unit
+                        }
+                        state.entries[key].push(obj)
+                    }
+                })
+
+            }
+
+            return state
+        },
+        addEntry(state, action) {
+            state.entries[toCamelCase(action.payload.name)].push(action.payload)
+            return state
+        },
+        updateEntry(state, action) {
+            console.log("UPDATE REDUCER ", action.payload);
+
+            const index = state.entries[toCamelCase(action.payload.measurementName)]
+                .findIndex(value => value.id === action.payload.measurementValueId)
+
+            console.log(index)
+
+            state.entries[toCamelCase(action.payload.measurementName)][index] = action.payload.newValue
+            return state
+        },
+        removeEntry(state, action) {
+            console.log("REMOVE ERDCIER ", action.payload);
+
+            const index = state.entries[toCamelCase(action.payload.measurementName)]
+                .findIndex(value => value.id === action.payload.measurementValueId)
+
+            console.log(index)
+
+            state.entries[toCamelCase(action.payload.measurementName)].splice(index, 1)
+            return state
+        },
+    }
+});
+
+export const {
+    setMeasurements,
+    setMeasurementValues,
+    addEntry,
+    updateEntry,
+    removeEntry
+} = measurementsSlice.actions;
+
+export default measurementsSlice.reducer
+
+export const saveMeasurementValue = (measurementId, value) => {
+    return async (dispatch, getState) => {
+        let response
+        try {
+            response = await measurementService.createNewValue(getState().user.email, measurementId, value)
+            console.log("ASYN REDUCER response is: ", response);
+            dispatch(addEntry(response))
+        } catch (error) {
+            throw new Error(error)
+            toast.error(error)
+        }
+    }
+}
+
+export const updateMeasurementValue = (measurementValueId, measurementName, value) => {
+    return async (dispatch, getState) => {
+        let response
+        try {
+            response = await measurementService.updateValue(measurementValueId, value)
+            dispatch(updateEntry({ measurementValueId, measurementName, newValue: response }))
+        } catch (error) {
+            throw new Error(error)
+            toast.error(error)
+        }
+    }
+}
+
+export const deleteMeasurementValue = (measurementValueId, measurementName) => {
+    return async (dispatch, getState) => {
+        let response
+        try {
+            response = await measurementService.removeValue(measurementValueId)
+            dispatch(removeEntry({ measurementValueId, measurementName} ))
+        } catch (error) {
+            throw new Error(error)
+            toast.error(error)
+        }
+    }
+}

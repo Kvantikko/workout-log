@@ -10,6 +10,7 @@ import workoutService from "../../services/workouts"
 import exerciseService from "../../services/exercises"
 import userService from "../../services/user"
 import templateService from "../../services/templates"
+import measurementService from "../../services/measurements"
 
 
 import {
@@ -128,6 +129,7 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
         workoutService.setToken(response.token)
         userService.setToken(response.token)
         templateService.setToken(response.token)
+        measurementService.setToken(response.token)
 
         dispatch(setUser(response.user))
         navigate('/')

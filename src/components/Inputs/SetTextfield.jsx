@@ -50,7 +50,8 @@ const SetTextField = ({ id, set, minWidth, step, type }) => {
     return (
         <TextField
             disabled={set.done ? true : false}
-            variant="outlined" size="small"
+            variant="outlined"
+            size="small"
             style={{ width: 100, minWidth: minWidth }}
             id={id}
             type="number"

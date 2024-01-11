@@ -14,7 +14,7 @@ import { addSelectedExercise, removeSelectedExercise } from "../../redux/reducer
 
 
 const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
-    console.log("Rendering ExerciseListItem ", exercise.name );
+    console.log("Rendering ExerciseListItem ", exercise.name);
 
     const dispatch = useDispatch()
 
@@ -32,38 +32,38 @@ const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
                 dispatch(addSelectedExercise(exercise))
             }
         } else {
-            handleClick(exercise) 
+            handleClick(exercise)
         }
     }
 
-   
+
 
     return (
-      /*   <Defer key={exercise.id} chunkSize={10}> */
-            <ListItem disableGutters disablePadding >
-                <ListItemButton onClick={() => handleListClick(exercise)} sx={{ paddingLeft: 3 }}  >
-                    <ListItemText primary={exercise.name} /* id={labelId}  */ />
-                    {showChecked &&
-                        <ListItemIcon>
-                            <Checkbox
-                                edge="end"
-                                checked={checked}
-                                tabIndex={-1}
-                                disableRipple
-                                icon={<RadioButtonUncheckedIcon />}
-                                checkedIcon={<CheckCircleIcon />}
-                                style={{
-                                    transform: "scale(1.1)",
-                                }}
-                            //inputProps={{ 'aria-labelledby': labelId }}
-                            />
+        /*   <Defer key={exercise.id} chunkSize={10}> */
+        <ListItem disableGutters disablePadding sx={{ /* textOverflow: "ellipsis", overflow: "hidden",  *//* width: "100%" */ }} >
+            <ListItemButton onClick={() => handleListClick(exercise)} sx={{ paddingLeft: 3 }} >
+                <ListItemText primary={exercise.name} /* id={labelId}  */ />
+                {showChecked &&
+                    <ListItemIcon>
+                        <Checkbox
+                            edge="end"
+                            checked={checked}
+                            tabIndex={-1}
+                            disableRipple
+                            icon={<RadioButtonUncheckedIcon />}
+                            checkedIcon={<CheckCircleIcon />}
+                            style={{
+                                transform: "scale(1.1)",
+                            }}
+                        //inputProps={{ 'aria-labelledby': labelId }}
+                        />
 
-                        </ListItemIcon>
-                    }
-                    {/*  <ExerciseListButton exercise={exercise} handleListClick={handleListClick} /> */}
-                </ListItemButton>
-            </ListItem>
-      /*   </Defer> */
+                    </ListItemIcon>
+                }
+                {/*  <ExerciseListButton exercise={exercise} handleListClick={handleListClick} /> */}
+            </ListItemButton>
+        </ListItem>
+        /*   </Defer> */
     )
 }
 

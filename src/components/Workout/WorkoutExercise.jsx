@@ -17,10 +17,14 @@ import NoteField from "../Inputs/NoteField"
 import { forwardRef } from 'react';
 import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reducers/templateReducer";
 import { deleteExerciseFromWorkout, editWorkoutExerciseNote, moveExerciseDownWorkout, moveExerciseUppWorkout } from "../../redux/reducers/workoutReducer";
+import BasicMenu from "../Menus/BasicMenu";
+import ExerciseMenu from "../Menus/ExerciseMenu";
+import WorkoutExerciseMenu from "../Menus/WorkoutExerciseMenu";
 
 const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, ref) => {
     console.log("Rendering WorkoutExercise ")
 
+    
     let exercise = {}
     switch (type) {
         case "active":
@@ -33,12 +37,14 @@ const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, 
             throw new Error('Component must have a type prop specified!')
     }
 
-    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const exerciseName = useSelector(state => state.exerciseLibrary.exercises.find(e => e.id === exercise?.id))?.name
+
+    //const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
     const dispatch = useDispatch()
 
     const removeExercise = () => {
-        setOpenDeleteModal(false)
+        //setOpenDeleteModal(false)
         switch (type) {
             case "active":
                 dispatch(deleteExerciseFromWorkout(exerciseId))
@@ -77,7 +83,7 @@ const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, 
         }
     }
 
-    
+
     const handleBlur = (note) => {
         const changedExercise = { ...exercise, note: note }
         switch (type) {
@@ -90,7 +96,7 @@ const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, 
             default:
                 throw new Error('Component must have a type prop specified!')
         }
-      
+
     }
 
     return (
@@ -98,7 +104,8 @@ const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, 
         <Box ref={ref} sx={{ alignItems: 'center' }}>
             <Box paddingX={2}>
                 <Stack direction={"row"} sx={{ justifyContent: "space-between" }} alignItems={'center'}>
-                    <Typography variant="h6">{exercise?.name}</Typography>
+                    {/*  <Button variant="text">{exercise?.name}</Button> */}
+                    <Typography variant="h6">{exerciseName}</Typography>
                     <Stack direction={'row'} alignItems={'center'} spacing={1}>
                         <Stack paddingX={1}>
                             <IconButton
@@ -116,25 +123,30 @@ const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, 
                                 <ExpandMoreIcon color={arrayEnd ? 'disabled ' : 'info'} />
                             </IconButton>
                         </Stack>
-                        <IconButton
+                        <WorkoutExerciseMenu
+                            exercise={exercise}
+                            handleDelete={removeExercise}
+                        />
+                        {/* <IconButton
                             color="error"
                             onClick={() => setOpenDeleteModal(true)}
                             sx={{ height: 1 }}
                         >
                             <DeleteIcon />
-                        </IconButton>
+                        </IconButton> */}
                     </Stack>
-                    {openDeleteModal &&
+                   {/*  {openDeleteModal &&
                         <BasicModal
                             open={openDeleteModal}
                             onClose={() => setOpenDeleteModal(false)}
                             title="Delete exercise?"
-                            subTitle="This action cannot be undone."
+                            subTitle="Delete exercise and its sets from the workout? This action cannot be undone."
                             confirmButtonText={'Delete'}
                             cancelButtonText={'Cancel'}
+                            confirmButtonColor="error"
                             onSubmit={() => removeExercise()}
                         />
-                    }
+                    } */}
                 </Stack>
 
                 <NoteField note={exercise?.note} handleBlur={handleBlur} placeholder={"Exercise note"}></NoteField>

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { setSearch } from '../../redux/reducers/searchReducer'
-import { saveExercise } from '../../redux/reducers/exerciseLibraryReducer'
+//import { setSearch } from '../../redux/reducers/searchReducer'
+import { saveExercise, setSearch } from '../../redux/reducers/exerciseLibraryReducer'
 
 import { Box, Stack, IconButton, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
@@ -16,27 +16,32 @@ import SearchInput from '../Inputs/SearchInput'
 const ExercisesToolbar = () => {
     console.log("Rendering ExerciseToolbar ");
 
-    const searchState = useSelector(state => state.search)
-    const [showFullWidthSearch, setShowFullWidthSearch] = useState(searchState.showFullWidth)
+    /* const searchState = useSelector(state => state.exerciseLibrary.search)
+    const [showFullWidthSearch, setShowFullWidthSearch] = useState(searchState.showFullWidth) */
+    const showFullWidthSearch = useSelector(state => state.exerciseLibrary.search.showFullWidth)
+    console.log("FULL WIDTH? ", showFullWidthSearch);
     const [openAddModal, setOpenAddModal] = useState(false)
 
     const isSmallScreen = useMediaQuery('(max-width:700px)');
     const inputRef = useRef(null);
     const dispatch = useDispatch()
 
-    useEffect(() => {
+    /* useEffect(() => {
         setShowFullWidthSearch(searchState.showFullWidth)
-    }, [])
+    }, []) */
 
     const handleSearchClick = (event) => {
-        setShowFullWidthSearch(true)
+        console.log("jeeee");
+        dispatch(
+            setSearch({
+                searchString: '',
+                showFullWidth: true
+            })
+        )
     }
 
-    const handleClick = () => {
-        if (isSmallScreen) {
-
-        }
-        setShowFullWidthSearch(false)
+    const handleBackClick = (event) => {
+        console.log("juuuu");
         dispatch(
             setSearch({
                 searchString: '',
@@ -120,7 +125,7 @@ const ExercisesToolbar = () => {
             {isSmallScreen && showFullWidthSearch &&
                 <>
                     <IconButton
-                        onClick={handleClick}
+                        onClick={handleBackClick}
                         sx={{ marginRight: 1 }}
                     >
                         <ArrowBackIcon />

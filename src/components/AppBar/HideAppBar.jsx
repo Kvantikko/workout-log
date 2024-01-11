@@ -65,6 +65,7 @@ const HideAppBar = (props) => {
                     //style={{ width: isSmallScreen ? '100%' : '50%' }}
                     position="fixed"
                     sx={{
+                        //backgroundColor: "black",//'#080808',
                         width: {
                             xs: '100%',
                             sm: '100%',

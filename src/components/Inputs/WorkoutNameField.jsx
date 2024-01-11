@@ -64,6 +64,7 @@ const WorkoutNameField = ({ /* workoutName, */ type }) => {
     return (
         <TextField
             fullWidth
+            autoComplete="off"
             //id='workoutName'
             //variant="standard"
             variant="outlined"

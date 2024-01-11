@@ -8,6 +8,7 @@ import { addSetToTemplate, deleteExerciseFromTemplate } from "../../redux/reduce
 
 import { selectFilteredSetIds } from '../../redux/selectors';
 import { addSetToWorkout } from '../../redux/reducers/workoutReducer';
+import { Add } from '@mui/icons-material';
 
 
 
@@ -104,6 +105,7 @@ const Sets = ({ type, exerciseId }) => {
                                 setId={setId}
                                 //index={index}
                                 type={type}
+                                isOneSetLeft={setIds.length < 2 ? true : false}
                             />
                       /*   </Collapse> */
                     )
@@ -116,6 +118,7 @@ const Sets = ({ type, exerciseId }) => {
                     onClick={() => createSet(false)}
                     fullWidth
                 >
+                    <Add sx={{ marginRight: 1 }} />
                     Add set
                 </Button>
             </Box>

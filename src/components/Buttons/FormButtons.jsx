@@ -1,6 +1,6 @@
 import { Button, Box, useMediaQuery } from "@mui/material"
 
-const FormButtons = ({ onCancel }) => {
+const FormButtons = ({ onCancel, confirmButtonText }) => {
 
     const isSmallScreen = useMediaQuery('(max-width:900px)')
 
@@ -27,7 +27,7 @@ const FormButtons = ({ onCancel }) => {
                         variant="contained"
                         fullWidth
                     >
-                        Submit
+                        {confirmButtonText ? confirmButtonText : "Submit"}
                     </Button>
                     <Button variant="outlined" fullWidth onClick={onCancel}> Cancel </Button>
                 </Box>

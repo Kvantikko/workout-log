@@ -1,13 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-/* const initialState = {
-    workout: 'workout',
-    history: 'history',
-    exercises: 'exercises',
-    measurements: 'measurements',
-    profile: 'profile'
-} */
-
 const initialState = [
     '',
     'history',
@@ -21,7 +13,6 @@ const navSlice = createSlice({
     initialState,
     reducers: {
         setWorkoutPath: (state, action) => {
-            console.log("PATH REDUCER ");
             state[0] = action.payload
             return state
         },
@@ -38,11 +29,21 @@ const navSlice = createSlice({
             return state
         },
         setExercisesPath: (state, action) => {
+           // console.log(action.payload);
             state[2] = action.payload
             return state
         },
         resetExercisePath: (state, action) => {
             state[2] = 'exercises'
+            return state
+        },
+        setMeasurementsPath: (state, action) => {
+           // console.log(action.payload);
+            state[3] = action.payload
+            return state
+        },
+        resetMeasurementsPath: (state, action) => {
+            state[3] = 'measure'
             return state
         },
         
@@ -56,6 +57,8 @@ export const {
     resetHistoryPath,
     setExercisesPath,
     resetExercisePath,
+    setMeasurementsPath,
+    resetMeasurementsPath
 } = navSlice.actions;
 
 export default navSlice.reducer

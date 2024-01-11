@@ -1,7 +1,8 @@
-import { ListItem, ListItemButton, ListItemText, List, Typography } from "@mui/material"
+import { List, Typography } from "@mui/material"
+import MeasurementsListItem from "../ListItems/MeasurementListItem"
 
-const MeasurementsList = ({ measurements, title, handleListClick }) => {
-
+const MeasurementsList = ({ measurements, title, handleListClick, unit }) => {
+    
     return (
         <>
             <Typography textAlign={'center'} paddingBottom={1}>
@@ -9,20 +10,12 @@ const MeasurementsList = ({ measurements, title, handleListClick }) => {
             </Typography>
 
             {measurements.map((measurement, index) =>
-                <ListItem key={measurement.name} disableGutters disablePadding >
-                    <ListItemButton onClick={() => handleListClick(measurement.id)}  >
-                        <ListItemText primary={measurement.name} />
-                        <ListItemText
-                            // secondaryTypographyProps={}
-                            secondary={
-                                <Typography textAlign={'right'} variant="body2" color="text.secondary">
-                                    {`${measurement.value} ${measurement.unit}` }
-                                </Typography>
-                            }
-                        />
-                    </ListItemButton>
-                </ListItem>
-
+                <MeasurementsListItem
+                    key={measurement.name}
+                    measurement={measurement}
+                    handleListClick={handleListClick}
+                    unit={unit.length === 1 ? unit[0] : unit[index] }
+                />
             )}
         </>
     )

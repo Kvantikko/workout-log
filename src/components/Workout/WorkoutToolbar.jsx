@@ -1,37 +1,25 @@
-import { Typography, Stack, Box, Button, IconButton, Toolbar, AppBar } from "@mui/material"
-import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
-import { useDispatch, useSelector } from "react-redux";
-import { setWorker, startWatch, stopWatch, updateTime } from "../../redux/reducers/stopWatchReducer";
+import { useState } from "react"
 
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import { useDispatch, useSelector } from "react-redux"
+import { resetRestWatch, startRestWatch } from "../../redux/reducers/stopWatchReducer"
+import { endWorkout } from "../../redux/reducers/workoutReducer"
 
-import { toast } from "react-toastify";
+import { Typography, Stack, Box, Button, IconButton } from "@mui/material"
+import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import NotInterestedIcon from '@mui/icons-material/NotInterested'
+import { Close, Fullscreen } from "@mui/icons-material"
+import ChevronLeft from "@mui/icons-material/ChevronLeft"
+import ChevronRight from "@mui/icons-material/ChevronRight"
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import TimerOffIcon from '@mui/icons-material/TimerOff'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-import { useState } from "react";
+import BasicModal from "../Modals/BasicModal"
+import StopWatch from "../Clock/StopWatch"
+import SaveWorkoutModal from "../Modals/SaveWorkoutModal"
 
-import { endWorkout } from "../../redux/reducers/workoutReducer";
-
-import useMediaQuery from '@mui/material/useMediaQuery';
-import BasicModal from "../Modals/BasicModal";
-
-import StopWatch from "../Clock/StopWatch";
-
-import SaveWorkoutModal from "../Modals/SaveWorkoutModal";
-import { ArrowDownward, Cancel, Close } from "@mui/icons-material";
-import HideAppBar from "../AppBar/HideAppBar";
-import ChevronLeft from "@mui/icons-material/ChevronLeft";
-import ChevronRight from "@mui/icons-material/ChevronRight";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
-import TimerOffIcon from '@mui/icons-material/TimerOff';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import { postMessageToWorker } from "../Clock/stopWatchWorkerManager";
-
-
-
-
+import { toast } from "react-toastify"
 
 const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
     console.log("Rendering WorkoutToolbar");
@@ -39,7 +27,7 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
     const workoutName = useSelector(state => state.workout.name)
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
     const exercises = useSelector(state => state.workout.exercises.allIds)
-    const stopWatchIsActive = useSelector(state => state.stopWatch.isActive)
+    const isActiveRestWatch = useSelector(state => state.stopWatch.restWatch.isActive)
     const isSmallScreen = useMediaQuery('(min-width:900px)')
     const [openCancelModal, setOpenCancelModal] = useState(false)
     const [openFinishModal, setOpenFinishModal] = useState(false)
@@ -65,6 +53,19 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
         setOpenFinishModal(true)
     }
 
+    const handleWatchClick = () => { 
+        if (isActiveRestWatch) {
+            dispatch(resetRestWatch())
+        } else {
+            dispatch(startRestWatch())
+        }
+    }
+
+    const handleReset = () => {
+        setOpenClockModal(false)
+        dispatch(resetRestWatch());
+    }
+
     const renderChevron = () => {
         if (!isSmallScreen) return <KeyboardArrowDownIcon />
 
@@ -74,15 +75,6 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
             return <ChevronLeft></ChevronLeft>// <OpenInFullIcon />
         }
     }
-
-    
-    const handleReset = () => {
-        setOpenClockModal(false)
-        postMessageToWorker('reset');
-        dispatch(stopWatch());
-        dispatch(setWorker(false));
-        dispatch(updateTime(0));
-    };
 
     return (
         /*   <AppBar sx={{ width: { md: 400, lg: 500 } }}> */
@@ -119,43 +111,33 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
                 //paddingY={1.5}
                 alignSelf={'flex-start'}
             >
-                {!stopWatchIsActive &&
-                    <IconButton
-                        aria-label="stopwatch"
-                        sx={{ color: '#90CAF9' }}
 
-                        onClick={() => dispatch(startWatch())}
-
-                    >
-                        <TimerOutlinedIcon
-
-                        />
-                    </IconButton>
-                    /*        :
-                           <IconButton
-                               aria-label="stopwatch"
-                               sx={{ color: '#90CAF9' }}
-                               onClick={() => dispatch(stopWatch())}
-                           >
-                               <TimerOffIcon />
-                           </IconButton> */
-                }
-                {workoutStarted && stopWatchIsActive &&
+                {workoutStarted && isActiveRestWatch &&
                     <Box display={'flex'} flexDirection={'row'} justifyContent={'center'} >
 
                         <IconButton
                             onClick={() => setOpenClockModal(true)}
                             sx={{ marginRight: 1, color: '#90CAF9' }}
-                          
-                            >
-                            <ZoomOutMapIcon />
+
+                        >
+                            <Fullscreen />
                         </IconButton>
                         <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} >
-                            <StopWatch showButtons={true} size='h5' />
+                            <StopWatch isRestTimer={true} size='h5' />
                         </Box>
                     </Box>
 
                 }
+
+                <IconButton
+                    aria-label="stopwatch"
+                    sx={{ color: '#90CAF9' }}
+                    onClick={handleWatchClick}
+                >
+                    {isActiveRestWatch ? <TimerOffIcon /> : <TimerOutlinedIcon />}
+                </IconButton>
+
+
 
                 <IconButton aria-label="finish" color="success" onClick={handleFinishClick}>
                     <CheckCircleOutlineIcon />
@@ -163,7 +145,10 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
                 {openFinishModal &&
                     <SaveWorkoutModal
                         open={openFinishModal}
-                        onClose={() => setOpenFinishModal(false)}
+                        onClose={() => {
+                            setOpenFinishModal(false)
+                           // dispatch(reset)
+                        }}
                         type={"active"}
                     //confirmFunction={handleClear}
                     />
@@ -184,6 +169,7 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
                     title="Discard workout?"
                     subTitle="Are you sure you want to discard ongoing workout?"
                     confirmButtonText={'Discard'}
+                    confirmButtonColor="error"
                     cancelButtonText={'Keep logging'}
                     onSubmit={() => handleClear()}
                 />
@@ -194,7 +180,7 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
                     open={openClockModal}
                     onClose={() => setOpenClockModal(false)}
                     title="Rest timer"
-                    subTitle={<StopWatch size="h1" /* showButtons={true} */ ></StopWatch>}
+                    subTitle={<StopWatch size="h1" isRestTimer={true} /* showButtons={true} */ />}
                     //hideConfirmButton={true}
                     confirmButtonText={'Discard timer'}
                     cancelButtonText={'Close window'}

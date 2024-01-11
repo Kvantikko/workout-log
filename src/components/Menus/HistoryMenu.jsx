@@ -8,6 +8,7 @@ import { clearWorkout } from '../../redux/reducers/workoutReducer'
 import { setTemplate } from '../../redux/reducers/templateReducer'
 
 import { Box } from '@mui/material'
+import { Delete, Edit, Remove } from '@mui/icons-material'
 
 import EditWorkoutModal from '../Modals/EditWorkoutModal'
 import BasicModal from '../Modals/BasicModal'
@@ -88,9 +89,21 @@ const HistoryMenu = ({ workout }) => {
                 anchorEl={anchorEl}
                 handleOpen={handleOpen}
                 handleClose={() => handleClose()}
-                openDelete={() => setOpenDelete(true)}
-                openEdit={() => handleEdit()}
-                object={workout}
+                //openDelete={() => setOpenDelete(true)}
+                //openEdit={() => setOpenEdit(true)}
+                //object={exercise}
+                buttons={[
+                    {
+                        text: "Edit",
+                        icon: <Edit color="info" />,
+                        onClick: () => handleEdit()
+                    },
+                    {
+                        text: "Delete",
+                        icon: <Delete color="error" />,
+                        onClick: () =>  setOpenDelete(true)
+                    },
+                ]}
             />
             <BasicModal
                 open={openDelete}
