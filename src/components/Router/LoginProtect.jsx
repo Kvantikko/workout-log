@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../../redux/reducers/userReducer"
 
 const LoginProtect = ({ children }) => {
-    console.log("Rendering LoginProtect");
 
-    const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0)
+    const isAuthenticated = useSelector(state => state.user) ? true : false
 
     if (isAuthenticated) {
         return <Navigate to={"/"} />

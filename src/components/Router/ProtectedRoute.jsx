@@ -1,25 +1,17 @@
 import { Navigate } from "react-router-dom"
-import { jwtDecode } from 'jwt-decode'
 import { toast } from "react-toastify"
 import { useDispatch, useSelector } from "react-redux"
 import { logout } from "../../redux/reducers/userReducer"
+import { isTokenExpired } from "../../utils/isTokenExpired"
 
 const ProtectedRoute = ({ children }) => {
-    console.log("Rendering ProtectedRoute");
 
-    const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0)
+    const isAuthenticated = useSelector(state => state.user) ? true : false
 
     const dispatch = useDispatch()
 
     if (!isAuthenticated) {
         return <Navigate to={"/login"} />
-    }
-
-    const isTokenExpired = () => {
-        const token = window.localStorage.getItem('userToken')
-        const decodedToken = jwtDecode(token)
-        const expirationTime = decodedToken.exp * 1000
-        return Date.now() > expirationTime
     }
 
     if (isTokenExpired()) {

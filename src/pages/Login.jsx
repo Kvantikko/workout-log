@@ -1,15 +1,8 @@
 import { useState, useEffect } from "react"
 
 import { useDispatch } from "react-redux"
-import { setUser } from "../redux/reducers/userReducer"
 
 import { useNavigate } from "react-router-dom"
-
-import loginService from "../services/login"
-import workoutService from "../services/workouts"
-import exerciseService from "../services/exercises"
-import userService from "../services/user"
-import templateService from "../services/templates"
 
 import LoginImage from "../assets/gym.webp"
 
@@ -28,11 +21,7 @@ import {
     createTheme
 } from "@mui/material"
 
-import LoginIcon from '@mui/icons-material/Login';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-import { toast } from "react-toastify"
 import LoginRegisterForm from "../components/Forms/LoginRegisterForm"
 
 const theme = createTheme({

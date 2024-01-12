@@ -1,17 +1,15 @@
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter as Router } from "react-router-dom"
 import store from './redux/store'
-import { Provider, useSelector } from 'react-redux'
+import { Provider } from 'react-redux'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { ThemeProvider, CssBaseline } from '@mui/material'
+import { createTheme } from '@mui/material/styles'
 import App from './App'
-import './Main.css'
-import { Box, SwipeableDrawer, Toolbar, ThemeProvider, CssBaseline } from '@mui/material'
-import { createTheme } from '@mui/material/styles';
-import ActiveWorkout from './components/Workout/Workout'
 import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer'
-
 import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentDrawer'
-
-
+import './Main.css'
 
 const darkTheme = createTheme({
     palette: {
@@ -22,7 +20,7 @@ const darkTheme = createTheme({
         modal: 1501,
         drawer: 1500
     },
-    
+
     /* typography: {
         fontFamily: 'Raleway, Arial',
     },
@@ -57,18 +55,18 @@ const darkTheme = createTheme({
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
-            <div id='outsideRouter'>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <CssBaseline />
+                {/*    <div id='outsideRouter' className="scrollTesttt" >
+                      <ExpandablePermanentDrawer />
+                    <SwipeableEdgeDrawer className="scrollTesttt" />
+                </div>
 
-                <ExpandablePermanentDrawer />
-                <SwipeableEdgeDrawer />
-            </div>
-
-
-            <Router>
+                <Router>
+                    <App />
+                </Router> */}
                 <App />
-            </Router>
-
+            </LocalizationProvider>
         </ThemeProvider>
     </Provider >
 

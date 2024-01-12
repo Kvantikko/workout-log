@@ -1,8 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-/**
- * TARVITAANKO TÄTÄ???
- */
+import { logout } from "./userReducer"
 
 const drawerSlice = createSlice({
     name: 'drawer',
@@ -17,7 +14,12 @@ const drawerSlice = createSlice({
             state = false
             return state
         }
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+          return false
+        })
+      },
 });
 
 export const { expand, unExpand } = drawerSlice.actions;

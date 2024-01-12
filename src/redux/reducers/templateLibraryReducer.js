@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import templateService from "../../services/templates"
 import { toast } from 'react-toastify';
 import { sortAlphabetically } from '../../utils/SortAlphabetically'
+import { logout } from "./userReducer"
 
 const templateLibrarySlice = createSlice({
     name: 'templates',
@@ -15,11 +16,11 @@ const templateLibrarySlice = createSlice({
             console.log("SORTED");
             return state
         },
-       updateTemplate(state, action) {
+        updateTemplate(state, action) {
             console.log("REDUCER ", action.payload);
 
             const id = action.payload.id
-            
+
             const index = state.findIndex(t => t.id === id)
 
             state[index] = action.payload
@@ -28,7 +29,7 @@ const templateLibrarySlice = createSlice({
             //sortAlphabetically(state)
             return state
         },
-        setTemplates(state, action ) {
+        setTemplates(state, action) {
             return action.payload
         },
         removeTemplate(state, action) {
@@ -38,6 +39,11 @@ const templateLibrarySlice = createSlice({
             state = state.filter(exercise => exercise.id !== id)
             return state
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+            return []
+        })
     },
 })
 

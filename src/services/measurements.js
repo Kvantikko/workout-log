@@ -5,7 +5,6 @@ const baseUrl = 'http://localhost:8080/api/v1/measurements'
 let token = null
 
 const setToken = newToken => { 
-    console.log("SETTIN TOKEN ", newToken)
     token = `Bearer ${newToken}`
 }
 

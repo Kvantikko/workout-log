@@ -8,7 +8,7 @@ import { useSelector } from "react-redux"
 import generateId from "../../utils/generateId"
 import { addExercisesToTemplate, deleteExerciseFromTemplate, editTemplateNote } from "../../redux/reducers/templateReducer"
 import HideAppBar from "../AppBar/HideAppBar"
-import WorkoutToolbar from "./WorkoutToolbar"
+import WorkoutToolbar from "../Toolbars/WorkoutToolbar"
 import AddIcon from '@mui/icons-material/Add';
 import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
 import FlipMove from "react-flip-move";
@@ -128,8 +128,8 @@ const Workout = ({ type }) => {
     }
 
     return (
-        <>
-            <Box display={'flex'} flexDirection={'column'} gap={0.5} padding={2}  >
+        <div className="scrollTesttt" >
+            <Box className="scrollTesttt" display={'flex'} flexDirection={'column'} gap={0.5} padding={2}  >
                 {type === "active" &&
                     <Box display={'flex'} flexDirection={'column'} paddingLeft={2} gap={1.5}>
                         <Typography
@@ -149,7 +149,6 @@ const Workout = ({ type }) => {
                                 Elapsed time
                             </Typography>
                             <StopWatch size="h6" /* showButtons={true} *//>
-                           {/*  <Timer size="h6" /> */}
                         </Stack>
 
                     </Box>
@@ -177,18 +176,6 @@ const Workout = ({ type }) => {
             </Box>
             <Divider sx={{ marginBottom: 4, marginTop: 2 }} />
 
-            {/*    {exercises.length === 0 &&
-                <Container>
-                    <Typography
-                        variant="h6"
-                        color={'text.secondary'}
-                        align={"center"}
-                        sx={{ marginBottom: 2, marginTop: 8 }}
-                    >
-                        Start adding exercises!
-                    </Typography>
-                </Container>
-            } */}
             {!(exercises.length === 0) &&
                 <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
                     <Defer chunkSize={1}>
@@ -257,7 +244,7 @@ const Workout = ({ type }) => {
                
                 />
             } */}
-        </>
+        </div>
     )
 }
 

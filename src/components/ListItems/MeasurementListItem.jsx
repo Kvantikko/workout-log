@@ -10,15 +10,17 @@ const MeasurementsListItem = ({ measurement, handleListClick, unit }) => {
 
     return (
         <ListItem key={measurement.name} disableGutters disablePadding >
-            <ListItemButton onClick={() => handleListClick(measurement.id)}  >
+            <ListItemButton
+                onClick={() => handleListClick(measurement.id)}
+                sx={{ paddingX: { xs: 2, sm: 3 } }}
+            >
                 <ListItemText primary={measurement.name} />
                 <ListItemText
-                    // secondaryTypographyProps={}
                     secondary={
                         <Typography textAlign={'right'} variant="body2" color="text.secondary">
                             {`${measurementEntries?.length === 0 ?
-                            "No entries" :
-                            measurementEntries[measurementEntries.length-1].value } 
+                                "No entries" :
+                                measurementEntries[measurementEntries.length - 1].value} 
                             ${measurementEntries?.length === 0 ? "" : unit}`}
                         </Typography>
                     }

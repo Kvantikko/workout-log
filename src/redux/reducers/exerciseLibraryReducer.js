@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import exerciseService from "../../services/exercises"
 import { sortAlphabetically } from '../../utils/SortAlphabetically'
+import { logout } from "./userReducer"
 
 const initialState = {
     exercises: [],
@@ -15,7 +16,6 @@ const initialState = {
         filteredExercises: []
     }
 }
-
 
 const exerciseLibrarySlice = createSlice({
     name: 'exercises',
@@ -105,6 +105,11 @@ const exerciseLibrarySlice = createSlice({
             return state
         },
     },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+          return initialState
+        })
+      },
 })
 
 export const {

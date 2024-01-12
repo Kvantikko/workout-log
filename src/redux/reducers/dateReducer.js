@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
+import { logout } from "./userReducer"
 
 const date = dayjs().toString()  //new Date() //dayjs()
 
@@ -13,7 +14,12 @@ const dateSlice = createSlice({
             state = action.payload
             return state
         },
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+            return initialState
+        })
+    },
 });
 
 export const {

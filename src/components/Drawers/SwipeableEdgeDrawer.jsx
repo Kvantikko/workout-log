@@ -9,18 +9,19 @@ import { Box, Fade, Slide, Grow, Stack, Drawer, AppBar, Toolbar } from '@mui/mat
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import ActiveWorkout from '../Workout/Workout';
+import Workout from '../Workout/Workout';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import FixedBottomNavigation from '../Navbar/BottomNavBar';
 import { BottomNavigation } from '@mui/material';
-import WorkoutToolbar from '../Workout/WorkoutToolbar';
+import WorkoutToolbar from '../Toolbars/WorkoutToolbar';
 
 
 import { expand, unExpand } from '../../redux/reducers/drawerReducer';
 import StopWatch from '../Clock/StopWatch';
 import HideAppBar from '../AppBar/HideAppBar';
+import BasicToolbar from '../Toolbars/BasicToolbar';
 
 const drawerBleeding = 56;
 
@@ -44,34 +45,20 @@ function SwipeableEdgeDrawer(props) {
     const { window } = props
 
     const open = useSelector(state => state.drawer)
-
-    //const [open, setOpen] = React.useState(true);
-    const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
+    const isAuthenticated = useSelector(state => state.user) ? true : false
     const isSmallScreen = useMediaQuery('(max-width:900px)');
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
-
-
 
     const dispatch = useDispatch()
 
     const toggleDrawer = (event) => {
-        console.log("TOGGLE DRAWER ", event);
-        if (event === 'click') {
-        }
-
-
-
         if (open) {
-            //setOpen(false);
             dispatch(unExpand())
 
         } else {
-            //((setOpen(true);
             dispatch(expand())
-
         }
-        //setOpen(newOpen);
-    };
+    }
 
     const handleOpen = () => {
         if (open) return
@@ -80,15 +67,14 @@ function SwipeableEdgeDrawer(props) {
     }
 
     return (
-        <>
+        <div className="scrollTesttt" component="div">
 
-
-
-
-            <Slide direction="up" in={true} /* mountOnEnter unmountOnExit */>
-                <div>
+            <Slide className="scrollTesttt" component="div" direction="up" in={true} /* mountOnEnter unmountOnExit */>
+                <div className="scrollTesttt" component="div" >
                     {isSmallScreen && isWorkoutActive && isAuthenticated ?
                         <Drawer
+                            component="div"
+                            className="scrollTesttt"
                             anchor={"bottom"}
                             variant="temporary"
                             open={open}
@@ -112,22 +98,24 @@ function SwipeableEdgeDrawer(props) {
                         >
                             {/*    <DrawerHeader> */}
 
+                            {/* <HideAppBar >
+                                <BasicToolbar title="Workout" />
+                            </HideAppBar> */}
 
-                            <AppBar open={open} >
+
+                            <HideAppBar open={open} /* sx={{ height: { xs: 55 } }}  */>
                                 <WorkoutToolbar handleDrawerOpen={toggleDrawer} />
-                            </AppBar>
+                            </HideAppBar>
 
                             {/*     </DrawerHeader> */}
 
-                            {/* <HideAppBar>
 
-                <WorkoutToolbar handleDrawerOpen={toggleDrawer} />
+                            <Box  component="div" className="scrollTesttt" paddingTop={10}>
+                                <div   component="div" className="scrollTesttt" >
+                                    <Workout type={'active'} className="scrollTesttt"  component="div" />
+                                </div>
 
-            </HideAppBar> */}
-                            <Box paddingTop={10}>
-                                <ActiveWorkout type={'active'} />
                             </Box>
-
 
 
                         </Drawer >
@@ -139,7 +127,7 @@ function SwipeableEdgeDrawer(props) {
             </Slide>
 
 
-        </>
+        </div >
 
     )
 

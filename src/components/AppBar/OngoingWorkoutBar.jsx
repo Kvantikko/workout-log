@@ -10,6 +10,8 @@ const OngoingWorkoutBar = ({ }) => {
 
     const isActiveRestWatch = useSelector(state => state.stopWatch.restWatch.isActive)
     const workoutName = useSelector(state => state.workout.name) || "Untitled workout"
+    const isAuthenticated = useSelector(state => state.user) ? true : false
+    const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
 
     const isSmallScreen = useMediaQuery('(max-width:1000px)');
 
@@ -19,7 +21,7 @@ const OngoingWorkoutBar = ({ }) => {
         dispatch(expand())
     }
 
-    return (
+    return isAuthenticated && isWorkoutActive && (
      
             <AppBar
                 onClick={() => handleClick()}

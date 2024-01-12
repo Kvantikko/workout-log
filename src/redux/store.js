@@ -13,20 +13,26 @@ import templateLibraryReducer from './reducers/templateLibraryReducer'
 import dateReducer from './reducers/dateReducer'
 import measurementsReducer from './reducers/measurementsReducer'
 
+const combinedReducer = combineReducers({
+    user: userReducer,
+    workout: workoutReducer,
+    template: templateReducer,
+    templates: templateLibraryReducer,
+    history: historyReducer,
+    exerciseLibrary: exerciseLibraryReducer,
+    measurements: measurementsReducer,
+    nav: navReducer,
+    stopWatch: stopWatchReducer,
+    drawer: drawerReducer,
+    date: dateReducer, // integrate to history reducer?
+})
+
+const rootReducer = (state, action) => {
+    return combinedReducer(state, action)
+}
+
 const store = configureStore({
-    reducer: {
-        user: userReducer,
-        workout: workoutReducer,
-        template: templateReducer,
-        templates: templateLibraryReducer,
-        history: historyReducer,
-        exerciseLibrary: exerciseLibraryReducer,
-        measurements: measurementsReducer,
-        nav: navReducer,
-        stopWatch: stopWatchReducer,
-        drawer: drawerReducer, // delete... ???
-        date: dateReducer, // integrate to history reducer?
-    }
+    reducer: rootReducer
 })
 
 export default store

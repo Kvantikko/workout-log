@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import StopWatchWorkerManager from '../../workers/StopWatchWorkerManager'
+import { logout } from "./userReducer"
 
 const restWatchWorkerManager = new StopWatchWorkerManager("./restwatch-worker.js")
 const workoutWatchWorkerManager = new StopWatchWorkerManager("./workoutwatch-worker.js")
@@ -56,7 +57,12 @@ const stopWatchSlice = createSlice({
             state.workoutWatch.isActive = false
             return state
         },
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+            return initialState
+        })
+    },
 });
 
 export const {

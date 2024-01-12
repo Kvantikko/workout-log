@@ -32,6 +32,7 @@ const Measurements = ({ user, measurements, drawerWidth }) => {
                 alignItems="center"
                 minHeight="75vh"
                 paddingY={3}
+                //paddingX={{ xs: 0, sm: 2, md: 0, lg: 0, xl: 0 }}
             >
                 <MeasurementsList
                     measurements={coreMeasurements}

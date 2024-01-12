@@ -6,6 +6,7 @@ import { addWorkout, removeWorkout, updateWorkout } from "./historyReducer"
 import { resetWatches } from "./stopWatchReducer"
 import { toast } from "react-toastify"
 import { expand, unExpand } from "./drawerReducer"
+import { logout } from "./userReducer"
 
 const getTime = () => {
     const date = new Date()
@@ -265,7 +266,12 @@ const workoutSlice = createSlice({
         copyToState() {
             // console.log("STATE: ", JSON.parse(JSON.stringify(state)))
         }
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+            return initialState
+        })
+    },
 })
 
 export const {
@@ -322,7 +328,7 @@ export const saveWorkout = (isNew) => {
         }
 
         console.log("ASYNC REDUCER ", newWorkoutObject)
-       // console.log("ASYNC REDUCER isNew", isNew)
+        // console.log("ASYNC REDUCER isNew", isNew)
 
         let workoutResponse
         try {
@@ -358,7 +364,7 @@ export const startWorkout = (isOngoing, workout) => {
             dispatch(setWorkout(workout))
         }
         console.log("WINDOW ", window.innerWidth);
-        if (window.innerWidth < 900)  dispatch(expand())  
+        if (window.innerWidth < 900) dispatch(expand())
     }
 }
 

@@ -3,25 +3,9 @@ import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
+import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-
-import HideAppBar from '../AppBar/HideAppBar';
-import { getScrollbarWidth } from '../../utils/ScrollBarWidth';
-import WorkoutToolbar from '../Workout/WorkoutToolbar';
+import WorkoutToolbar from '../Toolbars/WorkoutToolbar';
 import Workout from '../Workout/Workout';
 import WorkoutAppBar from '../AppBar/WorkoutAppBar';
 import { useMediaQuery } from '@mui/material';
@@ -119,20 +103,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             '& .MuiDrawer-paper': closedMixin(theme),
         }),
     }),
-);
-
-
-
+)
 
 export default function ExpandablePermanentDrawer() {
     console.log("Rendering ExpandablePermanentDrawer");
 
-    const theme = useTheme();
-  
     const [open, setOpen] = React.useState(false)
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
-    const isAuthenticated = !(Object.keys(useSelector(state => state.user)).length === 0) // is user obj empty?
-    //const isExpanded = useSelector(state => state.drawer)
+    const isAuthenticated = useSelector(state => state.user) ? true : false
     const isSmallScreen = useMediaQuery('(max-width:900px)')
 
     const dispatch = useDispatch()
@@ -141,26 +119,16 @@ export default function ExpandablePermanentDrawer() {
         if (open) {
             setOpen(false);
             dispatch(unExpand())
-
         } else {
             setOpen(true);
             dispatch(expand())
-
         }
-
-    };
-
-
+    }
 
     return (
         <>
-
             {isAuthenticated && !isSmallScreen &&
                 <Box >
-
-
-
-
                     < Drawer
                         variant="permanent"
                         anchor='right'
@@ -176,26 +144,31 @@ export default function ExpandablePermanentDrawer() {
                     >
 
                         <DrawerHeader>
-
-                            {/* <IconButton onClick={handleDrawerOpen}>
-                            {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                        </IconButton> */}
                             <AppBar open={open} >
-                                <WorkoutToolbar open={open} setOpen={setOpen} handleDrawerOpen={handleDrawerOpen} />
+                                <Toolbar disableGutters={false} >
+                                    <Stack
+                                        direction="row"
+                                        justifyContent={'space-between'}
+                                        width={1}
+                                    >
+                                        <WorkoutToolbar
+                                            open={open}
+                                            setOpen={setOpen}
+                                            handleDrawerOpen={handleDrawerOpen}
+                                        />
+                                    </Stack>
+                                </Toolbar>
                             </AppBar>
-
                         </DrawerHeader>
-
-
 
                         <Box sx={{
                             paddingTop: 2,
                             paddingX: { md: open ? 10 : 0, lg: open ? 10 : 0, xl: open ? 20 : 0 },
                             overflow: 'auto'
                         }}>
-
-                            <Workout type={"active"}/>
+                            <Workout type={"active"} />
                         </Box>
+
                     </Drawer >
                 </Box>
             }

@@ -23,7 +23,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
     const ref = React.useRef(null)
 
     const navLocations = useSelector(state => state.nav)
-
+    const isAuthenticated = useSelector(state => state.user) ? true : false
     const isExpanded = useSelector(state => state.drawer)
 
 
@@ -63,7 +63,7 @@ const FixedBottomNavigation = ({ workoutStarted }) => {
         }
     }
 
-    return (
+    return isAuthenticated && (
         <Fade in={true}>
 
 

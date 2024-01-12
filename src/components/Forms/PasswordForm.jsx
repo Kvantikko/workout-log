@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 import { useDispatch } from "react-redux"
-import { setUser } from "../../redux/reducers/userReducer"
+import { setCredentials } from "../../redux/reducers/userReducer"
 
 import { useNavigate } from "react-router-dom"
 
@@ -97,7 +97,7 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
               userService.setToken(response.token)
               templateService.setToken(response.token)
   
-              dispatch(setUser(response.user))
+              dispatch(setCredentials({ user: response.user, token: response.token }))
               //navigate('/')
               toast.success("Password updated")
               onCancel()

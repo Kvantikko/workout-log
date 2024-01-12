@@ -5,6 +5,8 @@ import workoutService from "../../services/workouts"
 import { addTemplate, updateTemplate } from "./templateLibraryReducer"
 import { updateWorkout } from "./historyReducer"
 import { toast } from "react-toastify"
+import { logout } from "./userReducer"
+
 
 const initialState = {
     id: null,
@@ -72,10 +74,10 @@ const templateSlice = createSlice({
 
             let number = 1
             exercises.forEach(e => {
-                const exercise = { ...e, exerciseNumber: number}
+                const exercise = { ...e, exerciseNumber: number }
                 state.exercises.byId[e.id] = exercise
                 state.exercises.allIds.push(e.id)
-                number= number + 1
+                number = number + 1
             })
 
             console.log("add ", JSON.parse(JSON.stringify(state)))
@@ -242,7 +244,12 @@ const templateSlice = createSlice({
         copyToState() {
             // console.log("STATE: ", JSON.parse(JSON.stringify(state)))
         }
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+            return initialState
+        })
+    },
 })
 
 export const {
@@ -282,17 +289,17 @@ export const saveTemplate = (isNew, isHistory, handleClose) => {
                 sets: setsFromState,
             }
             return exerciseWithSets
-        }) 
-            
+        })
+
         const newWorkoutObject = {
             userEmail: getState().user.email,
-            title:  getState().template.name,
+            title: getState().template.name,
             createdAt: new Date().toJSON(), // servulla?
             note: getState().template.note,
-            workoutExercises: exercisesDTO 
+            workoutExercises: exercisesDTO
         }
 
-      
+
 
         console.log("ASYNC REDUCER ", newWorkoutObject)
         console.log("ASYNC REDUCER isNew", isNew)
@@ -316,15 +323,15 @@ export const saveTemplate = (isNew, isHistory, handleClose) => {
             dispatch(clearTemplate())
         } catch (error) {
             toast.error(error.message)
-           // throw error
+            // throw error
             console.log("EEEEEEEEEERRRRRRRRROOOOOOOOOOOOOOOOOOOOOOORRR", error);
-    
+
         }
 
-        
-       
 
-        
+
+
+
     }
 }
 

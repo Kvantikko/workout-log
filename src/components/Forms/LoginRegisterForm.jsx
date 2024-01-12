@@ -1,16 +1,11 @@
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
 
 import { useDispatch } from "react-redux"
-import { setUser } from "../../redux/reducers/userReducer"
+import { login, register } from "../../redux/reducers/userReducer"
 
 import { useNavigate } from "react-router-dom"
 
 import loginService from "../../services/login"
-import workoutService from "../../services/workouts"
-import exerciseService from "../../services/exercises"
-import userService from "../../services/user"
-import templateService from "../../services/templates"
-import measurementService from "../../services/measurements"
 
 
 import {
@@ -55,7 +50,7 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const clearErrors = () => { 
+    const clearErrors = () => {
         setErrorEmail('')
         setErrorFirstname('')
         setErrorLastname('')
@@ -105,67 +100,17 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
     }
 
     const onSubmit = async (event) => {
-
         event.preventDefault()
-
         clearErrors()
-
-        if (!inputFieldsValid()) {
-            return
-        }
-
-        let response
-
+        if (!inputFieldsValid()) return
         if (showRegister) {
-            response = await handleRegistration()
+            dispatch(register(email, firstname, lastname, password, setErrorEmail, navigate))
         } else {
-            response = await handleLogin()
-        }
-
-        window.localStorage.setItem('loggedUser', JSON.stringify(response.user))
-        window.localStorage.setItem('userToken', response.token) //JSON.stringify adds quotation marks, why enven use it?
-
-        exerciseService.setToken(response.token)
-        workoutService.setToken(response.token)
-        userService.setToken(response.token)
-        templateService.setToken(response.token)
-        measurementService.setToken(response.token)
-
-        dispatch(setUser(response.user))
-        navigate('/')
-        //toast.success("Logged in!")
-    }
-
-    const handleLogin = async () => {
-        try {
-            const response = await loginService.login(email, password)
-            return response
-        } catch (err) {
-            if (err.response.status === 401) {
-                //toast.error(err.response.data.message)
-                setErrorEmail(err.response.data.message)
-                setErrorPassword(err.response.data.message)
-            }
+            dispatch(login(email, password, setErrorEmail, setErrorPassword))
         }
     }
-
-    const handleRegistration = async () => {
-        try {
-            const response = await loginService.register(email, firstname, lastname, password)
-            return response
-        } catch (err) {
-            console.log(err);
-            if (err.response.status === 409) {
-                //toast.error(err.response.data.message)
-                setErrorEmail(err.response.data.message)
-            }
-        }
-    }
-
-
 
     const handleEmailAndPassClick = (inputFieldId) => {
-        //console.log("handleEmailAndPassClick ", inputFieldId);
         if (errorEmail === 'Invalid email or password.' &&
             errorPassword === 'Invalid email or password.'
         ) {
@@ -192,7 +137,6 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
             setShowPasswordAgain(true)
         }
     }
-
 
     return (
 

@@ -1,20 +1,13 @@
 import { memo } from "react"
 import { ListItem, ListItemButton, ListItemIcon, Checkbox, ListItemText } from '@mui/material'
-import Defer from '../Defer/Defer'
-
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CircleIcon from '@mui/icons-material/Circle';
-import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
-import CircleTwoToneIcon from '@mui/icons-material/CircleTwoTone';
 import { useDispatch, useSelector } from "react-redux"
 import { addSelectedExercise, removeSelectedExercise } from "../../redux/reducers/exerciseLibraryReducer"
 
-
 const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
-    console.log("Rendering ExerciseListItem ", exercise.name);
+
+    console.log("Rendering ExerciseListItem ", exercise.name)
 
     const dispatch = useDispatch()
 
@@ -39,10 +32,12 @@ const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
 
 
     return (
-        /*   <Defer key={exercise.id} chunkSize={10}> */
-        <ListItem disableGutters disablePadding sx={{ /* textOverflow: "ellipsis", overflow: "hidden",  *//* width: "100%" */ }} >
-            <ListItemButton onClick={() => handleListClick(exercise)} sx={{ paddingLeft: 3 }} >
-                <ListItemText primary={exercise.name} /* id={labelId}  */ />
+        <ListItem disableGutters disablePadding  >
+            <ListItemButton
+                onClick={() => handleListClick(exercise)}
+                sx={{ paddingX: { xs: 2, sm: 3 } }}
+            >
+                <ListItemText primary={exercise.name} />
                 {showChecked &&
                     <ListItemIcon>
                         <Checkbox
@@ -55,15 +50,11 @@ const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
                             style={{
                                 transform: "scale(1.1)",
                             }}
-                        //inputProps={{ 'aria-labelledby': labelId }}
                         />
-
                     </ListItemIcon>
                 }
-                {/*  <ExerciseListButton exercise={exercise} handleListClick={handleListClick} /> */}
             </ListItemButton>
         </ListItem>
-        /*   </Defer> */
     )
 }
 

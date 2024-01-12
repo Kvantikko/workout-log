@@ -127,26 +127,9 @@ const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, 
                             exercise={exercise}
                             handleDelete={removeExercise}
                         />
-                        {/* <IconButton
-                            color="error"
-                            onClick={() => setOpenDeleteModal(true)}
-                            sx={{ height: 1 }}
-                        >
-                            <DeleteIcon />
-                        </IconButton> */}
+      
                     </Stack>
-                   {/*  {openDeleteModal &&
-                        <BasicModal
-                            open={openDeleteModal}
-                            onClose={() => setOpenDeleteModal(false)}
-                            title="Delete exercise?"
-                            subTitle="Delete exercise and its sets from the workout? This action cannot be undone."
-                            confirmButtonText={'Delete'}
-                            cancelButtonText={'Cancel'}
-                            confirmButtonColor="error"
-                            onSubmit={() => removeExercise()}
-                        />
-                    } */}
+
                 </Stack>
 
                 <NoteField note={exercise?.note} handleBlur={handleBlur} placeholder={"Exercise note"}></NoteField>

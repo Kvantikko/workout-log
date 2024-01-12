@@ -34,10 +34,11 @@ const getRandomMemeGif = () => {
     return gifArray[random]
 }
 
-const Home = ({ user, drawerWidth }) => {
+const Home = ({ drawerWidth }) => {
 
     console.log("Rendering Home")
 
+    const user = useSelector(state => state.user)
     const templates = useSelector(state => state.templates)
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const [openCopyModal, setOpenCopyModal] = useState(false)

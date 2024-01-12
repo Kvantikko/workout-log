@@ -13,7 +13,6 @@ const config = {
 }
 
 const getAllUserWorkouts = async (userEmail) => {
-    console.log("workoutServie getAll");
     const config = {
         headers: {
             Authorization: token

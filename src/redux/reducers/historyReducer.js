@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { logout } from "./userReducer"
 
 const historySlice = createSlice({
     name: 'history',
@@ -24,7 +25,12 @@ const historySlice = createSlice({
             //sortAlphabetically(state)
             return state
         },
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+            return []
+        })
+    },
 })
 
 export const {

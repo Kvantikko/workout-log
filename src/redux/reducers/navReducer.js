@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { logout } from "./userReducer"
 
 const initialState = [
     '',
@@ -29,7 +30,7 @@ const navSlice = createSlice({
             return state
         },
         setExercisesPath: (state, action) => {
-           // console.log(action.payload);
+            // console.log(action.payload);
             state[2] = action.payload
             return state
         },
@@ -38,7 +39,7 @@ const navSlice = createSlice({
             return state
         },
         setMeasurementsPath: (state, action) => {
-           // console.log(action.payload);
+            // console.log(action.payload);
             state[3] = action.payload
             return state
         },
@@ -46,8 +47,12 @@ const navSlice = createSlice({
             state[3] = 'measure'
             return state
         },
-        
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logout, () => {
+            return initialState
+        })
+    },
 });
 
 export const {

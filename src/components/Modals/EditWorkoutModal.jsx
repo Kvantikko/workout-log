@@ -2,7 +2,7 @@ import { useState } from "react"
 import FullScreenMobileModal from "./FullScreenMobileModal"
 import { AppBar, Button, Box, Stack, Toolbar, IconButton, Typography } from "@mui/material"
 import Workout from "../Workout/Workout"
-import WorkoutToolbar from "../Workout/WorkoutToolbar"
+import WorkoutToolbar from "../Toolbars/WorkoutToolbar"
 import { Close } from "@mui/icons-material"
 
 import { useMediaQuery } from '@mui/material'

@@ -43,6 +43,7 @@ const theme = createTheme({
 const PermanentDrawerLeft = ({ drawerWidth }) => {
 
     const navLocations = useSelector(state => state.nav)
+    const isAuthenticated = useSelector(state => state.user) ? true : false
     const navigate = useNavigate()
 
     const isSmallScreen = useMediaQuery('(max-width:1200px)');
@@ -79,7 +80,7 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
         }
     }
 
-    return (
+    return isAuthenticated && (
         <>
             <Drawer
                 sx={{

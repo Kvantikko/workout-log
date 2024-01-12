@@ -17,10 +17,6 @@ class StopWatchWorkerManager {
     getWorker() {
         return this.worker
     }
-
-    /* startWorker() {
-        if (!timerWorker) timerWorker = new Worker(new URL('./timer-worker.js', import.meta.url))
-    } */
 }
 
 export default StopWatchWorkerManager

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setExercisesPath } from '../redux/reducers/navReducer'
 import { setSearch } from '../redux/reducers/exerciseLibraryReducer'
 
-import { IconButton } from '@mui/material'
+import { IconButton, Box } from '@mui/material'
 import { Add } from '@mui/icons-material'
 
 import ExerciseList from '../components/Lists/ExerciseList'
@@ -32,12 +32,12 @@ const Exercises = ({ drawerWidth }) => {
     }, [])
 
     return (
-        <div>
+        <>
             <HideAppBar drawerWidth={drawerWidth} >
                 <ExercisesToolbar />
             </HideAppBar>
             <ExerciseList handleClick={handleListClick} />
-        </div>
+        </>
     )
 }
 

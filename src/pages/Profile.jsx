@@ -1,32 +1,34 @@
-import { Button, Container, Stack, Box, Typography } from "@mui/material"
-import HideAppBar from "../components/AppBar/HideAppBar"
-import BasicModal from "../components/Modals/BasicModal"
-import { useDispatch } from "react-redux"
-import { logout } from "../redux/reducers/userReducer"
-import { useNavigate } from "react-router-dom"
-
-import LogoutIcon from '@mui/icons-material/Logout';
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
-import EditIcon from "@mui/icons-material/Edit"
-import PasswordIcon from '@mui/icons-material/Password';
-
-import { formatDateTime } from "../utils/Date"
-
 import userService from '../services/user'
 
-import { toast } from "react-toastify"
+import { useState } from "react"
 
+import { useNavigate } from "react-router-dom"
+
+import { useDispatch, useSelector } from "react-redux"
+import { logout } from "../redux/reducers/userReducer"
+
+import { Button, Stack, Box } from "@mui/material"
+
+import LogoutIcon from '@mui/icons-material/Logout'
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
+import EditIcon from "@mui/icons-material/Edit"
+import PasswordIcon from '@mui/icons-material/Password'
 
 import FormModal from "../components/Modals/FormModal"
-import { useState } from "react"
+import HideAppBar from "../components/AppBar/HideAppBar"
+import BasicModal from "../components/Modals/BasicModal"
 import UserForm from "../components/Forms/UserForm"
 import PasswordForm from "../components/Forms/PasswordForm"
 import BasicToolbar from "../components/Toolbars/BasicToolbar"
 
+import { toast } from "react-toastify"
+import { formatDateTime } from "../utils/Date"
 
-const Profile = ({ user, drawerWidth }) => {
+const Profile = ({ drawerWidth }) => {
+    
     console.log("Rendering Profile");
 
+    const user = useSelector(state => state.user)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [openEditModal, setOpenEditModal] = useState(false)
     const [openPasswordModal, setOpenPasswordModal] = useState(false)
