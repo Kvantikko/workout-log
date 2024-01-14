@@ -37,7 +37,9 @@ const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, 
             throw new Error('Component must have a type prop specified!')
     }
 
-    const exerciseName = useSelector(state => state.exerciseLibrary.exercises.find(e => e.id === exercise?.id))?.name
+    console.log("jyy", exercise)
+
+    const exerciseName = useSelector(state => state.exerciseLibrary.exercises.find(e => e.id === exercise?.exerciseId ))?.name
 
     //const [openDeleteModal, setOpenDeleteModal] = useState(false)
 

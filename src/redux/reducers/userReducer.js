@@ -49,12 +49,11 @@ export const login = (email, password, setErrorEmail, setErrorPassword, navigate
             dispatch(setCredentials({ user: response.user, token: response.token }))
             navigate('/')
         } catch (err) {
-            console.log("err", err);
-            if (err.response.status === 401) {
-                setErrorEmail(err.response.data.message)
-                setErrorPassword(err.response.data.message)
+            if (err.response?.status === 401) {
+                setErrorEmail(err.response?.data.message)
+                setErrorPassword(err.response?.data.message)
             }
-            toast.error(err.response.data.message)
+            toast.error(err.response?.data.message)
         }
     }
 }
@@ -66,10 +65,10 @@ export const register = (email, firstname, lastname, password, setErrorEmail, na
             dispatch(setCredentials({ user: response.user, token: response.token }))
             navigate('/')
         } catch (err) {
-            if (err.response.status === 409) {
-                setErrorEmail(err.response.data.message)
+            if (err.response?.status === 409) {
+                setErrorEmail(err.response?.data.message)
             }
-            toast.error(err.response.data.message)
+            toast.error(err.response?.data.message)
         }
     }
 }

@@ -13,6 +13,8 @@ import BasicModal from '../Modals/BasicModal'
 
 const WorkoutExerciseMenu = ({ exercise, handleDelete }) => {
 
+    console.log("EXErCISE MAENU ", exercise);
+
 
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl);
@@ -33,7 +35,7 @@ const WorkoutExerciseMenu = ({ exercise, handleDelete }) => {
 
     const handleEdit = (exerciseName, targetMuscle) => {
         handleClose()
-        dispatch(editExercise(exercise.id, exerciseName, targetMuscle))
+        dispatch(editExercise(exercise.exerciseId, exerciseName, targetMuscle))
     }
 
     const handleDeleteClick = () => {

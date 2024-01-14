@@ -54,6 +54,7 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
     }
 
     const handleWatchClick = () => {
+        console.log("handling...");
         if (isActiveRestWatch) {
             dispatch(resetRestWatch())
         } else {

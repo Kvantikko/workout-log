@@ -3,8 +3,8 @@ import { useState, useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { clearSelectedExercises, setSearch } from '../../redux/reducers/exerciseLibraryReducer'
 
-import { Box, Modal, Fab } from '@mui/material'
-import { Done } from '@mui/icons-material'
+import { Box, Modal, Fab, IconButton, Button, Stack, useMediaQuery } from '@mui/material'
+import { ArrowBack, Close, Done } from '@mui/icons-material'
 
 import ExerciseList from '../Lists/ExerciseList'
 import SearchInput from '../Inputs/SearchInput'
@@ -15,8 +15,8 @@ export const addExerciseToWorkoutStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: { xs: '100vw', sm: '70vw' },
-    height: { xs: '100vh', sm: '90%' },
+    width: { xs: '100vw', sm: '70vw', md: '50vw' },
+    height: { xs: '100vh', sm: '89%' },
     //maxHeight: '100%',
     // maxWidth: 550,
     bgcolor: '#222326',
@@ -35,6 +35,7 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
     console.log("Rendering AddExerciseToWorkoutModal");
 
     const selectedExercises = useSelector(state => state.exerciseLibrary.selected.all)
+    const isMobile = useMediaQuery('(max-width:600px)')
 
     const dispatch = useDispatch()
 
@@ -67,27 +68,53 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
             }}
         >
             <div>
-                <CloseModalButton onClick={handleClose} />
+                {/*       <CloseModalButton onClick={handleClose} /> */}
 
                 <Box sx={addExerciseToWorkoutStyle}>
 
-                    <Box paddingX={2} paddingY={2}>
+                    {/*     <IconButton
+                        onClick={() => handleClose()}
+                        sx={{
+                            position: "absolute",
+                            right: -20,
+                            top: -20,
+                            border: "solid"
+                        }}
+                    >
+                        <Close></Close>
+                    </IconButton> */}
+
+                    <Stack paddingX={2} paddingY={2} direction={"row"}>
+                        {isMobile &&
+                            <IconButton onClick={() => handleClose()} sx={{ paddingRight: 1.5 }}>
+                                <ArrowBack />
+                                {/*  <Close></Close> */}
+                            </IconButton>
+                        }
                         <SearchInput />
+                        {!isMobile &&
+                            /*   <Button color='error'>
+                                  <Close/>
+                              </Button> */
+                            <IconButton onClick={() => handleClose()} sx={{ marginLeft: 2, marginRight: 0 }}>
+                                <Close></Close>
+                            </IconButton>
+                        }
+                    </Stack>
+
+                    <Box sx={{ overflowY: 'scroll', height: isMobile ? '89vh' : '79vh' }}  >
+                        <ExerciseList showChecked={true} />
                     </Box>
 
                     {selectedExercises.length !== 0 &&
                         <Fab
                             onClick={() => AddExercisesToWorkout()}
                             color='info'
-                            sx={{ position: 'absolute', bottom: 30, right: 100 }}
+                            sx={{ position: 'absolute', bottom: 25, right: 25 }}
                         >
                             <Done />
                         </Fab>
                     }
-
-                    <Box sx={{ overflowY: 'scroll', height: '80vh' }}  >
-                        <ExerciseList showChecked={true} />
-                    </Box>
 
                 </Box>
             </div>

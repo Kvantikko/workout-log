@@ -96,7 +96,7 @@ const Home = ({ drawerWidth }) => {
                     }
                     {isWorkoutActive &&
                         <>
-                            <Typography variant="h5" textAlign={'center'}>Yeeeeaaaa buddeeee!</Typography>
+                            <Typography variant="h5" textAlign={'center'}>Yeeea buddeee!</Typography>
                             <Typography variant="h5" textAlign={'center'}>You have a workout in progress! &#128170;</Typography>
                         </>
                     }

@@ -37,9 +37,9 @@ const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
                 onClick={() => handleListClick(exercise)}
                 sx={{ paddingX: { xs: 2, sm: 3 } }}
             >
-                <ListItemText primary={exercise.name} />
+               
                 {showChecked &&
-                    <ListItemIcon>
+                    <ListItemIcon /* sx={{ justifyContent: "center" }} */ >
                         <Checkbox
                             edge="end"
                             checked={checked}
@@ -53,6 +53,7 @@ const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
                         />
                     </ListItemIcon>
                 }
+                 <ListItemText primary={exercise.name} />
             </ListItemButton>
         </ListItem>
     )

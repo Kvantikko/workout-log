@@ -3,70 +3,49 @@ import { Typography, Box, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 //import { pauseWatch, setWorker, startWatch, stopWatch, updateTime } from '../../redux/reducers/stopWatchReducer';
 import Timer from './Timer';
-import ControlButtons from "../Buttons/ControlButton"
+import ClockControlButtons from '../Buttons/ClockControlButton';
+import { pauseRestWatch, pauseWorkoutWatch, resetRestWatch, resetWorkoutWatch, startRestWatch, startWorkoutWatch } from '../../redux/reducers/stopWatchReducer';
 //import { startWorker, stopWorker, postMessageToWorker, getWorker } from '../../workers/restWatchWorkerManager';
 
 function StopWatch({ showButtons, size, isRestTimer }) {
 
-    const workerRef = useRef();
+    const isActive = isRestTimer ?
+        useSelector(state => state.stopWatch.restWatch.isActive) :
+        useSelector(state => state.stopWatch.workoutWatch.isActive)
+
+    console.log("Rendering StopWath", isRestTimer, " on act ", isActive);
 
     const dispatch = useDispatch();
 
-    /* useEffect(() => {
-        console.log('STOP WATCH EFFECT');
-        if (!isWorker) {
-            console.log('Creating worker...');
-            startWorker();
-            handleStart();
-        }
-
-        workerRef.current = getWorker()
-
-        workerRef.current.onmessage = (e) => {
-
-            dispatch(updateTime(e.data));
-        }
-
-
-    }, [dispatch, isWorker]); */
-
     const handleStart = () => {
-        //postMessageToWorker('start')
-        //dispatch(startWatch());
-    };
+        isRestTimer ? dispatch(startRestWatch()) : dispatch(startWorkoutWatch())
+    }
 
-    /* const handlePauseResume = () => {
-        postMessageToWorker(isPaused ? 'start' : 'pause');
-        dispatch(pauseWatch());
-    }; */
+    const handlePause = () => {
+        isRestTimer ? dispatch(pauseRestWatch()) : dispatch(pauseWorkoutWatch())
+    }
 
     const handleReset = () => {
-        //postMessageToWorker('reset')
-        /* dispatch(stopWatch());
-        dispatch(setWorker(false));
-        dispatch(updateTime(0)); */
-    };
+        isRestTimer ? dispatch(resetRestWatch()) : dispatch(resetWorkoutWatch())
+    }
 
     return (
         <Stack direction={'row'}>
-
             <Box sx={{ margin: 'auto' }}>
                 <Timer isRestTimer={isRestTimer} size={size} />
             </Box>
-
-            {/* {showButtons &&
-                <ControlButtons
+            {showButtons &&
+                <ClockControlButtons
                     sx={{ justifyContent: 'space-between', alignItems: 'center', margin: 'auto' }}
-                    active={isActive}
-                    isPaused={isPaused}
+                    isActive={isActive}
+                    //isPaused={isPaused}
                     handleStart={handleStart}
-                    //handlePauseResume={handlePauseResume}
+                    handlePause={handlePause}
                     handleReset={handleReset}
                 />
-            } */}
-
+            }
         </Stack>
-    );
+    )
 }
 
 export default StopWatch;

@@ -12,6 +12,8 @@ import WorkoutExerciseSets from "./WorkoutExerciseSets";
 
 const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
 
+    console.log(workoutExercises)
+
 
 
 
@@ -30,9 +32,9 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
                             Show whole workout
                         </Button> */}
 
-                       {/*  <Typography variant="h6" noWrap >
-                            {exercise.name}
-                        </Typography> */}
+                       <Typography variant="h6" noWrap >
+                            {exercise?.name}
+                        </Typography>
 
                         <Typography
                             variant="body1"

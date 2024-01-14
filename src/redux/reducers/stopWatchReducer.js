@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAction } from '@reduxjs/toolkit'
 import StopWatchWorkerManager from '../../workers/StopWatchWorkerManager'
 import { logout } from "./userReducer"
+import { startEmptyWorkout } from './workoutReducer'
 
-const restWatchWorkerManager = new StopWatchWorkerManager("./restwatch-worker.js")
-const workoutWatchWorkerManager = new StopWatchWorkerManager("./workoutwatch-worker.js")
+const restWatchWorkerManager = new StopWatchWorkerManager("./stopwatch-worker.js") // two new threads
+const workoutWatchWorkerManager = new StopWatchWorkerManager("./stopwatch-worker.js")
 
 const initialState = {
     restWatch: {
@@ -21,6 +22,7 @@ const stopWatchSlice = createSlice({
     initialState,
     reducers: {
         _startRestWatch: (state, action) => {
+            restWatchWorkerManager.postMessageToWorker("start")
             state.restWatch.isActive = true
             return state
         },
@@ -34,26 +36,32 @@ const stopWatchSlice = createSlice({
             state.restWatch.isActive = false
             return state
         },
+        pauseRestWatch: (state, action) => {
+            restWatchWorkerManager.postMessageToWorker("pause")
+            state.restWatch.isActive = false
+            return state
+        },
 
 
 
         _startWorkoutWatch: (state, action) => {
-            console.log("kullii");
-            // workoutWatchWorkerManager.postMessageToWorker("start")
+            console.log("_startWorkoutWatch")
+            workoutWatchWorkerManager.postMessageToWorker("start")
             state.workoutWatch.isActive = true
-            /*    workoutWatchWorkerManager.getWorker().onmessage = (e) => {
-                    console.log("PESE");
-                } */
-            //state.workoutWatch.time = restWatchWorkerManager.onMessage()
             return state
         },
         updateWorkoutWatch: (state, action) => {
             state.workoutWatch.time = action.payload;
             return state
         },
-        resetWorkoutWatch: (state, action) => {
+        _resetWorkoutWatch: (state, action) => {
             workoutWatchWorkerManager.postMessageToWorker("reset")
             state.workoutWatch.time = 0
+            state.workoutWatch.isActive = false
+            return state
+        },
+        pauseWorkoutWatch: (state, action) => {
+            workoutWatchWorkerManager.postMessageToWorker("pause")
             state.workoutWatch.isActive = false
             return state
         },
@@ -68,18 +76,20 @@ const stopWatchSlice = createSlice({
 export const {
     _startRestWatch,
     updateRestWatch,
-    resetWorkoutWatch,
+    _resetWorkoutWatch,
+    pauseRestWatch,
     _startWorkoutWatch,
     updateWorkoutWatch,
     resetRestWatch,
+    pauseWorkoutWatch
 } = stopWatchSlice.actions;
 
 export default stopWatchSlice.reducer
 
 export const startWorkoutWatch = () => {
     return (dispatch) => {
-        dispatch(_startWorkoutWatch())
-        workoutWatchWorkerManager.postMessageToWorker("start")
+        dispatch(_startWorkoutWatch()) 
+        dispatch(startEmptyWorkout()) 
         workoutWatchWorkerManager.getWorker().onmessage = (e) => {
             dispatch(updateWorkoutWatch(e.data))
         }
@@ -88,8 +98,7 @@ export const startWorkoutWatch = () => {
 
 export const startRestWatch = () => {
     return (dispatch) => {
-        dispatch(_startRestWatch())
-        restWatchWorkerManager.postMessageToWorker("start")
+        dispatch(_startRestWatch())    
         restWatchWorkerManager.getWorker().onmessage = (e) => {
             dispatch(updateRestWatch(e.data))
         }
@@ -99,8 +108,19 @@ export const startRestWatch = () => {
 export const resetWatches = () => {
     return (dispatch) => {
         dispatch(resetRestWatch())
-        restWatchWorkerManager.postMessageToWorker("reset")
-        dispatch(resetWorkoutWatch())
-        workoutWatchWorkerManager.postMessageToWorker("reset")
+        dispatch(_resetWorkoutWatch())
     }
 }
+
+export const resetWorkoutWatch = () => {
+    console.log("GALABAGOS SASAASA RERAWELADLW");
+    return (dispatch) => {
+        dispatch(_resetWorkoutWatch())
+        dispatch(__resetWorkoutWatch())
+        dispatch(startEmptyWorkout({ isReset: true }))
+
+    }
+}
+
+export const __resetWorkoutWatch = createAction("resetWorkoutWatch")
+

@@ -1,17 +1,38 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from 'react'
 import FullScreenMobileModal from "./FullScreenMobileModal"
-import { AppBar, Button, Box, Stack, Toolbar, IconButton, Typography } from "@mui/material"
-import Workout from "../Workout/Workout"
-import WorkoutToolbar from "../Toolbars/WorkoutToolbar"
-import { Close } from "@mui/icons-material"
 
-import { useMediaQuery } from '@mui/material'
-import BasicModal from "./BasicModal"
+import { ArrowBack, Close, Done, Save } from '@mui/icons-material'
+import { Box, Modal, Fab, IconButton, Stack, useMediaQuery, AppBar, Button, Toolbar, Typography } from '@mui/material'
 
 import { useDispatch, useSelector } from "react-redux"
 import { clearTemplate } from "../../redux/reducers/templateReducer"
 import SaveWorkoutModal from "./SaveWorkoutModal"
+import BasicModal from "./BasicModal"
+import CloseModalButton from '../Buttons/CloseModalButton'
+import Workout from "../Workout/Workout"
+import WorkoutToolbar from "../Toolbars/WorkoutToolbar"
+
 import { toast } from "react-toastify"
+
+export const editWorkoutStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: { xs: '100vw', sm: '70vw', md: '50vw' },
+    height: { xs: '100vh' },
+    //maxHeight: '100%',
+    // maxWidth: 550,
+    bgcolor: '#222326',
+    borderRadius: 4,
+    //border: '2px solid #000',
+    boxShadow: 24,
+    //p: { xs: 2, sm: 4},
+
+    //overflow: 'scroll'
+    //display: 'flex',
+    //flexDirection: 'column'
+}
 
 
 const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning, editVipu }) => {
@@ -31,7 +52,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
             toast.warning("Add atleast one exercise before saving!")
         } else if (!isName) {
             toast.warning("Give your workout a name!")
-        }else {
+        } else {
             setOpenSaveModal(true)
         }
     }
@@ -57,6 +78,62 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
         //setOpenWarningModal(false)
 
     }
+
+    return (
+        <Modal
+            open={open}
+            onClose={handleModalClose}
+            BackdropProps={{
+                timeout: 500,
+                sx: {
+                    backdropFilter: 'blur(3px)'
+                },
+            }}
+        >
+            <div>
+                {/*  <CloseModalButton onClick={handleModalClose} /> */}
+
+                <Box sx={editWorkoutStyle}>
+
+                    <Toolbar sx={{ justifyContent: 'space-between' }}>
+                        <Stack direction={'row'} justifyItems={'center'} gap={2} >
+                            {isSmallScreen &&
+                                <IconButton onClick={() => onClose(false)} >
+                                    <Close />
+                                </IconButton>
+                            }
+                            <Box display={'flex'} flexDirection={'column'} justifyContent={'center'}>
+                                <Typography variant="h6">Edit workout</Typography>
+                            </Box>
+                        </Stack>
+
+                        {isSmallScreen ?
+                            <Button variant="text" onClick={() => onClose(false)} >Save</Button> :
+                            <IconButton onClick={() => onClose(false)} >
+                                <Close />
+                            </IconButton>
+
+                        }
+
+                    </Toolbar>
+
+                    <Box sx={{ overflowY: 'auto', height: '90%' }}>
+                        <Workout type={"template"} />
+                    </Box>
+
+                    {!isSmallScreen &&
+                        <Fab
+                            onClick={() => onClose(false)}
+                            color='info'
+                            sx={{ position: 'absolute', bottom: 25, right: 25 }}
+                        >
+                            <Save></Save>
+                        </Fab>
+                    }
+                </Box>
+            </div>
+        </Modal>
+    )
 
     return (
         <>

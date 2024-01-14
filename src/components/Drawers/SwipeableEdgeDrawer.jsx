@@ -79,7 +79,7 @@ function SwipeableEdgeDrawer(props) {
                             variant="temporary"
                             open={open}
                             onClose={(event) => toggleDrawer(event)}
-                            onOpen={(event) => toggleDrawer(event)}
+                           // onOpen={(event) => toggleDrawer(event)}
                             ModalProps={{
                                 keepMounted: true,
                             }}

@@ -131,7 +131,7 @@ const App = () => {
                             flexGrow: 1,
                             height: "100vh",
                             overflow: 'auto',
-                            paddingBottom: 7
+                            paddingBottom: isAuthenticated ? 7 : 0
                             //padding: { xs: 0, md:  },  // ADJUST!!!!!!!!!!!!!!!!1
                         }}
                     >
@@ -148,7 +148,7 @@ const App = () => {
             <ToastContainer
                 className="toast-position"
                 position="bottom-right"
-                autoClose={4000}
+                autoClose={3000}
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss

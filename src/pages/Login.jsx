@@ -81,7 +81,7 @@ const Login = () => {
                 textAlign={'center'}
                 justifyContent="center"
                 paddingX={3}
-                paddingY={10}
+                paddingTop={5}
                 gap={3}
                 width={"100%"}
                 direction={'row'}

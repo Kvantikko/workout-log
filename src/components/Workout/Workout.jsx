@@ -79,8 +79,8 @@ const Workout = ({ type }) => {
         console.log("add to store function");
         const exercisesToBeAdded = selectedExercises.map(e => {
             const workoutExercise = {
-                id: e.id, // generateId(),
-                //exerciseId: e.id,
+                id: generateId(), // e.id, // 
+                exerciseId: e.id,
                 name: e.name,
                 muscle: e.muscle,
                 createdAt: new Date().toJSON(), // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -131,26 +131,29 @@ const Workout = ({ type }) => {
         <div className="scrollTesttt" >
             <Box className="scrollTesttt" display={'flex'} flexDirection={'column'} gap={0.5} padding={2}  >
                 {type === "active" &&
-                    <Box display={'flex'} flexDirection={'column'} paddingLeft={2} gap={1.5}>
-                        <Typography
-                            variant="h6"
-                            color={'text.secondary'}
-
+                    <Box display={'flex'} flexDirection={'column'} paddingLeft={2} gap={1}>
+                        <Stack
+                            direction={'row'}
+                            spacing={1} alignContent={'center'}
+                            alignItems={'center'}
                         >
-                            Started at {workoutStartTime}
-                        </Typography>
-
-                        <Stack direction={'row'} spacing={1}>
-                            <Typography
-                                variant="h6"
-                                color={'text.secondary'}
-
-                            >
+                            <Typography variant="h6" color={'text.secondary'} >
+                                Started at
+                            </Typography>
+                            <Typography variant="h6" color={'text.secondary'} >
+                                {workoutStartTime !== null ? workoutStartTime : " --:--"}
+                            </Typography>
+                        </Stack>
+                        <Stack
+                            direction={'row'}
+                            spacing={1} alignContent={'center'}
+                            alignItems={'center'}
+                        >
+                            <Typography variant="h6" color={'text.secondary'} >
                                 Elapsed time
                             </Typography>
-                            <StopWatch size="h6" /* showButtons={true} *//>
+                            <StopWatch size="h6" showButtons={true} />
                         </Stack>
-
                     </Box>
                 }
                 <Stack spacing={3} marginTop={3}>
@@ -176,9 +179,10 @@ const Workout = ({ type }) => {
             </Box>
             <Divider sx={{ marginBottom: 4, marginTop: 2 }} />
 
-            {!(exercises.length === 0) &&
-                <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
-                    <Defer chunkSize={1}>
+            <Defer chunkSize={1}>
+                {!(exercises.length === 0) &&
+                    <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
+
 
                         <FlipMove>
                             {exercises.map((exerciseId, index) => {
@@ -199,9 +203,10 @@ const Workout = ({ type }) => {
                             })}
                         </FlipMove>
 
-                    </Defer>
-                </Stack>
-            }
+
+                    </Stack>
+                }
+            </Defer>
 
             <Stack sx={{ marginBottom: 8 }} >
                 <Button variant="text" fullWidth sx={{ marginBottom: 2 }} onClick={() => handleOpenAddModal()}>

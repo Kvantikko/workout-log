@@ -3,7 +3,7 @@ import generateId from "../../utils/generateId"
 import workoutService from "../../services/workouts"
 import { addTemplate, updateTemplate } from "./templateLibraryReducer"
 import { addWorkout, removeWorkout, updateWorkout } from "./historyReducer"
-import { resetWatches } from "./stopWatchReducer"
+import { resetWatches, startWorkoutWatch, __resetWorkoutWatch } from "./stopWatchReducer"
 import { toast } from "react-toastify"
 import { expand, unExpand } from "./drawerReducer"
 import { logout } from "./userReducer"
@@ -34,10 +34,14 @@ const workoutSlice = createSlice({
     initialState,
     reducers: {
         startEmptyWorkout(state, action) {
-
             //console.log(JSON.parse(JSON.stringify(state)))
-            state.workoutStarted = true
-            state.workoutStartTime = getTime()
+            if (action.payload) {
+                state.workoutStartTime = null
+            } else {
+                state.workoutStarted = true
+                state.workoutStartTime = getTime()
+            }
+           
             //window.localStorage.setItem('workoutStartTime', JSON.stringify(getTime()))
             //console.log(JSON.parse(JSON.stringify(state)))
             //setWorkout(state, action)
@@ -52,11 +56,6 @@ const workoutSlice = createSlice({
 
 
         setWorkout(state, action) {
-
-
-
-
-
             const workout = action.payload
 
             console.log(workout.title);
@@ -268,9 +267,15 @@ const workoutSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(logout, () => {
-            return initialState
-        })
+        builder.addCase(
+            logout, () => {
+                return initialState
+            },
+            __resetWorkoutWatch, (state, action) => {
+                console.log("-________________________________-");
+                state.workoutStartTime = null
+            },
+        )
     },
 })
 
@@ -345,7 +350,6 @@ export const saveWorkout = (isNew) => {
             dispatch(endWorkout())
 
         } catch (error) {
-            console.log("CATHIIING ERROOOOOOOOOOOOOR");
             throw new Error(error)
             toast.error(error)
         }
@@ -359,11 +363,10 @@ export const startWorkout = (isOngoing, workout) => {
             dispatch(clearWorkout())
         }
         dispatch(startEmptyWorkout())
-        //dispatch(startTimer())
+        dispatch(startWorkoutWatch())
         if (workout) {
             dispatch(setWorkout(workout))
         }
-        console.log("WINDOW ", window.innerWidth);
         if (window.innerWidth < 900) dispatch(expand())
     }
 }
@@ -387,6 +390,8 @@ export const deleteWorkout = (workoutId) => {
         }
     }
 }
+
+
 
 
 
