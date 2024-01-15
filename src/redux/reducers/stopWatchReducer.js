@@ -87,9 +87,11 @@ export const {
 export default stopWatchSlice.reducer
 
 export const startWorkoutWatch = () => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(_startWorkoutWatch()) 
-        dispatch(startEmptyWorkout()) 
+        if(getState().stopWatch.workoutWatch.time === 0) {
+            dispatch(startEmptyWorkout()) 
+        }
         workoutWatchWorkerManager.getWorker().onmessage = (e) => {
             dispatch(updateWorkoutWatch(e.data))
         }
