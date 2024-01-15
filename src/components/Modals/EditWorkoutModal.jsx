@@ -58,6 +58,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
     }
 
     const handleModalClose = () => {
+        console.log("handle modal close");
         if (isExercises /* && disableWarning */) {
             setOpenWarningModal(true)
         } else {
@@ -98,7 +99,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
                     <Toolbar sx={{ justifyContent: 'space-between' }}>
                         <Stack direction={'row'} justifyItems={'center'} gap={2} >
                             {isSmallScreen &&
-                                <IconButton onClick={() => onClose(false)} >
+                                <IconButton onClick={handleModalClose} >
                                     <Close />
                                 </IconButton>
                             }
@@ -109,7 +110,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
 
                         {isSmallScreen ?
                             <Button variant="text" onClick={() => onClose(false)} >Save</Button> :
-                            <IconButton onClick={() => onClose(false)} >
+                            <IconButton onClick={handleModalClose} >
                                 <Close />
                             </IconButton>
 
@@ -123,12 +124,32 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
 
                     {!isSmallScreen &&
                         <Fab
-                            onClick={() => onClose(false)}
+                            onClick={() => handleSaveButtonClick()}
                             color='info'
                             sx={{ position: 'absolute', bottom: 25, right: 25 }}
                         >
                             <Save></Save>
                         </Fab>
+                    }
+                    {openWarningModal &&
+                        <BasicModal
+                            open={openWarningModal}
+                            onClose={() => setOpenWarningModal(false)}
+                            title={"Discard changes?"}
+                            subTitle={"Do you want to discard any changes you have made without saving them?"}
+                            confirmButtonText={"Yes"}
+                            onSubmit={() => handleSubmit()}
+                        />
+                    }
+                    {openSaveModal &&
+                        <SaveWorkoutModal
+                            open={openSaveModal}
+                            onClose={() => handleCancelFinish()}
+                            onSubmit={() => handleSubmit()}
+                            type={type}
+                            editVipu={editVipu}
+                            workout={workout}
+                        />
                     }
                 </Box>
             </div>

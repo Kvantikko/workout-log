@@ -1,28 +1,31 @@
-
-import WorkoutExercise from "./WorkoutExercise"
 import { useState, useEffect, useCallback, memo } from "react"
-import { useDispatch } from "react-redux"
-import { Autocomplete, Button, TextField, Input, Stack, Container, Box, Slide, Toolbar, Typography, Collapse, Grow, Divider } from "@mui/material"
-import { TransitionGroup } from 'react-transition-group';
-import { useSelector } from "react-redux"
-import generateId from "../../utils/generateId"
+import { TransitionGroup } from 'react-transition-group'
+
+import { useDispatch, useSelector } from "react-redux"
+import { addExercisesToWorkout, editWorkoutNote, endWorkout } from "../../redux/reducers/workoutReducer"
+import { resetSearch, setSearch } from "../../redux/reducers/exerciseLibraryReducer"
 import { addExercisesToTemplate, deleteExerciseFromTemplate, editTemplateNote } from "../../redux/reducers/templateReducer"
+import { selectAllTemplateExercises } from "../../redux/selectors"
+import { selectAllWorkoutExercises } from "../../redux/selectors"
+
+import { Button, Stack, Box, Slide, Toolbar, Typography, Collapse, Grow, Divider } from "@mui/material"
+import AddIcon from '@mui/icons-material/Add'
+
+import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
+import Defer from "../Defer/Defer"
 import HideAppBar from "../AppBar/HideAppBar"
 import WorkoutToolbar from "../Toolbars/WorkoutToolbar"
-import AddIcon from '@mui/icons-material/Add';
-import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
-import FlipMove from "react-flip-move";
-import Defer from "../Defer/Defer"
 import WorkoutNameField from "../Inputs/WorkoutNameField";
-import { selectAllTemplateExercises } from "../../redux/selectors";
-import { selectAllWorkoutExercises } from "../../redux/selectors";
-import { addExercisesToWorkout, editWorkoutNote } from "../../redux/reducers/workoutReducer";
-import { clearWorkout } from "../../redux/reducers/workoutReducer";
-import BasicModal from "../Modals/BasicModal";
-import NoteField from "../Inputs/NoteField";
-import SaveWorkoutModal from "../Modals/SaveWorkoutModal";
-import { resetSearch, setSearch } from "../../redux/reducers/exerciseLibraryReducer";
-import StopWatch from "../Clock/StopWatch";
+import BasicModal from "../Modals/BasicModal"
+import NoteField from "../Inputs/NoteField"
+import SaveWorkoutModal from "../Modals/SaveWorkoutModal"
+import WorkoutExercise from "./WorkoutExercise"
+import StopWatch from "../Clock/StopWatch"
+
+import { toast } from "react-toastify"
+import generateId from "../../utils/generateId"
+import FlipMove from "react-flip-move"
+
 
 
 
@@ -51,8 +54,8 @@ const Workout = ({ type }) => {
             throw new Error('Component Workout must have a type prop specified!')
     }
     const [openAddModal, setOpenAddModal] = useState(false)
-    /*  const [openFinishModal, setOpenFinishModal] = useState(false)
-     const [openCancelModal, setOpenCancelModal] = useState(false); */
+    const [openFinishModal, setOpenFinishModal] = useState(false)
+    const [openCancelModal, setOpenCancelModal] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -66,14 +69,22 @@ const Workout = ({ type }) => {
     // (document.body.scrollHeight + 1000 )
     //}, [exercises])
 
-    /*   const handleClear = () => {
-          setOpenCancelModal(false)
-          dispatch(clearWorkout())
-          dispatch(stopWatch())
-        
-          dispatch(terminateTimer())
-  
-      } */
+    const handleClear = () => {
+        setOpenCancelModal(false)
+        dispatch(endWorkout())
+    }
+
+    const handleFinishClick = () => {
+        if (exercises.length === 0) {
+            toast.warning('Add at least one exercise before finishing!')
+            return
+        }
+        if (workoutName === "" || workoutName === undefined || workoutName === null) {
+            toast.warning('Name your workout before finishing!')
+            return
+        }
+        setOpenFinishModal(true)
+    }
 
     const addExercisesToStore = (selectedExercises) => {
         console.log("add to store function");
@@ -162,19 +173,28 @@ const Workout = ({ type }) => {
                 </Stack>
 
 
-                {/*     {type === "active" &&
-                    <>
-                        <Button variant="text" color="success" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenFinishModal(true)}>
+                {type === "active" &&
+                    <Box paddingTop={3} display={'flex'} flexDirection={{ xs: "column", sm: "row"}} /* flexWrap={"wrap"} flexDirection={'row'} */  >
+                        <Button
+                            variant="text"
+                            color="success"
+                            fullWidth
+                            sx={{ marginBottom: { xs: 2, sm: 0 } }}
+                            onClick={handleFinishClick}
+                        >
                             Finish workout
                         </Button>
-                        <Button variant="text" color="error" fullWidth sx={{ marginBottom: 2 }} onClick={() => setOpenCancelModal(true)}>
+                        <Button
+                            variant="text"
+                            color="error"
+                            fullWidth
+                            //sx={{ marginBottom: 2 }}
+                            onClick={() => setOpenCancelModal(true)}
+                        >
                             Cancel workout
                         </Button>
-                    </>
-                } */}
-
-
-
+                    </Box>
+                }
 
             </Box>
             <Divider sx={{ marginBottom: 4, marginTop: 2 }} />
@@ -182,8 +202,6 @@ const Workout = ({ type }) => {
             <Defer chunkSize={1}>
                 {!(exercises.length === 0) &&
                     <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
-
-
                         <FlipMove>
                             {exercises.map((exerciseId, index) => {
                                 //console.log("MAPPING!!!!!!");
@@ -202,8 +220,6 @@ const Workout = ({ type }) => {
                                 )
                             })}
                         </FlipMove>
-
-
                     </Stack>
                 }
             </Defer>
@@ -230,25 +246,26 @@ const Workout = ({ type }) => {
                     confirmFunction={addExercisesToStore}
                 />
             } */}
-            {/*    {openCancelModal &&
+            {openCancelModal &&
                 <BasicModal
                     open={openCancelModal}
                     onClose={() => setOpenCancelModal(false)}
                     title="Discard workout?"
                     subTitle="Are you sure you want to discard ongoing workout?"
                     confirmButtonText={'Discard'}
+                    confirmButtonColor={"error"}
                     cancelButtonText={'Keep logging'}
                     onSubmit={() => handleClear()}
                 />
-            } */}
-            {/*   {openFinishModal &&
+            }
+            {openFinishModal &&
                 <SaveWorkoutModal
                     open={openFinishModal}
-                    onClose={setOpenFinishModal}
+                    onClose={() => setOpenFinishModal(false)}
                     type={"active"}
-               
+
                 />
-            } */}
+            }
         </div>
     )
 }

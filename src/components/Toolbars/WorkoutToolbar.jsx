@@ -68,12 +68,12 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
     }
 
     const renderChevron = () => {
-        if (!isSmallScreen) return <KeyboardArrowDownIcon />
+        if (!isSmallScreen) return <KeyboardArrowDownIcon sx={{ transform: "scale(1.5)", }}/>
 
         if (open) {
-            return <ChevronRight />
+            return <ChevronRight sx={{ transform: "scale(1.5)", }} />
         } else {
-            return <ChevronLeft></ChevronLeft>// <OpenInFullIcon />
+            return <ChevronLeft sx={{ transform: "scale(1.5)", }} />
         }
     }
 
@@ -123,7 +123,7 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
                     </IconButton>
 
 
-                    <IconButton aria-label="finish" color="success" onClick={handleFinishClick}>
+                   {/*  <IconButton aria-label="finish" color="success" onClick={handleFinishClick}>
                         <CheckCircleOutlineIcon />
                     </IconButton>
                     {openFinishModal &&
@@ -132,13 +132,13 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
                             onClose={() => setOpenFinishModal(false)}
                             type={"active"}
                         />
-                    }
+                    } */}
 
 
-                    <IconButton aria-label="cancel" color="error" onClick={() => setOpenCancelModal(true)}>
+                   {/*  <IconButton aria-label="cancel" color="error" onClick={() => setOpenCancelModal(true)}>
                         <Close></Close>
                     </IconButton>
-
+                    */}
                 </Stack>
 
                 {openCancelModal &&
