@@ -8,7 +8,7 @@ import { addExercisesToTemplate, deleteExerciseFromTemplate, editTemplateNote } 
 import { selectAllTemplateExercises } from "../../redux/selectors"
 import { selectAllWorkoutExercises } from "../../redux/selectors"
 
-import { Button, Stack, Box, Slide, Toolbar, Typography, Collapse, Grow, Divider } from "@mui/material"
+import { Button, Stack, Box, Slide, Toolbar, Typography, Fab, Collapse, Grow, Divider } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add'
 
 import AddExerciseToWorkoutModal from "../Modals/AddExerciseToWorkoutModal"
@@ -25,7 +25,17 @@ import StopWatch from "../Clock/StopWatch"
 import { toast } from "react-toastify"
 import generateId from "../../utils/generateId"
 import FlipMove from "react-flip-move"
+import { ArrowUpward } from "@mui/icons-material"
 
+
+const style = {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',
+};
 
 
 
@@ -68,6 +78,10 @@ const Workout = ({ type }) => {
     // window.scrollTo(0, document.body.scrollHeight)
     // (document.body.scrollHeight + 1000 )
     //}, [exercises])
+
+    const handleBackToTopClick = () => {
+        window.scrollTo(0)
+    }
 
     const handleClear = () => {
         setOpenCancelModal(false)
@@ -174,7 +188,7 @@ const Workout = ({ type }) => {
 
 
                 {type === "active" &&
-                    <Box paddingTop={3} display={'flex'} flexDirection={{ xs: "column", sm: "row"}} /* flexWrap={"wrap"} flexDirection={'row'} */  >
+                    <Box paddingTop={3} display={'flex'} flexDirection={{ xs: "column", sm: "row" }} /* flexWrap={"wrap"} flexDirection={'row'} */  >
                         <Button
                             variant="text"
                             color="success"
@@ -231,6 +245,15 @@ const Workout = ({ type }) => {
                 </Button>
 
             </Stack>
+
+            {/* <Fab
+                onClick={() =>console.log("kaka")}
+                color='info'
+                size="small"
+                style={style}
+            >
+                <ArrowUpward/>
+            </Fab> */}
 
             {openAddModal &&
                 <AddExerciseToWorkoutModal
