@@ -52,7 +52,7 @@ const AppRoutes = ({ drawerWidth }) => {
     return (
         <Routes>
             <Route
-                path="/"
+                path="/*"
                 element={
                     <ProtectedRoute  >
                         <Workout drawerWidth={drawerWidth} />

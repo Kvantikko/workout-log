@@ -1,4 +1,5 @@
-import * as React from 'react';
+import * as React from 'react'
+import { useEffect } from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -108,7 +109,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function ExpandablePermanentDrawer() {
     console.log("Rendering ExpandablePermanentDrawer");
 
-    const [open, setOpen] = React.useState(false)
+    const open = useSelector(state => state.drawer)
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const isAuthenticated = useSelector(state => state.user) ? true : false
     const isSmallScreen = useMediaQuery('(max-width:900px)')
@@ -117,13 +118,21 @@ export default function ExpandablePermanentDrawer() {
 
     const handleDrawerOpen = () => {
         if (open) {
-            setOpen(false);
+            //setOpen(false);
             dispatch(unExpand())
         } else {
-            setOpen(true);
+            //setOpen(true);
             dispatch(expand())
         }
     }
+
+    // if browser back button is pressed -> closes the drawer
+    useEffect(() => {
+        window.onpopstate = (event) => {
+            dispatch(unExpand())
+        }        
+        return(() => { window.onpopstate = null})
+    }, [])
 
     return (
         <>
@@ -153,7 +162,7 @@ export default function ExpandablePermanentDrawer() {
                                     >
                                         <WorkoutToolbar
                                             open={open}
-                                            setOpen={setOpen}
+                                            //setOpen={setOpen}
                                             handleDrawerOpen={handleDrawerOpen}
                                         />
                                     </Stack>

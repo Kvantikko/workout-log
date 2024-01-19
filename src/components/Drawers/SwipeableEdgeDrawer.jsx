@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
@@ -42,7 +43,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 function SwipeableEdgeDrawer(props) {
     console.log('------------- Rendering SwipeableEdgeDrawer -----------');
 
-    const { window } = props
+    //const { window } = props
 
     const open = useSelector(state => state.drawer)
     const isAuthenticated = useSelector(state => state.user) ? true : false
@@ -65,6 +66,14 @@ function SwipeableEdgeDrawer(props) {
         toggleDrawer(true)
         dispatch(expand())
     }
+
+    // if browser back button is pressed -> closes the drawer
+    useEffect(() => {
+        window.onpopstate = (event) => {
+            dispatch(unExpand())
+        }        
+        return(() => { window.onpopstate = null})
+    }, [])
 
     return (
         <div className="scrollTesttt" component="div">

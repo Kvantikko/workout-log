@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 
+import { useLocation, useNavigate } from 'react-router-dom'
+
 import { useSelector, useDispatch } from 'react-redux'
 import { clearSelectedExercises, setSearch } from '../../redux/reducers/exerciseLibraryReducer'
 
@@ -16,7 +18,7 @@ export const addExerciseToWorkoutStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: { xs: '100vw', sm: '70vw', md: '50vw' },
-    height: { xs: '100vh', sm: '89%' },
+    height: { xs: '100svh', sm: '89%' },
     //maxHeight: '100%',
     // maxWidth: 550,
     bgcolor: '#222326',
@@ -32,19 +34,10 @@ export const addExerciseToWorkoutStyle = {
 
 const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
 
-    console.log("Rendering AddExerciseToWorkoutModal");
-
     const selectedExercises = useSelector(state => state.exerciseLibrary.selected.all)
     const isMobile = useMediaQuery('(max-width:600px)')
 
     const dispatch = useDispatch()
-
-    /* 
-    const ref = useRef(null); */
-    /*  useEffect(() => {
-         console.log("EFFECT HAPPENING");
-         ref.current?.scrollIntoView({ behavior: 'smooth' });
-     }, [selectedExercises]) */
 
     const handleClose = () => {
         onClose()
@@ -55,6 +48,14 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
         confirmFunction(selectedExercises)
         dispatch(clearSelectedExercises())
     }
+
+    // if browser back button is pressed -> closes the modal
+    useEffect(() => {
+        window.onpopstate = (event) => {
+            handleClose()
+        }        
+        return(() => { window.onpopstate = null})
+    }, [])
 
     return (
         <Modal
