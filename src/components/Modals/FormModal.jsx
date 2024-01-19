@@ -8,7 +8,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '100vw',
-    height: '100wh',
+    //height: '100svh',
     maxHeight: '100%',
     maxWidth: 600,
     bgcolor: '#222326', //'background.paper',

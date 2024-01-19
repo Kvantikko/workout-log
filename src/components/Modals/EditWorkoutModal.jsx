@@ -20,7 +20,7 @@ export const editWorkoutStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: { xs: '100vw', sm: '70vw', md: '50vw' },
-    height: { xs: '100vh' },
+    height: { xs: '100svh' },
     //maxHeight: '100%',
     // maxWidth: 550,
     bgcolor: '#222326',
@@ -104,7 +104,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
                                 </IconButton>
                             }
                             <Box display={'flex'} flexDirection={'column'} justifyContent={'center'}>
-                                <Typography variant="h6">Edit workout</Typography>
+                                <Typography variant="h6">{title}</Typography>
                             </Box>
                         </Stack>
 

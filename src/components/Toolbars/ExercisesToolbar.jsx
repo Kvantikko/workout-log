@@ -11,6 +11,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 import ExerciseForm from '../Forms/ExerciseForm'
+import FormModal from '../Modals/FormModal'
 import SearchInput from '../Inputs/SearchInput'
 
 const ExercisesToolbar = () => {
