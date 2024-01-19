@@ -12,6 +12,7 @@ import WorkoutAppBar from '../AppBar/WorkoutAppBar';
 import { useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { expand, unExpand } from '../../redux/reducers/drawerReducer';
+import { useLocation } from 'react-router-dom';
 
 const drawerWidth = '100vw'
 
@@ -107,7 +108,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 )
 
 export default function ExpandablePermanentDrawer() {
-    console.log("Rendering ExpandablePermanentDrawer");
+    console.log("--------------------- Rendering ExpandablePermanentDrawer ---------------------------------- ");
 
     const open = useSelector(state => state.drawer)
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
@@ -116,23 +117,45 @@ export default function ExpandablePermanentDrawer() {
 
     const dispatch = useDispatch()
 
-    const handleDrawerOpen = () => {
+    const toggleDrawerOpen = () => {
         if (open) {
             //setOpen(false);
-            dispatch(unExpand())
+            window.history.back()
+            //dispatch(unExpand())
         } else {
             //setOpen(true);
             dispatch(expand())
         }
     }
 
+    //const location = useLocation()
+
     // if browser back button is pressed -> closes the drawer
     useEffect(() => {
-        window.onpopstate = (event) => {
-            dispatch(unExpand())
-        }        
-        return(() => { window.onpopstate = null})
-    }, [])
+        console.log("DRAWER EFFECT");
+        if (window.location.href.includes("#workout") && open) {
+            console.log("TOTTA KU ROTTA")
+            //dispatch(expand())
+
+            window.onpopstate = (event) => {
+                console.log("POP");
+                dispatch(unExpand())
+            }
+        } else {
+            window.onpopstate = null /* () => {
+                if (window.location.href.includes("#workout")) {
+                    console.log("TOTTA KU ROTTA")
+                    dispatch(expand())
+                }
+            }
+            */
+        } 
+
+
+
+        return (() => { window.onpopstate = null })
+
+    }, [open])
 
     return (
         <>
@@ -163,7 +186,7 @@ export default function ExpandablePermanentDrawer() {
                                         <WorkoutToolbar
                                             open={open}
                                             //setOpen={setOpen}
-                                            handleDrawerOpen={handleDrawerOpen}
+                                            handleDrawerOpen={toggleDrawerOpen}
                                         />
                                     </Stack>
                                 </Toolbar>

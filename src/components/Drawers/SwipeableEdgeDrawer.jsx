@@ -54,7 +54,8 @@ function SwipeableEdgeDrawer(props) {
 
     const toggleDrawer = (event) => {
         if (open) {
-            dispatch(unExpand())
+            //dispatch(unExpand())
+            window.history.back()
 
         } else {
             dispatch(expand())
@@ -69,11 +70,30 @@ function SwipeableEdgeDrawer(props) {
 
     // if browser back button is pressed -> closes the drawer
     useEffect(() => {
-        window.onpopstate = (event) => {
-            dispatch(unExpand())
-        }        
-        return(() => { window.onpopstate = null})
-    }, [])
+        console.log("DRAWER EFFECT");
+        if (window.location.href.includes("#workout") && open) {
+            console.log("TOTTA KU ROTTA")
+            //dispatch(expand())
+
+            window.onpopstate = (event) => {
+                console.log("POP");
+                dispatch(unExpand())
+            }
+        } else {
+            window.onpopstate = null /* () => {
+                if (window.location.href.includes("#workout")) {
+                    console.log("TOTTA KU ROTTA")
+                    dispatch(expand())
+                }
+            }
+            */
+        } 
+
+
+
+        return (() => { window.onpopstate = null })
+
+    }, [open])
 
     return (
         <div className="scrollTesttt" component="div">

@@ -49,10 +49,12 @@ const AppRoutes = ({ drawerWidth }) => {
 
     const dispatch = useDispatch()
 
+
+
     return (
         <Routes>
             <Route
-                path="/*"
+                path="/"
                 element={
                     <ProtectedRoute  >
                         <Workout drawerWidth={drawerWidth} />

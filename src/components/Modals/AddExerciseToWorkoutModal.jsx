@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { clearSelectedExercises, setSearch } from '../../redux/reducers/exerciseLibraryReducer'
+import { unExpand } from '../../redux/reducers/drawerReducer'
 
 import { Box, Modal, Fab, IconButton, Button, Stack, useMediaQuery } from '@mui/material'
 import { ArrowBack, Close, Done } from '@mui/icons-material'
@@ -36,12 +37,14 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
 
     const selectedExercises = useSelector(state => state.exerciseLibrary.selected.all)
     const isMobile = useMediaQuery('(max-width:600px)')
+    const prevUrl = window.location.href
 
     const dispatch = useDispatch()
 
     const handleClose = () => {
         onClose()
         dispatch(clearSelectedExercises())
+        window.history.replaceState("object or string", "Title", `${prevUrl}`);
     }
 
     const AddExercisesToWorkout = () => {
@@ -51,10 +54,27 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
 
     // if browser back button is pressed -> closes the modal
     useEffect(() => {
+
+        console.log("EFFECT ");
+        console.log(window.history);
+
+        window.history.pushState("object or string", "Title", `${prevUrl}/add`);
+
+        console.log(window.history);
+       
         window.onpopstate = (event) => {
+
             handleClose()
+            //window.history.forward()
+            
         }        
-        return(() => { window.onpopstate = null})
+        return(() => {
+            window.history.replaceState("object or string", "Title", `${prevUrl}`);
+            window.onpopstate = (event) => {
+                console.log("POP");
+                dispatch(unExpand())
+            }
+        })
     }, [])
 
     return (
