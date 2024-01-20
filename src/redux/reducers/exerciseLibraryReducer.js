@@ -26,6 +26,8 @@ const exerciseLibrarySlice = createSlice({
             sortAlphabetically(state.exercises)
 
             state.search.filteredExercises.push(action.payload)
+            sortAlphabetically(state.search.filteredExercises)
+            
             return state
         },
         updateExercise(state, action) {
@@ -44,6 +46,8 @@ const exerciseLibrarySlice = createSlice({
             
 
             state.exercises[index] = changedExercise
+
+            state.search.filteredExercises[index] = changedExercise
             //state = state.exercises.map(exercise => exercise.id !== id ? exercise : changedExercise)
             sortAlphabetically(state.exercises)
             return state
