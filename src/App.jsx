@@ -129,7 +129,7 @@ const App = () => {
                     <Box component="main" id='main' className='scrollTest'
                         sx={{
                             flexGrow: 1,
-                            height: "100vh",
+                            height: "100svh",
                             overflow: 'auto',
                             paddingBottom: isAuthenticated ? 7 : 0
                             //padding: { xs: 0, md:  },  // ADJUST!!!!!!!!!!!!!!!!1

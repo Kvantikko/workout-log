@@ -32,12 +32,12 @@ const Exercises = ({ drawerWidth }) => {
     }, [])
 
     return (
-        <>
+        <Box paddingBottom={8}>
             <HideAppBar drawerWidth={drawerWidth} >
                 <ExercisesToolbar />
             </HideAppBar>
             <ExerciseList handleClick={handleListClick} />
-        </>
+        </Box>
     )
 }
 
