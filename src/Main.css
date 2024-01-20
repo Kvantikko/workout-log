@@ -16,7 +16,12 @@ body {
 ::-webkit-scrollbar-corner       {  }
 ::-webkit-resizer                {  } */
 
-::-webkit-scrollbar {
+
+
+
+
+
+/* ::-webkit-scrollbar {
     display: block;
     width: 8px;
 }
@@ -33,18 +38,6 @@ body {
     border-left: none;
 }
 
-
-
-
-/* .MuiPaper-root::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 0, 0, 0.8);
-
-    border-radius: 4px;
-    border-right: none;
-    border-left: none;
-} */
-
-
 .scrollTest::-webkit-scrollbar-track-piece:end {
     margin-bottom: 0px;
 }
@@ -56,10 +49,6 @@ body {
 .MuiPaper-root::-webkit-scrollbar-track-piece:start {
     margin-top: 66px;
 }
-
-
-
-
 
 @media (max-width: 600px) {
     .scrollTest::-webkit-scrollbar-track-piece:start {
@@ -75,4 +64,19 @@ body {
     .scrollTest::-webkit-scrollbar-track-piece:end {
         margin-bottom: 58px;
     }
-}
+} */
+
+
+
+
+
+
+/* OLI JO KOMMENTOITU POIS */
+/* .MuiPaper-root::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 0, 0, 0.8);
+
+    border-radius: 4px;
+    border-right: none;
+    border-left: none;
+} */
+

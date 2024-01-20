@@ -3,8 +3,9 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { startWorkout } from "../redux/reducers/workoutReducer"
 
-import { Button, AppBar, Typography, Container, Box } from "@mui/material"
+import { Button, AppBar, Typography, Container, Box, Fab } from "@mui/material"
 import useMediaQuery from '@mui/material/useMediaQuery'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import BasicToolbar from '../components/Toolbars/BasicToolbar'
 import BasicModal from '../components/Modals/BasicModal'
@@ -26,7 +27,7 @@ const WorkoutDetails = ({
 
     console.log("Rendering WorkoutDetails ", workout);
 
-    const isSmallScreen = useMediaQuery('(min-width:900px)')
+    const isBigScreen = useMediaQuery('(min-width:600px)')
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const [showCopyModal, setShowCopyModal] = useState(false)
 
@@ -61,6 +62,12 @@ const WorkoutDetails = ({
         copy()
     }
 
+    const calculateBottom = () => {
+        if (isWorkoutActive) return 112
+        if (isBigScreen) return 0
+        return 56
+    }
+
     return (
         <Box paddingTop={{ xs: 2, sm: 3, md: 4 }} >
             <HideAppBar drawerWidth={drawerWidth}>
@@ -70,19 +77,19 @@ const WorkoutDetails = ({
                     backFunction={backFunction}
                     link={link}
                 >
-                    {isSmallScreen ?
-                        <Button
-                            sx={{ height: 0.1, alignSelf: "center" }}
-                            variant="contained"
-                            onClick={(event) => handleCopy(event)}
-                        >
-                            {startButtonText}
-                        </Button>
-                        :
-                        null
-                    }
+                    <Button
+                        variant="contained"
+                        onClick={(event) => handleCopy(event)}
+                        sx={{
+                            height: 0.1,
+                            alignSelf: "center",
+                            display: isBigScreen || isWorkoutActive ? 'flex' : 'none'
+                        }}
+                    >
+                        <PlayArrowIcon />
+                        {isBigScreen ? startButtonText : null}
+                    </Button>
                     {menu}
-                    {/*  <HistoryMenu workout={workout} /> */}
                 </BasicToolbar>
             </HideAppBar>
 
@@ -93,7 +100,7 @@ const WorkoutDetails = ({
                     variant="body1"
                     noWrap
                     paddingBottom={0}
-                   // paddingTop={{ xs: 2, sm: 3, md: 4 }}
+                // paddingTop={{ xs: 2, sm: 3, md: 4 }}
                 >
                     {/*   {formatDateTime(workout.createdAt, true)} */}
                     {formatDate(new Date(workout.createdAt))
@@ -101,13 +108,13 @@ const WorkoutDetails = ({
                     }
                 </Typography>
             }
-            <Container width="100%" sx={{ paddingTop: 1}}>
+            <Container width="100%" sx={{ paddingTop: 1 }}>
 
                 <Typography
                     variant="body1"
                     textAlign={'center'}
                     color={'text.secondary'}
-                    //sx={{ paddingX: 6, width: 'fit-content', borderRadius: 1 }}
+                //sx={{ paddingX: 6, width: 'fit-content', borderRadius: 1 }}
                 //noWrap
                 >
                     {workout.note}
@@ -133,6 +140,8 @@ const WorkoutDetails = ({
                     <WorkoutExerciseList workoutExercises={workout.workoutExercises} />
                 </Box>
 
+
+
                 <AppBar
                     position="fixed"
                     color=""
@@ -140,11 +149,12 @@ const WorkoutDetails = ({
                     sx={{
                         top: 'auto',
                         // bottom: theme => theme.isSmallScreen ? 0 : 56,
-                        bottom: isSmallScreen ? 0 : 56,
+                        bottom: isBigScreen ? 0 : 56,
                         padding: 2,
                         paddingBottom: 2,
+                        backgroundColor: "transparent",
                         //width: isSmallScreen ? `calc(100% - ${drawerWidth}px)` :   '100%',
-                        display: { xs: 'flex', md: 'none' },
+                        display: { xs: isWorkoutActive ? 'none' : 'flex', sm: 'none' },
                     }}
                 >
 
@@ -153,6 +163,7 @@ const WorkoutDetails = ({
                         //to='/workout'
                         //color="info"
                         variant="contained" onClick={() => handleCopy()} >
+                        <PlayArrowIcon />
                         {startButtonText}
                     </Button>
                     <BasicModal

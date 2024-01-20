@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { resetMeasurementsPath } from '../redux/reducers/navReducer'
 import { deleteMeasurementValue, saveMeasurementValue, updateMeasurementValue } from '../redux/reducers/measurementsReducer'
 
-import { AppBar, Typography, Box, CircularProgress, Button } from '@mui/material'
+import { Stack, AppBar, Typography, Box, CircularProgress, Button } from '@mui/material'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 import BasicToolbar from '../components/Toolbars/BasicToolbar'
@@ -16,6 +16,8 @@ import HideAppBar from '../components/AppBar/HideAppBar'
 import MeasurementEntryList from '../components/Lists/MeasurmentEntryList'
 import MeasurementChart from '../components/Charts/MeasurementChart'
 import BasicModal from '../components/Modals/BasicModal'
+import { Add } from '@mui/icons-material'
+import IconTextButton from '../components/Buttons/IconTextButton'
 
 const Measurement = ({ measurement, drawerWidth }) => {
 
@@ -25,7 +27,8 @@ const Measurement = ({ measurement, drawerWidth }) => {
     const user = useSelector(state => state.user) */
     //const [workoutExercises, setworkoutExercises] = useState([])
     const [loading, setLoading] = useState(false)
-    const isSmallScreen = useMediaQuery('(min-width:900px)')
+    const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+    const isSmallScreen = useMediaQuery('(min-width:600px)')
     const [openCreateModal, setOpenCreateModal] = useState(false)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [openUpdateModal, setOpenUpdateModal] = useState(false)
@@ -73,11 +76,17 @@ const Measurement = ({ measurement, drawerWidth }) => {
         dispatch(updateMeasurementValue(ref2.current, measurement.name, value))
     }
 
+    const calculateBottom = () => {
+        if (isWorkoutActive) return 112
+        if (isSmallScreen) return 0
+        return 56
+    }
+
 
 
 
     return (
-        <>
+        <Box paddingBottom={10}>
             <HideAppBar drawerWidth={drawerWidth} >
                 <BasicToolbar
                     title={measurement.name}
@@ -85,18 +94,29 @@ const Measurement = ({ measurement, drawerWidth }) => {
                     link={"/measure"}
                     backFunction={() => dispatch(resetMeasurementsPath())}
                 >
-                    {isSmallScreen ?
-                        <Button
-                            sx={{ height: 0.1, alignSelf: "center" }}
-                            variant="contained"
-                            onClick={() => handleCreate()}
+                    <IconTextButton
+                        icon={<Add />}
+                        text={isWorkoutActive && !isSmallScreen ? "" : "New entry"}
+                        onClick={handleCreate}
+                        sx={{
+                            height: 0.1,
+                            alignSelf: "center",
+                            display: isSmallScreen || isWorkoutActive ? 'flex' : 'none'
+                        }}
+                    />
 
-                        >
-                            New entry
-                        </Button>
-                        :
-                        null
-                    }
+                 {/*    <Button
+                        variant="contained"
+                        onClick={() => handleCreate()}
+                        sx={{
+                            height: 0.1,
+                            alignSelf: "center",
+                            display: isSmallScreen || isWorkoutActive ? 'flex' : 'none'
+                        }}
+                    >
+                        <Add />
+                        {isSmallScreen ? <div>New entry</div> : null}
+                    </Button> */}
 
                 </BasicToolbar>
             </HideAppBar>
@@ -137,6 +157,9 @@ const Measurement = ({ measurement, drawerWidth }) => {
                                 <Typography variant='h6' textAlign={"center"}>
                                     No entries yet for {new String(measurement.name).toLowerCase()} &#128586;
                                 </Typography>
+
+
+
                                 {isSmallScreen &&
                                     < Button
                                         variant='text'
@@ -179,16 +202,19 @@ const Measurement = ({ measurement, drawerWidth }) => {
                 sx={{
                     top: 'auto',
                     // bottom: theme => theme.isSmallScreen ? 0 : 56,
-                    bottom: isSmallScreen ? 0 : 56,
+                    bottom: calculateBottom(),
                     padding: 2,
                     paddingBottom: 2,
+                    backgroundColor: "transparent",
                     //width: isSmallScreen ? `calc(100% - ${drawerWidth}px)` :   '100%',
-                    display: { xs: 'flex', md: 'none' },
+                    display: { xs: isWorkoutActive ? 'none' : 'flex', sm: 'none' },
                 }}
             >
-                <Button variant="contained" onClick={handleCreate} >
-                    New entry
-                </Button>
+                <IconTextButton
+                    icon={<Add />}
+                    text={"New entry"}
+                    onClick={handleCreate}
+                />
                 {openCreateModal &&
                     <FormModal
                         open={openCreateModal}
@@ -241,7 +267,7 @@ const Measurement = ({ measurement, drawerWidth }) => {
                     />
                 </FormModal>
             }
-        </>
+        </Box>
     )
 }
 
