@@ -86,7 +86,7 @@ const Measurement = ({ measurement, drawerWidth }) => {
 
 
     return (
-        <Box paddingBottom={10}>
+        <Box paddingBottom={2}>
             <HideAppBar drawerWidth={drawerWidth} >
                 <BasicToolbar
                     title={measurement.name}

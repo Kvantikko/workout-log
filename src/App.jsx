@@ -17,8 +17,7 @@ import { setCredentials } from "./redux/reducers/userReducer"
 import { setMeasurementValues, setMeasurements } from './redux/reducers/measurementsReducer'
 import { setTemplates } from './redux/reducers/templateLibraryReducer'
 
-import { Box, Toolbar } from '@mui/material'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import { Box, Toolbar, useMediaQuery } from '@mui/material'
 
 import BottomNavBar from './components/Navbar/BottomNavBar'
 import LeftNavigationBar from './components/Navbar/PermanentDrawerLeft'
@@ -46,7 +45,6 @@ const App = () => {
     const isAuthenticated = user ? true : false
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
 
-    /*   const navigate = useNavigate() */
     const dispatch = useDispatch()
 
     const drawerWidth = isWorkoutActive ?
@@ -129,7 +127,7 @@ const App = () => {
                     <Box component="main" id='main' className='scrollTest'
                         sx={{
                             flexGrow: 1,
-                            height: "100svh",
+                            height: {xs: "92.4svh", md: isWorkoutActive ? "100svh" : "92.4svh", lg: "100svh" },
                             overflow: 'auto',
                             paddingBottom: isAuthenticated ? 7 : 0
                             //padding: { xs: 0, md:  },  // ADJUST!!!!!!!!!!!!!!!!1

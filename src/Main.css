@@ -23,8 +23,8 @@ body {
 
 /* ::-webkit-scrollbar {
     display: block;
-    width: 8px;
-}
+    width: 4px;
+} 
 
 ::-webkit-scrollbar-track {
     background: transparent;
@@ -42,12 +42,21 @@ body {
     margin-bottom: 0px;
 }
 
+
+
+
 .scrollTest::-webkit-scrollbar-track-piece:start {
     margin-top: 66px;
 }
 
 .MuiPaper-root::-webkit-scrollbar-track-piece:start {
     margin-top: 66px;
+}
+
+@media (max-width: 900px) {
+    .scrollTest::-webkit-scrollbar-track-piece:end {
+        margin-bottom: 58px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -58,12 +67,6 @@ body {
         margin-top: 58px;
     }
     
-}
-
-@media (max-width: 900px) {
-    .scrollTest::-webkit-scrollbar-track-piece:end {
-        margin-bottom: 58px;
-    }
 } */
 
 
