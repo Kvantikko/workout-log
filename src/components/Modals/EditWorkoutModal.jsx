@@ -109,11 +109,8 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
                         </Stack>
 
                         {isSmallScreen ?
-                            <Button variant="text" onClick={() => onClose(false)} >Save</Button> :
-                            <IconButton onClick={handleModalClose} >
-                                <Close />
-                            </IconButton>
-
+                            <Button variant="text" onClick={() => handleSaveButtonClick()} >Save</Button> :
+                            <IconButton onClick={handleModalClose} > <Close /> </IconButton>
                         }
 
                     </Toolbar>

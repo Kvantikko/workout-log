@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import templateService from "../../services/templates"
 import { toast } from 'react-toastify';
-import { sortAlphabetically } from '../../utils/SortAlphabetically'
+import { sortAlphabeticallyTitle } from '../../utils/SortAlphabetically'
 import { logout } from "./userReducer"
 
 const templateLibrarySlice = createSlice({
@@ -12,7 +12,7 @@ const templateLibrarySlice = createSlice({
             console.log("REDUCER ", action.payload);
             state.push(action.payload) // action.payload is exercise object
             console.log("PUSHED");
-            sortAlphabetically(state)
+            sortAlphabeticallyTitle(state)
             console.log("SORTED");
             return state
         },
