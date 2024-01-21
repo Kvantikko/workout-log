@@ -1,4 +1,4 @@
-import { Routes, Route, useMatch } from "react-router-dom"
+import { Routes, Route, useMatch, Navigate } from "react-router-dom"
 
 import { useSelector, useDispatch } from 'react-redux'
 import { resetWorkoutPath, resetHistoryPath } from '../../redux/reducers/navReducer'
@@ -143,6 +143,16 @@ const AppRoutes = ({ drawerWidth }) => {
                         <Login />
                     </LoginProtect>}
             />
+            <Route
+                path="*"
+                element={
+                    <ProtectedRoute  >
+                        <div>Nothing here, redirecting...</div>
+                    </ProtectedRoute>
+
+                }
+            />
+
         </Routes>
     )
 }
