@@ -127,7 +127,7 @@ const App = () => {
                     <Box component="main" id='main' className='scrollTest'
                         sx={{
                             flexGrow: 1,
-                            height: {xs: "92.4svh", md: isWorkoutActive ? "100svh" : "92.4svh", lg: "100svh" },
+                            height: "100svh", //{xs: "92.4svh", md: isWorkoutActive ? "100svh" : "92.4svh", lg: "100svh" },
                             overflow: 'auto',
                             paddingBottom: isAuthenticated ? 7 : 0
                             //padding: { xs: 0, md:  },  // ADJUST!!!!!!!!!!!!!!!!1

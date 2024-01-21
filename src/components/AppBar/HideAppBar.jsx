@@ -60,7 +60,7 @@ const HideAppBar = (props) => {
     return (
         <React.Fragment>
             <CssBaseline />
-            <HideOnScroll {...props}>
+          {/*   <HideOnScroll {...props}> */}
                 <AppBar
                     //style={{ width: isSmallScreen ? '100%' : '50%' }}
                     position="fixed"
@@ -124,7 +124,7 @@ const HideAppBar = (props) => {
                         </Toolbar>
                     } */}
                 </AppBar>
-            </HideOnScroll>
+          {/*   </HideOnScroll> */}
         </React.Fragment >
     )
 }
