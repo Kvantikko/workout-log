@@ -44,8 +44,6 @@ const HideAppBar = (props) => {
 
     const ScrollBarWidth = getScrollbarWidth()
 
-
-
     const isSmallScreen = useMediaQuery('(min-width:900px)');
 
     const calculateWidth = () => {
@@ -53,8 +51,6 @@ const HideAppBar = (props) => {
             return 0
         }
     }
-
-    //console.log("SCROLLBAR WIDTH ", getScrollbarWidth())
 
 
     return (
@@ -102,11 +98,7 @@ const HideAppBar = (props) => {
 
                 >
 
-                    {/* <Toolbar>
-                        <Typography variant="h6" noWrap component="div">
-                            Permanent drawerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-                        </Typography>
-                    </Toolbar> */}
+                 
 
                     <Toolbar disableGutters={false} >
                         <Stack
@@ -118,11 +110,7 @@ const HideAppBar = (props) => {
                             {props.children}
                         </Stack>
                     </Toolbar>
-                    {/* {workoutStarted && stopWatchIsActive &&
-                        <Toolbar sx={{ justifyContent: "center" }} >
-                            <StopWatch showButtons={true} timerSize={'h6'} alwaysOn={true}></StopWatch>
-                        </Toolbar>
-                    } */}
+              
                 </AppBar>
           {/*   </HideOnScroll> */}
         </React.Fragment >
