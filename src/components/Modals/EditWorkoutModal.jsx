@@ -44,6 +44,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
     const [openWarningModal, setOpenWarningModal] = useState(false)
     const [openSaveModal, setOpenSaveModal] = useState(false)
     const isSmallScreen = useMediaQuery('(max-width:600px)')
+    const prevUrl = window.location.href
 
     const dispatch = useDispatch()
 
@@ -79,6 +80,15 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
         //setOpenWarningModal(false)
 
     }
+
+    useEffect(() => {
+        window.history.pushState("object or string", "Title", `${prevUrl}/edit`)
+        window.onpopstate = (event) => handleModalClose()  
+        return(() => {
+            window.history.replaceState("object or string", "Title", `${prevUrl}`)
+            window.onpopstate = null
+        })
+    }, [])
 
     return (
         <Modal

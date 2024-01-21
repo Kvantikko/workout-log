@@ -101,7 +101,7 @@ const HistoryMenu = ({ workout }) => {
                     {
                         text: "Delete",
                         icon: <Delete color="error" />,
-                        onClick: () =>  setOpenDelete(true)
+                        onClick: () => setOpenDelete(true)
                     },
                 ]}
             />
@@ -114,15 +114,17 @@ const HistoryMenu = ({ workout }) => {
                 cancelButtonText='Cancel'
                 onSubmit={() => handleDelete()}
             />
-            <EditWorkoutModal
-                open={openEdit}
-                onClose={handleClose}
-                title="Edit workout"
-                disableWarning={true}
-                workout={workout}
-                editVipu={true}
-                type="history"
-            />
+            {openEdit &&
+                <EditWorkoutModal
+                    open={openEdit}
+                    onClose={handleClose}
+                    title="Edit workout"
+                    disableWarning={true}
+                    workout={workout}
+                    editVipu={true}
+                    type="history"
+                />
+            }
         </Box>
     )
 }

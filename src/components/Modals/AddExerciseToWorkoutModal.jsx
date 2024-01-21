@@ -54,26 +54,11 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
 
     // if browser back button is pressed -> closes the modal
     useEffect(() => {
-
-        console.log("EFFECT ");
-        console.log(window.history);
-
         window.history.pushState("object or string", "Title", `${prevUrl}/add`);
-
-        console.log(window.history);
-       
-        window.onpopstate = (event) => {
-
-            handleClose()
-            //window.history.forward()
-            
-        }        
+        window.onpopstate = (event) => handleClose()     
         return(() => {
             window.history.replaceState("object or string", "Title", `${prevUrl}`);
-            window.onpopstate = (event) => {
-                console.log("POP");
-                dispatch(unExpand())
-            }
+            window.onpopstate = (event) => dispatch(unExpand())
         })
     }, [])
 

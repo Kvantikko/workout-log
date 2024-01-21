@@ -42,9 +42,10 @@ export const {
 
 export default userSlice.reducer
 
-export const login = (email, password, setErrorEmail, setErrorPassword, navigate) => {
+export const login = (email, password, setErrorEmail, setErrorPassword, setLoading, navigate) => {
     return async (dispatch) => {
         try {
+            setLoading(true)
             const response = await loginService.login(email, password)
             dispatch(setCredentials({ user: response.user, token: response.token }))
             navigate('/')
@@ -55,12 +56,14 @@ export const login = (email, password, setErrorEmail, setErrorPassword, navigate
             }
             toast.error(err.response?.data.message)
         }
+        setLoading(false)
     }
 }
 
-export const register = (email, firstname, lastname, password, setErrorEmail, navigate) => {
+export const register = (email, firstname, lastname, password, setErrorEmail, setLoading, navigate) => {
     return async (dispatch) => {
         try {
+            setLoading(true)
             const response = await loginService.register(email, firstname, lastname, password)
             dispatch(setCredentials({ user: response.user, token: response.token }))
             navigate('/')
@@ -70,6 +73,7 @@ export const register = (email, firstname, lastname, password, setErrorEmail, na
             }
             toast.error(err.response?.data.message)
         }
+        setLoading(false)
     }
 }
 

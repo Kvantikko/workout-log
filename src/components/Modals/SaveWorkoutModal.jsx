@@ -6,10 +6,14 @@ import { toast } from 'react-toastify'
 import { clearTemplate, saveTemplate, } from '../../redux/reducers/templateReducer'
 import { resetWorkoutPath } from '../../redux/reducers/navReducer'
 import { saveWorkout } from '../../redux/reducers/workoutReducer'
+import { useState } from 'react'
+import WaitingModal from './WaitingModal'
 
 
 const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, workout }) => {
     console.log("Rendering SaveWorkoutModal ", type);
+
+    const [isSaving, setIsSaving] = useState(false)
 
     let modalTitle
     switch (type) {
@@ -29,16 +33,17 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
     const dispatch = useDispatch()
 
     const handleClose = () => {
+        setIsSaving(false)
         onClose()
-        onSubmit()
+        onSubmit ? onSubmit() : null
     }
 
     const saveWorkoutToDb = async () => {
-        console.log("SAVE FUNC ", type);
+        setIsSaving(true)
 
         switch (type) {
             case "active":
-                dispatch(saveWorkout(!editVipu, false, handleClose))
+                dispatch(saveWorkout(true, handleClose))
                 break;
             case "template":
                 dispatch(saveTemplate(!editVipu, false, handleClose))
@@ -52,20 +57,39 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
         }
 
         //onClose()
-        handleClose()
+        //handleClose()
 
     }
 
+
+    const decideModal = () => {
+        if (isSaving) {
+            return (
+                <WaitingModal
+                    open={open}
+                    onClose={onClose}
+                    text={"Saving..."}
+                />
+            )
+        }
+        return (
+            <BasicModal
+                open={open}
+                onClose={onClose}
+                title={modalTitle}
+                subTitle=" "
+                confirmButtonText={'Yes'}
+                cancelButtonText={'Cancel'}
+                onSubmit={saveWorkoutToDb}
+            />
+        )
+
+
+    }
+
+
     return (
-        <BasicModal
-            open={open}
-            onClose={onClose}
-            title={modalTitle}
-            subTitle=" "
-            confirmButtonText={'Yes'}
-            cancelButtonText={'Cancel'}
-            onSubmit={saveWorkoutToDb}
-        />
+        decideModal()
     )
 }
 

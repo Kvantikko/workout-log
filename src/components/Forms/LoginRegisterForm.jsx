@@ -19,6 +19,7 @@ import {
     InputAdornment,
     IconButton,
 } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
 
 import LoginIcon from '@mui/icons-material/Login';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -27,6 +28,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PasswordField from "../Inputs/PasswordField"
 
 import { toast } from "react-toastify"
+
 
 const LoginRegisterForm = ({ showRegister, buttonText }) => {
     console.log("Rendering");
@@ -45,6 +47,8 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
 
     const [showPassword, setShowPassword] = useState(false)
     const [showPasswordAgain, setShowPasswordAgain] = useState(false)
+
+    const [loading, setLoading] = useState(false)
 
 
     const navigate = useNavigate()
@@ -104,9 +108,9 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
         clearErrors()
         if (!inputFieldsValid()) return
         if (showRegister) {
-            dispatch(register(email, firstname, lastname, password, setErrorEmail, navigate))
+            dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
         } else {
-            dispatch(login(email, password, setErrorEmail, setErrorPassword))
+            dispatch(login(email, password, setErrorEmail, setErrorPassword, setLoading, navigate))
         }
     }
 
@@ -199,12 +203,43 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
                     />
                 }
 
-                <Button type="submit" variant="contained" sx={{ marginTop: 4 }} >
+                <LoadingButton
+                    type="submit"
+                    //onClick={handleClick}
+                    endIcon={<LoginIcon />}
+                    loadingPosition="end"
+                    loading={loading}
+                   // loadingIndicator="Logging in…"
+                    variant="contained"
+                >
+                    { loading ? <span>Logging in...</span> : <span>Login</span>}
+                </LoadingButton>
+
+             {/*    <LoadingButton
+                    type="submit"
+                    //onClick={handleClick}
+                    endIcon={<LoginIcon />}
+                    loadingPosition="end"
+                    loading={loading}
+                    loadingIndicator="Loading…"
+                    variant="outlined"
+                >
+                    <span>Fetch data</span>
+                </LoadingButton> */}
+
+                {/* <LoadingButtonn
+                    type="submit"
+                    text={"Login"}
+                    endIcon={<LoginIcon />}
+                    onRequest={onSubmit}
+                /> */}
+
+                {/*    <Button type="submit" variant="contained" sx={{ marginTop: 4 }} >
                     <Stack direction={'row'} spacing={2}>
                         <div>{buttonText}</div>
                         <LoginIcon />
                     </Stack>
-                </Button>
+                </Button> */}
 
             </Stack>
         </form>

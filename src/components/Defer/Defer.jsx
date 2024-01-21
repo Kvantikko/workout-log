@@ -1,6 +1,7 @@
-import { useState, useEffect, useMemo, Children } from "react";
+import { useState, useEffect, useMemo, Children } from "react"
+import FlipMove from "react-flip-move"
 
-const Defer = ({ chunkSize, children }) => {
+const Defer = ({ chunkSize, children, isFlip }) => {
     const [renderedItemsCount, setRenderedItemsCount] = useState(chunkSize)
 
     const childrenArray = useMemo(() => Children.toArray(children), [
@@ -20,7 +21,21 @@ const Defer = ({ chunkSize, children }) => {
         }
     }, [renderedItemsCount, childrenArray.length, chunkSize])
 
-    return childrenArray.slice(0, renderedItemsCount)
+
+
+
+    return (
+        <>
+            {isFlip ?
+                <FlipMove>
+                    {childrenArray.slice(0, renderedItemsCount)}
+                </FlipMove>
+                :
+                childrenArray.slice(0, renderedItemsCount)
+            }
+        </>
+
+    )
 }
 
 export default Defer

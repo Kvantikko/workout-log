@@ -27,19 +27,6 @@ import generateId from "../../utils/generateId"
 import FlipMove from "react-flip-move"
 import { ArrowUpward } from "@mui/icons-material"
 
-
-const style = {
-    margin: 0,
-    top: 'auto',
-    right: 20,
-    bottom: 20,
-    left: 'auto',
-    position: 'fixed',
-};
-
-
-
-
 const Workout = ({ type }) => {
     console.log("Rendering Workout");
 
@@ -213,10 +200,10 @@ const Workout = ({ type }) => {
             </Box>
             <Divider sx={{ marginBottom: 4, marginTop: 2 }} />
 
-            <Defer chunkSize={1}>
-                {!(exercises.length === 0) &&
-                    <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
-                        <FlipMove>
+
+            {!(exercises.length === 0) &&
+                <Stack spacing={3} padding={0} sx={{ justifyContent: "center" }}>
+                    <Defer chunkSize={1} isFlip={true}>
                             {exercises.map((exerciseId, index) => {
                                 //console.log("MAPPING!!!!!!");
                                 let arrayStart = false
@@ -233,27 +220,17 @@ const Workout = ({ type }) => {
                                     />
                                 )
                             })}
-                        </FlipMove>
-                    </Stack>
-                }
-            </Defer>
+                    </Defer>
+                </Stack>
+            }
+
 
             <Stack sx={{ marginBottom: 8 }} >
                 <Button variant="text" fullWidth sx={{ marginBottom: 2 }} onClick={() => handleOpenAddModal()}>
                     <AddIcon sx={{ marginRight: 1 }} />
                     Add exercise
                 </Button>
-
             </Stack>
-
-            {/* <Fab
-                onClick={() =>console.log("kaka")}
-                color='info'
-                size="small"
-                style={style}
-            >
-                <ArrowUpward/>
-            </Fab> */}
 
             {openAddModal &&
                 <AddExerciseToWorkoutModal

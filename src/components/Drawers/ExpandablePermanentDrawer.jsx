@@ -134,7 +134,6 @@ export default function ExpandablePermanentDrawer() {
     useEffect(() => {
         console.log("DRAWER EFFECT");
         if (window.location.href.includes("#workout") && open) {
-            console.log("TOTTA KU ROTTA")
             //dispatch(expand())
 
             window.onpopstate = (event) => {
@@ -149,7 +148,7 @@ export default function ExpandablePermanentDrawer() {
                 }
             }
             */
-        } 
+        }
 
 
 
@@ -160,50 +159,51 @@ export default function ExpandablePermanentDrawer() {
     return (
         <>
             {isAuthenticated && !isSmallScreen &&
-                <Box >
-                    < Drawer
-                        variant="permanent"
-                        anchor='right'
-                        open={open}
-                        sx={{
-                            display: isWorkoutActive ? { xs: 'none', md: 'block' } : 'none'
-                        }}
-                        PaperProps={{
-                            sx: {
-                                backgroundColor: "#1c1c1c", //theme => theme.palette.divider,
-                            }
-                        }}
-                    >
+                < Drawer
+                    variant="permanent"
+                    anchor='right'
+                    open={open}
+                    sx={{
+                        display: isWorkoutActive ?
+                            { xs: 'none', md: 'block' } : 'none'
+                    }}
+                    PaperProps={{
+                        sx: {
+                            backgroundColor: "#1c1c1c", //theme => theme.palette.divider,
+                        }
+                    }}
+                >
 
-                        <DrawerHeader>
-                            <AppBar open={open} >
-                                <Toolbar disableGutters={false} >
-                                    <Stack
-                                        direction="row"
-                                        justifyContent={'space-between'}
-                                        width={1}
-                                    >
-                                        <WorkoutToolbar
-                                            open={open}
-                                            //setOpen={setOpen}
-                                            handleDrawerOpen={toggleDrawerOpen}
-                                        />
-                                    </Stack>
-                                </Toolbar>
-                            </AppBar>
-                        </DrawerHeader>
+                    <DrawerHeader>
+                        <AppBar open={open} >
+                            <Toolbar disableGutters={false} >
+                                <Stack
+                                    direction="row"
+                                    justifyContent={'space-between'}
+                                    width={1}
+                                >
+                                    <WorkoutToolbar
+                                        open={open}
+                                        //setOpen={setOpen}
+                                        handleDrawerOpen={toggleDrawerOpen}
+                                    />
+                                </Stack>
+                            </Toolbar>
+                        </AppBar>
+                    </DrawerHeader>
 
-                        <Box sx={{
-                            paddingTop: 2,
-                            paddingX: { md: open ? 10 : 0, lg: open ? 10 : 0, xl: open ? 20 : 0 },
-                            overflow: 'auto'
-                        }}>
-                            <Workout type={"active"} />
-                        </Box>
+                    <Box sx={{
+                        paddingTop: 2,
+                        paddingX: { md: open ? 10 : 0, lg: open ? 10 : 0, xl: open ? 20 : 0 },
+                        overflowY: 'auto',
+                        overflowX: 'hidden'
+                    }}>
+                        <Workout type={"active"} />
+                    </Box>
 
-                    </Drawer >
-                </Box>
+                </Drawer >
             }
         </>
+
     )
 }

@@ -63,7 +63,7 @@ const TemplateMenu = ({ workout }) => {
                     {
                         text: "Delete",
                         icon: <Delete color="error" />,
-                        onClick: () =>  setOpenDelete(true)
+                        onClick: () => setOpenDelete(true)
                     },
                 ]}
             />
@@ -76,15 +76,16 @@ const TemplateMenu = ({ workout }) => {
                 cancelButtonText='Cancel'
                 onSubmit={() => handleDelete()}
             />
-            <EditWorkoutModal
-                open={openEdit}
-                onClose={handleClose}
-                title="Edit template"
-                disableWarning={true}
-                workout={workout}
-                editVipu={true}
-                type="template"
-            />
+            {openEdit &&
+                <EditWorkoutModal
+                    open={openEdit}
+                    onClose={handleClose}
+                    title="Edit template"
+                    disableWarning={true}
+                    workout={workout}
+                    editVipu={true}
+                    type="template"
+                />}
         </>
     );
 }

@@ -327,6 +327,7 @@ export const saveTemplate = (isNew, isHistory, handleClose) => {
             console.log("EEEEEEEEEERRRRRRRRROOOOOOOOOOOOOOOOOOOOOOORRR", error);
 
         }
+        handleClose()
 
 
 

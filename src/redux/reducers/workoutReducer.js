@@ -300,7 +300,10 @@ export const {
 
 export default workoutSlice.reducer
 
-export const saveWorkout = (isNew) => {
+export const saveWorkout = (isNew, handleClose) => {
+
+    console.log("SAVEEEEEEEEEEE ", isNew);
+
     return async (dispatch, getState) => {
 
         const exercisesFromState = getState().workout.exercises.allIds.map(exerciseId => {
@@ -353,6 +356,7 @@ export const saveWorkout = (isNew) => {
             throw new Error(error)
             toast.error(error)
         }
+        handleClose()
     }
 }
 
