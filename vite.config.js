@@ -6,6 +6,12 @@ export default defineConfig({
     plugins: [react()],
     preview: {
         port: 5500
-    }
+    },
+    build: {
+        //outDir: "build",
+       /*  rollupOptions: {
+            external: ['./service-worker.js'],
+        }, */
+    },
 })
 
