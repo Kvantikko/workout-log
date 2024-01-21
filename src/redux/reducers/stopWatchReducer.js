@@ -3,8 +3,8 @@ import StopWatchWorkerManager from '../../workers/StopWatchWorkerManager'
 import { logout } from "./userReducer"
 import { startEmptyWorkout } from './workoutReducer'
 
-const restWatchWorkerManager = new StopWatchWorkerManager("./stopwatch-worker.js") // two new threads
-const workoutWatchWorkerManager = new StopWatchWorkerManager("./stopwatch-worker.js")
+const restWatchWorkerManager = new StopWatchWorkerManager("../stopwatch-worker.js") // two new threads
+const workoutWatchWorkerManager = new StopWatchWorkerManager("../stopwatch-worker.js")
 
 const initialState = {
     restWatch: {
