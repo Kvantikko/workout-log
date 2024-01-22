@@ -31,20 +31,10 @@ const getAll = async () => {
         }
     }
 
-    //console.log("CONFIG ", config);
     const request = axios.get(baseUrl, config) // request on promise olio
-    // console.log("request ", request);
     const response = await request
-    //console.log("RESPO ", response  );
     return response.data // metodi then.palauttaa myös promisen.
 }
-
-/* axios.get('your_backend_api_url', {
-    headers: {
-      'Authorization': `Bearer ${authToken}`,
-      'Content-Type': 'application/json', // Adjust the content type if needed
-    },
-  }) */
 
 const createNew = async (name, muscle) => {
     const config = {
@@ -54,7 +44,6 @@ const createNew = async (name, muscle) => {
     }
 
     const obj = { name: name, muscle: muscle } // { name, muscle } ?
-   // console.log('sending this to the server: ', obj);
     const response = await axios.post(baseUrl, obj, config)
     return response.data
 }
@@ -66,8 +55,7 @@ const update = async (id, name, muscle) => {
         }
     }
 
-    const obj = { name: name, muscle: muscle } // { name, muscle } ?
-    //console.log('sending this to the server: ', obj);
+    const obj = { name: name, muscle: muscle }
     const response = await axios.put(`${baseUrl}/${id}`, obj, config)
     if (response.status === 200) {
         return response.data
@@ -106,11 +94,8 @@ const getHistoryBetween = async (id, startDate, endDate) => {
     }
 
     const requestObj = { start: startDate, end: endDate }
-    //console.log("requestObj ", requestObj);
-
-    const response = await axios.post(`${baseUrl}/${id}`, requestObj, config) // request on promise olio
-    //console.log("await over")
-    return response.data // metodi then.palauttaa myös promisen.
+    const response = await axios.post(`${baseUrl}/${id}`, requestObj, config) 
+    return response.data 
 }
 
 export default {

@@ -19,24 +19,15 @@ import { setDate } from '../redux/reducers/dateReducer'
 import { formatToMonthAndYear } from '../utils/Date'
 
 const History = ({ workouts, drawerWidth }) => {
-    console.log("Rendering History");
-    // const workouts = useSelector(state => state.history)
-    //console.log("WORKOUTs ", workouts);
-    // const [date, setDate] = useState(dayjs(useSelector(state => state.date)))
+
     const user = useSelector(state => state.user)
     const dateFromStore = useSelector(state => state.date)
     const date = dayjs(dateFromStore)
     const [loading, setLoading] = useState(false)
 
-    console.log("DATE", date)
-    //console.log("DATE", dayjs())
-
     const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log("EFFECT ", loading, " ", workouts)
-        //setLoading(true)
-
         if (workouts.length === 0) {
             workoutService
                 .getByMonth(user.email, date.$M, date.$y)
@@ -57,24 +48,10 @@ const History = ({ workouts, drawerWidth }) => {
     }
 
     const handleOnDateChange = (event) => {
-        console.log("handling");
-        console.log(event);
-
         dispatch(setWorkouts([]))
         dispatch(setDate(dayjs(event).toString()))
-        //setDate(dayjs(event))
         setLoading(true)
-        /*
-                workoutService
-                    .getByMonth(user.email, date.$M, date.$y)
-                    .then((response) => {
-                        dispatch(setWorkouts(response))
-                        setLoading(false)
-                    })
-                    .catch(error => {
-                        console.log('error: ', error)
-                        toast.error(error.message)
-                    }) */
+
     }
 
     return (
@@ -105,11 +82,7 @@ const History = ({ workouts, drawerWidth }) => {
                     justifyContent="center"
                     alignItems="center"
                     minHeight="75vh"
-                    //minWidth="75vh"
                     padding={4}
-                //maxWidth="75vw"
-                //sx={{ maxWidth: 600 }}
-                //minHeight="75vh"
                 >
                     <CircularProgress />
                 </Box>

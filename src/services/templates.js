@@ -18,12 +18,9 @@ const getAllUserTemplates = async (userEmail) => {
             Authorization: token
         }
     }
-    console.log("request template config ", config);
-    const request = axios.get(`${baseUrl}?email=${userEmail}`, config) // request on promise olio
-    console.log("request template ", request);
+    const request = axios.get(`${baseUrl}?email=${userEmail}`, config) 
     const response = await request
-    console.log("response template ", response)
-    return response.data // metodi then.palauttaa myös promisen.
+    return response.data 
 }
 
 const createNew = async (workoutTemplate) => {
@@ -33,9 +30,7 @@ const createNew = async (workoutTemplate) => {
         }
     }
     // we send IDs to the server too, but it ignores it and creates its own 
-    console.log('sending this to the server: ', workoutTemplate);
     const response = await axios.post(baseUrl, workoutTemplate, config) 
-    console.log("response ", response)
     return response.data
 }
 
@@ -46,9 +41,7 @@ const update = async (id, template) => {
         }
     }
     const obj = template
-    console.log('sending this to the server: ', obj);
     const response = await axios.put(`${baseUrl}/${id}`, obj, config)
-    console.log("vastaus: ", response.data)
     return response.data
 }
 

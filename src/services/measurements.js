@@ -15,12 +15,9 @@ const getAllMeasurements = async () => {
         }
     }
 
-    //console.log("CONFIG ", config);
-    const request = axios.get(baseUrl, config) // request on promise olio
-    console.log("REQUESTTT ", request);
+    const request = axios.get(baseUrl, config) 
     const response = await request
-    console.log("RESPO 1 ", response  );
-    return response.data // metodi then.palauttaa myös promisen.
+    return response.data 
 }
 
 const getAllMeasurementValues = async (userEmail) => {
@@ -30,20 +27,10 @@ const getAllMeasurementValues = async (userEmail) => {
         }
     }
 
-    //console.log("CONFIG ", config);
-    const request = axios.get(`${baseUrl}/values?email=${userEmail}`, config) // request on promise olio
-    // console.log("request ", request);
+    const request = axios.get(`${baseUrl}/values?email=${userEmail}`, config) 
     const response = await request
-    console.log("RESPO 2", response  );
-    return response.data // metodi then.palauttaa myös promisen.
+    return response.data 
 }
-
-/* axios.get('your_backend_api_url', {
-    headers: {
-      'Authorization': `Bearer ${authToken}`,
-      'Content-Type': 'application/json', // Adjust the content type if needed
-    },
-  }) */
 
 const createNewValue = async (userEmail, measurementId, value) => {
     const config = {
@@ -53,7 +40,6 @@ const createNewValue = async (userEmail, measurementId, value) => {
     }
 
     const obj = { userEmail, measurementId, value }
-   // console.log('sending this to the server: ', obj);
     const response = await axios.post(`${baseUrl}/values`, obj, config)
     return response.data
 }
@@ -66,7 +52,6 @@ const updateValue = async (measurementValueId, value) => {
     }
 
     const dto = { measurementValueId, value }
-    console.log('sending this to the server: ', dto);
     const response = await axios.put(`${baseUrl}/values/${measurementValueId}`, dto, config)
     if (response.status === 200) {
         return response.data

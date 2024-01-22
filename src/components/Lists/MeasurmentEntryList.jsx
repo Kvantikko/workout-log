@@ -11,8 +11,8 @@ const MeasurementEntryList = ({ entries, measurement, handleUpdate, handleDelete
             <ListItem disableGutters disablePadding sx={{ marginBottom: 2 }}>
                 <ListItemText secondary={new String(formatUnit(measurement.unit)).toUpperCase()} />
                 <ListItemText secondary={"DATE"} />
-                <Box>
-                    <Button color="error" >Delete all</Button>
+                <Box sx={{ width: 100 }}>
+                   {/*  <Button color="error" >Delete all</Button> */}
                 </Box>
             </ListItem>
          {/*    <Divider sx={{ marginTop: 2 }}></Divider>*/}

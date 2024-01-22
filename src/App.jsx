@@ -39,8 +39,6 @@ import './ReactToastifyOverride.css'
 
 const App = () => {
 
-    console.log("Rendering App.jsx");
-
     const user = useSelector(state => state.user)
     const isAuthenticated = user ? true : false
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
@@ -121,19 +119,23 @@ const App = () => {
                 <SwipeableEdgeDrawer className="scrollTesttt" />
             </div>
 
+            <Toolbar/>{/*for margin at the top*/}
             <Router>
                 <Box id='mainContainer' className='mainContainer' sx={{ display: 'flex' }}  >
                     <LeftNavigationBar drawerWidth={drawerWidth} />
                     <Box component="main" id='main' className='scrollTest'
                         sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
                             flexGrow: 1,
-                            height: "100svh", //{xs: "92.4svh", md: isWorkoutActive ? "100svh" : "92.4svh", lg: "100svh" },
+                            height: !isAuthenticated ? "100svh" : { xs: "84.8svh", sm: "83.8svh",  md: "91.2svh" },
                             overflow: 'auto',
+                           // marginTop: 8,
+                            //marginBottom: 80,
                             paddingBottom: isAuthenticated ? 7 : 0
                             //padding: { xs: 0, md:  },  // ADJUST!!!!!!!!!!!!!!!!1
                         }}
                     >
-                        {isAuthenticated && <Toolbar />} { /* this is for margin at the top */}
                         <AppRoutes drawerWidth={drawerWidth} />
                     </Box>
                     <ShiftLayoutLeftDrawer />

@@ -8,6 +8,7 @@ import { LineChart } from '@mui/x-charts/LineChart'
 import { axisClasses } from "@mui/x-charts"
 
 import { formatDateTime } from '../../utils/Date'
+import { toCamelCase } from '../../utils/ToCamelCase';
 
 const chartSetting = {
     /*  yAxis: [
@@ -37,13 +38,17 @@ const chartSetting = {
 
 const MeasurementChart = ({ measurement }) => {
 
-    console.log("Rendering MeasurementChart ", );
+    console.log("Rendering MeasurementChart ", measurement);
 
     const measurementEntries = useSelector(state =>
-        state.measurements.entries[new String(measurement.name).toLowerCase()]
+        state.measurements.entries[toCamelCase(measurement.name)]
     )
 
+    console.log("ENTRIES ", measurementEntries);
+
     const dates = measurementEntries?.map(entry => new Date(entry.createdAt))
+
+    console.log("dates ", dates);
 
     return (
         <LineChart

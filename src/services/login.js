@@ -18,19 +18,15 @@ const baseUrl = 'https://workout-log-ahlp.onrender.com/api/v1/auth'   //  'http:
 
 const login = async ( email, password ) => {
 
-    const obj = { email, password } // { name, muscle } ?
-    console.log("SENDING THIS LOGIN OBJ TO SERVER: ", obj);
+    const obj = { email, password } 
     const response = await axios.post(`${baseUrl}/authenticate`, obj)
-    console.log("LOG RESPONSE ", response)
     return response.data
 }
 
 const register = async ( email, firstname, lastname, password ) => {
 
     const obj = { email, firstname, lastname, password }
-    console.log("SENDING THIS REGISTER OBJ TO SERVER: ", obj);
     const response = await axios.post(`${baseUrl}/register`, obj)
-    console.log("REG RESPONSE ", response)
     return response.data
 }
 

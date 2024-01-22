@@ -18,11 +18,9 @@ const getAllUserWorkouts = async (userEmail) => {
             Authorization: token
         }
     }
-    const request = axios.get(`${baseUrl}?email=${userEmail}`, config) // request on promise olio
-    console.log("request ", request);
+    const request = axios.get(`${baseUrl}?email=${userEmail}`, config) 
     const response = await request
-    console.log("response ALL WORKOUTS ", response)
-    return response.data // metodi then.palauttaa myös promisen.
+    return response.data 
 }
 
 const getByMonth = async (userEmail, month, year) => {
@@ -31,10 +29,8 @@ const getByMonth = async (userEmail, month, year) => {
             Authorization: token
         }
     }
-    const request = axios.get(`${baseUrl}?email=${userEmail}&month=${month}&year=${year}`, config) // request on promise olio
-    console.log("request ", request);
+    const request = axios.get(`${baseUrl}?email=${userEmail}&month=${month}&year=${year}`, config)
     const response = await request
-    console.log("response ", response)
     return response.data // metodi then.palauttaa myös promisen.
 }
 
@@ -45,7 +41,6 @@ const createNew = async (workout) => {
         }
     }
     // we send IDs to the server too, but it ignores it and creates its own 
-    console.log('sending this to the server: ', workout);
     const response = await axios.post(baseUrl, workout, config) 
     return response.data
 }
@@ -56,13 +51,11 @@ const update = async (id, obj ) => {
             Authorization: token
         }
     }
-    console.log('sending this to the server: ', obj);
     const response = await axios.put(`${baseUrl}/${id}`, obj, config)
     return response.data
 }
 
 const remove = (id) => {
-    console.log("AXIOS REMOVE WORKOUT, ID: ", id);
     const config = {
         headers: {
             Authorization: token

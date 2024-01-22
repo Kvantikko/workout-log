@@ -105,19 +105,6 @@ const Measurement = ({ measurement, drawerWidth }) => {
                         }}
                     />
 
-                 {/*    <Button
-                        variant="contained"
-                        onClick={() => handleCreate()}
-                        sx={{
-                            height: 0.1,
-                            alignSelf: "center",
-                            display: isSmallScreen || isWorkoutActive ? 'flex' : 'none'
-                        }}
-                    >
-                        <Add />
-                        {isSmallScreen ? <div>New entry</div> : null}
-                    </Button> */}
-
                 </BasicToolbar>
             </HideAppBar>
 
@@ -132,9 +119,6 @@ const Measurement = ({ measurement, drawerWidth }) => {
                         minHeight="75vh"
                         //minWidth="75vh"
                         padding={4}
-                    //maxWidth="75vw"
-                    //sx={{ maxWidth: 600 }}
-                    //minHeight="75vh"
                     >
                         <CircularProgress />
                     </Box>
@@ -150,9 +134,6 @@ const Measurement = ({ measurement, drawerWidth }) => {
                                 minHeight="75vh"
                                 //minWidth="75vh"
                                 padding={4}
-                            //maxWidth="75vw"
-                            //sx={{ maxWidth: 600 }}
-                            //minHeight="75vh"
                             >
                                 <Typography variant='h6' textAlign={"center"}>
                                     No entries yet for {new String(measurement.name).toLowerCase()} &#128586;

@@ -10,8 +10,6 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 
 const SearchInput = () => {
 
-    console.log("Rendering SearchInput ");
-
     const [input, setInput] = useState(useSelector(state => state.exerciseLibrary.search.searchString))
 
     const dispatch = useDispatch()

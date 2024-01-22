@@ -1,5 +1,5 @@
 import BODY_PARTS from "../../utils/Bodyparts"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import {
     TextField,
     FormControl,
@@ -24,8 +24,8 @@ const ExerciseForm = ({ exercise, onSubmit, onCancel }) => {
     const [targetMuscleError, setTargetMuscleError] = useState('')
 
     const dispatch = useDispatch()
+    //const inputRef = useRef(null)
 
-    
 
     const handleChange = (event) => {
         event.preventDefault()
@@ -52,6 +52,8 @@ const ExerciseForm = ({ exercise, onSubmit, onCancel }) => {
             <Stack spacing={2}>
                 <TextField
                     //id="exerciseName"
+                    // ref={inputRef}
+                    autoFocus
                     label="Exercise name"
                     variant="outlined"
                     size="small"
