@@ -119,7 +119,7 @@ const App = () => {
                 <SwipeableEdgeDrawer className="scrollTesttt" />
             </div>
 
-            <Toolbar/>{/*for margin at the top*/}
+            {isAuthenticated && <Toolbar/>}{/*for margin at the top*/}
             <Router>
                 <Box id='mainContainer' className='mainContainer' sx={{ display: 'flex' }}  >
                     <LeftNavigationBar drawerWidth={drawerWidth} />

@@ -48,9 +48,6 @@ const Login = () => {
         )
     }, [showRegister]);
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-
     const toggleLayout = () => {
         if (showRegister) {
             setShowRegister(false)

@@ -6,6 +6,7 @@ import { login, register } from "../../redux/reducers/userReducer"
 import { useNavigate } from "react-router-dom"
 
 import loginService from "../../services/login"
+import { blink } from "../../utils/Blink"
 
 
 import {
@@ -49,6 +50,8 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
     const [showPasswordAgain, setShowPasswordAgain] = useState(false)
 
     const [loading, setLoading] = useState(false)
+    const [infoText, setInfoText] = useState(null)
+    let timeoutId = null
 
 
     const navigate = useNavigate()
@@ -65,6 +68,18 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
     useEffect(() => {
         clearErrors()
     }, [showRegister])
+
+    useEffect(() => {
+        if (loading) {
+            timeoutId = setTimeout(() => {
+                setInfoText("My free server has spun down and needs to restart. This might take a minute or two...")
+            }, 8000)
+        }
+        return () => {
+            clearTimeout(timeoutId)
+            setInfoText(null)
+        }
+    }, [loading])
 
     const inputFieldsValid = () => {
         let valid = true
@@ -107,11 +122,12 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
         event.preventDefault()
         clearErrors()
         if (!inputFieldsValid()) return
+       // setLoading(true)
         if (showRegister) {
-            dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
-        } else {
-            dispatch(login(email, password, setErrorEmail, setErrorPassword, setLoading, navigate))
-        }
+             dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
+         } else {
+             dispatch(login(email, password, setErrorEmail, setErrorPassword, setLoading, navigate))
+         }
     }
 
     const handleEmailAndPassClick = (inputFieldId) => {
@@ -209,38 +225,25 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
                     endIcon={<LoginIcon />}
                     loadingPosition="end"
                     loading={loading}
-                   // loadingIndicator="Logging in…"
+                    // loadingIndicator="Logging in…"
                     variant="contained"
                 >
-                    { loading ? <span>Logging in...</span> : <span>Login</span>}
+                    {loading ? <span>Logging in...</span> : <span>Login</span>}
                 </LoadingButton>
-
-             {/*    <LoadingButton
-                    type="submit"
-                    //onClick={handleClick}
-                    endIcon={<LoginIcon />}
-                    loadingPosition="end"
-                    loading={loading}
-                    loadingIndicator="Loading…"
-                    variant="outlined"
-                >
-                    <span>Fetch data</span>
-                </LoadingButton> */}
-
-                {/* <LoadingButtonn
-                    type="submit"
-                    text={"Login"}
-                    endIcon={<LoginIcon />}
-                    onRequest={onSubmit}
-                /> */}
-
-                {/*    <Button type="submit" variant="contained" sx={{ marginTop: 4 }} >
-                    <Stack direction={'row'} spacing={2}>
-                        <div>{buttonText}</div>
-                        <LoginIcon />
-                    </Stack>
-                </Button> */}
-
+                {loading &&
+                    <Box
+                        sx={{
+                            borderRadius: 2,
+                            padding: infoText ? 1.5 : 0,
+                            textAlign: 'center',
+                            animation: `${blink} 1s linear infinite alternate`,
+                        }}
+                    >
+                        <Typography textAlign={'center'}>
+                            {infoText}
+                        </Typography>
+                    </Box>
+                }
             </Stack>
         </form>
 
