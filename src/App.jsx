@@ -24,12 +24,12 @@ import LeftNavigationBar from './components/Navbar/PermanentDrawerLeft'
 import OngoingWorkoutBar from './components/AppBar/OngoingWorkoutBar'
 import ShiftLayoutLeftDrawer from './components/Drawers/ShiftLayoutLeftDrawer'
 import AppRoutes from './components/Router/AppRoutes'
-import SwipeableEdgeDrawer from './components/Drawers/SwipeableEdgeDrawer'
-import ExpandablePermanentDrawer from './components/Drawers/ExpandablePermanentDrawer'
+import WorkoutDrawer from './components/Drawers/WorkoutDrawer'
 
 import { ToastContainer, toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import './ReactToastifyOverride.css'
+
 
 
 // '#1F1B24'
@@ -42,6 +42,7 @@ const App = () => {
     const user = useSelector(state => state.user)
     const isAuthenticated = user ? true : false
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+    const isSmallScreen = useMediaQuery('(max-width:900px)')
 
     const dispatch = useDispatch()
 
@@ -113,13 +114,9 @@ const App = () => {
 
     return (
         <div className="App">
-            <div className="scrollTesttt" >
-                {/* combine these to one ??? */}
-                <ExpandablePermanentDrawer />
-                <SwipeableEdgeDrawer className="scrollTesttt" />
-            </div>
+            {isAuthenticated && isWorkoutActive && <WorkoutDrawer /> }
+            {isAuthenticated && <Toolbar />}{/*for margin at the top*/}
 
-            {isAuthenticated && <Toolbar/>}{/*for margin at the top*/}
             <Router>
                 <Box id='mainContainer' className='mainContainer' sx={{ display: 'flex' }}  >
                     <LeftNavigationBar drawerWidth={drawerWidth} />
@@ -128,12 +125,9 @@ const App = () => {
                             display: 'flex',
                             flexDirection: 'column',
                             flexGrow: 1,
-                            height: !isAuthenticated ? "100svh" : { xs: "84.8svh", sm: "83.8svh",  md: "91.2svh" },
+                            height: !isAuthenticated ? "100svh" : { xs: "84.8svh", sm: "83.8svh", md: "91.2svh" },
                             overflow: 'auto',
-                           // marginTop: 8,
-                            //marginBottom: 80,
                             paddingBottom: isAuthenticated ? 7 : 0
-                            //padding: { xs: 0, md:  },  // ADJUST!!!!!!!!!!!!!!!!1
                         }}
                     >
                         <AppRoutes drawerWidth={drawerWidth} />

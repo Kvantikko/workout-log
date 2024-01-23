@@ -7,7 +7,7 @@ import { addSelectedExercise, removeSelectedExercise } from "../../redux/reducer
 
 const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
 
-    console.log("Rendering ExerciseListItem ", exercise.name)
+    //console.log("Rendering ExerciseListItem ", exercise.name)
 
     const dispatch = useDispatch()
 
