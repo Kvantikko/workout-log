@@ -54,6 +54,8 @@ const HideAppBar = (props) => {
 
                 //position="fixed"
                 sx={{
+                    transition: "all 0.5s ease",
+                  
                     //backgroundColor: "black",//'#080808',
                     /*    
                        width: {
@@ -87,6 +89,8 @@ const HideAppBar = (props) => {
                 <Toolbar disableGutters={false}
                     sx={{
                         transition: "width 0.3s",
+
+
                         width: {
                             xs: '100%',
                             sm: '100%',

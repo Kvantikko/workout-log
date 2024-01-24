@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client'
+import { StrictMode } from 'react'
 import store from './redux/store'
 import { Provider } from 'react-redux'
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -19,13 +20,15 @@ const darkTheme = createTheme({
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <Provider store={store}>
-        <ThemeProvider theme={darkTheme}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <CssBaseline />
-                <App />
-            </LocalizationProvider>
-        </ThemeProvider>
-    </Provider >
+    <StrictMode>
+        <Provider store={store}>
+            <ThemeProvider theme={darkTheme}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <CssBaseline />
+                    <App />
+                </LocalizationProvider>
+            </ThemeProvider>
+        </Provider >
+    </StrictMode>
 
 )

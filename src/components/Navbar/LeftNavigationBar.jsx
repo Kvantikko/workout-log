@@ -14,7 +14,8 @@ import {
     Button,
     ThemeProvider,
     createTheme,
-    alpha
+    alpha,
+    Fade
 } from "@mui/material"
 
 import StraightenIcon from '@mui/icons-material/Straighten';
@@ -39,25 +40,42 @@ const theme = createTheme({
 
 export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocations }) {
 
+    const isSmallScreen = useMediaQuery('(max-width:1200px)')
+    const isSmallScreen2 = useMediaQuery('(max-width:1536px)')
     const navigate = useNavigate()
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
     const drawerWidth = isWorkoutActive ?
         { xs: 0, sm: 0, md: 75, lg: 75, xl: 225 } :
         { xs: 0, sm: 0, md: 75, lg: 225 }
 
+
+
+    const checked = isWorkoutActive ? isSmallScreen || !isSmallScreen && isSmallScreen2 : isSmallScreen
+      /*   drawerWidth.md === 75 && !isSmallScreen ||
+            drawerWidth.lg === 75 && isWorkoutActive */
+
+            ? true : false
+
     return isAuthenticated && (
         <>
             <Drawer
                 sx={{
                     //overflow: "hidden",
-                   
+
                     zIndex: 1499,
                     width: drawerWidth,
                     flexShrink: 0,
                     display: { xs: 'none', md: 'block' },
                     //backgroundColor: theme => theme.palette.action.hover,
                     '& .MuiDrawer-paper': {
-                        //transition: "width 0.5s",
+                        transition: "width 0.5s",
+
+
+
+
+
+
+
                         width: drawerWidth,
                         boxSizing: 'border-box',
                         bgcolor: theme => theme.palette.action.hover,
@@ -96,27 +114,34 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                 anchor="left"
             >
                 <ThemeProvider theme={theme}>
-                    <Button
-                        onClick={() => navigate("/")}
-                        disableRipple
-                        sx={{
-                            color: "white",
-                            marginTop: 10,
-                            marginBottom: 7,
-                            display: { xs: 'none', lg: isWorkoutActive ? 'none' : 'block', xl: 'block' },
-                            '&:hover, &:focus': {
-                                background: "none"
-                            },
-                        }}
-                    >
-                        <Typography variant='h4' textAlign={'center'} sx={{
-                            '& .MuiTypography-root': {
-                                //color: "red"
-                            },
-                        }}>
-                            WORKOUT LOG
-                        </Typography>
-                    </Button>
+                    <Fade in={!checked} >
+                        <div>
+                            <Button
+                                onClick={() => navigate("/")}
+                                disableRipple
+                                sx={{
+                                    transition: "all 0.5s",
+                                    color: "white",
+                                    marginTop: 10,
+                                    marginBottom: 7,
+                                    //height: { xs: 0, lg: isWorkoutActive ? 0 : 90, xl: 90 },
+                                    display: { xs: 'none', lg: isWorkoutActive ? 'none' : 'block', xl: 'block' },
+                                    '&:hover, &:focus': {
+                                        background: "none"
+                                    },
+                                }}
+                            >
+                                <Typography variant='h4' textAlign={'center'} sx={{
+                                    '& .MuiTypography-root': {
+                                        //color: "red"
+                                    },
+                                }}>
+                                    WORKOUT LOG
+                                </Typography>
+                            </Button>
+                        </div>
+                    </Fade>
+
                 </ThemeProvider>
 
 
@@ -129,8 +154,8 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                                 //to={`/${text.toLowerCase()}`}
                                 to={`/${navLocations[index]}`}
                                 selected={pageIndex() === index}
-
                                 sx={{
+                                    transition: "all 0.5s ease",
                                     margin: 0.5,
                                     padding: 1.1,
                                     paddingY: { xs: 2, lg: isWorkoutActive ? 2 : 1, xl: 1 },
@@ -157,17 +182,20 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                                         {index === 2 && <FitnessCenterIcon />}
                                         {index === 3 && <StraightenIcon />}
                                         {index === 4 && <PersonIcon />}
-                                        <Typography
-                                            variant='body1'
-                                            fontSize={12}
-                                            paddingY={0.25}
-                                            display={{ xs: 'block', lg: isWorkoutActive ? 'block' : 'none', xl: 'none', }}
-                                        /*  position="absolute"
-                                         top={36}
-                                         right={15} */
-                                        >
-                                            {text}
-                                        </Typography>
+                                        <Fade in={checked} {...(checked ? { timeout: 1500 } : {})} >
+                                            <div>
+                                                <Typography
+                                                    variant='body1'
+                                                    fontSize={12}
+                                                    paddingY={0.25}
+                                                    display={{ xs: 'block', lg: isWorkoutActive ? 'block' : 'none', xl: 'none', }}
+
+                                                >
+                                                    {text}
+                                                </Typography>
+                                            </div>
+                                        </Fade>
+
                                     </Stack>
 
                                 </ListItemIcon>
@@ -182,7 +210,7 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                         </ListItem>
                     ))}
                 </List>
-            </Drawer>
+            </Drawer >
         </>
     );
 }
