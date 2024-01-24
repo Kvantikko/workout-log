@@ -24,7 +24,7 @@ import BasicToolbar from "../components/Toolbars/BasicToolbar"
 import { toast } from "react-toastify"
 import { formatDateTime } from "../utils/Date"
 
-const Profile = ({ drawerWidth }) => {
+const Profile = () => {
     
     console.log("Rendering Profile");
 
@@ -72,7 +72,7 @@ const Profile = ({ drawerWidth }) => {
 
     return (
         <>
-            <HideAppBar drawerWidth={drawerWidth}>
+            <HideAppBar >
                 <BasicToolbar title="Profile">
                     <Button variant="text" onClick={() => setOpenLogoutModal(true)} >
                         <Stack direction={'row'} spacing={1}>

@@ -15,7 +15,6 @@ import WorkoutExerciseList from "../components/Lists/WorkoutExerciseList"
 import { formatDate } from "../utils/Date"
 
 const WorkoutDetails = ({
-    drawerWidth,
     workout,
     showDate,
     backFunction,
@@ -24,8 +23,6 @@ const WorkoutDetails = ({
     menu,
 
 }) => {
-
-    console.log("Rendering WorkoutDetails ", workout);
 
     const isBigScreen = useMediaQuery('(min-width:600px)')
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
@@ -70,7 +67,7 @@ const WorkoutDetails = ({
 
     return (
         <Box paddingTop={{ xs: 2, sm: 3, md: 4 }} >
-            <HideAppBar drawerWidth={drawerWidth}>
+            <HideAppBar >
                 <BasicToolbar
                     title={workout.title}
                     showBack={true}

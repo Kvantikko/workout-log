@@ -30,9 +30,6 @@ import { Link as ReactRouterLink, useLocation, useMatch, useNavigate } from 'rea
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useSelector } from 'react-redux';
 
-
-
-
 const theme = createTheme({
     typography: {
         fontFamily: ["Tourney", "italic"].join(","),
@@ -40,57 +37,27 @@ const theme = createTheme({
     },
 });
 
-const PermanentDrawerLeft = ({ drawerWidth }) => {
+export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocations }) {
 
-    const navLocations = useSelector(state => state.nav)
-    const isAuthenticated = useSelector(state => state.user) ? true : false
     const navigate = useNavigate()
-
-    const isSmallScreen = useMediaQuery('(max-width:1200px)');
-    const isSmallScreen2 = useMediaQuery('(max-width:1535px)');
-
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
-    const isExpanded = useSelector(state => state.drawer)
-
-    const matchExercise = useMatch('/exercises/:id')
-    const matchHistory = useMatch('/history/:id')
-    const matchMeasure = useMatch('/measure/:id')
-
-    const pageIndex = () => {
-        switch (location.pathname) {
-            
-            case "/workout":
-                return 0
-            case "/history":
-                return 1
-            case `/history/${matchHistory?.params.id}`:
-                return 1
-            case "/exercises":
-                return 2
-            case `/exercises/${matchExercise?.params.id}`:
-                return 2
-            case "/measure":
-                return 3
-            case `/measure/${matchMeasure?.params.id}`:
-                return 3
-            case "/profile":
-                return 4
-            default:
-                return 0
-        }
-    }
+    const drawerWidth = isWorkoutActive ?
+        { xs: 0, sm: 0, md: 75, lg: 75, xl: 225 } :
+        { xs: 0, sm: 0, md: 75, lg: 225 }
 
     return isAuthenticated && (
         <>
             <Drawer
                 sx={{
                     //overflow: "hidden",
+                   
                     zIndex: 1499,
                     width: drawerWidth,
                     flexShrink: 0,
                     display: { xs: 'none', md: 'block' },
                     //backgroundColor: theme => theme.palette.action.hover,
                     '& .MuiDrawer-paper': {
+                        //transition: "width 0.5s",
                         width: drawerWidth,
                         boxSizing: 'border-box',
                         bgcolor: theme => theme.palette.action.hover,
@@ -219,5 +186,3 @@ const PermanentDrawerLeft = ({ drawerWidth }) => {
         </>
     );
 }
-
-export default PermanentDrawerLeft

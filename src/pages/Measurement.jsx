@@ -19,7 +19,7 @@ import BasicModal from '../components/Modals/BasicModal'
 import { Add } from '@mui/icons-material'
 import IconTextButton from '../components/Buttons/IconTextButton'
 
-const Measurement = ({ measurement, drawerWidth }) => {
+const Measurement = ({ measurement }) => {
 
     console.log("Rendering measurement ", measurement);
 
@@ -87,7 +87,7 @@ const Measurement = ({ measurement, drawerWidth }) => {
 
     return (
         <Box paddingBottom={2}>
-            <HideAppBar drawerWidth={drawerWidth} >
+            <HideAppBar >
                 <BasicToolbar
                     title={measurement.name}
                     showBack={true}

@@ -19,7 +19,7 @@ import TemplateMenu from '../Menus/TemplateMenu'
 import HistoryMenu from '../Menus/HistoryMenu'
 
 
-const AppRoutes = ({ drawerWidth }) => {
+const AppRoutes = () => {
 
     console.log("Rendering AppRouter.jsx");
 
@@ -57,7 +57,7 @@ const AppRoutes = ({ drawerWidth }) => {
                 path="/"
                 element={
                     <ProtectedRoute  >
-                        <Workout drawerWidth={drawerWidth} />
+                        <Workout />
                     </ProtectedRoute>}
             />
             <Route
@@ -65,7 +65,6 @@ const AppRoutes = ({ drawerWidth }) => {
                 element={
                     <ProtectedRoute>
                         <WorkoutDetails
-                            drawerWidth={drawerWidth}
                             workout={template}
                             backFunction={() => dispatch(resetWorkoutPath())}
                             link="/"
@@ -81,7 +80,6 @@ const AppRoutes = ({ drawerWidth }) => {
                 element={
                     <ProtectedRoute>
                         <WorkoutDetails
-                            drawerWidth={drawerWidth}
                             workout={workout}
                             showDate
                             backFunction={() => dispatch(resetHistoryPath())}
@@ -98,42 +96,42 @@ const AppRoutes = ({ drawerWidth }) => {
                 path="/history"
                 element={
                     <ProtectedRoute>
-                        <History workouts={workouts} drawerWidth={drawerWidth} />
+                        <History workouts={workouts} />
                     </ProtectedRoute>}
             />
             <Route
                 path="/exercises/:id"
                 element={
                     <ProtectedRoute>
-                        <Exercise exercise={exercise} drawerWidth={drawerWidth} />
+                        <Exercise exercise={exercise} />
                     </ProtectedRoute>}
             />
             <Route
                 path="/exercises"
                 element={
                     <ProtectedRoute>
-                        <Exercises drawerWidth={drawerWidth} />
+                        <Exercises />
                     </ProtectedRoute>}
             />
             <Route
                 path="/measure/:id"
                 element={
                     <ProtectedRoute>
-                        <Measurement measurement={measurement} drawerWidth={drawerWidth} />
+                        <Measurement measurement={measurement} />
                     </ProtectedRoute>}
             />
             <Route
                 path="/measure"
                 element={
                     <ProtectedRoute>
-                        <Measurements measurements={measurements} drawerWidth={drawerWidth} />
+                        <Measurements measurements={measurements} />
                     </ProtectedRoute>}
             />
             <Route
                 path="/profile"
                 element={
                     <ProtectedRoute>
-                        <Profile drawerWidth={drawerWidth} />
+                        <Profile />
                     </ProtectedRoute>}
             />
             <Route

@@ -17,10 +17,10 @@ import { setCredentials } from "./redux/reducers/userReducer"
 import { setMeasurementValues, setMeasurements } from './redux/reducers/measurementsReducer'
 import { setTemplates } from './redux/reducers/templateLibraryReducer'
 
-import { Box, Toolbar, useMediaQuery } from '@mui/material'
+import { AppBar, Box, Toolbar, useMediaQuery } from '@mui/material'
 
 import BottomNavBar from './components/Navbar/BottomNavBar'
-import LeftNavigationBar from './components/Navbar/PermanentDrawerLeft'
+import LeftNavigationBar from './components/Navbar/LeftNavigationBar'
 import OngoingWorkoutBar from './components/AppBar/OngoingWorkoutBar'
 import ShiftLayoutLeftDrawer from './components/Drawers/ShiftLayoutLeftDrawer'
 import AppRoutes from './components/Router/AppRoutes'
@@ -29,6 +29,8 @@ import WorkoutDrawer from './components/Drawers/WorkoutDrawer'
 import { ToastContainer, toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import './ReactToastifyOverride.css'
+import HideAppBar from './components/AppBar/HideAppBar'
+import NavBar from './components/Navbar/Navbar'
 
 
 
@@ -39,16 +41,13 @@ import './ReactToastifyOverride.css'
 
 const App = () => {
 
+    console.log("Rendering App")
+
     const user = useSelector(state => state.user)
     const isAuthenticated = user ? true : false
-    const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
-    const isSmallScreen = useMediaQuery('(max-width:900px)')
+    //const isSmallScreen = useMediaQuery('(max-width:900px)')
 
     const dispatch = useDispatch()
-
-    const drawerWidth = isWorkoutActive ?
-        { xs: 0, sm: 0, md: 75, lg: 75, xl: 225 } :
-        { xs: 0, sm: 0, md: 75, lg: 225 }
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -114,27 +113,29 @@ const App = () => {
 
     return (
         <div className="App">
-            {isAuthenticated && isWorkoutActive && <WorkoutDrawer /> }
-            {isAuthenticated && <Toolbar />}{/*for margin at the top*/}
-
-            <Router>
-                <Box id='mainContainer' className='mainContainer' sx={{ display: 'flex' }}  >
-                    <LeftNavigationBar drawerWidth={drawerWidth} />
-                    <Box component="main" id='main' className='scrollTest'
+            {/*   <WorkoutDrawer /> */}
+        {/*   {isAuthenticated && <Toolbar />}*/}
+        
+            <Router> {/*siirrä main.jsx*/}
+                <Box /* id='mainContainer' className='mainContainer' */ sx={{ display: 'flex' }}  >
+                    <NavBar />
+                    <Box component="main" id='main'
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
                             flexGrow: 1,
+                            height: "100svh",
+                            marginTop: {xs: isAuthenticated ? 7 : 0, sm: isAuthenticated ? 8 : 0 },
                             height: !isAuthenticated ? "100svh" : { xs: "84.8svh", sm: "83.8svh", md: "91.2svh" },
                             overflow: 'auto',
-                            paddingBottom: isAuthenticated ? 7 : 0
+                            paddingBottom: isAuthenticated ? 7 : 0,
+                           
                         }}
                     >
-                        <AppRoutes drawerWidth={drawerWidth} />
+                        <AppRoutes />
                     </Box>
-                    <ShiftLayoutLeftDrawer />
+                    <WorkoutDrawer />
                 </Box>
-                <BottomNavBar />
             </Router>
 
             <OngoingWorkoutBar />

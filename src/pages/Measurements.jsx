@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setMeasurementsPath } from "../redux/reducers/navReducer"
 
-const Measurements = ({ user, measurements, drawerWidth }) => {
+const Measurements = ({ measurements }) => {
 
     console.log("Rendering Measurements ");
 
@@ -24,7 +24,7 @@ const Measurements = ({ user, measurements, drawerWidth }) => {
 
     return (
         <>
-            <HideAppBar drawerWidth={drawerWidth} >
+            <HideAppBar >
                 <BasicToolbar title={"Measure"} />
             </HideAppBar>
 

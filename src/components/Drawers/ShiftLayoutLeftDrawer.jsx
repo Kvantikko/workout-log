@@ -1,4 +1,4 @@
-import { Drawer } from "@mui/material"
+import { Drawer, Slide, Box } from "@mui/material"
 import { useSelector } from "react-redux"
 
 /**
@@ -7,26 +7,31 @@ import { useSelector } from "react-redux"
 
 const ShiftLayoutLeftDrawer = () => {
 
-    const isAuthenticated = useSelector(state => state.user)? true : false
+    const isAuthenticated = useSelector(state => state.user) ? true : false
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
 
-    return isAuthenticated && isWorkoutActive && (
-        <Drawer
-            variant="permanent"
-            anchor="right"
-            sx={{
-                zIndex: 0,
-                width: { xs: 'none', md: 400, lg: 500 },
-                flexShrink: 0,
-                display: { xs: 'none', md: 'block' },
-                '& .MuiDrawer-paper': {
-                    width: { xs: 'none', md: 400, lg: 500 },
-                    boxSizing: 'border-box',
-                    bgcolor: 'transparent',
-                    pointerEvents: 'none'
-                },
-            }}
-        />
+    return (
+       /*  <Slide direction="left" in={true} > */
+            <Box
+
+                sx={{
+                    //zIndex: 0,
+                    //width: { xs: 'none', md: 400, lg: 500 },
+                    flexShrink: 0,
+                    //width: {xs: 0, md: isWorkoutActive ? 400 : 0, lg: isWorkoutActive ? 500 : 0 },
+                    transition: 'width 0.5s'
+                    //display: { xs: 'none', md: 'block' },
+                    /* '& .MuiDrawer-paper': {
+                        width: { xs: 'none', md: 400, lg: 500 },
+                        boxSizing: 'border-box',
+                        bgcolor: 'transparent',
+                        pointerEvents: 'none'
+                    }, */
+                }}
+            >
+
+            </Box>
+      /*   </Slide> */
     )
 }
 

@@ -13,7 +13,7 @@ import HideAppBar from '../components/AppBar/HideAppBar'
 import TemplateMenu from '../components/Menus/TemplateMenu'
 import WorkoutExerciseList from "../components/Lists/WorkoutExerciseList"
 
-const Template = ({ template, drawerWidth }) => {
+const Template = ({ template }) => {
     
     console.log("Rendering Template");
 
@@ -52,7 +52,7 @@ const Template = ({ template, drawerWidth }) => {
 
     return (
         <>
-            <HideAppBar drawerWidth={drawerWidth}>
+            <HideAppBar >
                 <BasicToolbar
                     title={template.title}
                     showBack={true}

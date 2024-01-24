@@ -1,7 +1,11 @@
+import { useMediaQuery } from "@mui/material"
 import { useState, useEffect, useMemo, Children } from "react"
 import FlipMove from "react-flip-move"
 
 const Defer = ({ chunkSize, children, isFlip }) => {
+
+    const isSmallScreen = useMediaQuery('(max-width:900px)')
+    const [render, setRender] = useState(isSmallScreen ? true : false)
     const [renderedItemsCount, setRenderedItemsCount] = useState(chunkSize)
 
     const childrenArray = useMemo(() => Children.toArray(children), [
@@ -21,10 +25,17 @@ const Defer = ({ chunkSize, children, isFlip }) => {
         }
     }, [renderedItemsCount, childrenArray.length, chunkSize])
 
+    useEffect(() => {
+        setTimeout(() => {
+            setRender(true)
+        }, 0)
+    },[])
 
 
 
-    return (
+
+
+    return render && (
         <>
             {isFlip ?
                 <FlipMove>
