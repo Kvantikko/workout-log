@@ -3,7 +3,7 @@ let timerId
 let pausedTime = 0
 
 onmessage = function (e) {
-    console.log("Received message in worker: ", e.data, " timerID ", timerId)
+    //console.log("Received message in worker: ", e.data, " timerID ", timerId)
 
     if (e.data === 'start') {
         console.log("Starting timer...")
@@ -16,12 +16,12 @@ onmessage = function (e) {
             }, 1000)
         }
     } else if (e.data === 'pause') {
-        console.log("Pausing timer... ", timerId)
+       // console.log("Pausing timer... ", timerId)
         clearInterval(timerId)
         pausedTime += Date.now() - startTime // Store the elapsed time when pausing
         startTime = null
     } else if (e.data === 'reset') {
-        console.log("Resetting timer...")
+        //console.log("Resetting timer...")
         clearInterval(timerId)
         startTime = null
         pausedTime = 0 // Reset paused time
