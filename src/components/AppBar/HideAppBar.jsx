@@ -54,7 +54,7 @@ const HideAppBar = (props) => {
 
                 //position="fixed"
                 sx={{
-                    transition: "all 0.5s ease",
+                    transition: "all 0.35s ",
                   
                     //backgroundColor: "black",//'#080808',
                     /*    

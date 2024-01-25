@@ -66,7 +66,7 @@ const WorkoutDetails = ({
     }
 
     return (
-        <Box paddingTop={{ xs: 2, sm: 3, md: 4 }} >
+        <Box paddingTop={{ xs: 2, sm: 3, md: 4 }}  >
             <HideAppBar >
                 <BasicToolbar
                     title={workout.title}
@@ -115,16 +115,19 @@ const WorkoutDetails = ({
                 //noWrap
                 >
                     {workout.note}
+
                 </Typography>
+
             </Container>
 
 
 
             <Box
-                //display="flex"
-                // justifyContent="center"
+               
+                //textAlign="center"
                 paddingX={{ xs: 2, sm: 4, md: 6 }} paddingBottom={12} paddingTop={2}
             >
+
 
                 <Box
                     padding={0}

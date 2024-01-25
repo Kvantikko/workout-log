@@ -3,7 +3,7 @@ import * as React from 'react'
 import {
     Box,
     Divider,
-    Drawer,
+    //Drawer,
     List,
     Typography,
     ListItem,
@@ -18,6 +18,8 @@ import {
     Fade
 } from "@mui/material"
 
+
+import { Drawer } from '../Drawers/WorkoutDrawerDesktop';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import HistoryIcon from '@mui/icons-material/History';
 import PersonIcon from '@mui/icons-material/Person';
@@ -51,14 +53,17 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
 
 
     const checked = isWorkoutActive ? isSmallScreen || !isSmallScreen && isSmallScreen2 : isSmallScreen
-      /*   drawerWidth.md === 75 && !isSmallScreen ||
-            drawerWidth.lg === 75 && isWorkoutActive */
+        /*   drawerWidth.md === 75 && !isSmallScreen ||
+              drawerWidth.lg === 75 && isWorkoutActive */
 
-            ? true : false
+        ? true : false
 
     return isAuthenticated && (
         <>
+        
             <Drawer
+                open={true}
+                anchor="left"
                 sx={{
                     //overflow: "hidden",
 
@@ -68,13 +73,7 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                     display: { xs: 'none', md: 'block' },
                     //backgroundColor: theme => theme.palette.action.hover,
                     '& .MuiDrawer-paper': {
-                        transition: "width 0.5s",
-
-
-
-
-
-
+                        transition: "width 0.35s",
 
                         width: drawerWidth,
                         boxSizing: 'border-box',
@@ -83,18 +82,19 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                     },
                     '& .Mui-selected': {
                         color: theme => theme.palette.info.light,
-                        borderLeft: {
+                        /* borderLeft: {
                             xs: `3px solid #03a9f4`,
                             md: `3px solid #03a9f4`,
                             lg: isWorkoutActive ? `3px solid #03a9f4` : `0px solid #03a9f4`,
                             xl: `0px solid #03a9f4`
-                        },
-                        borderRadius: {
+                        }, */
+                        borderRadius: 2,
+                       /*  {
                             xs: 0,
                             md: 0,
                             lg: isWorkoutActive ? 0 : 2,
                             xl: 2
-                        },
+                        }, */
                         backgroundColor: {
                             xs: alpha("#617991", 0),
                             md: alpha("#617991", 0),
@@ -111,7 +111,6 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                     },
                 }}
                 variant="permanent"
-                anchor="left"
             >
                 <ThemeProvider theme={theme}>
                     <Fade in={!checked} >
@@ -120,6 +119,7 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                                 onClick={() => navigate("/")}
                                 disableRipple
                                 sx={{
+                                    
                                     transition: "all 0.5s",
                                     color: "white",
                                     marginTop: 10,
@@ -131,7 +131,7 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                                     },
                                 }}
                             >
-                                <Typography variant='h4' textAlign={'center'} sx={{
+                                <Typography variant='h4' textAlign={'center'}   sx={{
                                     '& .MuiTypography-root': {
                                         //color: "red"
                                     },

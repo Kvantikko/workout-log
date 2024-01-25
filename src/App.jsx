@@ -115,12 +115,13 @@ const App = () => {
         <div className="App">
             {/*   <WorkoutDrawer /> */}
         {/*   {isAuthenticated && <Toolbar />}*/}
-        
+
             <Router> {/*siirrä main.jsx*/}
-                <Box /* id='mainContainer' className='mainContainer' */ sx={{ display: 'flex' }}  >
+                <Box /* id='mainContainer' className='mainContainer' */ sx={{  display: 'flex' }}  >
                     <NavBar />
                     <Box component="main" id='main'
                         sx={{
+                           
                             display: 'flex',
                             flexDirection: 'column',
                             flexGrow: 1,
