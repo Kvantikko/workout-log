@@ -17,7 +17,8 @@ import {
     FormLabel,
     TextField,
     Stack,
-    InputAdornment,
+    LinearProgress,
+    CircularProgress,
     IconButton,
 } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
@@ -122,7 +123,7 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
         event.preventDefault()
         clearErrors()
         if (!inputFieldsValid()) return
-        // setLoading(true)
+        //setLoading(true)
         if (showRegister) {
             dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
         } else {
@@ -218,32 +219,36 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
                         helperText={errorPasswordAgain}
                     />
                 }
-
-                <LoadingButton
-                    type="submit"
-                    endIcon={<LoginIcon />}
-                    loadingPosition="end"
-                    loading={loading}
-                    variant="contained"
-                >
-                    {loading ?
-                        <span>{showRegister ? "Registering..." : "Logging in..."}</span> :
-                        <span>{showRegister ? "Register" : "Login"}</span>
-                    }
-                </LoadingButton>
-                {loading &&
+                {!infoText &&
+                    <LoadingButton
+                        type="submit"
+                        endIcon={<LoginIcon />}
+                        loadingPosition="end"
+                        loading={loading}
+                        variant="contained"
+                    >
+                        {loading ?
+                            <span>{showRegister ? "Registering..." : "Logging in..."}</span> :
+                            <span>{showRegister ? "Register" : "Login"}</span>
+                        }
+                    </LoadingButton>
+                }
+                {loading && infoText &&
                     <Box
                         sx={{
+                            maxWidth: 269,
                             borderRadius: 2,
                             padding: infoText ? 1.5 : 0,
                             textAlign: 'center',
                             animation: `${blink} 1s linear infinite alternate`,
                         }}
                     >
-                        <Typography textAlign={'center'}>
+                        <LinearProgress fourColor />
+                        <Typography textAlign={'center'} paddingTop={1}>
                             {infoText}
                         </Typography>
                     </Box>
+
                 }
             </Stack>
         </form>

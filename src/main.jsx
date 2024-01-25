@@ -18,6 +18,16 @@ const darkTheme = createTheme({
         modal: 1501,
         drawer: 1500
     },
+    overrides: { // EXPERIMENTAL...
+        MuiOutlinedInput: {
+            input: {
+                '&:-webkit-autofill': {
+                    '-webkit-box-shadow': '0 0 0 100px #000 inset',
+                    '-webkit-text-fill-color': '#fff'
+                }
+            }
+        }
+    }
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
