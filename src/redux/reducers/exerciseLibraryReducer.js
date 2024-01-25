@@ -31,7 +31,6 @@ const exerciseLibrarySlice = createSlice({
             return state
         },
         updateExercise(state, action) {
-            console.log("UPDTING ", action.payload);
             const id = action.payload.id
 
             const index = state.exercises.findIndex(e => e.id === id)
@@ -48,7 +47,7 @@ const exerciseLibrarySlice = createSlice({
             state.exercises[index] = changedExercise
 
             state.search.filteredExercises[index] = changedExercise
-            //state = state.exercises.map(exercise => exercise.id !== id ? exercise : changedExercise)
+
             sortAlphabetically(state.exercises)
             return state
         },
@@ -139,7 +138,6 @@ export const saveExercise = (name, muscle) => {
         let response
         try {
             const newExercise = await exerciseService.createNew(name, muscle)
-            //console.log('servu palautti: ', newExercise, ' dispatchataan storeen')
             dispatch(addExercise(newExercise))
             toast.success('New exercsise created!')
             //setOpenCreateModal(false)
@@ -153,11 +151,8 @@ export const editExercise = (exerciseId, exerciseName, targetMuscle) => {
     return async (dispatch, getState) => {
         try {
             const updatedExercise = await exerciseService.update(exerciseId, exerciseName, targetMuscle)
-            console.log('servu palautti: ', updatedExercise, ' dispatchataan storeen')
             dispatch(updateExercise(updatedExercise))
-            console.log("PERSE");
             toast.success('Exersice edited!')
-            console.log("TOSTED");
         } catch (err) {
             toast.error(err.response)
         }

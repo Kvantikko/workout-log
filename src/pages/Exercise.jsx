@@ -33,7 +33,6 @@ const Exercise = ({ exercise }) => {
         exerciseService
             .getHistory(user.email, exercise.id)
             .then((response) => {
-                console.log("EXERCISE COMPONENT ", response);
                 setworkoutExercises(response)
                 setLoading(false)
             })

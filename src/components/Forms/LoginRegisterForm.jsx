@@ -32,7 +32,7 @@ import { toast } from "react-toastify"
 
 
 const LoginRegisterForm = ({ showRegister, buttonText }) => {
-    console.log("Rendering");
+
 
     const [email, setEmail] = useState("")
     const [firstname, setFirstname] = useState("")

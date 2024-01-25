@@ -37,8 +37,6 @@ export const editWorkoutStyle = {
 
 const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning, editVipu }) => {
 
-    console.log("Rendering CrateEditMOdal ", workout);
-
     const isExercises = useSelector(state => state.template.exercises.allIds).length !== 0
     const isName = useSelector(state => state.template.name) !== ""
     const [openWarningModal, setOpenWarningModal] = useState(false)
@@ -59,7 +57,6 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
     }
 
     const handleModalClose = () => {
-        console.log("handle modal close");
         if (isExercises /* && disableWarning */) {
             setOpenWarningModal(true)
         } else {
@@ -75,17 +72,18 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
     }
 
     const handleCancelFinish = () => {
-        //onClose(false)
         setOpenSaveModal(false)
-        //setOpenWarningModal(false)
-
     }
 
-    useEffect(() => {
-        window.history.pushState("object or string", "Title", `${prevUrl}/edit`)
+    useEffect(() => {    
+        if (!window.location.href.includes("#edit")) {
+            window.history.pushState(null, null, `${prevUrl}/#edit`)
+        }
+
         window.onpopstate = (event) => handleModalClose()  
+
         return(() => {
-            window.history.replaceState("object or string", "Title", `${prevUrl}`)
+            window.history.replaceState(null, null, `${prevUrl}`)
             window.onpopstate = null
         })
     }, [])
@@ -161,70 +159,6 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
                 </Box>
             </div>
         </Modal>
-    )
-
-    return (
-        <>
-            {isSmallScreen &&
-                <FullScreenMobileModal
-                    open={open}
-                    onClose={handleModalClose}
-                >
-                    <Toolbar sx={{ justifyContent: 'space-between' }}>
-                        <Stack direction={'row'} justifyItems={'center'} gap={2} >
-                            <IconButton onClick={() => onClose(false)}>
-                                <Close />
-                            </IconButton>
-                            <Box display={'flex'} flexDirection={'column'} justifyContent={'center'}>
-                                <Typography variant="h6">Create template</Typography>
-                            </Box>
-                        </Stack>
-
-                        <Button variant="text">Save</Button>
-
-                    </Toolbar>
-                    <Box sx={{ overflowY: 'auto', height: '100%' }}>
-                        <Workout type={"template"} />
-                    </Box>
-
-                </FullScreenMobileModal>
-            }
-            {!isSmallScreen &&
-                <BasicModal
-                    open={open}
-                    onClose={handleModalClose}
-                    onSubmit={handleSaveButtonClick}
-                    title={title}
-                    confirmButtonText={"Save"}
-                >
-                    <Box sx={{ overflow: 'auto', height: '80vh', marginY: 2 }} >
-                        <Workout type={'template'} />
-                    </Box>
-                </BasicModal>
-            }
-            {openWarningModal &&
-                <BasicModal
-                    open={openWarningModal}
-                    onClose={() => setOpenWarningModal(false)}
-                    title={"Discard changes?"}
-                    subTitle={"Do you want to discard any changes you have made without saving them?"}
-                    confirmButtonText={"Yes"}
-                    onSubmit={() => handleSubmit()}
-                />
-            }
-            {openSaveModal &&
-                <SaveWorkoutModal
-                    open={openSaveModal}
-                    onClose={() => handleCancelFinish()}
-                    onSubmit={() => handleSubmit()}
-                    type={type}
-                    editVipu={editVipu}
-                    workout={workout}
-                />
-            }
-        </>
-
-
     )
 }
 

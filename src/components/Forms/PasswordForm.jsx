@@ -39,7 +39,6 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
 
     const [errorPassword, setErrorPassword] = useState('')
     const [errorPasswordAgain, setErrorPasswordAgain] = useState('')
-    console.log(errorPassword);
 
     const [showPassword, setShowPassword] = useState(false)
     const [showPasswordAgain, setShowPasswordAgain] = useState(false)
@@ -66,7 +65,6 @@ const PasswordForm = ({ user, submitButton, onCancel }) => {
             valid = false
         }
         if (password === '') {
-            console.log("totta");
             setErrorPassword('Required')
             valid = false
         }

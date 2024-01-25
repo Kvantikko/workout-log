@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 
 
 const SetRow = ({ setId, type, isOneSetLeft }) => {
-    console.log("-------------------- A set ROW is rendering ----------------------------- ",)
+    //console.log("-------------------- A set ROW is rendering ----------------------------- ",)
 
     /**
      * CONFIRMED: setId prop makes all sets render on addtiton!!!!1111111111
@@ -46,10 +46,6 @@ const SetRow = ({ setId, type, isOneSetLeft }) => {
         default:
             throw new Error('Component must have a type prop specified!')
     }
-
-    
-
-    console.log("--- SET: ", set);
 
     const [color, setColor] = useState(set.done ? "rgba(25, 255, 255, 0.12)" : "")
     const [openDeleteModal, setOpenDeleteModal] = useState(false)

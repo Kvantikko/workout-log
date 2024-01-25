@@ -15,7 +15,7 @@ import { Add } from '@mui/icons-material';
 
 const Sets = ({ type, exerciseId }) => {
 
-    console.log("Rendering Sets " )
+    //console.log("Rendering Sets " )
 
     //let allSetsFromState
     let setIds = [] //= useSelector((state) => selectFilteredSets(state, exercise.id))
@@ -44,8 +44,6 @@ const Sets = ({ type, exerciseId }) => {
             throw new Error('Component Workout must have a type prop specified!');
     }
     //sets = allSetsFromState.filter(set => set.exerciseId === exercise.id)
-    
-    console.log("Sets component sets: " , setIds)
 
     //setIds = setIds.map(id => useMemo(id))
    // React.useMemo(() => allSetsFromState.filter(set => set.exerciseId === exercise.id), [allSetsFromState])
@@ -61,7 +59,6 @@ const Sets = ({ type, exerciseId }) => {
     */
     // REMEMEER: useEffect is executed after a render
     useEffect(() => {
-        console.log('EFFECT WorkoutExercise');
         if (setIds.length === 0 || setIds === undefined) {
             console.log('WorkoutExercise: useEffect(): creating a set because sets.length is 0');
             createSet(true) // tää aiheuttaa sen että ei scrollaa pohjaan

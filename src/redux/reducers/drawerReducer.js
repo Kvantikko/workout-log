@@ -23,14 +23,9 @@ const drawerSlice = createSlice({
     initialState: false,
     reducers: {
         expand: (state, action) => {
-            console.log("EXPAND REDUCER");
-            console.log("PREV ", prevUrl);
-
             if (!window.location.href.includes("#workout")) {
                 prevUrl = window.location.href
             }
-
-            console.log("PREV ", prevUrl);
 
             window.history.pushState(null, null, prevUrl)
             window.history.replaceState(null, null, `#workout`)
@@ -40,14 +35,9 @@ const drawerSlice = createSlice({
             return state
         },
         unExpand: (state, action) => {
-            console.log("UNEXPAND REDUCER");
-            console.log(window.history);
-            //window.history.pushState(null, null, `${prevUrl}`)
             if (prevUrl) {
                 window.history.replaceState(null, null, `${prevUrl}`)
             }
-
-            console.log(window.history);
             state = false
             return state
         }

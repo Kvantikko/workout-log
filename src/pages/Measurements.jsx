@@ -9,7 +9,7 @@ import { setMeasurementsPath } from "../redux/reducers/navReducer"
 
 const Measurements = ({ measurements }) => {
 
-    console.log("Rendering Measurements ");
+    //console.log("Rendering Measurements ");
 
     const coreMeasurements = measurements.slice(0, 3)
     const bodyParts = measurements.slice(3, measurements.length)

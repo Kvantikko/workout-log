@@ -129,7 +129,8 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 
 
 export default function WorkoutDrawerDesktop({ toggleDrawer, open, isWorkoutActive }) {
 
-    const isExpanded = useSelector(state => state.drawer)
+    //console.log("--------------------- Rendering DESKTOP Drawer ---------------------------------- ");
+
     const isBigScreen = useMediaQuery('(min-width:1200px)')
 
     function calculate() {
@@ -139,7 +140,7 @@ export default function WorkoutDrawerDesktop({ toggleDrawer, open, isWorkoutActi
     }
     
 
-    console.log("--------------------- Rendering DESKTOP Drawer ---------------------------------- ");
+   
 
     return (
        /*  <Slide direction="left" in={true} >
@@ -158,7 +159,7 @@ export default function WorkoutDrawerDesktop({ toggleDrawer, open, isWorkoutActi
                     }}
                 >
                     <DrawerHeader>
-                        <AppBar open={isWorkoutActive} isExpanded={open}>
+                        <AppBar open={isWorkoutActive} isExpanded={open}> {/*isExpanded aiheuttaa logissa errorin...???*/}
                             <Toolbar disableGutters={false} >
                                 <Stack
                                     direction="row"

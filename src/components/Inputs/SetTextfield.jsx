@@ -6,7 +6,6 @@ import { editSetFromTemplate } from "../../redux/reducers/templateReducer";
 
 
 const SetTextField = ({ id, set, minWidth, step, type }) => {
-    console.log("Rendering SetTextField")
 
     const [value, setValue] = useState(id === "weight" ? set.weight : set.reps)
 

@@ -15,7 +15,6 @@ import BasicModal from '../Modals/BasicModal'
 import BasicMenu from './BasicMenu'
 
 const HistoryMenu = ({ workout }) => {
-    console.log("Redndering HistoryMenu ", workout);
 
     const navigate = useNavigate()
     const dispatch = useDispatch()

@@ -6,7 +6,7 @@ import HideAppBar from '../AppBar/HideAppBar'
 
 export default function WorkoutDrawerMobile({ toggleDrawer, open }) {
 
-    console.log('------------- Rendering MOBILE Drawer -----------');
+    //console.log('------------- Rendering MOBILE Drawer -----------');
 
     return (
         <Slide direction="up" in={true} >

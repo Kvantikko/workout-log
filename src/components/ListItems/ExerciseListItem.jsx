@@ -14,14 +14,10 @@ const ExerciseListItem = ({ exercise, showChecked, handleClick }) => {
     const checked = useSelector(state => state.exerciseLibrary.selected.byId[exercise.id]) ? true : false
 
     const handleListClick = (exercise) => {
-        console.log("click");
         if (showChecked) {
-            console.log("1st true");
             if (checked) {
-                console.log("checked true");
                 dispatch(removeSelectedExercise(exercise.id))
             } else {
-                console.log("checked false");
                 dispatch(addSelectedExercise(exercise))
             }
         } else {

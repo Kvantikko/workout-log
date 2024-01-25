@@ -26,7 +26,7 @@ import { formatDateTime } from "../utils/Date"
 
 const Profile = () => {
     
-    console.log("Rendering Profile");
+    //console.log("Rendering Profile");
 
     const user = useSelector(state => state.user)
     const [openDeleteModal, setOpenDeleteModal] = useState(false)

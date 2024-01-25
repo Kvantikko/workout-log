@@ -21,7 +21,7 @@ import IconTextButton from '../components/Buttons/IconTextButton'
 
 const Measurement = ({ measurement }) => {
 
-    console.log("Rendering measurement ", measurement);
+   // console.log("Rendering measurement ", measurement);
 
     /* const history = useSelector(state => state.history)
     const user = useSelector(state => state.user) */

@@ -22,8 +22,6 @@ import ExerciseMenu from "../Menus/ExerciseMenu";
 import WorkoutExerciseMenu from "../Menus/WorkoutExerciseMenu";
 
 const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, ref) => {
-    console.log("Rendering WorkoutExercise ")
-
     
     let exercise = {}
     switch (type) {
@@ -36,8 +34,6 @@ const WorkoutExercise = forwardRef(({ exerciseId, arrayEnd, arrayStart, type }, 
         default:
             throw new Error('Component must have a type prop specified!')
     }
-
-    console.log("jyy", exercise)
 
     const exerciseName = useSelector(state => state.exerciseLibrary.exercises.find(e => e.id === exercise?.exerciseId ))?.name
 

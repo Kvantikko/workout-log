@@ -36,7 +36,6 @@ const History = ({ workouts }) => {
                     setLoading(false)
                 })
                 .catch(error => {
-                    console.log('error: ', error)
                     toast.error(error.message)
                 })
         }

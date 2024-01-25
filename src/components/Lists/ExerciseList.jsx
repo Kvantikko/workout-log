@@ -25,7 +25,7 @@ import ExerciseListItem from "../ListItems/ExerciseListItem"
 
 const ExerciseList = ({ handleClick, showChecked }) => {
 
-    console.log("Rendering ExerciseList ")
+    //console.log("Rendering ExerciseList ")
 
     const exercises = useSelector(state => state.exerciseLibrary.search.filteredExercises)
     const [openCreateModal, setOpenCreateModal] = useState(false)

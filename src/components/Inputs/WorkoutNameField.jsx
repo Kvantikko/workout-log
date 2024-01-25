@@ -10,8 +10,6 @@ import { setWorkoutName } from "../../redux/reducers/workoutReducer"
 
 const WorkoutNameField = ({ /* workoutName, */ type }) => {
 
-    console.log("Rendering WorkoutNameField ")
-
     let workoutName
     switch (type) {
         case "active":
@@ -27,10 +25,6 @@ const WorkoutNameField = ({ /* workoutName, */ type }) => {
     const [helperText, setHelperText] = useState('')
     const [error, setError] = useState(!(helperText === ''))
 
-    console.log("workoutName ", workoutName);
-
-    console.log("input ", input)
-
     useEffect(() => {
         setInput(workoutName)
     }, [workoutName])    
@@ -38,14 +32,12 @@ const WorkoutNameField = ({ /* workoutName, */ type }) => {
     const dispatch = useDispatch()
 
     const handleBlur = (event) => {
-       // console.log("handling blurs");
         setInput(event.target.value)
         switch (type) {
             case "active":
                 dispatch(setWorkoutName(input))
                 break
             case "template":
-                console.log("AAAAAAAAAAAAAAAAAAAAAAa ", input);
                 dispatch(setTemplateName(input))
                 break
             default:

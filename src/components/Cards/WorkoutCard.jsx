@@ -26,11 +26,6 @@ import { formatDayAndMonthFinnish } from '../../utils/Date'
 const WorkoutCard = ({ workout, showDate, onClickFunction, path }) => {
     //console.log("Rendering HistoryListCard ", workout.id, workout)
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    
-
     const countSets = (sets) => {
         let count = 0
         sets.forEach(set => {
@@ -50,8 +45,6 @@ const WorkoutCard = ({ workout, showDate, onClickFunction, path }) => {
                     width: 1,
                     height: 1,
                     border: '1px solid #878787',
-                    //width: 0,
-                    //minWidth: { xs: '100%', sm: '80%', md: '60%' }
                 }}
             >
                 <CardActionArea component={Link} to={`/${path}/${workout.id}`}  onClick={(event) => onClickFunction(event, workout.id)} sx={{ height: 1 }} >

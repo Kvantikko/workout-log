@@ -24,7 +24,7 @@ import HistoryMenu from '../Menus/HistoryMenu'
 
 const AppRoutes = () => {
 
-    console.log("Rendering AppRouter.jsx");
+    //console.log("Rendering AppRouter.jsx");
 
     const templates = useSelector(state => state.templates)
     const matchTemplate = useMatch('/templates/:id')
@@ -51,21 +51,6 @@ const AppRoutes = () => {
         : null
 
     const dispatch = useDispatch()
-
-    /* const location = useLocation()
-    console.log("KAKA ", location);
-
-    const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
-    console.log(isWorkoutActive);
-
-    useEffect(() => {
-        console.log("APPROUTER EFFECT");
-        if (window.location.href.includes("#workout") && isWorkoutActive) {
-            dispatch(expand())
-        }
-    })
-
- */
 
     return (
         <Routes>

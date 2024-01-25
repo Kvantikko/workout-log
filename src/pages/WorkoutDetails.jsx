@@ -69,7 +69,7 @@ const WorkoutDetails = ({
         <Box paddingTop={{ xs: 2, sm: 3, md: 4 }}  >
             <HideAppBar >
                 <BasicToolbar
-                    title={workout.title}
+                    title={workout?.title}
                     showBack={true}
                     backFunction={backFunction}
                     link={link}
@@ -111,16 +111,11 @@ const WorkoutDetails = ({
                     variant="body1"
                     textAlign={'center'}
                     color={'text.secondary'}
-                //sx={{ paddingX: 6, width: 'fit-content', borderRadius: 1 }}
-                //noWrap
                 >
                     {workout.note}
-
                 </Typography>
 
             </Container>
-
-
 
             <Box
                

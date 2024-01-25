@@ -13,9 +13,6 @@ import BasicModal from '../Modals/BasicModal'
 
 const WorkoutExerciseMenu = ({ exercise, handleDelete }) => {
 
-    console.log("EXErCISE MAENU ", exercise);
-
-
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl);
     const [openDelete, setOpenDelete] = React.useState(false)
@@ -41,7 +38,6 @@ const WorkoutExerciseMenu = ({ exercise, handleDelete }) => {
     const handleDeleteClick = () => {
         handleClose()
         handleDelete()
-        //dispatch(deleteExercise(exercise.id))
     }
 
     return (

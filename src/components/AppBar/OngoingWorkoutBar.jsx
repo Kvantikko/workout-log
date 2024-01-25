@@ -13,8 +13,6 @@ const OngoingWorkoutBar = ({ }) => {
     const isAuthenticated = useSelector(state => state.user) ? true : false
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
 
-    const isSmallScreen = useMediaQuery('(max-width:1000px)');
-
     const dispatch = useDispatch()
 
     const handleClick = () => {
@@ -56,7 +54,7 @@ const OngoingWorkoutBar = ({ }) => {
                 <Stack direction="row" justifyContent="space-between" >
 
                     <Stack direction="row" spacing={0.5} overflow={'hidden'} >
-                        <IconButton color="info" onClick={() => console.log("dawd")}>
+                        <IconButton color="info" >
                             <KeyboardArrowUp />
                         </IconButton>
                         <Box display="flex" alignItems={'center'} overflow="hidden" textOverflow="ellipsis" flexShrink={1} >
