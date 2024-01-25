@@ -19,10 +19,8 @@ import { setTemplates } from './redux/reducers/templateLibraryReducer'
 
 import { AppBar, Box, Toolbar, useMediaQuery } from '@mui/material'
 
-import BottomNavBar from './components/Navbar/BottomNavBar'
-import LeftNavigationBar from './components/Navbar/LeftNavigationBar'
+import NavBar from './components/Navbar/Navbar'
 import OngoingWorkoutBar from './components/AppBar/OngoingWorkoutBar'
-import ShiftLayoutLeftDrawer from './components/Drawers/ShiftLayoutLeftDrawer'
 import AppRoutes from './components/Router/AppRoutes'
 import WorkoutDrawer from './components/Drawers/WorkoutDrawer'
 
@@ -30,7 +28,7 @@ import { ToastContainer, toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import './ReactToastifyOverride.css'
 import HideAppBar from './components/AppBar/HideAppBar'
-import NavBar from './components/Navbar/Navbar'
+
 
 
 

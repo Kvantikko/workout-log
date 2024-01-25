@@ -25,7 +25,7 @@ const drawerSlice = createSlice({
         expand: (state, action) => {
             console.log("EXPAND REDUCER");
             console.log("PREV ", prevUrl);
-            
+
             if (!window.location.href.includes("#workout")) {
                 prevUrl = window.location.href
             }
@@ -43,7 +43,10 @@ const drawerSlice = createSlice({
             console.log("UNEXPAND REDUCER");
             console.log(window.history);
             //window.history.pushState(null, null, `${prevUrl}`)
-            window.history.replaceState(null, null, `${prevUrl}`)
+            if (prevUrl) {
+                window.history.replaceState(null, null, `${prevUrl}`)
+            }
+
             console.log(window.history);
             state = false
             return state

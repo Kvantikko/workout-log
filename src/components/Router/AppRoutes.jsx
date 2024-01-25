@@ -1,6 +1,9 @@
-import { Routes, Route, useMatch, Navigate } from "react-router-dom"
+import { useEffect } from "react"
+
+import { Routes, Route, useMatch, Navigate, useLocation } from "react-router-dom"
 
 import { useSelector, useDispatch } from 'react-redux'
+import { expand } from "../../redux/reducers/drawerReducer"
 import { resetWorkoutPath, resetHistoryPath } from '../../redux/reducers/navReducer'
 
 import Workout from '../../pages/Home'
@@ -49,7 +52,20 @@ const AppRoutes = () => {
 
     const dispatch = useDispatch()
 
+    /* const location = useLocation()
+    console.log("KAKA ", location);
 
+    const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
+    console.log(isWorkoutActive);
+
+    useEffect(() => {
+        console.log("APPROUTER EFFECT");
+        if (window.location.href.includes("#workout") && isWorkoutActive) {
+            dispatch(expand())
+        }
+    })
+
+ */
 
     return (
         <Routes>

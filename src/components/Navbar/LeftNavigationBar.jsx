@@ -113,8 +113,8 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                 variant="permanent"
             >
                 <ThemeProvider theme={theme}>
-                    <Fade in={!checked} >
-                        <div>
+                  {/*   <Fade in={!checked} >
+                        <div> */}
                             <Button
                                 onClick={() => navigate("/")}
                                 disableRipple
@@ -139,8 +139,8 @@ export default function LeftNavigationBar({ pageIndex, isAuthenticated, navLocat
                                     WORKOUT LOG
                                 </Typography>
                             </Button>
-                        </div>
-                    </Fade>
+             {/*            </div>
+                    </Fade> */}
 
                 </ThemeProvider>
 
