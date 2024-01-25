@@ -122,12 +122,12 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
         event.preventDefault()
         clearErrors()
         if (!inputFieldsValid()) return
-       // setLoading(true)
+        // setLoading(true)
         if (showRegister) {
-             dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
-         } else {
-             dispatch(login(email, password, setErrorEmail, setErrorPassword, setLoading, navigate))
-         }
+            dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
+        } else {
+            dispatch(login(email, password, setErrorEmail, setErrorPassword, setLoading, navigate))
+        }
     }
 
     const handleEmailAndPassClick = (inputFieldId) => {
@@ -221,14 +221,15 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
 
                 <LoadingButton
                     type="submit"
-                    //onClick={handleClick}
                     endIcon={<LoginIcon />}
                     loadingPosition="end"
                     loading={loading}
-                    // loadingIndicator="Logging in…"
                     variant="contained"
                 >
-                    {loading ? <span>Logging in...</span> : <span>Login</span>}
+                    {loading ?
+                        <span>{showRegister ? "Registering..." : "Logging in..."}</span> :
+                        <span>{showRegister ? "Register" : "Login"}</span>
+                    }
                 </LoadingButton>
                 {loading &&
                     <Box
