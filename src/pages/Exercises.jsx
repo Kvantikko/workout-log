@@ -15,7 +15,7 @@ import ExercisesToolbar from '../components/Toolbars/ExercisesToolbar'
 import BasicToolbar from '../components/Toolbars/BasicToolbar'
 
 
-const Exercises = ({ drawerWidth }) => {
+const Exercises = () => {
 
     //const [input, setInput] = useState(useSelector(state => state.exerciseLibrary.search.searchString))
 
@@ -33,7 +33,7 @@ const Exercises = ({ drawerWidth }) => {
 
     return (
         <Box paddingBottom={2}>
-            <HideAppBar drawerWidth={drawerWidth} >
+            <HideAppBar >
                 <ExercisesToolbar />
             </HideAppBar>
             <ExerciseList handleClick={handleListClick} />

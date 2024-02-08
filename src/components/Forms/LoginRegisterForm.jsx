@@ -17,7 +17,8 @@ import {
     FormLabel,
     TextField,
     Stack,
-    InputAdornment,
+    LinearProgress,
+    CircularProgress,
     IconButton,
 } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
@@ -32,7 +33,7 @@ import { toast } from "react-toastify"
 
 
 const LoginRegisterForm = ({ showRegister, buttonText }) => {
-    console.log("Rendering");
+
 
     const [email, setEmail] = useState("")
     const [firstname, setFirstname] = useState("")
@@ -122,12 +123,12 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
         event.preventDefault()
         clearErrors()
         if (!inputFieldsValid()) return
-       // setLoading(true)
+        //setLoading(true)
         if (showRegister) {
-             dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
-         } else {
-             dispatch(login(email, password, setErrorEmail, setErrorPassword, setLoading, navigate))
-         }
+            dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
+        } else {
+            dispatch(login(email, password, setErrorEmail, setErrorPassword, setLoading, navigate))
+        }
     }
 
     const handleEmailAndPassClick = (inputFieldId) => {
@@ -218,31 +219,36 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
                         helperText={errorPasswordAgain}
                     />
                 }
-
-                <LoadingButton
-                    type="submit"
-                    //onClick={handleClick}
-                    endIcon={<LoginIcon />}
-                    loadingPosition="end"
-                    loading={loading}
-                    // loadingIndicator="Logging in…"
-                    variant="contained"
-                >
-                    {loading ? <span>Logging in...</span> : <span>Login</span>}
-                </LoadingButton>
-                {loading &&
+                {!infoText &&
+                    <LoadingButton
+                        type="submit"
+                        endIcon={<LoginIcon />}
+                        loadingPosition="end"
+                        loading={loading}
+                        variant="contained"
+                    >
+                        {loading ?
+                            <span>{showRegister ? "Registering..." : "Logging in..."}</span> :
+                            <span>{showRegister ? "Register" : "Login"}</span>
+                        }
+                    </LoadingButton>
+                }
+                {loading && infoText &&
                     <Box
                         sx={{
+                            maxWidth: 269,
                             borderRadius: 2,
                             padding: infoText ? 1.5 : 0,
                             textAlign: 'center',
                             animation: `${blink} 1s linear infinite alternate`,
                         }}
                     >
-                        <Typography textAlign={'center'}>
+                        <LinearProgress fourColor />
+                        <Typography textAlign={'center'} paddingTop={1}>
                             {infoText}
                         </Typography>
                     </Box>
+
                 }
             </Stack>
         </form>

@@ -23,7 +23,7 @@ const WorkoutExerciseSets = ({ workoutExerciseSets }) => {
             <div>
                 <ListItemText primary={title} />
                 <Stack direction='row' sx={{ flexWrap: 'wrap' }}>
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{ flexGrow: 2 }}>
                         <Grid container columnSpacing={2}  >
                             {setArray.map((set, index) => {
                                 return (

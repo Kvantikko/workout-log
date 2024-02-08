@@ -38,13 +38,14 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
     const selectedExercises = useSelector(state => state.exerciseLibrary.selected.all)
     const isMobile = useMediaQuery('(max-width:600px)')
     const prevUrl = window.location.href
+    const prevBackFunction = window.onpopstate
 
     const dispatch = useDispatch()
 
     const handleClose = () => {
         onClose()
         dispatch(clearSelectedExercises())
-        window.history.replaceState("object or string", "Title", `${prevUrl}`);
+        window.history.replaceState(null, null,  `${prevUrl}`);
     }
 
     const AddExercisesToWorkout = () => {
@@ -54,11 +55,11 @@ const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
 
     // if browser back button is pressed -> closes the modal
     useEffect(() => {
-        window.history.pushState("object or string", "Title", `${prevUrl}/add`);
-        window.onpopstate = (event) => handleClose()     
+        window.history.pushState(null, null, `${prevUrl}/add`);
+        window.onpopstate = () => handleClose()     
         return(() => {
-            window.history.replaceState("object or string", "Title", `${prevUrl}`);
-            window.onpopstate = (event) => dispatch(unExpand())
+            window.history.replaceState(null, null, `${prevUrl}`);
+            window.onpopstate = () => prevBackFunction()//dispatch(unExpand())
         })
     }, [])
 

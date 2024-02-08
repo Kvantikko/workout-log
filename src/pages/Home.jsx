@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setWorkoutPath, resetWorkoutPath } from "../redux/reducers/navReducer"
 import { startWorkout } from "../redux/reducers/workoutReducer"
 
-import { Button, IconButton, Stack, Divider, Box, Typography } from "@mui/material"
+import { Button, IconButton, Stack, Divider, Box, Typography, Toolbar, Paper } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 
 import WorkoutCardList from "../components/Lists/WorkoutCardList"
@@ -34,7 +34,7 @@ const getRandomMemeGif = () => {
     return gifArray[random]
 }
 
-const Home = ({ drawerWidth }) => {
+const Home = () => {
 
     const user = useSelector(state => state.user)
     const templates = useSelector(state => state.templates)
@@ -80,9 +80,14 @@ const Home = ({ drawerWidth }) => {
 
     return (
         <>
-            <HideAppBar drawerWidth={drawerWidth} >
+               <HideAppBar>
                 <BasicToolbar title="Workout" />
             </HideAppBar>
+            {/* <Paper>
+                <Toolbar> <BasicToolbar title="Workout" /></Toolbar>
+            </Paper> */}
+
+
 
             <Stack padding={2} paddingBottom={20} spacing={2} alignItems="center" >
                 < Stack spacing={2} padding={3}>
@@ -98,7 +103,7 @@ const Home = ({ drawerWidth }) => {
                             <Typography variant="h5" textAlign={'center'}>You have a workout in progress! &#128170;</Typography>
                         </>
                     }
-                   {/*  {isWorkoutActive &&
+                    {/*  {isWorkoutActive &&
                         <>
                             <Box
                                 sx={{

@@ -34,7 +34,6 @@ const workoutSlice = createSlice({
     initialState,
     reducers: {
         startEmptyWorkout(state, action) {
-            //console.log(JSON.parse(JSON.stringify(state)))
             if (action.payload) {
                 state.workoutStartTime = null
             } else {
@@ -42,9 +41,6 @@ const workoutSlice = createSlice({
                 state.workoutStartTime = getTime()
             }
            
-            //window.localStorage.setItem('workoutStartTime', JSON.stringify(getTime()))
-            //console.log(JSON.parse(JSON.stringify(state)))
-            //setWorkout(state, action)
             return state
         },
 
@@ -57,8 +53,6 @@ const workoutSlice = createSlice({
 
         setWorkout(state, action) {
             const workout = action.payload
-
-            console.log(workout.title);
 
             state.id = workout.id
             state.name = workout.title
@@ -88,8 +82,6 @@ const workoutSlice = createSlice({
                     setIdArray.push(set.id)
                     state.sets.byExerciseId[exercise.id] = setIdArray
 
-                    // Update exercise with setId (???????????????????????????????????????????????????)
-                    //state.exercises.byId[exercise.id].setIds.push(set.id)
                 })
 
             })
@@ -161,8 +153,6 @@ const workoutSlice = createSlice({
             return state
         },
         addSetToWorkout(state, action) {
-            //const set = action.payload
-            //console.log("ADD REEDUCER ", set);
             const exerciseId = action.payload.exerciseId
             const warmup = action.payload.warmup
 
@@ -220,9 +210,6 @@ const workoutSlice = createSlice({
             const setId = action.payload.id
             const exerciseId = action.payload.exerciseId
 
-            //console.log("delete, ", setId, exerciseId)
-
-
             state.sets.byExerciseId[exerciseId].splice(state.sets.byExerciseId[exerciseId].indexOf(setId), 1)
 
             // find all sets that have set.exerciseId
@@ -235,15 +222,11 @@ const workoutSlice = createSlice({
                 state.sets.byId[set.id] = { ...set, setNo: set.warmup ? 0 : setNo }
             })
 
-
             delete state.sets.byId[setId] //= { ...set, exerciseId: null }
-
-            console.log("STATE NOW: ", JSON.parse(JSON.stringify(state.sets)))
 
             return state
         },
         editSetFromWorkout(state, action) {
-            console.log("EDIT SET REDUCER ", action.payload)
 
             const prev = state.sets.byId[action.payload.setId]
             state.sets.byId[action.payload.setId] = action.payload.changedSet
@@ -262,9 +245,6 @@ const workoutSlice = createSlice({
 
             return state
         },
-        copyToState() {
-            // console.log("STATE: ", JSON.parse(JSON.stringify(state)))
-        }
     },
     extraReducers: (builder) => {
         builder.addCase(
@@ -272,7 +252,6 @@ const workoutSlice = createSlice({
                 return initialState
             },
             __resetWorkoutWatch, (state, action) => {
-                console.log("-________________________________-");
                 state.workoutStartTime = null
             },
         )
@@ -302,8 +281,6 @@ export default workoutSlice.reducer
 
 export const saveWorkout = (isNew, handleClose) => {
 
-    console.log("SAVEEEEEEEEEEE ", isNew);
-
     return async (dispatch, getState) => {
 
         const exercisesFromState = getState().workout.exercises.allIds.map(exerciseId => {
@@ -311,13 +288,9 @@ export const saveWorkout = (isNew, handleClose) => {
         })
 
         const exercisesDTO = exercisesFromState.map(exercise => {
-            console.log("exerciseDTO ", exercise);
             const setsFromState = getState().workout.sets.byExerciseId[exercise.id].map(setId => {
                 return getState().workout.sets.byId[setId]
             })
-
-            console.log("exerciseDTO sets ", setsFromState);
-
 
             const exerciseWithSets = {
                 ...exercise,
@@ -335,18 +308,13 @@ export const saveWorkout = (isNew, handleClose) => {
             // sets: setsDTO
         }
 
-        console.log("ASYNC REDUCER ", newWorkoutObject)
-        // console.log("ASYNC REDUCER isNew", isNew)
-
         let workoutResponse
         try {
             if (isNew) {
                 workoutResponse = await workoutService.createNew(newWorkoutObject)
-                console.log("ASYN REDUCER resp new", workoutResponse);
                 dispatch(addWorkout(workoutResponse))
             } else {
                 workoutResponse = await workoutService.update(getState().template.id, newWorkoutObject)
-                console.log("ASYN REDUCER resp update", workoutResponse);
                 dispatch(updateWorkout(workoutResponse.data))
             }
             toast.success('Workout saved!')

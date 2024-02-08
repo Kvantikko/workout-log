@@ -28,7 +28,6 @@ import FlipMove from "react-flip-move"
 import { ArrowUpward } from "@mui/icons-material"
 
 const Workout = ({ type }) => {
-    console.log("Rendering Workout");
 
     let workoutStartTime
     let workoutName
@@ -224,7 +223,6 @@ const Workout = ({ type }) => {
                 </Stack>
             }
 
-
             <Stack sx={{ marginBottom: 8 }} >
                 <Button variant="text" fullWidth sx={{ marginBottom: 2 }} onClick={() => handleOpenAddModal()}>
                     <AddIcon sx={{ marginRight: 1 }} />
@@ -239,13 +237,6 @@ const Workout = ({ type }) => {
                     confirmFunction={addExercisesToStore}
                 />
             }
-            {/*   {openFinishModal &&
-                <AddExerciseToWorkoutModal
-                    open={openAddModal}
-                    onClose={setOpenAddModal}
-                    confirmFunction={addExercisesToStore}
-                />
-            } */}
             {openCancelModal &&
                 <BasicModal
                     open={openCancelModal}

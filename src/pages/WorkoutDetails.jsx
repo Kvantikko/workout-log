@@ -15,7 +15,6 @@ import WorkoutExerciseList from "../components/Lists/WorkoutExerciseList"
 import { formatDate } from "../utils/Date"
 
 const WorkoutDetails = ({
-    drawerWidth,
     workout,
     showDate,
     backFunction,
@@ -24,8 +23,6 @@ const WorkoutDetails = ({
     menu,
 
 }) => {
-
-    console.log("Rendering WorkoutDetails ", workout);
 
     const isBigScreen = useMediaQuery('(min-width:600px)')
     const isWorkoutActive = useSelector(state => state.workout.workoutStarted)
@@ -69,10 +66,10 @@ const WorkoutDetails = ({
     }
 
     return (
-        <Box paddingTop={{ xs: 2, sm: 3, md: 4 }} >
-            <HideAppBar drawerWidth={drawerWidth}>
+        <Box paddingTop={{ xs: 2, sm: 3, md: 4 }}  >
+            <HideAppBar >
                 <BasicToolbar
-                    title={workout.title}
+                    title={workout?.title}
                     showBack={true}
                     backFunction={backFunction}
                     link={link}
@@ -114,20 +111,18 @@ const WorkoutDetails = ({
                     variant="body1"
                     textAlign={'center'}
                     color={'text.secondary'}
-                //sx={{ paddingX: 6, width: 'fit-content', borderRadius: 1 }}
-                //noWrap
                 >
                     {workout.note}
                 </Typography>
+
             </Container>
 
-
-
             <Box
-                //display="flex"
-                // justifyContent="center"
+               
+                //textAlign="center"
                 paddingX={{ xs: 2, sm: 4, md: 6 }} paddingBottom={12} paddingTop={2}
             >
+
 
                 <Box
                     padding={0}

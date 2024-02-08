@@ -17,8 +17,10 @@ import FormButtons from "../Buttons/FormButtons"
 
 
 const ExerciseForm = ({ exercise, onSubmit, onCancel }) => {
-    console.log("Rendering ExerciseForm ", exercise);
-    const [exerciseName, setExerciseName] = useState(exercise?.name ? exercise.name : '')
+    
+   // console.log("Rendering ExerciseForm ", exercise);
+    
+   const [exerciseName, setExerciseName] = useState(exercise?.name ? exercise.name : '')
     const [targetMuscle, setTargetMuscle] = useState(exercise?.muscle ? exercise.muscle : '')
     const [exerciseNameError, setExerciseNameError] = useState('')
     const [targetMuscleError, setTargetMuscleError] = useState('')

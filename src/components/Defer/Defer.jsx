@@ -21,9 +21,6 @@ const Defer = ({ chunkSize, children, isFlip }) => {
         }
     }, [renderedItemsCount, childrenArray.length, chunkSize])
 
-
-
-
     return (
         <>
             {isFlip ?

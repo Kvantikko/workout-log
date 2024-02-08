@@ -12,7 +12,7 @@ import ExerciseMenu from '../components/Menus/ExerciseMenu';
 import { resetExercisePath } from '../redux/reducers/navReducer';
 
 
-const Exercise = ({ exercise, drawerWidth }) => {
+const Exercise = ({ exercise }) => {
     //workoutExercises
     const history = useSelector(state => state.history)
     const user = useSelector(state => state.user)
@@ -33,7 +33,6 @@ const Exercise = ({ exercise, drawerWidth }) => {
         exerciseService
             .getHistory(user.email, exercise.id)
             .then((response) => {
-                console.log("EXERCISE COMPONENT ", response);
                 setworkoutExercises(response)
                 setLoading(false)
             })
@@ -42,7 +41,7 @@ const Exercise = ({ exercise, drawerWidth }) => {
 
     return (
         <>
-            <HideAppBar drawerWidth={drawerWidth} >
+            <HideAppBar >
                 <BasicToolbar
                     title={exercise.name}
                     showBack={true}

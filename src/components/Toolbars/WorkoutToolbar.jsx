@@ -22,7 +22,7 @@ import SaveWorkoutModal from "../Modals/SaveWorkoutModal"
 import { toast } from "react-toastify"
 
 const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
-    console.log("Rendering WorkoutToolbar");
+    //console.log("Rendering WorkoutToolbar");
 
     const workoutName = useSelector(state => state.workout.name)
     const workoutStarted = useSelector(state => state.workout.workoutStarted)
@@ -54,7 +54,6 @@ const WorkoutToolbar = ({ handleDrawerOpen, open, setOpen }) => {
     }
 
     const handleWatchClick = () => {
-        console.log("handling...");
         if (isActiveRestWatch) {
             dispatch(resetRestWatch())
         } else {

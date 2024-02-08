@@ -12,11 +12,6 @@ import WorkoutExerciseSets from "./WorkoutExerciseSets";
 
 const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
 
-    console.log(workoutExercises)
-
-
-
-
     return (
         <Stack spacing={3} >
             {workoutExercises.map((exercise, text, index) => (
@@ -27,11 +22,6 @@ const ExerciseWorkoutList = ({ workoutExercises, showDate }) => {
                                 {formatDateTime(exercise.createdAt, true)}
                             </Typography>
                         }
-
-                        {/* <Button>
-                            Show whole workout
-                        </Button> */}
-
                        <Typography variant="h6" noWrap >
                             {exercise?.name}
                         </Typography>

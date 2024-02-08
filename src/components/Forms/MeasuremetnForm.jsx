@@ -20,17 +20,8 @@ import { formatUnit } from "../../utils/FormatUnit"
 
 
 const MeasurementForm = ({ measurement, entryValue, onSubmit, onCancel }) => {
-    console.log("Rendering MeasurementForm ", entryValue);
-    /*     const [exerciseName, setExerciseName] = useState(exercise?.name ? exercise.name : '')
-        const [targetMuscle, setTargetMuscle] = useState(exercise?.muscle ? exercise.muscle : '')
-        const [exerciseNameError, setExerciseNameError] = useState('')
-        const [targetMuscleError, setTargetMuscleError] = useState('') */
 
     const [value, setValue] = useState(entryValue ? entryValue : "")
-
-    const dispatch = useDispatch()
-
-
 
     const handleChange = (event) => {
         event.preventDefault()
@@ -40,10 +31,6 @@ const MeasurementForm = ({ measurement, entryValue, onSubmit, onCancel }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         onSubmit(value)
-
-        // validate
-
-        //(exerciseName, targetMuscle)
     }
 
     return (

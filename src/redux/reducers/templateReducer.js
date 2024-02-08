@@ -22,8 +22,6 @@ const templateSlice = createSlice({
     initialState,
     reducers: {
         setTemplate(state, action) {
-            console.log("setTemplate Reducer: ", action.payload);
-
             const workout = action.payload
 
             state.id = workout.id
@@ -79,8 +77,6 @@ const templateSlice = createSlice({
                 state.exercises.allIds.push(e.id)
                 number = number + 1
             })
-
-            console.log("add ", JSON.parse(JSON.stringify(state)))
 
             return state
         },
@@ -140,8 +136,6 @@ const templateSlice = createSlice({
             return state
         },
         addSetToTemplate(state, action) {
-            //const set = action.payload
-            //console.log("ADD REEDUCER ", set);
             const exerciseId = action.payload.exerciseId
             const warmup = action.payload.warmup
 
@@ -199,9 +193,6 @@ const templateSlice = createSlice({
             const setId = action.payload.id
             const exerciseId = action.payload.exerciseId
 
-            //console.log("delete, ", setId, exerciseId)
-
-
             state.sets.byExerciseId[exerciseId].splice(state.sets.byExerciseId[exerciseId].indexOf(setId), 1)
 
             // find all sets that have set.exerciseId
@@ -217,12 +208,9 @@ const templateSlice = createSlice({
 
             delete state.sets.byId[setId] //= { ...set, exerciseId: null }
 
-            console.log("STATE NOW: ", JSON.parse(JSON.stringify(state.sets)))
-
             return state
         },
         editSetFromTemplate(state, action) {
-            console.log("EDIT SET REDUCER ", action.payload)
 
             const prev = state.sets.byId[action.payload.setId]
             state.sets.byId[action.payload.setId] = action.payload.changedSet
@@ -241,9 +229,7 @@ const templateSlice = createSlice({
 
             return state
         },
-        copyToState() {
-            // console.log("STATE: ", JSON.parse(JSON.stringify(state)))
-        }
+   
     },
     extraReducers: (builder) => {
         builder.addCase(logout, () => {
@@ -270,7 +256,6 @@ export const {
 } = templateSlice.actions
 
 export const saveTemplate = (isNew, isHistory, handleClose) => {
-    console.log("hehooooo");
     return async (dispatch, getState) => {
 
         const exercisesFromState = getState().template.exercises.allIds.map(exerciseId => {
@@ -299,11 +284,6 @@ export const saveTemplate = (isNew, isHistory, handleClose) => {
             workoutExercises: exercisesDTO
         }
 
-
-
-        console.log("ASYNC REDUCER ", newWorkoutObject)
-        console.log("ASYNC REDUCER isNew", isNew)
-
         let templateResponse
         try {
             if (isNew) {
@@ -311,11 +291,9 @@ export const saveTemplate = (isNew, isHistory, handleClose) => {
                 dispatch(addTemplate(templateResponse))
             } else if (isHistory) {
                 templateResponse = await workoutService.update(getState().template.id, newWorkoutObject)
-                console.log("ASYN REDUCER resp", templateResponse);
                 dispatch(updateWorkout(templateResponse))
             } else {
                 templateResponse = await templateService.update(getState().template.id, newWorkoutObject)
-                console.log("ASYN REDUCER resp", templateResponse);
                 dispatch(updateTemplate(templateResponse))
             }
             //handleClose()
@@ -323,8 +301,7 @@ export const saveTemplate = (isNew, isHistory, handleClose) => {
             dispatch(clearTemplate())
         } catch (error) {
             toast.error(error.message)
-            // throw error
-            console.log("EEEEEEEEEERRRRRRRRROOOOOOOOOOOOOOOOOOOOOOORRR", error);
+
 
         }
         handleClose()

@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { expand, unExpand } from '../../redux/reducers/drawerReducer'
@@ -26,10 +25,10 @@ export default function WorkoutDrawer() {
     }
 
     // if browser back button is pressed -> closes the drawer
+    // note: on desktop it minimizes and actually closes when workout is no longer active
     useEffect(() => {
-        console.log("DRAWER EFFECT");
         if (window.location.href.includes("#workout") && open) {
-            window.onpopstate = (event) => {
+            window.onpopstate = () => {
                 dispatch(unExpand())
             }
         } else {

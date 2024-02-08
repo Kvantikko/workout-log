@@ -38,17 +38,13 @@ const chartSetting = {
 
 const MeasurementChart = ({ measurement }) => {
 
-    console.log("Rendering MeasurementChart ", measurement);
+    //console.log("Rendering MeasurementChart ", measurement);
 
     const measurementEntries = useSelector(state =>
         state.measurements.entries[toCamelCase(measurement.name)]
     )
 
-    console.log("ENTRIES ", measurementEntries);
-
     const dates = measurementEntries?.map(entry => new Date(entry.createdAt))
-
-    console.log("dates ", dates);
 
     return (
         <LineChart

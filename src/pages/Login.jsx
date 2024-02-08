@@ -31,7 +31,6 @@ const theme = createTheme({
 });
 
 const Login = () => {
-    console.log("Rendering Login ",)
 
     const [showRegister, setShowRegister] = useState(false)
     const [typography, setTypography] = useState(

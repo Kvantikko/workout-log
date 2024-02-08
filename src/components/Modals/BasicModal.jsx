@@ -33,7 +33,7 @@ const BasicModal = ({
     cancelButtonText,
     hideConfirmButton }) => {
 
-    console.log("Rendering BasicModal.jsx ");
+    //console.log("Rendering BasicModal.jsx ");
 
     const isSmallScreen = useMediaQuery('(max-width:900px)')
 

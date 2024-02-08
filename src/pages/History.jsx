@@ -18,7 +18,7 @@ import BasicToolbar from "../components/Toolbars/BasicToolbar"
 import { setDate } from '../redux/reducers/dateReducer'
 import { formatToMonthAndYear } from '../utils/Date'
 
-const History = ({ workouts, drawerWidth }) => {
+const History = ({ workouts }) => {
 
     const user = useSelector(state => state.user)
     const dateFromStore = useSelector(state => state.date)
@@ -36,7 +36,6 @@ const History = ({ workouts, drawerWidth }) => {
                     setLoading(false)
                 })
                 .catch(error => {
-                    console.log('error: ', error)
                     toast.error(error.message)
                 })
         }
@@ -56,7 +55,7 @@ const History = ({ workouts, drawerWidth }) => {
 
     return (
         <>
-            <HideAppBar drawerWidth={drawerWidth} >
+            <HideAppBar >
                 <BasicToolbar title="History" >
                     <DatePicker
                         sx={{ width: { xs: 110, sm: 150 } }}

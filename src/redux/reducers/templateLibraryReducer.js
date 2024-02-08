@@ -9,15 +9,15 @@ const templateLibrarySlice = createSlice({
     initialState: [],
     reducers: {
         addTemplate(state, action) {
-            console.log("REDUCER ", action.payload);
+
             state.push(action.payload) // action.payload is exercise object
-            console.log("PUSHED");
+       
             sortAlphabeticallyTitle(state)
-            console.log("SORTED");
+          
             return state
         },
         updateTemplate(state, action) {
-            console.log("REDUCER ", action.payload);
+        
 
             const id = action.payload.id
 

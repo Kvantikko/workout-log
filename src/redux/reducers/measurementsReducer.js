@@ -58,7 +58,6 @@ const measurementsSlice = createSlice({
             return state
         },
         updateEntry(state, action) {
-            console.log("UPDATE REDUCER ", action.payload);
 
             const index = state.entries[toCamelCase(action.payload.measurementName)]
                 .findIndex(value => value.id === action.payload.measurementValueId)
@@ -96,7 +95,6 @@ export const saveMeasurementValue = (measurementId, value) => {
         let response
         try {
             response = await measurementService.createNewValue(getState().user.email, measurementId, value)
-            console.log("ASYN REDUCER response is: ", response);
             dispatch(addEntry(response))
         } catch (error) {
             throw new Error(error)

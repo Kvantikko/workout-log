@@ -1,6 +1,9 @@
-import { Routes, Route, useMatch, Navigate } from "react-router-dom"
+import { useEffect } from "react"
+
+import { Routes, Route, useMatch, Navigate, useLocation } from "react-router-dom"
 
 import { useSelector, useDispatch } from 'react-redux'
+import { expand } from "../../redux/reducers/drawerReducer"
 import { resetWorkoutPath, resetHistoryPath } from '../../redux/reducers/navReducer'
 
 import Workout from '../../pages/Home'
@@ -19,9 +22,9 @@ import TemplateMenu from '../Menus/TemplateMenu'
 import HistoryMenu from '../Menus/HistoryMenu'
 
 
-const AppRoutes = ({ drawerWidth }) => {
+const AppRoutes = () => {
 
-    console.log("Rendering AppRouter.jsx");
+    //console.log("Rendering AppRouter.jsx");
 
     const templates = useSelector(state => state.templates)
     const matchTemplate = useMatch('/templates/:id')
@@ -49,15 +52,13 @@ const AppRoutes = ({ drawerWidth }) => {
 
     const dispatch = useDispatch()
 
-
-
     return (
         <Routes>
             <Route
                 path="/"
                 element={
                     <ProtectedRoute  >
-                        <Workout drawerWidth={drawerWidth} />
+                        <Workout />
                     </ProtectedRoute>}
             />
             <Route
@@ -65,7 +66,6 @@ const AppRoutes = ({ drawerWidth }) => {
                 element={
                     <ProtectedRoute>
                         <WorkoutDetails
-                            drawerWidth={drawerWidth}
                             workout={template}
                             backFunction={() => dispatch(resetWorkoutPath())}
                             link="/"
@@ -81,7 +81,6 @@ const AppRoutes = ({ drawerWidth }) => {
                 element={
                     <ProtectedRoute>
                         <WorkoutDetails
-                            drawerWidth={drawerWidth}
                             workout={workout}
                             showDate
                             backFunction={() => dispatch(resetHistoryPath())}
@@ -98,42 +97,42 @@ const AppRoutes = ({ drawerWidth }) => {
                 path="/history"
                 element={
                     <ProtectedRoute>
-                        <History workouts={workouts} drawerWidth={drawerWidth} />
+                        <History workouts={workouts} />
                     </ProtectedRoute>}
             />
             <Route
                 path="/exercises/:id"
                 element={
                     <ProtectedRoute>
-                        <Exercise exercise={exercise} drawerWidth={drawerWidth} />
+                        <Exercise exercise={exercise} />
                     </ProtectedRoute>}
             />
             <Route
                 path="/exercises"
                 element={
                     <ProtectedRoute>
-                        <Exercises drawerWidth={drawerWidth} />
+                        <Exercises />
                     </ProtectedRoute>}
             />
             <Route
                 path="/measure/:id"
                 element={
                     <ProtectedRoute>
-                        <Measurement measurement={measurement} drawerWidth={drawerWidth} />
+                        <Measurement measurement={measurement} />
                     </ProtectedRoute>}
             />
             <Route
                 path="/measure"
                 element={
                     <ProtectedRoute>
-                        <Measurements measurements={measurements} drawerWidth={drawerWidth} />
+                        <Measurements measurements={measurements} />
                     </ProtectedRoute>}
             />
             <Route
                 path="/profile"
                 element={
                     <ProtectedRoute>
-                        <Profile drawerWidth={drawerWidth} />
+                        <Profile />
                     </ProtectedRoute>}
             />
             <Route

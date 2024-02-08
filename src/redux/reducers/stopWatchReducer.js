@@ -45,7 +45,6 @@ const stopWatchSlice = createSlice({
 
 
         _startWorkoutWatch: (state, action) => {
-            console.log("_startWorkoutWatch")
             workoutWatchWorkerManager.postMessageToWorker("start")
             state.workoutWatch.isActive = true
             return state
@@ -115,7 +114,6 @@ export const resetWatches = () => {
 }
 
 export const resetWorkoutWatch = () => {
-    console.log("GALABAGOS SASAASA RERAWELADLW");
     return (dispatch) => {
         dispatch(_resetWorkoutWatch())
         dispatch(__resetWorkoutWatch())

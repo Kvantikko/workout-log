@@ -11,7 +11,7 @@ import WaitingModal from './WaitingModal'
 
 
 const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, workout }) => {
-    console.log("Rendering SaveWorkoutModal ", type);
+    //console.log("Rendering SaveWorkoutModal ", type);
 
     const [isSaving, setIsSaving] = useState(false)
 
@@ -49,7 +49,6 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
                 dispatch(saveTemplate(!editVipu, false, handleClose))
                 break;
             case "history":
-                console.log("case history");
                 dispatch(saveTemplate(!editVipu, true, handleClose))
                 break;
             default:

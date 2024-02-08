@@ -15,24 +15,15 @@ import FormModal from '../Modals/FormModal'
 import SearchInput from '../Inputs/SearchInput'
 
 const ExercisesToolbar = () => {
-    console.log("Rendering ExerciseToolbar ");
 
-    /* const searchState = useSelector(state => state.exerciseLibrary.search)
-    const [showFullWidthSearch, setShowFullWidthSearch] = useState(searchState.showFullWidth) */
     const showFullWidthSearch = useSelector(state => state.exerciseLibrary.search.showFullWidth)
-    console.log("FULL WIDTH? ", showFullWidthSearch);
     const [openAddModal, setOpenAddModal] = useState(false)
 
     const isSmallScreen = useMediaQuery('(max-width:700px)');
     const inputRef = useRef(null);
     const dispatch = useDispatch()
 
-    /* useEffect(() => {
-        setShowFullWidthSearch(searchState.showFullWidth)
-    }, []) */
-
     const handleSearchClick = (event) => {
-        console.log("jeeee");
         dispatch(
             setSearch({
                 searchString: '',
@@ -42,7 +33,6 @@ const ExercisesToolbar = () => {
     }
 
     const handleBackClick = (event) => {
-        console.log("juuuu");
         dispatch(
             setSearch({
                 searchString: '',
