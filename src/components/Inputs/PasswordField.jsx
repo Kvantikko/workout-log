@@ -10,7 +10,7 @@ const PasswordField = ({ id, showPassword, label, onClick, onVisibilityClick, on
             type={showPassword ? "text" : "password"}
             label={label}
             size="small"
-            onChange={(event) => onChange(event.target.value)}
+            onChange={onChange}
             onClick={(event) => onClick(event.target.id)}
             error={error}
             helperText={helperText}

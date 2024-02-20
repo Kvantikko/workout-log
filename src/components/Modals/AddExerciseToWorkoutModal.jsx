@@ -1,17 +1,19 @@
 import { useState, useRef, useEffect } from 'react'
 
-import { useLocation, useNavigate } from 'react-router-dom'
-
 import { useSelector, useDispatch } from 'react-redux'
 import { clearSelectedExercises, setSearch } from '../../redux/reducers/exerciseLibraryReducer'
 import { unExpand } from '../../redux/reducers/drawerReducer'
 
-import { Box, Modal, Fab, IconButton, Button, Stack, useMediaQuery } from '@mui/material'
+import { Box, Modal, IconButton, Tab, Tabs, Button, Slide, Stack, useMediaQuery, Container, Typography, Toolbar, Fab } from '@mui/material'
 import { ArrowBack, Close, Done } from '@mui/icons-material'
 
 import ExerciseList from '../Lists/ExerciseList'
 import SearchInput from '../Inputs/SearchInput'
-import CloseModalButton from '../Buttons/CloseModalButton'
+import ExerciseForm from '../Forms/ExerciseForm'
+import PageModal from './PageModal'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { addExercisesToWorkout } from '../../redux/reducers/workoutReducer'
+import { addExercisesToTemplate } from '../../redux/reducers/templateReducer'
 
 export const addExerciseToWorkoutStyle = {
     position: 'absolute',
@@ -20,112 +22,223 @@ export const addExerciseToWorkoutStyle = {
     transform: 'translate(-50%, -50%)',
     width: { xs: '100vw', sm: '70vw', md: '50vw' },
     height: { xs: '100svh', sm: '89%' },
-    //maxHeight: '100%',
-    // maxWidth: 550,
     bgcolor: '#222326',
     borderRadius: 4,
-    //border: '2px solid #000',
     boxShadow: 24,
-    //p: { xs: 2, sm: 4},
-
-    //overflow: 'scroll'
-    //display: 'flex',
-    //flexDirection: 'column'
+    overflow: 'hidden',
+    display: 'flex',
 }
 
-const AddExerciseToWorkoutModal = ({ open, onClose, confirmFunction }) => {
-
-    const selectedExercises = useSelector(state => state.exerciseLibrary.selected.all)
-    const isMobile = useMediaQuery('(max-width:600px)')
-    const prevUrl = window.location.href
-    const prevBackFunction = window.onpopstate
-
-    const dispatch = useDispatch()
-
-    const handleClose = () => {
-        onClose()
-        dispatch(clearSelectedExercises())
-        window.history.replaceState(null, null,  `${prevUrl}`);
-    }
-
-    const AddExercisesToWorkout = () => {
-        confirmFunction(selectedExercises)
-        dispatch(clearSelectedExercises())
-    }
-
-    // if browser back button is pressed -> closes the modal
-    useEffect(() => {
-        window.history.pushState(null, null, `${prevUrl}/add`);
-        window.onpopstate = () => handleClose()     
-        return(() => {
-            window.history.replaceState(null, null, `${prevUrl}`);
-            window.onpopstate = () => prevBackFunction()//dispatch(unExpand())
-        })
-    }, [])
+function CustomTabPanel(props) {
+    const { children, value, index, ...other } = props;
 
     return (
-        <Modal
-            open={open}
-            onClose={() => handleClose()}
-            BackdropProps={{
-                timeout: 500,
-                sx: {
-                    backdropFilter: 'blur(3px)'
-                },
-            }}
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
         >
-            <div>
-                {/*       <CloseModalButton onClick={handleClose} /> */}
+            {value === index && (
+                <Box sx={{ p: 0 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
 
-                <Box sx={addExerciseToWorkoutStyle}>
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
 
-                    {/*     <IconButton
-                        onClick={() => handleClose()}
-                        sx={{
-                            position: "absolute",
-                            right: -20,
-                            top: -20,
-                            border: "solid"
-                        }}
-                    >
-                        <Close></Close>
-                    </IconButton> */}
+const AddExerciseToWorkoutModal = ({ openButton, onClose, onSubmit }) => {
 
-                    <Stack paddingX={2} paddingY={2} direction={"row"}>
-                        {isMobile &&
-                            <IconButton onClick={() => handleClose()} sx={{ paddingRight: 1.5 }}>
-                                <ArrowBack />
-                                {/*  <Close></Close> */}
-                            </IconButton>
-                        }
-                        <SearchInput />
-                        {!isMobile &&
-                            /*   <Button color='error'>
-                                  <Close/>
-                              </Button> */
-                            <IconButton onClick={() => handleClose()} sx={{ marginLeft: 2, marginRight: 0 }}>
-                                <Close></Close>
-                            </IconButton>
-                        }
-                    </Stack>
+    const [value, setValue] = useState(0);
 
-                    <Box sx={{ overflowY: 'scroll', height: isMobile ? '89vh' : '79vh' }}  >
-                        <ExerciseList showChecked={true} />
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    console.log("Rendering AddExerciseToWorkoutModal");
+
+    const selectedExercises = useSelector(state => state.exerciseLibrary.selected.all)
+    const prevUrl = window.location.href
+    const searchString = useSelector(state => state.exerciseLibrary.search.searchString)
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleClose = () => {
+        onClose ? onClose() : null
+        //setOpen(false)
+        dispatch(clearSelectedExercises())
+        window.history.back()
+    }
+
+    const handleSubmit = () => {
+        //onSubmit(selectedExercises)
+        dispatch(addExercisesToTemplate(selectedExercises))
+        //dispatch(clearSelectedExercises())
+        navigate(-1)
+    }
+
+    const handleCreateClick = () => setValue(1)
+
+    return (
+
+        <PageModal
+
+            onClose={handleClose}
+            onAction={() => navigate("/workout-template/create-exercise")}
+            header={
+                <Box >
+                    <Typography variant='h6'>Add exercises</Typography>
+                </Box>
+            }
+            secondaryHeader={
+                <>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
+                        <Tabs value={value} onChange={handleChange} variant="fullWidth"  >
+                            <Tab label="Search" {...a11yProps(0)} />
+                            <Tab label="Create" {...a11yProps(1)} />
+                        </Tabs>
                     </Box>
+                    {value === 0 ?
+                        <Box sx={{ paddingX: 3, paddingTop: 3, paddingBottom: 2 }}>
+                            <SearchInput />
+                        </Box>
+                        :
+                        null
+                    }
+                </>
+            }
+            hideFooter={true}
 
-                    {selectedExercises.length !== 0 &&
+        >
+            <Box sx={{ width: '100%' }}>
+                <CustomTabPanel value={value} index={0} >
+                    <ExerciseList showChecked={true} handleCreateClick={handleCreateClick} />
+                    {selectedExercises.length > 0 &&
                         <Fab
-                            onClick={() => AddExercisesToWorkout()}
+                            onClick={handleSubmit}
                             color='info'
-                            sx={{ position: 'absolute', bottom: 25, right: 25 }}
+                            sx={{ position: 'absolute', top: { xs: "88svh", sm: "79svh" }, right: { xs: 20, sm: 30 } }}
                         >
                             <Done />
+                            {` ${selectedExercises.length}`}
                         </Fab>
                     }
 
-                </Box>
-            </div>
-        </Modal>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1} >
+                    {/*  <Stack paddingX={2} paddingY={2} direction={"row"} alignItems={'center'}>
+                        <IconButton
+                            onClick={() => {
+                                setShowCreate(false)
+                                window.history.back()
+                            }}
+                            sx={{ marginRight: 1.5 }}
+                        >
+                            <ArrowBack />
+                        </IconButton>
+
+                    </Stack> */}
+                    <Box sx={{ p: 3 }}>
+                        <ExerciseForm
+                            onSubmit={handleClose}
+                            cancelButtonText={"Back"}
+                            confirmButtonText={"Create"}
+                            exercise={{ name: searchString }}
+                        //height={520}
+
+
+                        />
+                    </Box>
+
+                </CustomTabPanel>
+            </Box>
+
+            {/*   <Box ref={containerRef} > */}
+
+            {/* !showCreate ?
+                <ExerciseList showChecked={true} handleCreateClick={handleCreateClick} />
+                :
+                <ExerciseForm
+                    onSubmit={() => setShowCreate(false)}
+                    onCancel={() => {
+                        setShowCreate(false)
+                        window.history.back()
+                    }}
+                    cancelButtonText={"Back"}
+                    confirmButtonText={"Create"}
+                    height={520}
+                />
+                */}
+
+
+
+
+            {/* 
+            <Box sx={{ width: 1 }}>
+                <Slide in={!showCreate} direction="right" container={containerRef.current} appear={false}>
+                    <div>
+                        <Stack paddingX={3} paddingY={3} direction={"row"} justifyContent={"space-between"}>
+                            <Button onClick={handleCreateClick}>
+                                Create
+                            </Button>
+                            <Stack direction={"row"} gap={2}>
+                                {!isMobile &&
+                                    <Button variant="outlined" onClick={() => handleClose()} >
+                                        Cancel
+                                    </Button>
+                                }
+                                <Button
+                                    variant="contained"
+                                    disabled={selectedExercises.length === 0}
+                                    onClick={() => handleSubmit()}
+                                >
+                                    {`Add (${selectedExercises.length})`}
+                                </Button>
+                            </Stack>
+                        </Stack>
+                    </div>
+                </Slide>
+            </Box> */}
+            {/* 
+            <Box sx={{ position: "absolute", width: 1, pointerEvents: showCreate ? "auto" : "none" }}>
+                <Slide in={showCreate} direction="left" container={containerRef.current} >
+                    <div>
+
+                        <Box padding={5}>
+                            <ExerciseForm
+                                onSubmit={() => setShowCreate(false)}
+                                onCancel={() => {
+                                    setShowCreate(false)
+                                    window.history.back()
+                                }}
+                                cancelButtonText={"Back"}
+                                confirmButtonText={"Create"}
+                                height={520}
+                            />
+                        </Box>
+                    </div>
+                </Slide>
+            </Box> */}
+
+            {/*       {!isMobile &&
+                        <IconButton onClick={() => handleClose()} sx={{ position: "absolute", top: 15, right: 13, }}>
+                            <Close></Close>
+                        </IconButton>
+
+                    } */}
+            {/*   </Box> */}
+            <Outlet></Outlet>
+        </PageModal>
     )
 }
 

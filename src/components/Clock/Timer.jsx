@@ -1,6 +1,4 @@
-import { useRef, useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { startWorkoutWatch, startRestWatch } from "../../redux/reducers/stopWatchReducer"
+import { useSelector } from "react-redux"
 import { Typography } from "@mui/material"
 
 const Timer = ({ isRestTimer, size }) => {

@@ -1,4 +1,7 @@
-import * as React from 'react';
+import { memo } from 'react'
+
+import { Link } from "react-router-dom"
+
 import {
     CardActionArea,
     Typography,
@@ -13,15 +16,9 @@ import {
     Fade,
     Zoom,
     Grow
-} from '@mui/material';
+} from '@mui/material'
 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useNavigate } from 'react-router-dom'
-
-import { Link } from "react-router-dom"
-import { useDispatch } from 'react-redux'
-
-import { formatDayAndMonthFinnish } from '../../utils/Date'
+import { formatDayAndMonthFinnish } from '../../utils/date'
 
 const WorkoutCard = ({ workout, showDate, onClickFunction, path }) => {
     //console.log("Rendering HistoryListCard ", workout.id, workout)
@@ -37,9 +34,6 @@ const WorkoutCard = ({ workout, showDate, onClickFunction, path }) => {
     }
 
     return (
-
-        <Grow in={true}>
-
             <Card
                 sx={{
                     width: 1,
@@ -83,10 +77,7 @@ const WorkoutCard = ({ workout, showDate, onClickFunction, path }) => {
                 <Button size="small">Perform again</Button>
             </CardActions> */}
             </Card>
-
-        </Grow >
-
-    );
+    )
 }
 
-export default React.memo(WorkoutCard)
+export default memo(WorkoutCard)

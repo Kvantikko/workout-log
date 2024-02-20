@@ -7,6 +7,7 @@ import { Delete, Edit, Remove } from '@mui/icons-material'
 import BasicMenu from './BasicMenu';
 import EditWorkoutModal from '../Modals/EditWorkoutModal';
 import { deleteTemplate } from '../../redux/reducers/templateLibraryReducer';
+import { resetWorkoutPath } from '../../redux/reducers/navReducer';
 
 const TemplateMenu = ({ workout }) => {
 
@@ -32,6 +33,7 @@ const TemplateMenu = ({ workout }) => {
     const handleDelete = () => {
         handleClose()
         navigate('/')
+        dispatch(resetWorkoutPath())
         dispatch(deleteTemplate(workout.id))
     }
 

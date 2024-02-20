@@ -17,12 +17,7 @@ const WaitingModal = ({ open, onClose, text }) => {
         <Modal
             open={open}
             onClose={onClose}
-            BackdropProps={{
-                timeout: 500,
-                sx: {
-                    backdropFilter: 'blur(3px)'
-                },
-            }}
+            sx={{ backdropFilter: "blur(3px)" }}
         >
             <Box sx={style}>
                 <Typography

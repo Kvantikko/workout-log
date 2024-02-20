@@ -1,6 +1,6 @@
 import { Button, Container, Stack, Box, Typography, Divider } from "@mui/material"
 
-import HideAppBar from "../components/AppBar/HideAppBar"
+import HideAppBar from "../components/AppBars/HideAppBar"
 import BasicToolbar from "../components/Toolbars/BasicToolbar"
 import MeasurementsList from "../components/Lists/MeasurmentsList"
 import { useNavigate } from "react-router-dom"

@@ -10,22 +10,14 @@ import { IconButton, Box } from '@mui/material'
 import { Add } from '@mui/icons-material'
 
 import ExerciseList from '../components/Lists/ExerciseList'
-import HideAppBar from '../components/AppBar/HideAppBar'
+import HideAppBar from '../components/AppBars/HideAppBar'
 import ExercisesToolbar from '../components/Toolbars/ExercisesToolbar'
-import BasicToolbar from '../components/Toolbars/BasicToolbar'
-
 
 const Exercises = () => {
-
-    //const [input, setInput] = useState(useSelector(state => state.exerciseLibrary.search.searchString))
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    /* useEffect(() => {
-        dispatch(setSearch({ searchString: input, showFillWidth: true }))
-    }, [input])
- */
     const handleListClick = useCallback((exercise) => {
         navigate(`/exercises/${exercise.id}`)
         dispatch(setExercisesPath(`exercises/${exercise.id}`))

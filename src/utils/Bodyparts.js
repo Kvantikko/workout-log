@@ -1,4 +1,4 @@
-const BODY_PARTS = [
+export const BODY_PARTS = [
     "Shoulders",
     "Rear delts",
     "Upper chest",

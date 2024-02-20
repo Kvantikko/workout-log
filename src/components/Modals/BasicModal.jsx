@@ -7,7 +7,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '100vw',
+    width: '85vw',
     height: '100wh',
     maxHeight: '100%',
     maxWidth: 600,
@@ -63,7 +63,7 @@ const BasicModal = ({
                 }
                 {children}
                 {isSmallScreen &&
-                    <Box >
+                    <Box >  
                         {!hideConfirmButton && <Button
                             variant="contained"
                             color={confirmButtonColor ? confirmButtonColor : 'info'}
@@ -81,6 +81,9 @@ const BasicModal = ({
                 {!isSmallScreen &&
                     <Box display={'flex'} flexDirection={'row'} gap={2} justifyContent={'right'} >
                         <Box width={300} />
+                        <Button fullWidth onClick={onClose} variant='outlined'>
+                            {cancelButtonText ? cancelButtonText : <div>Cancel</div>}
+                        </Button>
                         {!hideConfirmButton &&
                             <Button
                                 variant="contained"
@@ -91,9 +94,7 @@ const BasicModal = ({
                             >
                                 {confirmButtonText ? confirmButtonText : <div>Yes</div>}
                             </Button>}
-                        <Button fullWidth onClick={onClose} variant='outlined'>
-                            {cancelButtonText ? cancelButtonText : <div>Cancel</div>}
-                        </Button>
+
 
                     </Box>
                 }

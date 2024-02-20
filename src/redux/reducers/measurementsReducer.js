@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import measurementService from '../../services/measurements'
-import { toCamelCase } from '../../utils/ToCamelCase'
+import { toCamelCase } from '../../utils/toCamelCase'
 import { logout } from "./userReducer"
 
 const initialState = {

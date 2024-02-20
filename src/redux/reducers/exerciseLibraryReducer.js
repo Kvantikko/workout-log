@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import exerciseService from "../../services/exercises"
-import { sortAlphabetically } from '../../utils/SortAlphabetically'
+import { sortAlphabetically } from '../../utils/sortBy'
 import { logout } from "./userReducer"
+import { resetExercisePath } from './navReducer'
 
 const initialState = {
     exercises: [],
@@ -41,8 +42,6 @@ const exerciseLibrarySlice = createSlice({
                 name: action.payload.name,
                 muscle: action.payload.muscle
             }
-
-            
 
             state.exercises[index] = changedExercise
 
@@ -159,14 +158,18 @@ export const editExercise = (exerciseId, exerciseName, targetMuscle) => {
     }
 }
 
-export const deleteExercise = (id) => {
+export const deleteExercise = (id, navigate) => {
     return async (dispatch, getState) => {
         try {
             await exerciseService.remove(id)
             dispatch(removeExercise(id))
-            toast.success("Exercise deleted succesfully!");
+            toast.success("Exercise deleted!")
+            dispatch(resetExercisePath())
+            navigate('/exercises')
         } catch (err) {
-            toast.error(err.response)
+            console.log(err)
+            const placeholder = "The exercise has history and therefore cannot be deleted!"
+            toast.error(placeholder)
         }
     }
 }

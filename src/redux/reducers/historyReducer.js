@@ -18,11 +18,8 @@ const historySlice = createSlice({
             return state
         },
         updateWorkout(state, action) {
-            const id = action.payload.id
-            const index = state.findIndex(w => w.id === id)
+            const index = state.findIndex(workout => workout.id === action.payload.id)
             state[index] = action.payload
-            //state = state.map(exercise => exercise.id !== id ? exercise : changedExercise)
-            //sortAlphabetically(state)
             return state
         },
     },

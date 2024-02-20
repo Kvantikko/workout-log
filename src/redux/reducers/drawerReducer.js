@@ -1,21 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { logout } from "./userReducer"
 
-/* const observeUrlChange = () => {
-    let oldHref = document.location.href;
-    const body = document.querySelector("body");
-    const observer = new MutationObserver(mutations => {
-        if (oldHref !== document.location.href) {
-            oldHref = document.location.href;
-         
-
-        }
-    })
-    observer.observe(body, { childList: true, subtree: true });
-}
-
-window.onload = observeUrlChange; */
-
 let prevUrl
 
 const drawerSlice = createSlice({
@@ -29,7 +14,6 @@ const drawerSlice = createSlice({
 
             window.history.pushState(null, null, prevUrl)
             window.history.replaceState(null, null, `#workout`)
-
 
             state = true
             return state

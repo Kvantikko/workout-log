@@ -31,7 +31,6 @@ const Defer = ({ chunkSize, children, isFlip }) => {
                 childrenArray.slice(0, renderedItemsCount)
             }
         </>
-
     )
 }
 

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useEffect } from 'react'
 
 import MuiDrawer from '@mui/material/Drawer'
 import MuiAppBar from '@mui/material/AppBar'
@@ -8,9 +7,6 @@ import { styled, useTheme } from '@mui/material/styles'
 
 import WorkoutToolbar from '../Toolbars/WorkoutToolbar'
 import Workout from '../Workout/Workout'
-import { useSelector } from 'react-redux'
-
-const drawerWidth = '40vw'
 
 const openedMixin = (theme) => ({
     //width: drawerWidth,
@@ -72,7 +68,7 @@ const AppBar = styled(MuiAppBar, {
         // marginLeft: drawerWidth,
         //display: 'none',
         marginRight: 0,
-       // width: '100%',// `calc(100% - ${drawerWidth}px)`,
+        // width: '100%',// `calc(100% - ${drawerWidth}px)`,
         [theme.breakpoints.up('sm')]: {
             width: 400 //`calc(${theme.spacing(50)} + 1px)`,
         },
@@ -106,8 +102,6 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-
-
 export const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         //width: drawerWidth,
@@ -134,68 +128,50 @@ export default function WorkoutDrawerDesktop({ toggleDrawer, open, isWorkoutActi
     const isBigScreen = useMediaQuery('(min-width:1200px)')
 
     function calculate() {
-        if(isWorkoutActive && isBigScreen) return 500
-        if(isWorkoutActive) return 400
+        if (isWorkoutActive && isBigScreen) return 500
+        if (isWorkoutActive) return 400
         return "0vw"
     }
-    
-
-   
 
     return (
-       /*  <Slide direction="left" in={true} >
-            <div> */
-                < Drawer
-                    sx={{
-                        '& .MuiDrawer-paper': { width: open ? "100vw" : calculate() }
-                    }}
-                    variant="permanent"
-                    anchor='right'
-                    open={isWorkoutActive}
-                    PaperProps={{
-                        sx: {
-                            backgroundColor: "#1c1c1c",
-                        }
-                    }}
-                >
-                    <DrawerHeader>
-                        <AppBar open={isWorkoutActive} isExpanded={open}> {/*isExpanded aiheuttaa logissa errorin...???*/}
-                            <Toolbar disableGutters={false} >
-                                <Stack
-                                    direction="row"
-                                    justifyContent={'space-between'}
-                                    width={1}
-                                >
-                                    <WorkoutToolbar
-                                        open={open}
-                                        handleDrawerOpen={toggleDrawer}
-                                    />
-                                </Stack>
-                            </Toolbar>
-                        </AppBar>
-                    </DrawerHeader>
+        < Drawer
+            sx={{
+                '& .MuiDrawer-paper': { width: open ? "100vw" : calculate() }
+            }}
+            variant="permanent"
+            anchor='right'
+            open={isWorkoutActive}
+            PaperProps={{
+                sx: {
+                    backgroundColor: "#1c1c1c",
+                }
+            }}
+        >
+            <DrawerHeader>
+                <AppBar open={isWorkoutActive} isExpanded={open}> {/*isExpanded aiheuttaa logissa errorin...???*/}
+                    <Toolbar disableGutters={false} >
+                        <Stack
+                            direction="row"
+                            justifyContent={'space-between'}
+                            width={1}
+                        >
+                            <WorkoutToolbar
+                                open={open}
+                                handleDrawerOpen={toggleDrawer}
+                            />
+                        </Stack>
+                    </Toolbar>
+                </AppBar>
+            </DrawerHeader>
 
-
-
-
-                    {/*    <Fade in={true} >
-
-                        <div>
-                            <div>dadwadwadwadawd</div> */}
-
-
-                    <Box sx={{
-                        paddingTop: 2,
-                        paddingX: { md: open ? 10 : 0, lg: open ? 10 : 0, xl: open ? 20 : 0 },
-                        overflowY: 'auto',
-                        overflowX: 'hidden'
-                    }}>
-                        <Workout type={"active"} />
-                    </Box>
-                    {/*      </div>
-                    </Fade> */}
-                </Drawer >
-      /*       </div>
-        </Slide> */
+            <Box sx={{
+                paddingTop: 2,
+                paddingX: { md: open ? 10 : 0, lg: open ? 10 : 0, xl: open ? 20 : 0 },
+                overflowY: 'auto',
+                overflowX: 'hidden'
+            }}>
+                <Workout type={"active"} />
+            </Box>
+        </Drawer >
     )
 }

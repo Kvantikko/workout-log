@@ -1,46 +1,60 @@
+import { useState } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
 import { useSelector, useDispatch } from 'react-redux'
+import { selectAllTemplateExercises } from "../../redux/selectors"
+import { selectAllWorkoutExercises } from "../../redux/selectors"
+import { clearTemplate, saveTemplate, } from '../../redux/reducers/templateReducer'
+import { resetHistoryPath, resetWorkoutPath } from '../../redux/reducers/navReducer'
+import { saveWorkout, endWorkout } from '../../redux/reducers/workoutReducer'
+
+import { Container, Button } from '@mui/material'
 
 import BasicModal from './BasicModal'
-
-import { toast } from 'react-toastify'
-import { clearTemplate, saveTemplate, } from '../../redux/reducers/templateReducer'
-import { resetWorkoutPath } from '../../redux/reducers/navReducer'
-import { saveWorkout } from '../../redux/reducers/workoutReducer'
-import { useState } from 'react'
+import NewBasicModal from './NewBasicModal'
 import WaitingModal from './WaitingModal'
 
+import { toast } from 'react-toastify'
 
-const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, workout }) => {
+const SaveWorkoutModal = ({ openButton, type, editVipu, onSubmit }) => {
+
     //console.log("Rendering SaveWorkoutModal ", type);
 
     const [isSaving, setIsSaving] = useState(false)
-
-    let modalTitle
-    switch (type) {
-        case "active":
-            modalTitle = "Finish workout?"
-            break;
-        case "template":
-            modalTitle = "Save workout?"
-            break;
-        case "history":
-            modalTitle = "Save workout?"
-            break;
-        default:
-            throw new Error('Component must have a type prop specified!');
-    }
+    const workoutName = useSelector(state => type === "active" ? state.workout.name : state.template.name)
+    const exercises = useSelector(type === "active" ? selectAllWorkoutExercises : selectAllTemplateExercises)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleClose = () => {
         setIsSaving(false)
-        onClose()
-        onSubmit ? onSubmit() : null
+        onSubmit()
+       
+        if (type === "template") {
+            navigate("/")
+            dispatch(resetWorkoutPath())
+        } else {
+            navigate("/history")
+            dispatch(resetHistoryPath())
+        }
+    }
+
+    const handleFinishClick = () => {
+        if (exercises.length === 0) {
+            toast.warning('Add at least one exercise before finishing!')
+            return false
+        }
+        if (workoutName === "" || workoutName === undefined || workoutName === null) {
+            toast.warning('Name your workout before finishing!')
+            return false
+        }
+        return true
     }
 
     const saveWorkoutToDb = async () => {
         setIsSaving(true)
-
         switch (type) {
             case "active":
                 dispatch(saveWorkout(true, handleClose))
@@ -54,41 +68,26 @@ const SaveWorkoutModal = ({ open, onClose, onSubmit, type, title, editVipu, work
             default:
                 throw new Error('Component must have a type prop specified!');
         }
-
-        //onClose()
-        //handleClose()
-
     }
-
-
-    const decideModal = () => {
-        if (isSaving) {
-            return (
-                <WaitingModal
-                    open={open}
-                    onClose={onClose}
-                    text={"Saving..."}
-                />
-            )
-        }
-        return (
-            <BasicModal
-                open={open}
-                onClose={onClose}
-                title={modalTitle}
-                subTitle=" "
-                confirmButtonText={'Yes'}
-                cancelButtonText={'Cancel'}
-                onSubmit={saveWorkoutToDb}
-            />
-        )
-
-
-    }
-
 
     return (
-        decideModal()
+        <>
+            {isSaving ?
+                <WaitingModal
+                    open={true}
+                    //onClose={onClose}
+                    text={"Saving..."}
+                />
+                :
+                <NewBasicModal
+                    openButton={openButton}
+                    beforeOpen={handleFinishClick}
+                    title={type === "active" ? "Finish workout?" : "Save workout?"}
+                    subTitle=" "
+                    onSubmit={() => saveWorkoutToDb()}
+                />
+            }
+        </>
     )
 }
 

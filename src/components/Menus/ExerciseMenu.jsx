@@ -10,8 +10,11 @@ import ExerciseForm from '../Forms/ExerciseForm'
 import FormModal from '../Modals/FormModal'
 import BasicMenu from './BasicMenu'
 import BasicModal from '../Modals/BasicModal'
+import { resetExercisePath } from '../../redux/reducers/navReducer'
 
 const ExerciseMenu = ({ exercise, showDateRange }) => {
+
+    //console.log(exercise);
 
 
     const [anchorEl, setAnchorEl] = React.useState(null)
@@ -38,9 +41,8 @@ const ExerciseMenu = ({ exercise, showDateRange }) => {
     }
 
     const handleDelete = () => {
-        navigate('/exercises')
         handleClose()
-        dispatch(deleteExercise(exercise.id))
+        dispatch(deleteExercise(exercise.id, navigate))
     }
 
     return (
@@ -84,9 +86,9 @@ const ExerciseMenu = ({ exercise, showDateRange }) => {
                     open={openDelete}
                     onClose={() => handleClose()}
                     title="Delete exercise?"
-                    subTitle="Are you sure you want to remove this exercise and its history from the database?
-                    This action cannot be undone"
+                    subTitle="Are you sure you want to remove this exercise from the database?"
                     confirmButtonText='Delete'
+                    confirmButtonColor="error"
                     cancelButtonText='Cancel'
                     onSubmit={() => handleDelete()}
                 />

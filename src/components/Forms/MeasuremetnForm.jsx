@@ -1,4 +1,4 @@
-import BODY_PARTS from "../../utils/Bodyparts"
+import BODY_PARTS from "../../utils/bodyparts"
 import { useState } from "react"
 import {
     TextField,
@@ -16,7 +16,7 @@ import {
 import { useDispatch } from "react-redux"
 import FormButtons from "../Buttons/FormButtons"
 
-import { formatUnit } from "../../utils/FormatUnit"
+import { formatUnit } from "../../utils/formatUnit"
 
 
 const MeasurementForm = ({ measurement, entryValue, onSubmit, onCancel }) => {

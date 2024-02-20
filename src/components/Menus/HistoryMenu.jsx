@@ -13,6 +13,7 @@ import { Delete, Edit, Remove } from '@mui/icons-material'
 import EditWorkoutModal from '../Modals/EditWorkoutModal'
 import BasicModal from '../Modals/BasicModal'
 import BasicMenu from './BasicMenu'
+import { resetHistoryPath } from '../../redux/reducers/navReducer'
 
 const HistoryMenu = ({ workout }) => {
 
@@ -38,6 +39,7 @@ const HistoryMenu = ({ workout }) => {
 
     const handleDelete = () => {
         navigate('/history')
+        dispatch(resetHistoryPath())
         handleClose()
         dispatch(deleteWorkout(workout.id))
     }
@@ -110,6 +112,7 @@ const HistoryMenu = ({ workout }) => {
                 title="Delete workout?"
                 subTitle="Are you sure you want to delete this workout from history? This action cannot be undone."
                 confirmButtonText='Delete'
+                confirmButtonColor="error"
                 cancelButtonText='Cancel'
                 onSubmit={() => handleDelete()}
             />

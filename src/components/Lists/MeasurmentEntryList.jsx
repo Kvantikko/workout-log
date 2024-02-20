@@ -2,7 +2,7 @@ import { List, Stack, ListItem, Divider, ListItemText, Box, IconButton, Typograp
 import MeasurementsListItem from "../ListItems/MeasurementListItem"
 import MeasurementEntryListItem from "../ListItems/MeasurementEntryListItem"
 
-import { formatUnit } from "../../utils/FormatUnit"
+import { formatUnit } from "../../utils/formatUnit"
 
 const MeasurementEntryList = ({ entries, measurement, handleUpdate, handleDelete }) => {
 

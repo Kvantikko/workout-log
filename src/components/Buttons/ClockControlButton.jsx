@@ -1,19 +1,12 @@
-
-import React from "react";
-import { Button, Stack, Box } from "@mui/material";
-//import "./ControlButtons.css";
-
-import CloseIcon from '@mui/icons-material/Close';
-import PauseIcon from '@mui/icons-material/Pause';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import TimerOffIcon from "@mui/icons-material/TimerOff";
-import { IconButton } from "@mui/material";
-import { RestartAlt, Restore } from "@mui/icons-material";
+import { Stack, IconButton } from "@mui/material"
+import PauseIcon from '@mui/icons-material/Pause'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import RestartAltIcon from "@mui/icons-material/RestartAlt"
 
 const ClockControlButtons = ({ isActive, handleStart, handlePause, handleReset }) => {
 
     return (
-        <Stack className="Control-Buttons"  direction={'row'} paddingX={1}>
+        <Stack direction={'row'} paddingX={1} >
             <IconButton
                 aria-label="stopwatch"
                 sx={{ color: '#90CAF9' }}
@@ -26,7 +19,7 @@ const ClockControlButtons = ({ isActive, handleStart, handlePause, handleReset }
                 sx={{ color: '#90CAF9' }}
                 onClick={handleReset}
             >
-                <RestartAlt></RestartAlt>
+                <RestartAltIcon/>
             </IconButton>
         </Stack>
     )

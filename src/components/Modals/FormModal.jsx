@@ -11,7 +11,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '100vw',
-    height: { xs: '100svh', md: '43svh' },
+    height: { xs: '100svh', md: 'auto' },
     maxHeight: '100%',
     maxWidth: 600,
     bgcolor: '#222326', //'background.paper',

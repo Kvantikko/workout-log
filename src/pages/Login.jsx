@@ -56,17 +56,13 @@ const Login = () => {
     }
 
     return (
-        <Box
-            display='flex'
-            flexDirection='row'
-        >
+        <Box display='flex' flexGrow={1}>
             <Box
-                minWidth="50%"
+                width="100%"
                 sx={{
                     display: { xs: "none", md: "block", },
-                    height: "100vh",
                     backgroundImage: `url(${LoginImage})`,
-                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: "cover",
                     backgroundPosition: 'center'
                 }}
             />
@@ -74,15 +70,11 @@ const Login = () => {
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
-                textAlign={'center'}
                 justifyContent="center"
                 paddingX={3}
                 paddingTop={5}
                 gap={3}
                 width={"100%"}
-                direction={'row'}
-                flexWrap={'wrap'}
-                flexGrow={2}
             >
                 <ThemeProvider theme={theme}>
                     <Typography variant="h3" textAlign="center">WORKOUT LOG</Typography>

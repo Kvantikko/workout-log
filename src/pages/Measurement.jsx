@@ -1,4 +1,4 @@
-import { toCamelCase } from '../utils/ToCamelCase'
+import { toCamelCase } from '../utils/toCamelCase'
 
 import { useEffect, useRef, useState } from 'react'
 
@@ -12,7 +12,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import BasicToolbar from '../components/Toolbars/BasicToolbar'
 import FormModal from '../components/Modals/FormModal'
 import MeasurementForm from '../components/Forms/MeasuremetnForm'
-import HideAppBar from '../components/AppBar/HideAppBar'
+import HideAppBar from '../components/AppBars/HideAppBar'
 import MeasurementEntryList from '../components/Lists/MeasurmentEntryList'
 import MeasurementChart from '../components/Charts/MeasurementChart'
 import BasicModal from '../components/Modals/BasicModal'

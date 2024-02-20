@@ -1,10 +1,10 @@
 
-import HideAppBar from '../components/AppBar/HideAppBar'
+import HideAppBar from '../components/AppBars/HideAppBar'
 
 import { useEffect, useState } from 'react';
 
 import exerciseService from '../services/exercises'
-import WorkoutExerciseList from '../components/Lists/WorkoutExerciseList';
+import WorkoutExerciseList from '../components/Lists/CompletedWorkoutExerciseList';
 import { useDispatch, useSelector } from 'react-redux';
 import { Typography, Box, CircularProgress } from '@mui/material';
 import BasicToolbar from '../components/Toolbars/BasicToolbar';
@@ -13,7 +13,7 @@ import { resetExercisePath } from '../redux/reducers/navReducer';
 
 
 const Exercise = ({ exercise }) => {
-    //workoutExercises
+
     const history = useSelector(state => state.history)
     const user = useSelector(state => state.user)
     const [workoutExercises, setworkoutExercises] = useState([])

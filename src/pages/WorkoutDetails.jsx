@@ -3,16 +3,16 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { startWorkout } from "../redux/reducers/workoutReducer"
 
-import { Button, AppBar, Typography, Container, Box, Fab } from "@mui/material"
+import { Button, AppBar, Typography, Container, Box, Fab, Zoom } from "@mui/material"
 import useMediaQuery from '@mui/material/useMediaQuery'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import BasicToolbar from '../components/Toolbars/BasicToolbar'
 import BasicModal from '../components/Modals/BasicModal'
-import HideAppBar from "../components/AppBar/HideAppBar"
-import WorkoutExerciseList from "../components/Lists/WorkoutExerciseList"
+import HideAppBar from "../components/AppBars/HideAppBar"
+import WorkoutExerciseList from "../components/Lists/CompletedWorkoutExerciseList"
 
-import { formatDate } from "../utils/Date"
+import { formatDate } from "../utils/date"
 
 const WorkoutDetails = ({
     workout,
@@ -118,12 +118,10 @@ const WorkoutDetails = ({
             </Container>
 
             <Box
-               
+
                 //textAlign="center"
                 paddingX={{ xs: 2, sm: 4, md: 6 }} paddingBottom={12} paddingTop={2}
             >
-
-
                 <Box
                     padding={0}
                     sx={{
@@ -134,8 +132,6 @@ const WorkoutDetails = ({
                 >
                     <WorkoutExerciseList workoutExercises={workout.workoutExercises} />
                 </Box>
-
-
 
                 <AppBar
                     position="fixed"

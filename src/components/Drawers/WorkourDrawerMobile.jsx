@@ -2,7 +2,7 @@ import { Box, Slide, Drawer } from '@mui/material'
 
 import Workout from '../Workout/Workout'
 import WorkoutToolbar from '../Toolbars/WorkoutToolbar'
-import HideAppBar from '../AppBar/HideAppBar'
+import HideAppBar from '../AppBars/HideAppBar'
 
 export default function WorkoutDrawerMobile({ toggleDrawer, open }) {
 

@@ -40,13 +40,13 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
     const isExercises = useSelector(state => state.template.exercises.allIds).length !== 0
     const isName = useSelector(state => state.template.name) !== ""
     const [openWarningModal, setOpenWarningModal] = useState(false)
-    const [openSaveModal, setOpenSaveModal] = useState(false)
+    // const [openSaveModal, setOpenSaveModal] = useState(false)
     const isSmallScreen = useMediaQuery('(max-width:600px)')
     const prevUrl = window.location.href
 
     const dispatch = useDispatch()
 
-    const handleSaveButtonClick = () => {
+    /* const handleSaveButtonClick = () => {
         if (!isExercises) {
             toast.warning("Add atleast one exercise before saving!")
         } else if (!isName) {
@@ -54,7 +54,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
         } else {
             setOpenSaveModal(true)
         }
-    }
+    } */
 
     const handleModalClose = () => {
         if (isExercises /* && disableWarning */) {
@@ -66,7 +66,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
 
     const handleSubmit = () => {
         onClose(false)
-        setOpenSaveModal(false)
+        //setOpenSaveModal(false)
         setOpenWarningModal(false)
         dispatch(clearTemplate())
     }
@@ -75,14 +75,14 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
         setOpenSaveModal(false)
     }
 
-    useEffect(() => {    
+    useEffect(() => {
         if (!window.location.href.includes("#edit")) {
             window.history.pushState(null, null, `${prevUrl}/#edit`)
         }
 
-        window.onpopstate = (event) => handleModalClose()  
+        window.onpopstate = (event) => handleModalClose()
 
-        return(() => {
+        return (() => {
             window.history.replaceState(null, null, `${prevUrl}`)
             window.onpopstate = null
         })
@@ -116,8 +116,35 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
                             </Box>
                         </Stack>
 
-                        {isSmallScreen ?
-                            <Button variant="text" onClick={() => handleSaveButtonClick()} >Save</Button> :
+                        <SaveWorkoutModal
+                            openButton={isSmallScreen ?
+                                <Button variant="text" onClick={() => handleSaveButtonClick()} >Save</Button>
+                                :
+                                <Fab
+                                    //onClick={() => handleSaveButtonClick()}
+                                    color='info'
+                                    sx={{ position: 'absolute', top: "90svh", right: 30 }}
+                                >
+                                    <Save />
+                                </Fab>
+                            }
+                            type={type}
+                            editVipu={editVipu}
+                            onSubmit={() => handleSubmit()}
+                        />
+
+                        {/*  <SaveWorkoutModal
+                            openBu={openSaveModal}
+                            type={type}
+                            editVipu={editVipu}
+                            workout={workout}
+                            onClose={() => handleCancelFinish()}
+                            onSubmit={() => handleSubmit()}
+                        /> */}
+
+
+                        {!isSmallScreen &&
+                           /*  <Button variant="text" onClick={() => handleSaveButtonClick()} >Save</Button> : */
                             <IconButton onClick={handleModalClose} > <Close /> </IconButton>
                         }
 
@@ -127,15 +154,15 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
                         <Workout type={"template"} />
                     </Box>
 
-                    {!isSmallScreen &&
+                    {/*  {!isSmallScreen &&
                         <Fab
                             onClick={() => handleSaveButtonClick()}
                             color='info'
                             sx={{ position: 'absolute', bottom: 25, right: 25 }}
                         >
-                            <Save></Save>
+                            <Save/>
                         </Fab>
-                    }
+                    } */}
                     {openWarningModal &&
                         <BasicModal
                             open={openWarningModal}
@@ -146,7 +173,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
                             onSubmit={() => handleSubmit()}
                         />
                     }
-                    {openSaveModal &&
+                    {/*  {openSaveModal &&
                         <SaveWorkoutModal
                             open={openSaveModal}
                             onClose={() => handleCancelFinish()}
@@ -155,7 +182,7 @@ const EditWorkoutModal = ({ open, onClose, workout, title, type, disableWarning,
                             editVipu={editVipu}
                             workout={workout}
                         />
-                    }
+                    } */}
                 </Box>
             </div>
         </Modal>

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { ListItem, ListItemButton, ListItemText, List, Typography } from "@mui/material"
-import { toCamelCase } from '../../utils/ToCamelCase'
+import { toCamelCase } from '../../utils/toCamelCase'
 
 const MeasurementsListItem = ({ measurement, handleListClick, unit }) => {
 

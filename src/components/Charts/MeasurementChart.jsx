@@ -1,29 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { axisClasses, LineChart } from "@mui/x-charts"
 
-import { AppBar, Typography, Box, CircularProgress, Button } from '@mui/material'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { LineChart } from '@mui/x-charts/LineChart'
-import { axisClasses } from "@mui/x-charts"
-
-import { formatDateTime } from '../../utils/Date'
-import { toCamelCase } from '../../utils/ToCamelCase';
+import { formatDateTime } from '../../utils/date'
+import { toCamelCase } from '../../utils/toCamelCase'
 
 const chartSetting = {
-    /*  yAxis: [
-         {
-             label: "rainfall (mm)"
-         }
-     ], */
-    /* width: 500,
-    height: 300, */
     height: 300,
     sx: {
         margin: 1,
         /* [`.${axisClasses.left} .${axisClasses.label}`]: {
             transform: "rotate(-90deg) translate(0px, -20px)",
-            
+        
         }, */
         [`.${axisClasses.root}`]: {
             height: 1000,

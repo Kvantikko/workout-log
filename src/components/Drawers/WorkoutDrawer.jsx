@@ -18,6 +18,7 @@ export default function WorkoutDrawer() {
 
     const toggleDrawer = () => {
         if (open) {
+            //dispatch(unExpand())
             window.history.back()
         } else {
             dispatch(expand())
@@ -28,14 +29,12 @@ export default function WorkoutDrawer() {
     // note: on desktop it minimizes and actually closes when workout is no longer active
     useEffect(() => {
         if (window.location.href.includes("#workout") && open) {
-            window.onpopstate = () => {
+            window.onpopstate = (event) => {
+                console.log(event);
                 dispatch(unExpand())
             }
-        } else {
-            window.onpopstate = null
         }
         return (() => { window.onpopstate = null })
-
     }, [open])
 
     return (

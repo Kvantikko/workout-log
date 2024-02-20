@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react"
 
-import { Link } from "react-router-dom"
+import { Link, Outlet, useLocation } from "react-router-dom"
 
 import { useDispatch, useSelector } from "react-redux"
 import { setWorkoutPath, resetWorkoutPath } from "../redux/reducers/navReducer"
@@ -14,25 +14,12 @@ import WorkoutCardList from "../components/Lists/WorkoutCardList"
 import CreateTemplateModal from "../components/Modals/EditWorkoutModal"
 import BasicToolbar from "../components/Toolbars/BasicToolbar"
 import BasicModal from "../components/Modals/BasicModal"
-import HideAppBar from "../components/AppBar/HideAppBar"
-
-import schwarzenegger from '../assets/schwarzenegger.gif'
-import coleman from '../assets/coleman.gif'
+import HideAppBar from "../components/AppBars/HideAppBar"
 
 import { keyframes } from '@mui/system';
-import { blink } from "../utils/Blink"
+import { blink } from "../utils/blink"
 import { expand, unExpand } from "../redux/reducers/drawerReducer"
 import { createPortal } from "react-dom"
-
-
-const gifArray = [coleman, schwarzenegger]
-
-const getRandomMemeGif = () => {
-    const max = gifArray.length
-    const min = 0
-    const random = Math.floor(Math.random() * (max - min) + min)
-    return gifArray[random]
-}
 
 const Home = () => {
 
@@ -43,22 +30,7 @@ const Home = () => {
     const [openTemplateModal, setOpenTemplateModal] = useState(false)
 
     const dispatch = useDispatch()
-
-    /*   const handleScrollPosition = () => {
-          const scrollPosition = sessionStorage.getItem("scrollPosition");
-          if (scrollPosition) {
-              window.scrollTo(0, parseInt(scrollPosition));
-              //   console.log('handling scroll position ', scrollPosition);
-              sessionStorage.removeItem("scrollPosition");
-          }
-      }
-  
-      // efekti ei vie täysin ikkunan pohjaan, koska luodaan yksi automaattinen seti sen jälkeen
-      useEffect(() => {
-          //console.log("EFFECT SCROLL POSITION");
-          handleScrollPosition()
-      }, [])
-   */
+    const location = useLocation()
 
     const copy = () => {
         setOpenCopyModal(false)
@@ -80,14 +52,12 @@ const Home = () => {
 
     return (
         <>
-               <HideAppBar>
+            <HideAppBar>
                 <BasicToolbar title="Workout" />
             </HideAppBar>
             {/* <Paper>
                 <Toolbar> <BasicToolbar title="Workout" /></Toolbar>
             </Paper> */}
-
-
 
             <Stack padding={2} paddingBottom={20} spacing={2} alignItems="center" >
                 < Stack spacing={2} padding={3}>
@@ -103,48 +73,18 @@ const Home = () => {
                             <Typography variant="h5" textAlign={'center'}>You have a workout in progress! &#128170;</Typography>
                         </>
                     }
-                    {/*  {isWorkoutActive &&
-                        <>
-                            <Box
-                                sx={{
-                                    borderRadius: 2,
-                                    padding: 1.5,
-                                    textAlign: 'center',
-                                    //animation: `${blink} 1s linear infinite alternate`,
-                                }}
-                            >
-                                <Typography variant="h5" textAlign={'center'}>You have a workout in progress! &#128170;</Typography>
-                            </Box>
-                            <Box display={'flex'} justifyContent={'center'}>
-                                <img style={{ padding: 10, width: 300, height: 'auto' }} src={getRandomMemeGif()} alt="Yeah buddy!" />
-                            </Box>
-
-
-                        </>
-                    } */}
                 </Stack>
 
-                {/* {workoutStarted &&
-                    <>
-                        <Button
-                            variant="contained"
-                            component={Link} to={`/workout`}
-                            onClick={handleClick2}
-                            color={'error'}
-                            sx={{
-                                maxWidth: 0.8,
-                                padding: 1.5,
-                                textAlign: 'center',
-                                animation: `${blink} 1s linear infinite alternate`,
-                            }}
-                        >
-                            <>Workout in progress!</> <ArrowForwardIcon sx={{ marginLeft: 1 }} />
-                        </Button>
-                        <Divider orientation="horizontal" flexItem>
-                            start again?
-                        </Divider>
-                    </>
-                } */}
+                <Button
+                    variant="text"
+                    sx={{ width: 0.75 }}
+                    component={Link}
+                    to='/workout-template'
+                    state={{ previousLocation: location }}
+                >
+                    Modal testi
+                </Button>
+
                 <Button variant="text" sx={{ width: 0.75 }} onClick={handleClick}  >
                     Start a new workout
                 </Button>
@@ -209,6 +149,8 @@ const Home = () => {
                     type="template"
                 />
             }
+
+            <Outlet></Outlet>
 
         </>
     )

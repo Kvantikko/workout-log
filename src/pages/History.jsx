@@ -2,24 +2,25 @@ import workoutService from '../services/workouts'
 
 import { useEffect, useState } from "react"
 
+import { Link, Navigate, useLocation, useNavigate, Outlet } from "react-router-dom"
+
 import { useDispatch, useSelector } from "react-redux"
 import { setHistoryPath } from "../redux/reducers/navReducer"
 import { addWorkout, setWorkouts } from "../redux/reducers/historyReducer"
 
-import { Link, Navigate, useLocation, useNavigate, useNavigation } from "react-router-dom"
-
-import { ListItemButton, Box, Stack, Typography, CircularProgress, Grow } from "@mui/material"
+import { ListItemButton, Box, Stack, Typography, CircularProgress, Grow, Button } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers"
 import dayjs from 'dayjs'
 import { toast } from 'react-toastify'
-import HideAppBar from "../components/AppBar/HideAppBar"
+import HideAppBar from "../components/AppBars/HideAppBar"
 import WorkoutCardList from "../components/Lists/WorkoutCardList"
 import BasicToolbar from "../components/Toolbars/BasicToolbar"
 import { setDate } from '../redux/reducers/dateReducer'
-import { formatToMonthAndYear } from '../utils/Date'
+import { formatToMonthAndYear } from '../utils/date'
 
-const History = ({ workouts }) => {
+const History = () => {
 
+    const workouts = useSelector(state => state.history)
     const user = useSelector(state => state.user)
     const dateFromStore = useSelector(state => state.date)
     const date = dayjs(dateFromStore)
@@ -50,7 +51,6 @@ const History = ({ workouts }) => {
         dispatch(setWorkouts([]))
         dispatch(setDate(dayjs(event).toString()))
         setLoading(true)
-
     }
 
     return (
@@ -73,6 +73,16 @@ const History = ({ workouts }) => {
                     />
                 </BasicToolbar>
             </HideAppBar>
+
+            <Button
+                    variant="text"
+                    sx={{ width: 0.75 }}
+                    component={Link}
+                    to='/history/workout-template'
+                    //state={{ previousLocation: location }}
+                >
+                    Modal testi
+                </Button>
 
             {loading &&
                 <Box
@@ -111,6 +121,7 @@ const History = ({ workouts }) => {
                     path="history"
                 />
             </Box>
+            <Outlet />
         </>
     )
 }

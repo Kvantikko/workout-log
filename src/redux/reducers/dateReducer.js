@@ -2,9 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import dayjs from 'dayjs'
 import { logout } from "./userReducer"
 
-const date = dayjs().toString()  //new Date() //dayjs()
-
-const initialState = date //{ month: date.$M, year: year.$y }
+const initialState = dayjs().toString()
 
 const dateSlice = createSlice({
     name: 'date',

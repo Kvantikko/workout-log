@@ -1,161 +1,127 @@
 import { useState, useEffect } from "react"
 
+import { useNavigate } from "react-router-dom"
+
 import { useDispatch } from "react-redux"
 import { login, register } from "../../redux/reducers/userReducer"
 
-import { useNavigate } from "react-router-dom"
-
-import loginService from "../../services/login"
-import { blink } from "../../utils/Blink"
-
-
-import {
-    Typography,
-    Link,
-    Box,
-    Button,
-    FormLabel,
-    TextField,
-    Stack,
-    LinearProgress,
-    CircularProgress,
-    IconButton,
-} from "@mui/material"
+import { TextField, Stack } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
-
-import LoginIcon from '@mui/icons-material/Login';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import LoginIcon from '@mui/icons-material/Login'
 
 import PasswordField from "../Inputs/PasswordField"
 
-import { toast } from "react-toastify"
-
-
 const LoginRegisterForm = ({ showRegister, buttonText }) => {
 
+    //console.log("Rendering Form");
 
-    const [email, setEmail] = useState("")
-    const [firstname, setFirstname] = useState("")
-    const [lastname, setLastname] = useState("")
-    const [password, setPassword] = useState("")
-    const [passwordAgain, setPasswordAgain] = useState("")
-
-    const [errorEmail, setErrorEmail] = useState('')
-    const [errorFirstname, setErrorFirstname] = useState('')
-    const [errorLastname, setErrorLastname] = useState('')
-    const [errorPassword, setErrorPassword] = useState('')
-    const [errorPasswordAgain, setErrorPasswordAgain] = useState('')
-
-    const [showPassword, setShowPassword] = useState(false)
-    const [showPasswordAgain, setShowPasswordAgain] = useState(false)
-
+    const [form, setForm] = useState({
+        email: "",
+        firstname: "",
+        lastname: "",
+        password: { value: "", isVisible: false },
+        passwordAgain: { value: "", isVisible: false }
+    })
+    const [error, setError] = useState({
+        email: "",
+        firstname: "",
+        lastname: "",
+        password: "",
+        passwordAgain: ""
+    })
     const [loading, setLoading] = useState(false)
-    const [infoText, setInfoText] = useState(null)
-    let timeoutId = null
-
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const clearErrors = () => {
-        setErrorEmail('')
-        setErrorFirstname('')
-        setErrorLastname('')
-        setErrorPassword('')
-        setErrorPasswordAgain('')
+        setError({
+            email: "",
+            firstname: "",
+            lastname: "",
+            password: "",
+            passwordAgain: ""
+        })
     }
 
     useEffect(() => {
         clearErrors()
     }, [showRegister])
 
-    useEffect(() => {
-        if (loading) {
-            timeoutId = setTimeout(() => {
-                setInfoText("My free server has spun down and needs to restart. This might take a minute or two...")
-            }, 8000)
-        }
-        return () => {
-            clearTimeout(timeoutId)
-            setInfoText(null)
-        }
-    }, [loading])
-
     const inputFieldsValid = () => {
-        let valid = true
-        if (showRegister && passwordAgain !== password) {
-            setErrorPasswordAgain(`Retyped password doesn't match the given password`)
-            valid = false
+        let errorMessages = error
+
+        if (showRegister && form.passwordAgain !== form.password) {
+            errorMessages = { ...errorMessages, passwordAgain: `Retyped password doesn't match the given password` }
         }
-        if (password.length < 8) {
-            setErrorPassword('Minimum of 8 characters')
-            valid = false
+        if (form.password.length < 8) {
+            errorMessages = { ...errorMessages, password: `Minimum of 8 characters` }
         }
-        if (showRegister && passwordAgain.length < 8) {
-            setErrorPasswordAgain('Minimum of 8 characters')
-            valid = false
+        if (showRegister && form.passwordAgain.length < 8) {
+            errorMessages = { ...errorMessages, passwordAgain: `Minimum of 8 characters` }
         }
-        if (email === '') {
-            setErrorEmail('Required')
-            valid = false
+        if (form.email === '') {
+            errorMessages = { ...errorMessages, email: `Required` }
         }
-        if (showRegister && firstname === '') {
-            setErrorFirstname('Required')
-            valid = false
+        if (showRegister && form.firstname === '') {
+            errorMessages = { ...errorMessages, firstname: `Required` }
         }
-        if (showRegister && lastname === '') {
-            setErrorLastname('Required')
-            valid = false
+        if (showRegister && form.lastname === '') {
+            errorMessages = { ...errorMessages, lastname: `Required` }
         }
-        if (password === '') {
-            setErrorPassword('Required')
-            valid = false
+        if (form.password.value === '') {
+            errorMessages = { ...errorMessages, password: `Required` }
         }
-        if (showRegister && passwordAgain === '') {
-            setErrorPasswordAgain('Required')
-            valid = false
+        if (showRegister && form.passwordAgain.value === '') {
+            errorMessages = { ...errorMessages, passwordAgain: `Required` }
         }
-        return valid
+
+        setError(errorMessages)
+
+        for (let key in errorMessages) {
+            if (errorMessages.hasOwnProperty(key) && errorMessages[key] !== "") {
+                return false // If any error message is not empty, return false
+            }
+        }
+        return true // If all error messages are empty, return true
     }
 
     const onSubmit = async (event) => {
+        console.log("onSubmit ", form )
         event.preventDefault()
         clearErrors()
         if (!inputFieldsValid()) return
-        //setLoading(true)
         if (showRegister) {
-            dispatch(register(email, firstname, lastname, password, setErrorEmail, setLoading, navigate))
+            dispatch(register(form.email, form.firstname, form.lastname, form.password, error, setError, setLoading, navigate))
         } else {
-            dispatch(login(email, password, setErrorEmail, setErrorPassword, setLoading, navigate))
+            dispatch(login(form.email, form.password, error, setError, setLoading, navigate))
         }
     }
 
     const handleEmailAndPassClick = (inputFieldId) => {
-        if (errorEmail === 'Invalid email or password.' &&
-            errorPassword === 'Invalid email or password.'
+        if (error.email === 'Invalid email or password.' &&
+            error.password === 'Invalid email or password.'
         ) {
-            setErrorEmail('')
-            setErrorPassword('')
+            setError({ ...error, email: "", password: "" })
             return
         }
-        if (inputFieldId === 'email') setErrorEmail('')
-        if (inputFieldId === 'password') setErrorPassword('')
+        if (inputFieldId === 'email') setError({ ...error, email: "" })
+        if (inputFieldId === 'password') setError({ ...error, password: "" })
     }
 
-    const handleClickShowPassword = () => {
-        if (showPassword) {
-            setShowPassword(false)
+    const toggleShowPassword = () => {
+        if (form.password.isVisible) {
+            setForm({ ...form, password: { value: form.password.value, isVisible: false } })
         } else {
-            setShowPassword(true)
+            setForm({ ...form, password: { value: form.password.value, isVisible: true } })
         }
     }
 
-    const handleClickShowPasswordAgain = () => {
-        if (showPasswordAgain === true) {
-            setShowPasswordAgain(false)
+    const toggleShowPasswordAgain = () => {
+        if (form.passwordAgain.isVisible) {
+            setForm({ ...form, passwordAgain: { value: form.passwordAgain.value, isVisible: false } })
         } else {
-            setShowPasswordAgain(true)
+            setForm({ ...form, passwordAgain: { value: form.passwordAgain.value, isVisible: false } })
         }
     }
 
@@ -167,13 +133,12 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
                     id='email'
                     label='Email Adress'
                     size="small"
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(event) => setForm({ ...form, email: event.target.value })}
                     onClick={(event) => handleEmailAndPassClick(event.target.id)}
-                    error={!(errorEmail === '')}
-                    helperText={errorEmail}
+                    error={!(error.email === '')}
+                    helperText={error.email}
                     fullWidth={true}
                     autoComplete="off"
-                //sx={{ width: 1}}
                 />
                 {showRegister &&
                     <>
@@ -181,75 +146,56 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
                             id='firstname'
                             label='Firstname'
                             size="small"
-                            onChange={(event) => setFirstname(event.target.value)}
+                            onChange={(event) => setForm({ ...form, firstname: event.target.value })}
                             onClick={() => setErrorFirstname('')}
-                            error={!(errorFirstname === '')}
-                            helperText={errorFirstname}
+                            error={!(error.firstname === '')}
+                            helperText={error.firstname}
                         />
                         <TextField
                             id='lastname'
                             label='Lastname'
                             size="small"
-                            onChange={(event) => setLastname(event.target.value)}
-                            onClick={() => setErrorLastname('')}
-                            error={!(errorLastname === '')}
-                            helperText={errorLastname}
+                            onChange={(event) => setForm({ ...form, lastname: event.target.value })}
+                            onClick={() => setError({ ...error, lastname: "" })}
+                            error={!(error.lastname === '')}
+                            helperText={error.lastname}
                         />
                     </>
                 }
                 <PasswordField
                     id='password'
                     label="Password"
-                    showPassword={showPassword}
-                    onChange={setPassword}
+                    showPassword={form.password.isVisible}
+                    onChange={(event) => setForm({ ...form, password: event.target.value })}
                     onClick={handleEmailAndPassClick}
-                    onVisibilityClick={handleClickShowPassword}
-                    error={!(errorPassword === '')}
-                    helperText={errorPassword}
+                    onVisibilityClick={toggleShowPassword}
+                    error={!(error.password === '')}
+                    helperText={error.password}
                 />
                 {showRegister &&
                     <PasswordField
                         id='passwordAgain'
                         label="Retype password"
-                        showPassword={showPasswordAgain}
-                        onChange={setPasswordAgain}
+                        showPassword={form.passwordAgain.isVisible}
+                        onChange={(event) => setForm({ ...form, passwordAgain: event.target.value })}
                         onClick={handleEmailAndPassClick}
-                        onVisibilityClick={handleClickShowPasswordAgain}
-                        error={!(errorPasswordAgain === '')}
-                        helperText={errorPasswordAgain}
+                        onVisibilityClick={toggleShowPasswordAgain}
+                        error={!(error.passwordAgain === '')}
+                        helperText={error.passwordAgain}
                     />
                 }
-                {!infoText &&
-                    <LoadingButton
-                        type="submit"
-                        endIcon={<LoginIcon />}
-                        loadingPosition="end"
-                        loading={loading}
-                        variant="contained"
-                    >
-                        {loading ?
-                            <span>{showRegister ? "Registering..." : "Logging in..."}</span> :
-                            <span>{showRegister ? "Register" : "Login"}</span>
-                        }
-                    </LoadingButton>
-                }
-                {loading && infoText &&
-                    <Box
-                        sx={{
-                            maxWidth: 269,
-                            borderRadius: 2,
-                            padding: infoText ? 1.5 : 0,
-                            textAlign: 'center',
-                            animation: `${blink} 1s linear infinite alternate`,
-                        }}
-                    >
-                        <LinearProgress fourColor />
-                        <Typography textAlign={'center'} paddingTop={1}>
-                            {infoText}
-                        </Typography>
-                    </Box>
-
-                }
+                <LoadingButton
+                    type="submit"
+                    endIcon={<LoginIcon />}
+                    loadingPosition="end"
+                    loading={loading}
+                    variant="contained"
+                >
+                    {loading ?
+                        <span>{showRegister ? "Registering..." : "Logging in..."}</span> :
+                        <span>{showRegister ? "Register" : "Login"}</span>
+                    }
+                </LoadingButton>
             </Stack>
         </form>
 

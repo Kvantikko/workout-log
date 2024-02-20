@@ -1,9 +1,17 @@
-import React, { useEffect, useRef } from 'react'
-import { Typography, Box, Stack } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import {
+    pauseRestWatch,
+    pauseWorkoutWatch,
+    resetRestWatch,
+    resetWorkoutWatch,
+    startRestWatch,
+    startWorkoutWatch
+} from '../../redux/reducers/stopWatchReducer'
+
+import { Box, Stack } from '@mui/material'
+
 import Timer from './Timer'
 import ClockControlButtons from '../Buttons/ClockControlButton'
-import { pauseRestWatch, pauseWorkoutWatch, resetRestWatch, resetWorkoutWatch, startRestWatch, startWorkoutWatch } from '../../redux/reducers/stopWatchReducer'
 
 function StopWatch({ showButtons, size, isRestTimer }) {
 
@@ -43,4 +51,4 @@ function StopWatch({ showButtons, size, isRestTimer }) {
     )
 }
 
-export default StopWatch;
+export default StopWatch

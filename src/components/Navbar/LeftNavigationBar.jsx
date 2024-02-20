@@ -27,7 +27,7 @@ import AddIcon from '@mui/icons-material/Add';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import HomeIcon from '@mui/icons-material/Home';
 
-import { blink } from '../../utils/Blink';
+import { blink } from '../../utils/blink';
 
 import { Link as ReactRouterLink, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';

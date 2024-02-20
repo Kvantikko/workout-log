@@ -35,10 +35,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Provider store={store}>
             <ThemeProvider theme={darkTheme}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <BrowserRouter>
+                  {/*   <BrowserRouter> */}
                         <CssBaseline />
                         <App />
-                    </BrowserRouter>
+                 {/*    </BrowserRouter> */}
                 </LocalizationProvider>
             </ThemeProvider>
         </Provider >

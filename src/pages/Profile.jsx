@@ -15,14 +15,14 @@ import EditIcon from "@mui/icons-material/Edit"
 import PasswordIcon from '@mui/icons-material/Password'
 
 import FormModal from "../components/Modals/FormModal"
-import HideAppBar from "../components/AppBar/HideAppBar"
+import HideAppBar from "../components/AppBars/HideAppBar"
 import BasicModal from "../components/Modals/BasicModal"
 import UserForm from "../components/Forms/UserForm"
 import PasswordForm from "../components/Forms/PasswordForm"
 import BasicToolbar from "../components/Toolbars/BasicToolbar"
 
 import { toast } from "react-toastify"
-import { formatDateTime } from "../utils/Date"
+import { formatDateTime } from "../utils/date"
 
 const Profile = () => {
     
