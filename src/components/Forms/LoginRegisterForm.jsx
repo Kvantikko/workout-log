@@ -221,6 +221,7 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
                 }
                 {!infoText &&
                     <LoadingButton
+                        id="loginButton"
                         type="submit"
                         endIcon={<LoginIcon />}
                         loadingPosition="end"
