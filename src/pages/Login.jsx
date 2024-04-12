@@ -95,7 +95,7 @@ const Login = () => {
                 />
                 <Typography>
                     {typography[1]}
-                    <Button onClick={toggleLayout}><Link >{typography[2]}</Link></Button>
+                    <Button id=changeLayoutBtn onClick={toggleLayout}><Link >{typography[2]}</Link></Button>
                 </Typography>
                 {!showRegister &&
                     <Stack alignItems='left' justifyContent={'left'} textAlign={'left'} width={265} spacing={0.5}>
