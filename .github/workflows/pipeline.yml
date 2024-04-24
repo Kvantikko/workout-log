@@ -69,16 +69,11 @@ jobs:
             echo "Application is not running on port 8080"
           exit 1
           fi
-      - name: Check application endpoints
-        run: |
-          if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/v1/testing/reset >/dev/null; then
-            echo "Endpoint is reachable"
-          else
-            echo "Endpoint is NOT reachable"
-          exit 1
-
-
-     
+          
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v4
+        with:
+          url: http://localhost:8080/api/v1/testing/reset
 
 
 
