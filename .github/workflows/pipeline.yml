@@ -56,6 +56,11 @@ jobs:
         run: mvn spring-boot:run -Dspring-boot.run.profiles=test &
         working-directory: workout-log-backend
 
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
