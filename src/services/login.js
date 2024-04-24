@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { backendUrl } from '../constants/backendUrl'
 
-const baseUrl = 'https://workout-log-ahlp.onrender.com/api/v1/auth'   //  'http://localhost:8080/api/v1/auth'
+const baseUrl = `http://${backendUrl}/api/v1/auth`  //  'http://localhost:8080/api/v1/auth'
 
 
 
@@ -17,14 +18,12 @@ const baseUrl = 'https://workout-log-ahlp.onrender.com/api/v1/auth'   //  'http:
 // then metodille takaisinkutsu/tapahtumankäsittelijä funktio...?
 
 const login = async ( email, password ) => {
-
     const obj = { email, password } 
     const response = await axios.post(`${baseUrl}/authenticate`, obj)
     return response.data
 }
 
 const register = async ( email, firstname, lastname, password ) => {
-
     const obj = { email, firstname, lastname, password }
     const response = await axios.post(`${baseUrl}/register`, obj)
     return response.data
