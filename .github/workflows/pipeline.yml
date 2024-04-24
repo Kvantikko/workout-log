@@ -86,7 +86,7 @@ jobs:
         run: npx serve &
         working-directory: dist
 
-      - name: Start Vite dev
+      - name: Start Vite dev &
         run: npm run dev
 
       - name: Sleep for 10 seconds
