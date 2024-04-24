@@ -13,6 +13,22 @@ jobs:
         run: |
           echo "Hello World!"
 
+  trigger_backend_build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout frontend code
+        uses: actions/checkout@v4
+
+      - name: Trigger Backend Build
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/Kvantikko/workout-log-backend/actions/workflows/8697446397/dispatches
+          owner: Kvantikko
+          repo: workout-log-backend
+          workflow_id: 8697446397
+          token: ${{ secrets.BACKEND_REPO_ACCESS_TOKEN }}
+
   cypress-run:
     runs-on: ubuntu-latest
     steps:
