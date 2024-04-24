@@ -13,28 +13,50 @@ jobs:
         run: |
           echo "Hello World!"
 
-  checkout-code:
+  build:
+    env:
+      DB_URL_TEST: 'localhost:34837/test'
+      DB_USER_TEST: "ci"
+      DB_PASSWORD_TEST: "sw0rdfish"
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout frontend code
         uses: actions/checkout@v4
 
-      - name: "Checkout backend repo"
+      - name: Checkout backend repo
         uses: actions/checkout@v4
         with:
           repository: Kvantikko/workout-log
           token: ${{ secrets.BACKEND_REPO_ACCESS_TOKEN }}
           path: "workout-log"
 
-  cypress-run:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Setup PostgreSQL for Linux/macOS/Windows
+        uses: ikalnytskyi/action-setup-postgres@v5
+        with:
+          username: ci
+          password: sw0rdfish
+          database: test
+          port: 34837
+          id: postgres
+
+      - name: Build with Maven
+        run: mvn clean verify -Dspring.profiles.active=test
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           build: npm run build
           start: npm start
           browser: chrome
+
+
+
+
