@@ -71,10 +71,10 @@ jobs:
           fi
       - name: Check application endpoints
         run: |
-          if curl -s -o /dev/null -w "%{http_code}" http://localhost:<port>/endpoint1 >/dev/null; then
-            echo "Endpoint 1 is reachable"
+          if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/v1/testing/reset >/dev/null; then
+            echo "Endpoint is reachable"
           else
-            echo "Endpoint 1 is not reachable"
+            echo "Endpoint is NOT reachable"
           exit 1
 
 
