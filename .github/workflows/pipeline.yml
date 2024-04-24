@@ -21,7 +21,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      
+      - name: Checkout frontend code
+        uses: actions/checkout@v4
 
       - name: Checkout backend repo
         uses: actions/checkout@v4
@@ -51,6 +52,12 @@ jobs:
           database: test
           port: 34837
           id: postgres
+
+      - name: List contents of workout-log-backend directory
+        run: ls -la workout-log-backend
+
+      - name: Check for pom.xml file
+        run: test -f workout-log-backend/pom.xml && echo "pom.xml found" || echo "pom.xml not found"
 
       - name: Build with Maven
         run: mvn clean verify -Dspring.profiles.active=test -e -X
