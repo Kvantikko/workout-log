@@ -60,7 +60,7 @@ jobs:
       - name: Echo current path/location
         run: pwd
 
-      - name: List contents 
+      - name: List contentss
         run: ls -la
 
       
