@@ -47,33 +47,15 @@ jobs:
           port: 34837
           id: postgres
 
-      - name: List contents of workout-log-backend directory
-        run: ls -la workout-log-backend
-
-      - name: Check for pom.xml file
-        run: test -f workout-log-backend/pom.xml && echo "pom.xml found" || echo "pom.xml not found"
-
-      - name: Echo current path/location
-        run: pwd
-
-      - name: List contents 
-        run: ls -la
-
-      - name: Change directory to workout-log-backend
-        run: cd workout-log-backend
-
-      - name: Echo current path/location
-        run: pwd
-
-      - name: List contents 
-        run: ls -la
-
-
-  
-
       - name: Build with Maven
-        run: mvn clean verify "-Dspring.profiles.active=test"
+        run: mvn clean "-Dspring.profiles.active=test"
         working-directory: workout-log-backend
+
+      - name: Echo current path/location
+        run: pwd
+
+      - name: List contents 
+        run: ls -la
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
