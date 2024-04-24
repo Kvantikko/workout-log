@@ -70,10 +70,21 @@ jobs:
           exit 1
           fi
 
+      - name: vite build
+        run: npm run build
+
+      - name: install serve
+        run: npm install serve
+
+      - name: start build
+        run: npx serve
+
+
+
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          build: npm run build
           browser: chrome
 
 
