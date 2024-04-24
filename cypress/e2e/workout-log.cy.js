@@ -2,10 +2,10 @@ describe('Login and register functionality', function() {
 
   const email = 'testaaja@mail.com'
 
-  before(function() {
+  /* before(function() {
     cy.request('POST', 'http://localhost:8080/api/v1/testing/reset')
   })
-
+ */
   beforeEach(function() {
     cy.visit('http://localhost:5173/login')
   })

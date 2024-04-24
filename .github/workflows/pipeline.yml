@@ -49,7 +49,7 @@ jobs:
           id: postgres
 
       - name: Build Spring Boot App with Maven
-        run: mvn clean -Dspring.profiles.active=test
+        run: mvn clean -Dspring-boot.run.profiles=test
         working-directory: workout-log-backend
 
       - name: Start Spring Boot App
