@@ -55,6 +55,9 @@ jobs:
       - name: Echo current path/location
         run: pwd
 
+      - name: List contents 
+        run: ls -la
+
 
   
 
