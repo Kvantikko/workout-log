@@ -60,10 +60,10 @@ jobs:
         run: mvn spring-boot:run -Dspring-boot.run.profiles=test &
         working-directory: workout-log-backend
 
-      - name: Sleep for 10 seconds
+      - name: Sleep for 20 seconds
         uses: jakejarvis/wait-action@master
         with:
-          time: '10s'
+          time: '20s'
 
       - name: Check if application is running
         run: |
