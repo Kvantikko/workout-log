@@ -21,8 +21,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - name: Checkout frontend repo
-        uses: actions/checkout@v4
+        run: npm ci
+
+      - name: Vite build
+        run: npm run build &
 
       - name: Checkout backend repo
         uses: actions/checkout@v4
@@ -75,8 +79,14 @@ jobs:
         with:
           url: http://localhost:8080/api/v1/auth/authenticate
 
+      - name: Install serve
+        run: npm install -g serve
 
+      - name: Start Vite Build
+        run: npx serve
+        working-directory: dist
 
+      
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
