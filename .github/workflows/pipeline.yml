@@ -69,15 +69,16 @@ jobs:
             echo "Application is not running on port 8080"
           exit 1
           fi
+      - name: Check application endpoints
+        run: |
+          if curl -s -o /dev/null -w "%{http_code}" http://localhost:<port>/endpoint1 >/dev/null; then
+            echo "Endpoint 1 is reachable"
+          else
+            echo "Endpoint 1 is not reachable"
+          exit 1
 
-      - name: vite build
-        run: npm run build
 
-      - name: install serve
-        run: npm install serve
-
-      - name: start build
-        run: npx serve
+     
 
 
 
