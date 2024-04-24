@@ -52,7 +52,7 @@ jobs:
         working-directory: workout-log-backend
 
       - name: Start Spring Boot App
-        run: mvn spring-boot:run -Dspring-boot.run.profiles==test
+        run: mvn spring-boot:run -Dspring-boot.run.profiles=test
         working-directory: workout-log-backend
 
 
