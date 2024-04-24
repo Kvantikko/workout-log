@@ -20,14 +20,11 @@ jobs:
       - name: Checkout frontend code
         uses: actions/checkout@v4
 
-      - name: Trigger Backend Build
-        uses: octokit/request-action@v2.x
+      - name: "Checkout backend repo"
+        uses: actions/checkout@v4
         with:
-          route: POST /repos/Kvantikko/workout-log-backend/actions/workflows/8697446397/dispatches
-          owner: Kvantikko
-          repo: workout-log-backend
-          workflow_id: 8697446397
-          token: ${{ secrets.BACKEND_REPO_ACCESS_TOKEN }}
+          repository: Kvantikko/workout-log
+          path: "workout-log"
 
   cypress-run:
     runs-on: ubuntu-latest
