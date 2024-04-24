@@ -52,8 +52,11 @@ jobs:
       - name: Check for pom.xml file
         run: test -f workout-log-backend/pom.xml && echo "pom.xml found" || echo "pom.xml not found"
 
-      - name: Change directory to workout-log-backend
-        run: cd workout-log-backend
+      - name: Echo current path/location
+        run: pwd
+
+
+  
 
       - name: Build with Maven
         run: mvn clean verify "-Dspring.profiles.active=test"
