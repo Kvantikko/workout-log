@@ -72,6 +72,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean verify "-Dspring.profiles.active=test"
+        working-directory: workout-log-backend
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
