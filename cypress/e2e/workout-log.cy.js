@@ -7,7 +7,7 @@ describe('Login and register functionality', function() {
   })
  */
   beforeEach(function() {
-    cy.visit('http://localhost:5173/login')
+    cy.visit('http://localhost:5173/loginnnnnnnnnnnnn')
   })
 
   it('login page can be opened', function() {
