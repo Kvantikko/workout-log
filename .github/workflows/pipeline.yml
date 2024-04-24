@@ -52,8 +52,11 @@ jobs:
       - name: Check for pom.xml file
         run: test -f workout-log-backend/pom.xml && echo "pom.xml found" || echo "pom.xml not found"
 
+      - name: Change directory to workout-log-backend
+        run: cd workout-log-backend
+
       - name: Build with Maven
-        run: mvn clean verify 
+        run: mvn clean verify "-Dspring.profiles.active=test"
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
