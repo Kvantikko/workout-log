@@ -61,6 +61,15 @@ jobs:
         with:
           time: '30s'
 
+      - name: Check if application is running
+        run: |
+          if netstat -tuln | grep -q 8080; then
+            echo "Application is running on port 8080"
+          else
+            echo "Application is not running on port 8080"
+          exit 1
+          fi
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
