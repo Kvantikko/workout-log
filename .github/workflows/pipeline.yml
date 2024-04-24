@@ -53,7 +53,7 @@ jobs:
         run: test -f workout-log-backend/pom.xml && echo "pom.xml found" || echo "pom.xml not found"
 
       - name: Build with Maven
-        run: mvn clean verify "-Dspring.profiles.active=test"
+        run: mvn clean verify 
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
