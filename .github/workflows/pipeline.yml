@@ -89,6 +89,15 @@ jobs:
       - name: Start Vite dev 
         run: npm run dev &
 
+      - name: Check if application is running
+        run: |
+          if netstat -tuln | grep -q 5173; then
+            echo "Application is running on port 5173"
+          else
+            echo "Application is not running on port 5173"
+          exit 1
+          fi
+
       - name: Sleep for 10 seconds
         uses: jakejarvis/wait-action@master
         with:
