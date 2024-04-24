@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout frontend code
+      - name: Checkout frontend repo
         uses: actions/checkout@v4
 
       - name: Checkout backend repo
@@ -47,9 +47,15 @@ jobs:
           port: 34837
           id: postgres
 
-      - name: Build with Maven
+      - name: Build Spring Boot App with Maven
         run: mvn clean "-Dspring.profiles.active=test"
         working-directory: workout-log-backend
+
+      - name: Start Spring Boot App
+        run: mvn spring-boot:run "-Dspring.profiles.active=test"
+        working-directory: workout-log-backend
+
+
 
       - name: Echo current path/location
         run: pwd
@@ -59,7 +65,7 @@ jobs:
 
       
 
-      - name: cypress run
+      - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           build: npm run build
