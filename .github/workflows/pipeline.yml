@@ -13,7 +13,7 @@ jobs:
         run: |
           echo "Hello World!"
 
-  e2e:
+  e2e-tests:
     env:
       DB_URL_TEST: 'localhost:34837/test'
       DB_USER_TEST: "ci"
@@ -55,16 +55,6 @@ jobs:
       - name: Start Spring Boot App
         run: mvn spring-boot:run -Dspring-boot.run.profiles=test &
         working-directory: workout-log-backend
-
-
-
-      - name: Echo current path/location
-        run: pwd
-
-      - name: List contentss
-        run: ls -la
-
-      
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
