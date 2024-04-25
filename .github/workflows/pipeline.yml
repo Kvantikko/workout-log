@@ -101,7 +101,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          wait-on: 'http://localhost:5173, http://localhost:8080'
+          wait-on: 'http://localhost:5173
           browser: chrome
 
 
