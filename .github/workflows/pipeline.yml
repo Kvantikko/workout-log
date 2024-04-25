@@ -98,6 +98,12 @@ jobs:
           exit 1
           fi
 
+      - name: Echo current path/location
+        run: pwd
+
+      - name: run tests
+        run: npx cypress run
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
