@@ -4,32 +4,23 @@ import { useDispatch } from "react-redux"
 import { login, register } from "../../redux/reducers/userReducer"
 
 import { useNavigate } from "react-router-dom"
-
-import loginService from "../../services/login"
 import { blink } from "../../utils/Blink"
 
 
 import {
     Typography,
-    Link,
     Box,
-    Button,
-    FormLabel,
     TextField,
     Stack,
     LinearProgress,
-    CircularProgress,
-    IconButton,
 } from "@mui/material"
 import { LoadingButton } from "@mui/lab"
 
 import LoginIcon from '@mui/icons-material/Login';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import PasswordField from "../Inputs/PasswordField"
 
-import { toast } from "react-toastify"
+
 
 
 const LoginRegisterForm = ({ showRegister, buttonText }) => {
@@ -221,6 +212,7 @@ const LoginRegisterForm = ({ showRegister, buttonText }) => {
                 }
                 {!infoText &&
                     <LoadingButton
+                        role="button"
                         id="loginButton"
                         type="submit"
                         endIcon={<LoginIcon />}

@@ -108,7 +108,7 @@ const App = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         flexGrow: 1,
-                        height: "100svh",
+                        //height: "100svh",
                         marginTop: { xs: isAuthenticated ? 7 : 0, sm: isAuthenticated ? 8 : 0 },
                         height: !isAuthenticated ? "100svh" : { xs: "84.8svh", sm: "83.8svh", md: "91.2svh" },
                         overflow: 'auto',

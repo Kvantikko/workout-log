@@ -7,17 +7,22 @@ export default defineConfig({
     plugins: [
         react(),
         VitePWA({ registerType: 'autoUpdate' }),
-       /*  viteStaticCopy({
-            targets: [
-                {
-                    src: './src/workers/stopwatch-worker.js', // correct path to this file.
-                    dest: './assets', // root of your output directory
-                },
-            ],
-        }), */
+        /*  viteStaticCopy({
+             targets: [
+                 {
+                     src: './src/workers/stopwatch-worker.js', // correct path to this file.
+                     dest: './assets', // root of your output directory
+                 },
+             ],
+         }), */
     ],
     preview: {
         port: 5500
     },
+    test: {
+        environment: 'jsdom',
+        globals: true,
+        setupFiles: './testSetup.js',
+    }
 })
 
