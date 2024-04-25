@@ -104,12 +104,6 @@ jobs:
       - name: run tests
         run: npx cypress run
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          wait-on: 'http://localhost:5173'
-          browser: chrome
-
 
 
 
