@@ -84,6 +84,9 @@ const Login = () => {
                 flexWrap={'wrap'}
                 flexGrow={2}
             >
+
+                <Typography variant="h5" color='red'>My free database has expired!
+                I'm currently working on a solution...</Typography>
                 <ThemeProvider theme={theme}>
                     <Typography variant="h3" textAlign="center">WORKOUT LOG</Typography>
                 </ThemeProvider>
